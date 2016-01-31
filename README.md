@@ -1,7 +1,7 @@
 
 # goodpractice
 
-> Good Practice Advice for Building R Packages
+> Advice on R Package Building
 
 [![Linux Build Status](https://travis-ci.org//goodpractice.svg?branch=master)](https://travis-ci.org//goodpractice)
 

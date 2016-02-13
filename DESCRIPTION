@@ -3,13 +3,23 @@ Title: Advice on R Package Building
 Version: 1.0.0
 Author: Gabor Csardi
 Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
-Description: Give advice about good practices when building R packages. Advice includes
-  functions and syntax to avoid, package structure, code complexity, code
-  formatting, etc.
+Description: Give advice about good practices when building R packages. Advice
+    includes functions and syntax to avoid, package structure, code complexity, code
+    formatting, etc.
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
 RoxygenNote: 5.0.1
-Suggests: 
+Suggests:
     testthat
+Imports:
+    description
+Remotes: metacran/description
+Collate:
+    'lists.R'
+    'chk_description.R'
+    'gp.R'
+    'package.R'
+    'prep_description.R'
+    'prep_namespace.R'

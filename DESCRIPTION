@@ -19,7 +19,9 @@ Remotes: metacran/description
 Collate:
     'lists.R'
     'chk_description.R'
+    'chk_namespace.R'
     'gp.R'
     'package.R'
     'prep_description.R'
     'prep_namespace.R'
+    'utils.R'

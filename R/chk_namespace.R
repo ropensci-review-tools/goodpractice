@@ -1,0 +1,34 @@
+
+#' @include lists.R
+
+CHECKS$no_import_package_as_a_whole <- make_check(
+
+  description = 'Packages are not imported as a whole',
+  tags = "NAMESPACE",
+  preps = "namespace",
+
+  gp = 'not import packages as a whole, as this can cause name
+        clashes between the imported packages. Instead, import
+        only the specific functions you need.',
+
+  check = function(state) {
+    imports <- state$namespace$imports
+    all(vapply(imports, length, 1L) == 1)
+  }
+)
+
+CHECK$no_export_pattern <- make_check(
+
+  description = "exportPattern in NAMESPACE file",
+  tags = "NAMESPACE",
+  preps = "namespace",
+
+  gp = 'no to use exportPattern in NAMESPACE. It can lead to
+        exporting functions unintendedly. Instead, export
+        functions that constitute the external API of your
+        package.',
+
+  check = function(state) {
+    length(state$namespace$exportPatterns) == 0
+  }
+)

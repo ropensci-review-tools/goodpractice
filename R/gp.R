@@ -1,9 +1,9 @@
 
-gp <- function(checks = all_checks()) {
+gp <- function(path = ".", checks = all_checks()) {
 
   preps <- unique(unlist(lapply(CHECKS[checks], "[[", "preps")))
 
-  state <- list()
+  state <- list(path = path)
 
   for (prep in names(PREPS)) state <- PREPS[[prep]](state)
 

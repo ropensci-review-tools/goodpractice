@@ -2,7 +2,8 @@ Package: badpackage
 Title: Advice on R package building
 Date: 2016 February
 Version: 1.0.0
-Maintainer: Gabor Csardi
+Author: Gabor Csardi
+Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
 Description: Give advice about good practices when building R packages.
 License: Public domain
 Suggests:
@@ -11,4 +12,4 @@ Depends:
     igraph
 Imports:
     description
-
+RoxygenNote: 5.0.1

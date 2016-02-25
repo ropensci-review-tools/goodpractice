@@ -17,7 +17,7 @@ CHECKS$no_import_package_as_a_whole <- make_check(
   }
 )
 
-CHECK$no_export_pattern <- make_check(
+CHECKS$no_export_pattern <- make_check(
 
   description = "exportPattern in NAMESPACE file",
   tags = "NAMESPACE",

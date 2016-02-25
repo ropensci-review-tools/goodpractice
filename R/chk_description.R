@@ -7,7 +7,7 @@ CHECKS$no_description_depends <- make_check(
   tags = "DESCRIPTION",
   preps = "description",
 
-  gp = 'don\'t use "Depends" in DESCRIPTION, as it can cause name
+  gp = 'not use "Depends" in DESCRIPTION, as it can cause name
         clashes, and poor interaction with other packages. Use "Imports"
         instead.',
 
@@ -27,7 +27,7 @@ CHECKS$no_description_date <- make_check(
   tags = "DESCRIPTION",
   preps = "description",
 
-  gp = 'remove  "Date" from DESCRIPTION. It is not required and it
+  gp = 'node use "Date" in DESCRIPTION. It is not required and it
         gets invalid quite often. A build date will be added to
         the package when you perform `R CMD build` on it.',
 

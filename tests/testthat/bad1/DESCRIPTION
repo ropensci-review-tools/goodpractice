@@ -1,0 +1,14 @@
+Package: badpackage
+Title: Advice on R package building
+Date: 2016 February
+Version: 1.0.0
+Maintainer: Gabor Csardi
+Description: Give advice about good practices when building R packages.
+License: Public domain
+Suggests:
+    testthat
+Depends:
+    igraph
+Imports:
+    description
+

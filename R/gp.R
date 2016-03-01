@@ -1,4 +1,6 @@
 
+#' @export
+
 gp <- function(path = ".", checks = all_checks()) {
 
   preps <- unique(unlist(lapply(CHECKS[checks], "[[", "preps")))

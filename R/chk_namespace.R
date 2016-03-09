@@ -13,7 +13,7 @@ CHECKS$no_import_package_as_a_whole <- make_check(
 
   check = function(state) {
     imports <- state$namespace$imports
-    all(vapply(imports, length, 1L) == 1)
+    all(vapply(imports, length, 1L) > 1)
   }
 )
 

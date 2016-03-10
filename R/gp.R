@@ -12,7 +12,7 @@ gp <- function(path = ".", checks = all_checks()) {
   gp_header()
 
   for (check in checks) {
-    if (! CHECKS[[check]]$check(state)) gp_advice(CHECKS[[check]]$gp)
+    if (! CHECKS[[check]]$check(state)) gp_advice(state, CHECKS[[check]]$gp)
   }
 }
 
@@ -21,7 +21,8 @@ gp_header <- function() {
   cat("It is good practice to\n\n")
 }
 
-gp_advice <- function(str) {
+gp_advice <- function(state, str) {
+  if (is.function(str)) str <- str(state)
   str <- gsub("\n\\s*", " ", str)
   str <- paste(
     strwrap(paste0("* ", str), indent = 2, exdent = 4),

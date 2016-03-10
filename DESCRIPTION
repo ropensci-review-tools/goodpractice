@@ -15,13 +15,17 @@ Suggests:
     testthat
 Imports:
     description
-Remotes: metacran/description
+Remotes:
+    metacran/description,
+    mangothecat/rcmdcheck
 Collate:
     'lists.R'
     'chk_description.R'
     'chk_namespace.R'
+    'chk_rcmdcheck.R'
     'gp.R'
     'package.R'
     'prep_description.R'
     'prep_namespace.R'
+    'prep_rcmdcheck.R'
     'utils.R'

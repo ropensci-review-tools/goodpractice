@@ -1,4 +1,8 @@
 
+## Last updated: 2016-03-16
+## To be peroidically updated, according to changes in QC.R:
+## https://github.com/wch/r-source/commits/trunk/src/library/tools/R/QC.R
+
 #' @include lists.R
 
 #' Wrapper on make_check, specific to R CMD check
@@ -387,14 +391,14 @@ CHECKS$rcmdcheck_valid_priority <- make_rcmd_check(
 
   "Priority field is not given",
   pattern = "Invalid Priority field",
-  gp = "omit the 'Priority' entry in DESCRIPTION (via R CMD check)"
+  gp = "omit the 'Priority' field in DESCRIPTION (via R CMD check)"
 )
 
 CHECKS$rcmdcheck_valid_title <- make_rcmd_check(
 
   "Title field is valid",
   pattern = "Malformed Title field: should not end in a period",
-  gp = "not end the Title entry in DESCRIPTION with a period (via R CMD check)"
+  gp = "not end the Title field in DESCRIPTION with a period (via R CMD check)"
 )
 
 CHECKS$rcmdcheck_valid_description <- make_rcmd_check(
@@ -875,5 +879,377 @@ CHECKS$rcmdcheck_invalid_namespace <- make_rcmd_check(
   "NAMESPACE file is valid",
   type = "error",
   pattern = "Invalid NAMESPACE file, parsing gives",
-  gp = "have a valid NAMESPACE file"
+  gp = "have a valid NAMESPACE file (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_bad_calls <- make_rcmd_check(
+
+  "Obsolete or platform dependent calls",
+  pattern = "Found an obsolete/platform-specific call in the following function",
+  gp = "avoid obsolete and platform specific calls (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_bad_calls_s4 <- make_rcmd_check(
+
+  "Obsolete or platform dependent calls in S4 methods",
+  pattern = "Found an obsolete/platform-specific call in methods for the following S4 generic",
+  gp = "avoid obsolete and platform specific calls in S4 methods (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_bad_calls_rc <- make_rcmd_check(
+
+  "Obsolete or platform dependent calls in referce class methods",
+  pattern = "Found an obsolete/platform-specific call in methods for the following reference class",
+  gp = "avoid obsolete and platform specific calls in reference class methods (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_deprecated_calls <- make_rcmd_check(
+
+  "Calls to deprecated functions",
+  pattern = "Found the deprecated function",
+  gp = "avoid calling deprecated functions (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_defunct_calls <- make_rcmd_check(
+
+  "Calls to defunct/removed functions",
+  pattern = "Found the defunct/removed function",
+  gp = "avoid calling defunct or deprecated functions (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_platform_specific_graphics_devices <- make_rcmd_check(
+
+  "Avoid platform specific graphics devices",
+  pattern = "Found the platform-specific device",
+  gp = paste("use 'dev.new()' to open a graphics device instead of the",
+    "platform specific functions like 'x11()' or 'quartz()' (via R CMD check)")
+)
+
+CHECKS$rcmdcheck_has_maintainer <- make_rcmd_check(
+
+  "There is a 'Maintainer' field in 'DESCRIPTION'",
+  pattern = "No maintainer field in DESCRIPTION file",
+  gp = "put a proper 'Maintainer' field in 'DESCRIPTION' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_has_maintainer_name <- make_rcmd_check(
+
+  "'Maintainer' field in 'DESCRIPTION' has a name",
+  pattern = "The maintainer field lacks a name",
+  gp = "add a name to the 'Maintainer' field in 'DESCRIPTION' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_maintainer_name_quoted <- make_rcmd_check(
+
+  "Quote the 'Maintainer' name, if needs to be",
+  pattern = "The display-name part of the maintainer field should be enclosed in",
+  gp = "quote 'Maintainer' names containing a dot or a comma (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_cran_package_name_clash <- make_rcmd_check(
+
+  "Package names must be unique within standard repositories when ignoring case",
+  pattern = "Conflicting package names [(]submitted",
+  gp = "avoid name clashes with CRAN packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_non_cran_package_name_clash <- make_rcmd_check(
+
+  "Package names must be unique within standard repositories when ignoring case",
+  pattern = "Package duplicated from",
+  gp = "avoid name clashes with packages from standard repositories (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_cran_archived <- make_rcmd_check(
+
+  "Package was not archived on CRAN",
+  pattern = "Package was archived on CRAN",
+  gp = "avoid package names clashing with former CRAN packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_version_no_leading_zeros <- make_rcmd_check(
+
+  "No leading zeros in version number",
+  pattern = "Version contains leading zeroes",
+  gp = "avoid leading zeros in the version number (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_version_large_components <- make_rcmd_check(
+
+  "No large version number components",
+  pattern = "Version contains large components",
+  gp = "avoid large version number components (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_non_foss_license <- make_rcmd_check(
+
+  "Choose a FOSS license for CRAN packages",
+  pattern = "Non-FOSS package license",
+  gp = "choose FOOS licenses for CRAN packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_description_spellcheck <- make_rcmd_check(
+
+  "Spell-check 'DESCRIPTION'",
+  pattern = "Possibly mis-spelled words in DESCRIPTION",
+  gp = "spell-check your 'DESCRIPTION' file (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_build_vignettes_if_foss <- make_rcmd_check(
+
+  "Build vignettes if package has FOSS license",
+  pattern = "FOSS licence with BuildVignettes: false",
+  gp = "build vignettes for FOSS-licensed packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_standard_description_fields <- make_rcmd_check(
+
+  "Use standard fields in 'DESCRIPTION'",
+  pattern = "Unknown, possibly mis-spelled, fields in DESCRIPTION",
+  gp = "use standard fields in 'DESCRIPTION' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_foss_with_restrictive_dep <- make_rcmd_check(
+
+  "FOSS package has FOSS dependencies",
+  pattern = "Package has a FOSS license but eventually depends on the following",
+  gp = "use FOSS dependencies if package itself is FOSS (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_strong_deps_in_maintream <- make_rcmd_check(
+
+  "All strong dependencies are in the standard repositories",
+  pattern = "Strong dependencies not in mainstream repositories",
+  gp = "avoid strong dependencies not in the standard repositories (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_weak_deps_in_maintream <- make_rcmd_check(
+
+  "All weak dependencies are in the standard repositories",
+  pattern = "Suggests or Enhances not in mainstream repositories",
+  gp = "avoid weak dependencies no in the standard repositories (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_additional_repos_function <- make_rcmd_check(
+
+  "All repos in Additional_repositories are functional",
+  pattern = "Using Additional_repositories specification failed with",
+  gp = "only use functional repositories in 'Additional_repositories' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_additional_repos_no_packages <- make_rcmd_check(
+
+  "All repos in Additional_repositories are non-empty",
+  pattern = "Additional repositories with no packages",
+  gp = "avoid empty repos in 'Additional_repositories' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_superseded_deps <- make_rcmd_check(
+
+  "Do not use superseded packages",
+  pattern = "Uses the superseded package",
+  gp = "avoid using superseded packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_no_platform_specific_deps <- make_rcmd_check(
+
+  "Do not use platform specific packages",
+  pattern = "Uses the non-portable package",
+  gp = "avoid depending on non-portable packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_valid_authors_at_r <- make_rcmd_check(
+
+  "Have a valid Authors@R field",
+  pattern = "Authors@R field should be a call to person.., or combine such calls",
+  gp = "have a valid 'Authors@R' field (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_vignettes_at_right_place <- make_rcmd_check(
+
+  "Vignettes are in the 'vignettes' directory, not in 'inst'",
+  pattern = "Vignette sources in 'inst/doc' with no 'vignettes' directory:",
+  gp = "use the 'vignettes' directory for vignettes (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_all_vignettes_at_right_place <- make_rcmd_check(
+
+  "Vignettes are in the 'vignettes' directory, not in 'inst'",
+  pattern = "Vignette sources in 'inst/doc' missing from the 'vignettes' directory",
+  gp = "use the 'vignettes' directory for vignettes (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_vignette_index <- make_rcmd_check(
+
+  "Package has a vignette index",
+  pattern = "Package has a VignetteBuilder field but no prebuilt vignette index",
+  gp = "supply a vignette index if the package has vignettes (via R CMD check)"
+)
+
+## TODO
+## Package has help file(s) containing build-stage \\Sexpr{} expressions but no 'build/partial.rdb' file."
+## https://github.com/wch/r-source/blob/453d361c9edb0a3bbef30cd92c9ed6a8ab78172a/src/library/tools/R/QC.R#L7353
+
+## TODO
+## Package has help file(s) containing install/render-stage \\Sexpr{} expressions but no prebuilt PDF manual.
+## https://github.com/wch/r-source/blob/453d361c9edb0a3bbef30cd92c9ed6a8ab78172a/src/library/tools/R/QC.R#L7356
+
+CHECKS$rcmdcheck_java_has_source <- make_rcmd_check(
+
+  "Java source code is included",
+  pattern = "Package has FOSS license, installs .class/.jar but has no 'java' directory.",
+  gp = "include Java source code in the package, if package license if FOSS (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_citation_file_calls <- make_rcmd_check(
+
+  "Avoid calls to some functions in CITATION files",
+  pattern = "Package CITATION file contains call(s) to:",
+  gp = paste("avoid calls to 'library()', 'require()' and",
+    "'packageDescription()' in CITATION (via R CMD check)")
+)
+
+CHECKS$rcmdcheck_citation_works_without_package <- make_rcmd_check(
+
+  "CITATION can be parsed without the package installed",
+  pattern = "Reading CITATION file fails with .* when package is not installed",
+  gp = "not making CITATION dependent on the package (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_urls_are_valid <- make_rcmd_check(
+
+  "URLs in DESCRIPTION are valid",
+  pattern = "Checking URLs failed with message",
+  gp = "include only valid URLs in DESCRIPTION (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_canonical_cran_urls <- make_rcmd_check(
+
+  "Use canonical URLs for CRAN packages",
+  pattern = "The canonical URL of the CRAN page for a package is",
+  gp = "use canonical URLs for CRAN packages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_spaces_in_urls_encoded <- make_rcmd_check(
+
+  "Spaces in URLs are encoded",
+  pattern = "Spaces in an http.s. URL should probably be replaced by %20",
+  gp = "encode spaces and other special characters in URLs (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_dois_are_valid <- make_rcmd_check(
+
+  "DOI references are valid",
+  pattern = "Checking DOIs failed with message",
+  gp = "make sure DOI references are valid (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_encoding_non_ascii_source <- make_rcmd_check(
+
+  "Encoding is declared is non-ASCII R source files are present",
+  pattern = "No package encoding and non-ASCII characters in the following R files",
+  gp = "declare encoding if the R sources contain non-ASCII characters (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_title_field_not_package_name <- make_rcmd_check(
+
+  "Title field is not just the package name",
+  pattern = "The Title field is just the package name: provide a real title",
+  gp = "provide a proper 'Title' field in 'DESCRIPTION' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_title_does_not_start_with_package_name <- make_rcmd_check(
+
+  "Title field does not start with the package name",
+  pattern = "The Title field starts with the package name",
+  gp = "avoid starting the 'Title' field with the package name (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_title_in_title_case <- make_rcmd_check(
+
+  "Title field is in title case",
+  pattern = "The Title field should be in title case, current version then in title case",
+  gp = "use title case for the 'Title' field in 'DESCRIPTION' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_description_first_uppercase <- make_rcmd_check(
+
+  "'Description' field starts with uppercase letter",
+  pattern = "The Description field should start with a capital letter",
+  gp = "start the 'Description' field with an uppercase letter (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_description_start <- make_rcmd_check(
+
+  "The Description field should not start with the package name, 'This package' or similar",
+  pattern = "The Description field should not start with the package name",
+  gp = "avoid starting 'Description' with the package name or 'This package' (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_proper_date_field <- make_rcmd_check(
+
+  "The Date field is in ISO 8601 yyyy-mm-dd format",
+  pattern = "The Date field is not in ISO 8601 yyyy-mm-dd format",
+  gp = "use ISO 8601 yyyy-mm-dd format for 'Date' (or avoid 'Date' entirely) (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_date_field_recent <- make_rcmd_check(
+
+  "The Date field is newer than a month",
+  pattern = "The Date field is over a month old",
+  gp = "update the 'Date' field in 'DESCRIPTION' (or avoid this field entirely) (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_tarball_is_small <- make_rcmd_check(
+
+  "Avoid unneeded files in the source package tarball",
+  pattern = "Size of tarball:",
+  gp = paste("avoid unneeded files in the package. If you have data files,",
+    "consider putting them in a separate package (via R CMD check)")
+)
+
+CHECKS$rcmdcheck_rd_name_unique <- make_rcmd_check(
+
+  "No duplicate names in Rd manual pages",
+  pattern = "Rd files with duplicated name",
+  gp = "avoid using the same \\name tag in multiple Rd manual pages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_rd_alias_unique <- make_rcmd_check(
+
+  "No duplicate aliases in Rd manual pages",
+  pattern = "Rd files with duplicated alias",
+  gp = "avoid using the same \\alias tag in multiple Rd manual pages (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_arguments_with_no_description <- make_rcmd_check(
+
+  "All argument \\item tags have a non-empty description",
+  pattern = "Argument items with no description in Rd object",
+  gp = "describe all function arguments in the documentation (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_edit_autogenerated_rd <- make_rcmd_check(
+
+  "All autogenerated Rd templates were edited",
+  pattern = "Auto-generated content requiring editing in Rd object",
+  gp = "edit auto-generated Rd templates to add documentation (via R CMD check)"
+)
+
+CHECKS$rcmdcheck_verbatim_Rd_lines_short <- make_rcmd_check(
+
+  "All code lines in Rd files are short",
+  pattern = "lines wider than [0-9]+ characters",
+  gp = "make sure code lines in the documentation are short (via R CMD check)"
+)
+
+## TODO
+## Generics 'g' in 'env' %s where '%s' errors: %s\nMay need something like\n\n%s\nin NAMESPACE.
+## https://github.com/wch/r-source/blob/453d361c9edb0a3bbef30cd92c9ed6a8ab78172a/src/library/tools/R/QC.R#L7850
+
+CHECKS$rcmdcheck_generics_have_methods <- make_rcmd_check(
+
+  "All generics have some methods defined",
+  pattern = "Generics? without any methods in",
+  gp = "define some methods for all generic functions (via R CMD check)"
 )

@@ -21,6 +21,7 @@ Remotes: metacran/description,
 Collate:
     'lists.R'
     'chk_description.R'
+    'chk_lintr.R'
     'chk_namespace.R'
     'chk_rcmdcheck.R'
     'gp.R'

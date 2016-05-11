@@ -9,6 +9,8 @@ linters_to_lint <- list(
 
 PREPS$lintr <- function(state, path = state$path) {
   path <- normalizePath(path)
-  state$lintr <- lint_package(path, linters = linters_to_lint)
+  suppressMessages(
+    state$lintr <- lint_package(path, linters = linters_to_lint)
+  )
   state
 }

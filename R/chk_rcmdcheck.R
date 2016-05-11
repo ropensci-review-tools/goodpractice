@@ -7,12 +7,12 @@
 
 #' Wrapper on make_check, specific to R CMD check
 #'
-#' @param description
-#' @param type
-#' @param pattern
-#' @param tags
-#' @param preps,
-#' @param ...
+#' @param description TODO
+#' @param type TODO
+#' @param pattern TODO
+#' @param tags TODO
+#' @param preps TODO
+#' @param ... TODO
 #'
 #' @keywords internal
 

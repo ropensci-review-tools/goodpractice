@@ -10,13 +10,12 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 Suggests:
     testthat
 Imports:
     description
-Remotes:
-    metacran/description,
+Remotes: metacran/description,
     mangothecat/rcmdcheck
 Collate:
     'lists.R'
@@ -28,4 +27,5 @@ Collate:
     'prep_description.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'
+    'print.R'
     'utils.R'

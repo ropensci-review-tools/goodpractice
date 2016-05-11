@@ -9,24 +9,12 @@ gp <- function(path = ".", checks = all_checks()) {
 
   for (prep in names(PREPS)) state <- PREPS[[prep]](state)
 
-  gp_header()
+  state$checks <- list()
 
   for (check in checks) {
-    if (! CHECKS[[check]]$check(state)) gp_advice(state, CHECKS[[check]]$gp)
+    state$checks[[check]] <- CHECKS[[check]]$check(state)
   }
-}
 
-gp_header <- function() {
-  cat("--------------------------------------------------------------\n")
-  cat("It is good practice to\n\n")
-}
-
-gp_advice <- function(state, str) {
-  if (is.function(str)) str <- str(state)
-  str <- gsub("\n\\s*", " ", str)
-  str <- paste(
-    strwrap(paste0("* ", str), indent = 2, exdent = 4),
-    collapse = "\n"
-  )
-  cat(str, "\n\n")
+  class(state) <- "goodPractice"
+  state
 }

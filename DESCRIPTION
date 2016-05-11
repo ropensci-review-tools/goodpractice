@@ -14,7 +14,8 @@ RoxygenNote: 5.0.1.9000
 Suggests:
     testthat
 Imports:
-    description
+    description,
+    lintr
 Remotes: metacran/description,
     mangothecat/rcmdcheck
 Collate:
@@ -25,6 +26,7 @@ Collate:
     'gp.R'
     'package.R'
     'prep_description.R'
+    'prep_lintr.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'
     'print.R'

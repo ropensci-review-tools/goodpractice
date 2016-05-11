@@ -3,3 +3,4 @@
 S3method(print,goodPractice)
 export(gp)
 importFrom(description,description)
+importFrom(lintr,lint_package)

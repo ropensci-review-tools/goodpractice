@@ -2,6 +2,7 @@
 % Please edit documentation in R/chk_rcmdcheck.R
 \name{make_rcmd_check}
 \alias{make_rcmd_check}
+\title{Wrapper on make_check, specific to R CMD check}
 \usage{
 make_rcmd_check(description, pattern, gp = NULL, type = c("warnings",
   "notes", "errors"), tags = NULL, preps = NULL, ...)
@@ -18,6 +19,9 @@ make_rcmd_check(description, pattern, gp = NULL, type = c("warnings",
 \item{preps}{TODO}
 
 \item{...}{TODO}
+}
+\description{
+Wrapper on make_check, specific to R CMD check
 }
 \keyword{internal}
 

@@ -3,8 +3,6 @@
 ## To be peroidically updated, according to changes in check.R:
 ## https://github.com/wch/r-source/commits/trunk/src/library/tools/R/check.R
 
-#' @include lists.R
-
 #' Wrapper on make_check, specific to R CMD check
 #'
 #' @param description TODO
@@ -15,6 +13,7 @@
 #' @param ... TODO
 #'
 #' @keywords internal
+#' @include lists.R
 
 make_rcmd_check <- function(
   description, pattern, gp = NULL, type = c("warnings", "notes", "errors"),

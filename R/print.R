@@ -6,7 +6,7 @@ print.goodPractice <- function(x, ...) {
   gp_header()
 
   for (check in names(x$checks)) {
-    if (! x$checks[[check]]) gp_advice(x, CHECKS[[check]]$gp)
+    if (! check_passed(x$checks[[check]])) gp_advice(x, CHECKS[[check]]$gp)
   }
 
   invisible(x)

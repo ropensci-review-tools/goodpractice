@@ -21,3 +21,7 @@ gp <- function(path = ".", checks = all_checks()) {
   class(state) <- "goodPractice"
   state
 }
+
+check_passed <- function(chk) {
+  isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]]))
+}

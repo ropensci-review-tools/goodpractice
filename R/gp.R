@@ -25,3 +25,7 @@ gp <- function(path = ".", checks = all_checks()) {
 check_passed <- function(chk) {
   isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]]))
 }
+
+check_failed <- function(chk) {
+  ! check_passed(chk)
+}

@@ -1,4 +1,6 @@
 
+#' @importFrom lintr Lint
+
 trailing_semicolon_linter <- function(source_file) {
 
   allsc <- which(source_file$parsed_content$token == "';'")

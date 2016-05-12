@@ -15,9 +15,9 @@ Suggests:
     testthat
 Imports:
     description,
-    lintr
-Remotes: metacran/description,
-    mangothecat/rcmdcheck
+    lintr,
+    rcmdcheck
+Remotes: metacran/description
 Collate:
     'lists.R'
     'chk_description.R'

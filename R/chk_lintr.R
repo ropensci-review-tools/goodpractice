@@ -1,4 +1,19 @@
 
+get_lintr_position <- function(linter) {
+  linter[c("filename", "line_number", "column_number", "ranges", "line")]
+}
+
+get_lintr_state <- function(state, linter) {
+  linters <- vapply(state$lintr, "[[", "", "linter")
+  list(
+    status = ! linter %in% linters,
+    positions = lapply(
+      state$lintr[linters == linter],
+      get_lintr_position
+    )
+  )
+}
+
 #' @include lists.R
 
 CHECKS$assignment_linter <- make_check(
@@ -13,8 +28,7 @@ CHECKS$assignment_linter <- make_check(
         you use '<-'.",
 
   check = function(state) {
-    linters <- vapply(state$lintr, "[[", "", "linter")
-    ! "assignment_linter" %in% linters
+    get_lintr_state(state, "assignment_linter")
   }
 )
 
@@ -30,7 +44,6 @@ CHECKS$line_length_linter <- make_check(
         shorter than 80 characters",
 
   check = function(state) {
-    linters <- vapply(state$lintr, "[[", "", "linter")
-    ! "line_length_linter" %in% linters
+    get_lintr_state(state, "line_length_linter")
   }
 )

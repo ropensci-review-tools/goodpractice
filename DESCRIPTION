@@ -16,7 +16,8 @@ Suggests:
 Imports:
     description,
     lintr,
-    rcmdcheck
+    rcmdcheck,
+    tools
 Remotes: metacran/description
 Collate:
     'api.R'
@@ -25,6 +26,7 @@ Collate:
     'chk_lintr.R'
     'chk_namespace.R'
     'chk_rcmdcheck.R'
+    'chk_tnf.R'
     'gp.R'
     'package.R'
     'prep_description.R'

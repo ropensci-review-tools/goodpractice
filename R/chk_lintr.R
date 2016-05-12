@@ -16,7 +16,7 @@ get_lintr_state <- function(state, linter) {
 
 #' @include lists.R
 
-CHECKS$assignment_linter <- make_check(
+CHECKS$lintr_assignment_linter <- make_check(
 
   description = "'<-' and not '=' is used for assignment",
   tags = "lintr",
@@ -32,7 +32,7 @@ CHECKS$assignment_linter <- make_check(
   }
 )
 
-CHECKS$line_length_linter <- make_check(
+CHECKS$lintr_line_length_linter <- make_check(
 
   description = "Code lines are short",
   tags = "lintr",

@@ -38,3 +38,71 @@ trailing_semicolon_linter <- function(source_file) {
     }
   )
 }
+
+#' @importFrom lintr Lint
+
+dangerous_functions_linter <- function(source_file, funcs, type,
+                                       msg, linter) {
+
+  bad <- which(
+    source_file$parsed_content$token == "SYMBOL_FUNCTION_CALL" &
+    source_file$parsed_content$text %in% funcs
+  )
+
+  lapply(
+    bad,
+    function(line) {
+      parsed <- source_file$parsed_content[line, ]
+      Lint(
+        filename = source_file$filename,
+        line_number = parsed$line1,
+        column_number = parsed$col1,
+        type = type,
+        message = msg,
+        line = source_file$lines[as.character(parsed$line1)],
+        range = list(c(parsed$col1, parsed$col2)),
+        linter = linter
+      )
+    }
+  )
+}
+
+attach_detach_linter <- function(source_file) {
+  dangerous_functions_linter(
+    source_file,
+    funcs = c("attach", "detach"),
+    type = "warning",
+    msg = "Avoid attach/detach, it is easy to create errors with it",
+    linter = "attach_detach_linter"
+  )
+}
+
+setwd_linter <- function(source_file) {
+  dangerous_functions_linter(
+    source_file,
+    funcs = "setwd",
+    type = "warning",
+    msg = "Avoid changing the working directory, or restore it in on.exit",
+    linter = "setwd_linter"
+  )
+}
+
+sapply_linter <- function(source_file) {
+  dangerous_functions_linter(
+    source_file,
+    funcs = "sapply",
+    type = "warning",
+    msg = "Avoid using sapply, consider vapply instead, that's type safe",
+    linter = "sapply_linter"
+  )
+}
+
+library_require_linter <- function(source_file) {
+  dangerous_functions_linter(
+    source_file,
+    funcs = c("library", "require"),
+    type = "warning",
+    msg = "Avoid library() and require() calls in packages",
+    linter = "library_require_linter"
+  )
+}

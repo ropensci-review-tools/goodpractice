@@ -19,6 +19,7 @@ Imports:
     rcmdcheck
 Remotes: metacran/description
 Collate:
+    'api.R'
     'lists.R'
     'chk_description.R'
     'chk_lintr.R'

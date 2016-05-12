@@ -47,3 +47,18 @@ CHECKS$lintr_line_length_linter <- make_check(
     get_lintr_state(state, "line_length_linter")
   }
 )
+
+CHECKS$lintr_trailing_semicolon_linter <- make_check(
+
+  description = "No trailing semicolons",
+  tags = "lintr",
+  preps = "lintr",
+
+  gp = "to omit trailing semicolons from code lines.
+        They are not needed and most R coding standards
+        forbid them",
+
+  check = function(state) {
+    get_lintr_state(state, "trailing_semicolon_linter")
+  }
+)

@@ -28,6 +28,7 @@ Collate:
     'chk_rcmdcheck.R'
     'chk_tnf.R'
     'gp.R'
+    'my_linters.R'
     'package.R'
     'prep_description.R'
     'prep_lintr.R'

@@ -15,6 +15,9 @@ CHECKS$truefalse_not_tf <- make_check(
 
   check = function(state) {
     tf <- checkTnF(dir = state$path)
+
+    if (length(tf) == 0) return(list(status = TRUE, positions = list()))
+
     absfilenames <- rep(names(tf), vapply(tf, length, 1L))
     filenames <- file.path(
       basename(dirname(absfilenames)),
@@ -32,7 +35,7 @@ CHECKS$truefalse_not_tf <- make_check(
     })
 
     list(
-      status = length(tf) == 0,
+      status = FALSE,
       positions = positions
     )
   }

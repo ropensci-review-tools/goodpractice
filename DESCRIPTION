@@ -14,11 +14,11 @@ RoxygenNote: 5.0.1.9000
 Suggests:
     testthat
 Imports:
-    description,
+    desc,
     lintr,
     rcmdcheck,
     tools
-Remotes: metacran/description
+Remotes: metacran/desc
 Collate:
     'api.R'
     'lists.R'

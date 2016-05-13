@@ -7,7 +7,7 @@
 #' @return Character scalar or `NULL`.
 #' @keywords internal
 #'
-#' @importFrom description desc_get_collate
+#' @importFrom desc desc_get_collate
 
 package_collate <- function(path = ".") {
   col <- desc_get_collate(file = file.path(path, "DESCRIPTION"))

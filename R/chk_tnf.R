@@ -14,7 +14,10 @@ CHECKS$truefalse_not_tf <- make_check(
         always use ‘TRUE’ and ‘FALSE’ for the logicals.",
 
   check = function(state) {
-    tf <- checkTnF(dir = state$path)
+    tf <- tryCatch(
+      checkTnF(dir = state$path),
+      error = function(e) list()
+    )
 
     if (length(tf) == 0) return(list(status = TRUE, positions = list()))
 

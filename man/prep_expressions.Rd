@@ -4,15 +4,15 @@
 \alias{prep_expressions}
 \title{Extract all closures from a package}
 \usage{
-prep_expressions(package, version = NULL)
+prep_expressions(state, version = NULL)
 }
 \arguments{
-\item{package}{Package name.}
+\item{state}{GP state.}
 
 \item{version}{Currently ignored.}
 }
 \value{
-The closures in a named list.
+The modified state, with the closures in a named list.
 }
 \description{
 The package must be extracted into the working directory, as usual.

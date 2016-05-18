@@ -44,21 +44,23 @@ r_package_files <- function(path) {
 #' our own code (based on similar code in functionMap) to
 #' get the right collation order.
 #' 
-#' @param package Package name.
+#' @param state GP state.
 #' @param version Currently ignored.
-#' @return The closures in a named list.
+#' @return The modified state, with the closures in a named list.
 #'
 #' @keywords internal
 #'
 #' @importFrom lintr get_source_expressions
 
-prep_expressions <- function(package, version = NULL) {
+prep_expressions <- function(state, version = NULL) {
   files <- lapply(
-    r_package_files(package),
+    r_package_files(state$path),
     get_source_expressions
   )
   expr <- lapply(files, "[[", "expressions")
-  unlist(expr, recursive = FALSE)
+  state$expressions <- unlist(expr, recursive = FALSE)
+
+  state
 }
 
 #' @include lists.R

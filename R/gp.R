@@ -7,7 +7,7 @@ gp <- function(path = ".", checks = all_checks()) {
 
   state <- list(path = path)
 
-  for (prep in names(PREPS)) {
+  for (prep in preps) {
     message("Preparing: ", prep)
     state <- PREPS[[prep]](state)
   }

@@ -17,7 +17,9 @@ Imports:
     desc,
     lintr,
     rcmdcheck,
-    tools
+    tools,
+    xml2,
+    xmlparsedata
 Collate:
     'api.R'
     'lists.R'

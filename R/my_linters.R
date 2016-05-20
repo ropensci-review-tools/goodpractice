@@ -39,6 +39,62 @@ trailing_semicolon_linter <- function(source_file) {
   )
 }
 
+#' Find dangerous 1:x expressions
+#'
+#' Find occurences of \code{1:length(x)}, \code{1:nrow(x)},
+#' \code{1:ncol(x)}, \code{1:NROW(x)}, \code{1:NCOL(x)} where
+#' \code{x} is an R expression.
+#'
+#' @param source_file Parse data. Passed from lintr.
+#' @return Lint object.
+#'
+#' @importFrom xmlparsedata xml_parse_data
+#' @importFrom xml2 read_xml xml_find_all
+#' @keywords internal
+
+seq_linter <- function(source_file) {
+
+  if (!length(source_file$parsed_content)) return(list())
+
+  xml <- if ('xml_parsed_content' %in% names(source_file)) {
+    source$xml_parsed_content
+  } else {
+    read_xml(xml_parse_data(source_file$parsed_content))
+  }
+
+  bad_funcs <- c("length", "nrow", "ncol", "NROW", "NCOL")
+  text_clause <- paste0("text() = '", bad_funcs, "'", collapse = " or ")
+
+  xpath <- paste0(
+    "//expr",
+    "[expr[NUM_CONST[text()='1']]]",
+    "[OP-COLON]",
+    "[expr[expr[SYMBOL_FUNCTION_CALL[", text_clause, "]]]]"
+  )
+
+  badx <- xml_find_all(xml, xpath)
+
+  lapply(
+    badx,
+    function(x) {
+      fun <- trim_ws(xml_text(xml_children(xml_children(x)[[3]])[[1]]))
+      line1 <- xml_attr(x, "line1")
+      col1 <- xml_attr(x, "col1")
+      col2 <- xml_attr(x, "col1")
+      Lint(
+        filename = source_file$filename,
+        line_number = as.integer(line1),
+        column_number = as.integer(col1),
+        type = "warning",
+        message = paste0("Avoid 1:", fun, "(...) expressions, use seq_len."),
+        line = source_file$lines[line1],
+        range = list(c(as.integer(col1), as.integer(col2))),
+        linter = "seq_linter"
+      )
+    }
+  )
+}
+
 #' @importFrom lintr Lint
 
 dangerous_functions_linter <- function(source_file, funcs, type,

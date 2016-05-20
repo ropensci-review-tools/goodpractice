@@ -125,3 +125,19 @@ CHECKS$lintr_library_require_linter = make_check(
     get_lintr_state(state, "library_require_linter")
   }
 )
+
+CHECKS$lintr_seq_linter <- make_check(
+
+  description = "Avoid 1:length(...) and similar expressions",
+  tags = "lintr",
+  preps = "lintr",
+
+  gp = "to avoid 1:length(...), 1:nrow(...), 1:ncol(...),
+        1:NROW(...) and 1:NCOL(...) expressions. They are error
+        prone and result 1:0 if the expression on the right hand
+        side is zero. Use seq_len() or seq_along() instead.",
+
+  check = function(state) {
+    get_lintr_state(state, "seq_linter")
+  }
+)

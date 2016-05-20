@@ -1,0 +1,13 @@
+Package: badpackage
+Title: Advice on R package building
+Date: 2016-05-20
+Version: 1.0.0
+Author: Gabor Csardi
+Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
+Description: Give advice about good practices when building R packages.
+License: GPL-2
+Suggests:
+    testthat
+Imports:
+    pkgconfig
+RoxygenNote: 5.0.1

@@ -8,7 +8,8 @@ linters_to_lint <- list(
   attach_detach_linter = attach_detach_linter,
   setwd_linter = setwd_linter,
   sapply_linter = sapply_linter,
-  library_require_linter = library_require_linter
+  library_require_linter = library_require_linter,
+  seq_linter = seq_linter
 )
 
 #' @include lists.R

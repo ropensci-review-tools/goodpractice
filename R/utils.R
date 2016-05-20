@@ -12,3 +12,7 @@ get_package_name <- function(path = ".") {
 default_r_file_pattern <- function() {
   "\\.[RrSs]$"
 }
+
+trim_ws <- function(x) {
+  sub("\\s+$", "", sub("^\\s+", "", x))
+}

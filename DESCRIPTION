@@ -18,7 +18,6 @@ Imports:
     lintr,
     rcmdcheck,
     tools
-Remotes: metacran/desc
 Collate:
     'api.R'
     'lists.R'

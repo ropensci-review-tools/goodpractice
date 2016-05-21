@@ -12,7 +12,7 @@ results <- function(gp) {
     stringsAsFactors = FALSE,
     row.names = NULL,
     check = names(gp$checks),
-    result = vapply(x$checks, check_passed, TRUE)
+    result = vapply(gp$checks, check_passed, TRUE)
   )
 }
 

@@ -32,7 +32,7 @@ trailing_semicolon_linter <- function(source_file) {
         type = "style",
         message = "Avoid trailing semicolons, they are not needed.",
         line = source_file$lines[as.character(parsed$line1)],
-        range = list(c(parsed$col1, parsed$col2)),
+        ranges = list(c(parsed$col1, parsed$col2)),
         linter = "trailing_semicolon_linter"
       )
     }
@@ -91,7 +91,7 @@ seq_linter <- function(source_file) {
         type = "warning",
         message = paste0("Avoid 1:", fun, "(...) expressions, use seq_len."),
         line = source_file$lines[line1],
-        range = list(c(as.integer(col1), as.integer(col2))),
+        ranges = list(c(as.integer(col1), as.integer(col2))),
         linter = "seq_linter"
       )
     }
@@ -119,7 +119,7 @@ dangerous_functions_linter <- function(source_file, funcs, type,
         type = type,
         message = msg,
         line = source_file$lines[as.character(parsed$line1)],
-        range = list(c(parsed$col1, parsed$col2)),
+        ranges = list(c(parsed$col1, parsed$col2)),
         linter = linter
       )
     }

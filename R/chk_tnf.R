@@ -8,10 +8,10 @@ CHECKS$truefalse_not_tf <- make_check(
   tags = character(),
   preps = character(),
 
-  gp = "avoid ‘T’ and ‘F’, as they are just variables which are set to the
-        logicals ‘TRUE’ and ‘FALSE’ by default, but are not reserved words
+  gp = "avoid 'T' and 'F', as they are just variables which are set to the
+        logicals 'TRUE' and 'FALSE' by default, but are not reserved words
         and hence can be overwritten by the user.  Hence, one should
-        always use ‘TRUE’ and ‘FALSE’ for the logicals.",
+        always use 'TRUE' and 'FALSE' for the logicals.",
 
   check = function(state) {
     tf <- tryCatch(

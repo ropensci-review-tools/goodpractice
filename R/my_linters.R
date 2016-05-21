@@ -49,7 +49,7 @@ trailing_semicolon_linter <- function(source_file) {
 #' @return Lint object.
 #'
 #' @importFrom xmlparsedata xml_parse_data
-#' @importFrom xml2 read_xml xml_find_all
+#' @importFrom xml2 read_xml xml_find_all xml_text xml_children xml_attr
 #' @keywords internal
 
 seq_linter <- function(source_file) {
@@ -74,9 +74,12 @@ seq_linter <- function(source_file) {
 
   badx <- xml_find_all(xml, xpath)
 
+  ## Unfortunately the more natural lapply(badx, ...) does not work,
+  ## because badx looses its class for length() and/or [[
   lapply(
-    badx,
-    function(x) {
+    seq_along(badx),
+    function(i) {
+      x <- badx[[i]]
       fun <- trim_ws(xml_text(xml_children(xml_children(x)[[3]])[[1]]))
       line1 <- xml_attr(x, "line1")
       col1 <- xml_attr(x, "col1")

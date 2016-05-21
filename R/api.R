@@ -1,10 +1,24 @@
 
+#' List all checks performed
+#'
+#' @param gp \code{\link{gp}} output.
+#' @return  Character vector of check names.
+#'
+#' @family API
 #' @export
 
 checks <- function(gp) {
   names(gp$checks)
 }
 
+#' Return all check results in a data frame
+#'
+#' @param gp \code{\link{gp}} output.
+#' @return Data frame, with columns:
+#' \item{check}{The name of the check.}
+#' \item{result}{Logical, whether it has failed or not.}
+#'
+#' @family API
 #' @export
 
 results <- function(gp) {
@@ -16,12 +30,33 @@ results <- function(gp) {
   )
 }
 
+#' Names of the failed checks
+#'
+#' @param gp \code{\link{gp}} output.
+#' @return Names of the failed checks.
+#'
+#' @family API
 #' @export
 
 failed_checks <- function(gp) {
   names(Filter(check_failed, gp$checks))
 }
 
+#' Positions of check failures in the source code
+#'
+#' Note that not all checks refer to the source code.
+#' For these the result will be \code{NULL}.
+#'
+#' For the ones that do, the results is a list, one for each failure.
+#' Since the same check can fail multiple times. A single failure
+#' is a list with entries: \code{filename}, \code{line_number},
+#' \code{column_number}, \code{ranges}. \code{ranges} is a list of
+#' pairs of start and end positions for each line involved in the
+#' check.
+#'
+#' @param gp \code{\link{gp}} output.
+#' @return A list of lists of positions. See details below.
+#'
 #' @export
 
 failed_positions <- function(gp) {

@@ -20,6 +20,7 @@ Imports:
     tools,
     xml2,
     xmlparsedata
+Remotes: MangoTheCat/xmlparsedata
 Collate:
     'api.R'
     'lists.R'

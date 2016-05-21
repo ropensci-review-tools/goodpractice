@@ -57,7 +57,7 @@ seq_linter <- function(source_file) {
   if (!length(source_file$parsed_content)) return(list())
 
   xml <- if ('xml_parsed_content' %in% names(source_file)) {
-    source$xml_parsed_content
+    source_file$xml_parsed_content
   } else {
     read_xml(xml_parse_data(source_file$parsed_content))
   }

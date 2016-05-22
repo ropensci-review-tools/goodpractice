@@ -67,3 +67,29 @@ failed_positions <- function(gp) {
 get_position <- function(chk) {
   if (! "positions" %in% names(chk)) NULL else chk$positions
 }
+
+#' Export failed checks to JSON
+#'
+#' @param gp \code{\link{gp}} output.
+#' @param file Output connection or file.
+#' @param pretty Whether to pretty-print the JSON.
+#'
+#' @export
+#' @importFrom jsonlite toJSON
+#' @importFrom whoami username fullname
+
+export_json <- function(gp, file, pretty = FALSE) {
+
+  obj <- list(
+    package = gp$description$get("Package"),
+    path = gp$path,
+    failures = Filter(check_failed, gp$checks),
+    gp_version = loaded_pkg_version("goodpractice"),
+    date = as.character(Sys.time()),
+    user = username(fallback = "<unknown>"),
+    name = fullname(fallback = "<unknown>")
+  )
+
+  cat(toJSON(obj, pretty = pretty), file = file)
+  invisible()
+}

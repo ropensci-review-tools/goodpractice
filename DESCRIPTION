@@ -18,6 +18,7 @@ Imports:
     lintr,
     rcmdcheck,
     tools,
+    whoami,
     xml2,
     xmlparsedata
 Remotes: MangoTheCat/xmlparsedata

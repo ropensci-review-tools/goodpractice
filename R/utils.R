@@ -16,3 +16,7 @@ default_r_file_pattern <- function() {
 trim_ws <- function(x) {
   sub("\\s+$", "", sub("^\\s+", "", x))
 }
+
+loaded_pkg_version <- function(pkg) {
+  asNamespace(pkg)$`.__NAMESPACE__.`$spec[["version"]]
+}

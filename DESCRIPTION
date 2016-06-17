@@ -15,6 +15,7 @@ Suggests:
     testthat
 Imports:
     desc,
+    jsonlite,
     lintr,
     rcmdcheck,
     tools,

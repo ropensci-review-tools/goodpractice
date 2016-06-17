@@ -14,6 +14,7 @@ RoxygenNote: 5.0.1.9000
 Suggests:
     testthat
 Imports:
+    cyclocomp (>= 1.1.0),
     desc,
     jsonlite,
     lintr,
@@ -22,10 +23,12 @@ Imports:
     whoami,
     xml2,
     xmlparsedata
-Remotes: MangoTheCat/xmlparsedata
+Remotes: MangoTheCat/cyclocomp,
+    MangoTheCat/xmlparsedata
 Collate:
     'api.R'
     'lists.R'
+    'chk_cyclocomp.R'
     'chk_description.R'
     'chk_lintr.R'
     'chk_namespace.R'
@@ -34,6 +37,7 @@ Collate:
     'gp.R'
     'my_linters.R'
     'package.R'
+    'prep_cyclocomp.R'
     'prep_description.R'
     'prep_expressions.R'
     'prep_lintr.R'

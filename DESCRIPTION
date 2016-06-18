@@ -10,10 +10,11 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1
 Suggests:
     testthat
 Imports:
+    covr,
     cyclocomp (>= 1.1.0),
     desc,
     jsonlite,
@@ -28,6 +29,7 @@ Remotes: MangoTheCat/cyclocomp,
 Collate:
     'api.R'
     'lists.R'
+    'chk_covr.R'
     'chk_cyclocomp.R'
     'chk_description.R'
     'chk_lintr.R'
@@ -37,6 +39,7 @@ Collate:
     'gp.R'
     'my_linters.R'
     'package.R'
+    'prep_covr.R'
     'prep_cyclocomp.R'
     'prep_description.R'
     'prep_expressions.R'

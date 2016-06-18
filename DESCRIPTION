@@ -23,7 +23,7 @@ Imports:
     tools,
     whoami,
     xml2,
-    xmlparsedata
+    xmlparsedata (>= 1.0.1)
 Remotes: MangoTheCat/cyclocomp,
     MangoTheCat/xmlparsedata
 Collate:

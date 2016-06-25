@@ -16,6 +16,7 @@ Suggests:
 Imports:
     clisymbols,
     covr,
+    crayon,
     cyclocomp (>= 1.1.0),
     desc,
     jsonlite,

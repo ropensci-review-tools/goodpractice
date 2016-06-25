@@ -14,6 +14,7 @@ RoxygenNote: 5.0.1
 Suggests:
     testthat
 Imports:
+    clisymbols,
     covr,
     cyclocomp (>= 1.1.0),
     desc,

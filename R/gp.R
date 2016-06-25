@@ -10,12 +10,16 @@
 #'   with a simple API. See \code{\link{results}} to start.
 #'
 #' @export
+#' @importFrom desc desc_get
 
 gp <- function(path = ".", checks = all_checks()) {
 
   preps <- unique(unlist(lapply(CHECKS[checks], "[[", "preps")))
 
-  state <- list(path = path)
+  state <- list(
+    path = path,
+    package = desc_get("Package", file = file.path(path, "DESCRIPTION"))
+  )
 
   for (prep in preps) {
     message("Preparing: ", prep)

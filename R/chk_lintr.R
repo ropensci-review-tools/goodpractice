@@ -22,7 +22,7 @@ CHECKS$lintr_assignment_linter <- make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to use '<-' for assignment instead of '='.
+  gp = "use '<-' for assignment instead of '='.
         '<-' is the standard, and R users and developers are
         used it and it is easier to read your code for them if
         you use '<-'.",
@@ -38,7 +38,7 @@ CHECKS$lintr_line_length_linter <- make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to avoid long code lines, it is bad for
+  gp = "avoid long code lines, it is bad for
         readability. Also, many people prefer editor windows
         that are about 80 characters wide. Try make your lines
         shorter than 80 characters",
@@ -54,7 +54,7 @@ CHECKS$lintr_trailing_semicolon_linter <- make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to omit trailing semicolons from code lines.
+  gp = "omit trailing semicolons from code lines.
         They are not needed and most R coding standards
         forbid them",
 
@@ -69,7 +69,7 @@ CHECKS$lintr_attach_detach_linter = make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to avoid the attach() and detach() functions,
+  gp = "avoid the attach() and detach() functions,
         they are fragile and code that uses them will
         probably break sooner than later.",
 
@@ -84,7 +84,7 @@ CHECKS$lintr_setwd_linter = make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to avoid calling setwd(), it changes the global environment.
+  gp = "avoid calling setwd(), it changes the global environment.
         If you need it, consider using on.exit() to restore the
         working directory.",
 
@@ -99,7 +99,7 @@ CHECKS$lintr_sapply_linter = make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to avoid sapply(), it is not type safe.
+  gp = "avoid sapply(), it is not type safe.
         It might return a vector, or a list, depending on the
         input data. Consider using vapply() instead.",
 
@@ -114,7 +114,7 @@ CHECKS$lintr_library_require_linter = make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to avoid the library() and require() functions,
+  gp = "avoid the library() and require() functions,
         they change the global search path.
         If you need to use other packages, import them.
         If you need to load them explicitly, then consider
@@ -132,7 +132,7 @@ CHECKS$lintr_seq_linter <- make_check(
   tags = "lintr",
   preps = "lintr",
 
-  gp = "to avoid 1:length(...), 1:nrow(...), 1:ncol(...),
+  gp = "avoid 1:length(...), 1:nrow(...), 1:ncol(...),
         1:NROW(...) and 1:NCOL(...) expressions. They are error
         prone and result 1:0 if the expression on the right hand
         side is zero. Use seq_len() or seq_along() instead.",

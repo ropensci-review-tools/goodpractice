@@ -7,7 +7,7 @@ CHECKS$covr <- make_check(
   tags = c("code coverage", "covr"),
   preps = "covr",
 
-  gp = "to write unit tests for all functions, and all package code in
+  gp = "write unit tests for all functions, and all package code in
         general. At least some lines are not covered in this package.",
 
   check = function(state) {

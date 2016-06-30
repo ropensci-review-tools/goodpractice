@@ -20,14 +20,14 @@ formatting, etc.
 
 
 ```r
-devtools::install_github("/goodpractice")
+source("https://install-github.me/MangoTheCat/goodpractice")
 ```
 
 ## Usage
 
-
 ```r
 library(goodpractice)
+gp("<my-package>")
 ```
 
 ## License

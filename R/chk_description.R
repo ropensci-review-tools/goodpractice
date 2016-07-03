@@ -13,8 +13,8 @@ CHECKS$no_description_depends <- make_check(
 
   check = function(state) {
     deps <- state$description$get_deps()
-    ## Remove 'methods', that is OK
-    deps <- deps[ deps$package != "methods", , drop = FALSE]
+    ## Remove 'methods' and R, these are OK
+    deps <- deps[! deps$package %in% c("methods", "R"), , drop = FALSE]
     ! 'Depends' %in% deps$type
   }
 )

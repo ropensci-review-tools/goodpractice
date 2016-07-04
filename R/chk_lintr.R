@@ -122,7 +122,14 @@ CHECKS$lintr_library_require_linter = make_check(
         them as 'Depends' dependencies.",
 
   check = function(state) {
-    get_lintr_state(state, "library_require_linter")
+    res <- get_lintr_state(state, "library_require_linter")
+
+    ## library() and require() are OK in tests and vignettes
+    res$positions <- Filter(
+      f = function(x) grepl("^R/", x$filename),
+      res$positions
+    )
+    res$status <- length(res$positions) == 0
   }
 )
 

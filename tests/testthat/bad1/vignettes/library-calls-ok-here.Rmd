@@ -1,0 +1,21 @@
+---
+title: "Library calls are OK here"
+author: "Gabor Csardi"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Library calls are OK here}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Chapter
+
+## Section 1
+
+```{r}
+library(stats)
+"This is totally fine"
+```
+
+## Section 2

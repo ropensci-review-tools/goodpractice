@@ -12,4 +12,6 @@ Depends:
     igraph
 Imports:
     description
+VignetteBuilder:
+    knitr
 RoxygenNote: 5.0.1

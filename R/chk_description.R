@@ -27,7 +27,7 @@ CHECKS$no_description_date <- make_check(
   tags = "DESCRIPTION",
   preps = "description",
 
-  gp = 'node use "Date" in DESCRIPTION. It is not required and it
+  gp = 'omit "Date" in DESCRIPTION. It is not required and it
         gets invalid quite often. A build date will be added to
         the package when you perform `R CMD build` on it.',
 

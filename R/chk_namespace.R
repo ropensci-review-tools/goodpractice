@@ -23,7 +23,7 @@ CHECKS$no_export_pattern <- make_check(
   tags = "NAMESPACE",
   preps = "namespace",
 
-  gp = 'no to use exportPattern in NAMESPACE. It can lead to
+  gp = 'not use exportPattern in NAMESPACE. It can lead to
         exporting functions unintendedly. Instead, export
         functions that constitute the external API of your
         package.',

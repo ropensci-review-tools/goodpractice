@@ -7,7 +7,7 @@ CHECKS$no_import_package_as_a_whole <- make_check(
   tags = "NAMESPACE",
   preps = "namespace",
 
-  gp = 'not import packages as a whole, as this can cause name
+  gp = 'do not import packages as a whole, as this can cause name
         clashes between the imported packages. Instead, import
         only the specific functions you need.',
 

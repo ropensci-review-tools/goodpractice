@@ -63,7 +63,7 @@ CHECKS$lintr_trailing_semicolon_linter <- make_check(
   }
 )
 
-CHECKS$lintr_attach_detach_linter = make_check(
+CHECKS$lintr_attach_detach_linter <- make_check(
 
   description = "Avoid attach and detach",
   tags = "lintr",
@@ -78,7 +78,7 @@ CHECKS$lintr_attach_detach_linter = make_check(
   }
 )
 
-CHECKS$lintr_setwd_linter = make_check(
+CHECKS$lintr_setwd_linter <- make_check(
 
   description = "Avoid setwd in R packages",
   tags = "lintr",
@@ -93,7 +93,7 @@ CHECKS$lintr_setwd_linter = make_check(
   }
 )
 
-CHECKS$lintr_sapply_linter = make_check(
+CHECKS$lintr_sapply_linter <- make_check(
 
   description = "Avoid sapply",
   tags = "lintr",
@@ -108,7 +108,7 @@ CHECKS$lintr_sapply_linter = make_check(
   }
 )
 
-CHECKS$lintr_library_require_linter = make_check(
+CHECKS$lintr_library_require_linter <- make_check(
 
   description = "Avoid library and require in packages",
   tags = "lintr",

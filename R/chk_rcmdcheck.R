@@ -269,7 +269,10 @@ CHECKS$rcmdcheck_multiple_dependency_modes <- make_rcmd_check(
 
   "Packages should be listed as one type of dependency (except for LinkingTo)",
   type = "notes",
-  pattern = "Packages? listed in more than one of Depends, Imports, Suggests, Enhances"
+  pattern = paste0(
+    "Packages? listed in more than one of ",
+    "Depends, Imports, Suggests, Enhances"
+  )
 )
 
 CHECKS$rcmdcheck_unused_linkingto <- make_rcmd_check(
@@ -332,7 +335,10 @@ CHECKS$rcmdcheck_stale_inst_license_file <- make_rcmd_check(
 
   "inst/LICENSE (and inst/LICENCE) must be mentioned in DESCRIPTION",
   type = "notes",
-  pattern = "will install at top-level and (is|are) not mentioned in the DESCRIPTION file"
+  pattern = paste0(
+    "will install at top-level and (is|are) not mentioned ",
+    "in the DESCRIPTION file"
+  )
 )
 
 CHECKS$rcmdcheck_non_standard_top_level_files <- make_rcmd_check(
@@ -407,7 +413,10 @@ CHECKS$rcmdcheck_vignette_index <- make_rcmd_check(
 
 CHECKS$rcmdcheck_has_r_source_files <- make_rcmd_check(
 
-  "Package must have R source files (or R/sysdata.rda) if R directory is present",
+  paste0(
+    "Package must have R source files (or R/sysdata.rda) if R ",
+    "directory is present"
+  ),
   type = "warnings",
   pattern = "Found directory 'R' with no source files"
 )
@@ -446,14 +455,20 @@ CHECKS$rcmdcheck_leftover_dvi_pdf_build_directories <- make_rcmd_check(
 
   "No leftover Rd2dvi or Rd2pdf directories",
   type = "warnings",
-  pattern = "Found the following director(y|ies) with the name of a Rd2pdf director"
+  pattern = paste0(
+    "Found the following director(y|ies) with the name ",
+    "of a Rd2pdf director"
+  )
 )
 
 CHECKS$rcmdcheck_leftover_vs_directories <- make_rcmd_check(
 
   "No leftover .git, .svn (etc.) version control directories",
   type = "warnings",
-  pattern = "Found the following director(y|ies) with the name of a version control director"
+  pattern = paste0(
+    "Found the following director(y|ies) with the name of a ",
+    "version control director"
+  )
 )
 
 CHECKS$rcmdcheck_invalid_file_names <- make_rcmd_check(
@@ -675,7 +690,10 @@ CHECKS$rcmdcheck_exported_s3_methods_are_registered <- make_rcmd_check(
 
   "Exported S3 methods are registered",
   type = "warnings",
-  pattern = "Found the following apparent S3 methods exported but not registered"
+  pattern = paste0(
+    "Found the following apparent S3 methods ",
+    "exported but not registered"
+  )
 )
 
 CHECKS$rcmdcheck_replacement_function_arg_names <- make_rcmd_check(
@@ -752,7 +770,10 @@ CHECKS$rcmdcheck_startup_function_arguments <- make_rcmd_check(
 
   "Package startup function arguments should be lib* and pkg*",
   type = "notes",
-  pattern = "Package startup functions should have two arguments with names starting with"
+  pattern = paste0(
+    "Package startup functions should have two ",
+    "arguments with names starting with"
+  )
 )
 
 CHECKS$rcmdcheck_startup_function_change_search_path <- make_rcmd_check(
@@ -765,9 +786,15 @@ CHECKS$rcmdcheck_startup_function_change_search_path <- make_rcmd_check(
 
 CHECKS$rcmdcheck_startup_function_messages <- make_rcmd_check(
 
-  "Package startup functions should use 'packageStartupMessage' to generate messages",
+  paste0(
+    "Package startup functions should use 'packageStartupMessage' ",
+    "to generate messages"
+  ),
   type = "notes",
-  pattern = "Package startup functions should use .packageStartupMessage. to generate messages"
+  pattern = paste0(
+    "Package startup functions should use .packageStartupMessage. ",
+    "to generate messages"
+  )
 )
 
 CHECKS$rcmdcheck_statup_function_unsafe_calls <- make_rcmd_check(
@@ -786,9 +813,15 @@ CHECKS$rcmdcheck_last_lib_needs_to_be_exported <- make_rcmd_check(
 
 CHECKS$rcmdcheck_detach_function_arguments <- make_rcmd_check(
 
-  "Package detach functions should have one argument with name starting with 'lib'",
+  paste0(
+    "Package detach functions should have one argument with ",
+    "name starting with 'lib'"
+  ),
   type = "notes",
-  pattern = "Package detach functions should have one argument with name starting with"
+  pattern = paste0(
+    "Package detach functions should have one argument ",
+    "with name starting with"
+  )
 )
 
 CHECKS$rcmdcheck_detach_no_library_dynam_unload <- make_rcmd_check(
@@ -864,7 +897,10 @@ CHECKS$rcmdcheck_data_into_globalenv <- make_rcmd_check(
 
   "Avoid loading data into the global environment",
   type = "notes",
-  pattern = "Found the following calls to data.. loading into the global environment"
+  pattern = paste0(
+    "Found the following calls to data.. loading into the global ",
+    "environment"
+  )
 )
 
 CHECKS$rcmdcheck_obsolete_platform_specific <- make_rcmd_check(
@@ -878,14 +914,23 @@ CHECKS$rcmdcheck_obsolete_platform_specific_s4 <- make_rcmd_check(
 
   "Avoid calling obsolete and platform specific functions from S4 methods",
   type = "notes",
-  pattern = "Found an obsolete/platform-specific call in methods for the following S4 generic"
+  pattern = paste0(
+    "Found an obsolete/platform-specific call in methods ",
+    "for the following S4 generic"
+  )
 )
 
 CHECKS$rcmdcheck_obsolete_platform_specific_rc <- make_rcmd_check(
 
-  "Avoid calling obsolete and platform specific functions from reference class methods",
+  paste0(
+    "Avoid calling obsolete and platform specific functions ",
+    "from reference class methods"
+  ),
   type = "notes",
-  pattern = "Found an obsolete/platform-specific call in methods for the following reference class"
+  pattern = paste0(
+    "Found an obsolete/platform-specific call in methods ",
+    "for the following reference class"
+  )
 )
 
 CHECKS$rcmdcheck_deprecated_functions <- make_rcmd_check(
@@ -1044,7 +1089,10 @@ CHECKS$rcmdcheck_unneeded_doc_extra <- make_rcmd_check(
 
 CHECKS$rcmdcheck_doc_extra_licenses <- make_rcmd_check(
 
-  "Check if extra doc styles have license that requires the distribution of its original sources",
+  paste0(
+    "Check if extra doc styles have license that requires ",
+    "the distribution of its original sources"
+  ),
   type = "notes",
   pattern = "The following files contain a license that requires"
 )
@@ -1074,7 +1122,10 @@ CHECKS$rcmdcheck_vignettes_in_vignettes <- make_rcmd_check(
 
   "Vignettes must be vignettes/",
   type = "warnings",
-  pattern = "Vignette sources in 'inst/doc' missing from the 'vignettes' directory"
+  pattern = paste0(
+    "Vignette sources in 'inst/doc' missing ",
+    "from the 'vignettes' directory"
+  )
 )
 
 CHECKS$rcmdcheck_knitr_leftovers <- make_rcmd_check(
@@ -1095,7 +1146,10 @@ CHECKS$rcmdcheck_pdf_file_sizes_gs <- make_rcmd_check(
 
   "Check if PDF files could be made much smaller with GhostScript and qpdf",
   type = "warnings",
-  pattern = "consider running tools::compactPDF.gs_quality = \"ebook\". on these files"
+  pattern = paste0(
+    "consider running tools::compactPDF.gs_quality = \"ebook\". ",
+    "on these files"
+  )
 )
 
 CHECKS$rcmdcheck_source_line_endings <- make_rcmd_check(
@@ -1228,7 +1282,10 @@ CHECKS$rcmdcheck_s3_method_registration <- make_rcmd_check(
 
 CHECKS$rcmdcheck_encoding_in_ascii_locale <- make_rcmd_check(
 
-  "Check if we are checking a package with non-ascii encoding in an ASCII locale",
+  paste0(
+    "Check if we are checking a package with non-ascii ",
+    "encoding in an ASCII locale"
+  ),
   type = "warnings",
   pattern = "checking a package with encoding .* in an ASCII locale"
 )
@@ -1300,7 +1357,10 @@ CHECKS$rcmdcheck_doc_makefile_uppercase <- make_rcmd_check(
 
   "inst/doc/Makefile is uppercase",
   type = "warnings",
-  pattern = "Found 'inst/doc/makefile': should be 'Makefile' and will be ignored"
+  pattern = paste0(
+    "Found 'inst/doc/makefile': should be 'Makefile' ",
+    "and will be ignored"
+  )
 )
 
 CHECKS$rcmdcheck_calling_r_from_makefile <- make_rcmd_check(
@@ -1442,7 +1502,10 @@ CHECKS$rcmdcheck_description_right_case <- make_rcmd_check(
 
   "DESCRIPTION is all upper case",
   type = "errors",
-  pattern = "File DESCRIPTION does not exist but there is a case-insensitive match"
+  pattern = paste0(
+    "File DESCRIPTION does not exist but there ",
+    "is a case-insensitive match"
+  )
 )
 
 CHECKS$rcmdcheck_not_package_bundle <- make_rcmd_check(
@@ -1519,7 +1582,10 @@ CHECKS$rcmdcheck_multi_arch_build_dir <- make_rcmd_check(
 
   "Check for leftover multi-arch build directory",
   type = "warnings",
-  pattern = "Found the following directory with a name of a multi-arch build directory"
+  pattern = paste0(
+    "Found the following directory with a name of ",
+    "a multi-arch build directory"
+  )
 )
 
 CHECKS$rcmdcheck_compilation_leftover_files <- make_rcmd_check(
@@ -1540,7 +1606,10 @@ CHECKS$rcmdcheck_installed_version_included <- make_rcmd_check(
 
   "Check if an installed version is included by mistake",
   type = "notes",
-  pattern = "Subdirectory .* seems to contain an installed version of the package"
+  pattern = paste0(
+    "Subdirectory .* seems to contain an installed ",
+    "version of the package"
+  )
 )
 
 CHECKS$rcmdcheck_some_code_in_docs <- make_rcmd_check(

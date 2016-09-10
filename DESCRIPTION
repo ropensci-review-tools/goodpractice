@@ -26,6 +26,8 @@ Imports:
     whoami,
     xml2,
     xmlparsedata (>= 1.0.1)
+Remotes:
+    MangoTheCat/cyclocomp
 Collate:
     'api.R'
     'lists.R'

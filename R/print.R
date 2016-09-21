@@ -1,20 +1,41 @@
 
 #' @export
 #' @importFrom rstudioapi hasFun
+#' @importFrom praise praise
+#' @importFrom clisymbols symbol
+#' @importFrom crayon red bold
 
 print.goodPractice <- function(x, ...) {
 
-  gp_header(x)
+  failure <- FALSE
 
   for (check in names(x$checks)) {
-    if (! check_passed(x$checks[[check]])) gp_advice(x, check)
+    if (! check_passed(x$checks[[check]])) {
+      if (!failure) {
+        failure <- TRUE
+        gp_header(x)
+      }
+      gp_advice(x, check)
+    }
   }
 
-  gp_footer(x)
+  if (failure) {
+    gp_footer(x)
+    if (getOption("goodpractice.rstudio_source_markers", TRUE) &&
+        hasFun("sourceMarkers")) {
+      rstudio_source_markers(x)
+    }
 
-  if (getOption("goodpractice.rstudio_source_markers", TRUE) &&
-      hasFun("sourceMarkers")) {
-    rstudio_source_markers(x)
+  } else {
+    cat(
+      "\n", sep = "",
+      bold(red(symbol$heart)),
+      praise(paste0(
+        " ${Exclamation}! ${Adjective} package! ",
+        "Keep up the ${adjective} work!"
+      )),
+      "\n"
+    )
   }
 
   invisible(x)

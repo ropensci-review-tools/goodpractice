@@ -21,6 +21,7 @@ Imports:
     desc,
     jsonlite,
     lintr,
+    praise,
     rcmdcheck,
     rstudioapi,
     tools,

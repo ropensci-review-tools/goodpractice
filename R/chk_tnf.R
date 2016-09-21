@@ -5,7 +5,7 @@
 CHECKS$truefalse_not_tf <- make_check(
 
   description = "TRUE and FALSE is used, not T and F",
-  tags = character(),
+  tags = "warning",
   preps = character(),
 
   gp = "avoid 'T' and 'F', as they are just variables which are set to the

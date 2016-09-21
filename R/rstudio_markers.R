@@ -24,6 +24,7 @@ get_markers <- function(gp) {
 #' @param check name of the check to extract
 #'
 #' @keywords internal
+#' @importFrom utils head
 
 get_marker <- function(gp, check) {
 
@@ -38,11 +39,16 @@ get_marker <- function(gp, check) {
 
   my_message <- if (is.function(chk$gp)) chk$gp(gp) else chk$gp
 
+  type <- head(intersect(
+    chk$tags,
+    c("error", "warning", "info", "style", "usage")
+  ), 1)
+
   lapply(
     res$positions,
     function(p) {
       list(
-        type = "warning",                # TODO
+        type = type,
         file = normalizePath(file.path(gp$path, p$filename)),
         line = if (is.na(p$line_number)) 1L else p$line_number,
         column = if (is.na(p$column_number)) 1L else p$column_number,

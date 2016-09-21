@@ -6,7 +6,7 @@ cyclocomp_limit <- 50
 CHECKS$cyclocomp <- make_check(
 
   description = "Functions are simple",
-  tags = "code complexity",
+  tags = c("info", "code complexity"),
   preps = "cyclocomp",
 
   gp = function(state) {

@@ -4,7 +4,7 @@
 CHECKS$no_import_package_as_a_whole <- make_check(
 
   description = 'Packages are not imported as a whole',
-  tags = "NAMESPACE",
+  tags = c("warning", "NAMESPACE"),
   preps = "namespace",
 
   gp = 'not import packages as a whole, as this can cause name
@@ -20,7 +20,7 @@ CHECKS$no_import_package_as_a_whole <- make_check(
 CHECKS$no_export_pattern <- make_check(
 
   description = "exportPattern in NAMESPACE file",
-  tags = "NAMESPACE",
+  tags = c("warning", "NAMESPACE"),
   preps = "namespace",
 
   gp = 'not use exportPattern in NAMESPACE. It can lead to

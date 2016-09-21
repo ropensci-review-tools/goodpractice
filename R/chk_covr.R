@@ -4,7 +4,7 @@
 CHECKS$covr <- make_check(
 
   description = "All code is unit tested",
-  tags = c("code coverage", "covr"),
+  tags = c("warning", "code coverage", "covr"),
   preps = "covr",
 
   gp = "write unit tests for all functions, and all package code in

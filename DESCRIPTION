@@ -24,6 +24,7 @@ Imports:
     rcmdcheck,
     rstudioapi,
     tools,
+    utils,
     whoami,
     withr,
     xml2,

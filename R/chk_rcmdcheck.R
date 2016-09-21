@@ -23,9 +23,11 @@ make_rcmd_check <- function(
   kw <- c(warnings = "WARNING", notes = "NOTE", errors = "ERROR")
   chk_pat <- paste0("^.* \\.\\.\\. ", kw[type])
 
+  etag <- c(warnings = "warning", notes = "info", errors = "error")[type]
+
   make_check(
     description = description,
-    tags = c("rcmdcheck", tags),
+    tags = c(etag, "rcmdcheck", tags),
     preps = c("rcmdcheck", preps),
     gp = function(state) {
       paste(

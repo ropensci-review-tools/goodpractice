@@ -4,7 +4,7 @@
 CHECKS$no_description_depends <- make_check(
 
   description = 'No "Depends" in DESCRIPTION',
-  tags = "DESCRIPTION",
+  tags = c("info", "DESCRIPTION"),
   preps = "description",
 
   gp = 'not use "Depends" in DESCRIPTION, as it can cause name
@@ -24,7 +24,7 @@ CHECKS$no_description_depends <- make_check(
 CHECKS$no_description_date <- make_check(
 
   description = 'No "Date" in DESCRIPTION',
-  tags = "DESCRIPTION",
+  tags = c("info", "DESCRIPTION"),
   preps = "description",
 
   gp = 'omit "Date" in DESCRIPTION. It is not required and it
@@ -41,7 +41,7 @@ CHECKS$no_description_date <- make_check(
 CHECKS$description_url <- make_check(
 
   description = 'URL in DESCRIPTION',
-  tags = 'DESCRIPTION',
+  tags = c("info", 'DESCRIPTION'),
   preps = 'description',
 
   gp = 'add a "URL" field to DESCRIPTION. It helps users find information
@@ -58,7 +58,7 @@ CHECKS$description_url <- make_check(
 CHECKS$description_bugreports <- make_check(
 
   description = "BugReports in DESCRIPTION",
-  tags = 'DESCRIPTION',
+  tags = c("info", 'DESCRIPTION'),
   preps = 'description',
 
   gp = 'add a "BugReports" field to DESCRIPTION, and point it to a bug

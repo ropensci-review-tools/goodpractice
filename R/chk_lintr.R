@@ -19,7 +19,7 @@ get_lintr_state <- function(state, linter) {
 CHECKS$lintr_assignment_linter <- make_check(
 
   description = "'<-' and not '=' is used for assignment",
-  tags = "lintr",
+  tags = c("style", "lintr"),
   preps = "lintr",
 
   gp = "use '<-' for assignment instead of '='.
@@ -35,7 +35,7 @@ CHECKS$lintr_assignment_linter <- make_check(
 CHECKS$lintr_line_length_linter <- make_check(
 
   description = "Code lines are short",
-  tags = "lintr",
+  tags = c("style", "lintr"),
   preps = "lintr",
 
   gp = "avoid long code lines, it is bad for
@@ -51,7 +51,7 @@ CHECKS$lintr_line_length_linter <- make_check(
 CHECKS$lintr_trailing_semicolon_linter <- make_check(
 
   description = "No trailing semicolons",
-  tags = "lintr",
+  tags = c("style", "lintr"),
   preps = "lintr",
 
   gp = "omit trailing semicolons from code lines.
@@ -66,7 +66,7 @@ CHECKS$lintr_trailing_semicolon_linter <- make_check(
 CHECKS$lintr_attach_detach_linter <- make_check(
 
   description = "Avoid attach and detach",
-  tags = "lintr",
+  tags = c("warning", "lintr"),
   preps = "lintr",
 
   gp = "avoid the attach() and detach() functions,
@@ -81,7 +81,7 @@ CHECKS$lintr_attach_detach_linter <- make_check(
 CHECKS$lintr_setwd_linter <- make_check(
 
   description = "Avoid setwd in R packages",
-  tags = "lintr",
+  tags = c("warning", "lintr"),
   preps = "lintr",
 
   gp = "avoid calling setwd(), it changes the global environment.
@@ -96,7 +96,7 @@ CHECKS$lintr_setwd_linter <- make_check(
 CHECKS$lintr_sapply_linter <- make_check(
 
   description = "Avoid sapply",
-  tags = "lintr",
+  tags = c("warning", "lintr"),
   preps = "lintr",
 
   gp = "avoid sapply(), it is not type safe.
@@ -111,7 +111,7 @@ CHECKS$lintr_sapply_linter <- make_check(
 CHECKS$lintr_library_require_linter <- make_check(
 
   description = "Avoid library and require in packages",
-  tags = "lintr",
+  tags = c("warning", "lintr"),
   preps = "lintr",
 
   gp = "avoid the library() and require() functions,
@@ -136,7 +136,7 @@ CHECKS$lintr_library_require_linter <- make_check(
 CHECKS$lintr_seq_linter <- make_check(
 
   description = "Avoid 1:length(...) and similar expressions",
-  tags = "lintr",
+  tags = c("warning", "lintr"),
   preps = "lintr",
 
   gp = "avoid 1:length(...), 1:nrow(...), 1:ncol(...),

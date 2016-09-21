@@ -2,6 +2,7 @@
 % Please edit documentation in R/rstudio_markers.R
 \name{get_marker}
 \alias{get_marker}
+\title{Get a marker from the positions of a check}
 \usage{
 get_marker(gp, check)
 }
@@ -9,6 +10,9 @@ get_marker(gp, check)
 \item{gp}{`gp()` output}
 
 \item{check}{name of the check to extract}
+}
+\description{
+Get a marker from the positions of a check
 }
 \keyword{internal}
 

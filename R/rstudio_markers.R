@@ -22,6 +22,8 @@ get_markers <- function(gp) {
   unlist(m, recursive = FALSE)
 }
 
+#' Get a marker from the positions of a check
+#'
 #' @param gp `gp()` output
 #' @param check name of the check to extract
 #'

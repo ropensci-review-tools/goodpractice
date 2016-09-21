@@ -24,6 +24,7 @@ Imports:
     rcmdcheck,
     tools,
     whoami,
+    withr,
     xml2,
     xmlparsedata (>= 1.0.1)
 Remotes:

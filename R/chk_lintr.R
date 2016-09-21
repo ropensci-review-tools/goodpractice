@@ -130,6 +130,7 @@ CHECKS$lintr_library_require_linter <- make_check(
       res$positions
     )
     res$status <- length(res$positions) == 0
+    res
   }
 )
 

@@ -22,13 +22,13 @@ Imports:
     jsonlite,
     lintr,
     rcmdcheck,
+    rstudioapi,
     tools,
     whoami,
     withr,
     xml2,
     xmlparsedata (>= 1.0.1)
-Remotes:
-    MangoTheCat/cyclocomp
+Remotes: MangoTheCat/cyclocomp
 Collate:
     'api.R'
     'lists.R'
@@ -50,4 +50,5 @@ Collate:
     'prep_namespace.R'
     'prep_rcmdcheck.R'
     'print.R'
+    'rstudio_markers.R'
     'utils.R'

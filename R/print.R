@@ -1,5 +1,6 @@
 
 #' @export
+#' @importFrom rstudioapi hasFun
 
 print.goodPractice <- function(x, ...) {
 
@@ -10,6 +11,11 @@ print.goodPractice <- function(x, ...) {
   }
 
   gp_footer(x)
+
+  if (getOption("goodpractice.rstudio_source_markers", TRUE) &&
+      hasFun("sourceMarkers")) {
+    rstudio_source_markers(x)
+  }
 
   invisible(x)
 }

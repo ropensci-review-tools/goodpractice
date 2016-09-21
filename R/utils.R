@@ -20,3 +20,7 @@ trim_ws <- function(x) {
 loaded_pkg_version <- function(pkg) {
   asNamespace(pkg)$`.__NAMESPACE__.`$spec[["version"]]
 }
+
+drop_nulls <- function(l) {
+  l[ ! vapply(l, is.null, TRUE) ]
+}

@@ -5,6 +5,8 @@ rstudio_source_markers <- function(gp) {
 
   markers <- get_markers(gp)
 
+  if (length(markers) == 0) return()
+
   callFun(
     "sourceMarkers",
     name = "goodpractice",

@@ -1,4 +1,4 @@
 
 #' @import igraph
-#' @importFrom foo bar
+#' @importFrom desc desc_get
 NULL

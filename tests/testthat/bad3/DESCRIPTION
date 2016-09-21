@@ -9,5 +9,5 @@ License: GPL-2
 Suggests:
     testthat
 Imports:
-    pkgconfig
+    goodpractice
 RoxygenNote: 5.0.1

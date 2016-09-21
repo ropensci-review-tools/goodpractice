@@ -9,9 +9,9 @@ License: Public domain
 Suggests:
     testthat
 Depends:
-    igraph
+    goodpractice
 Imports:
-    description
+    desc
 VignetteBuilder:
     knitr
 RoxygenNote: 5.0.1

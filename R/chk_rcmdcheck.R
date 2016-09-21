@@ -32,7 +32,7 @@ make_rcmd_check <- function(
     gp = function(state) {
       paste(
         sub(
-          chk_pat, gp %||% "fix this R CMD check error/warning/note:",
+          chk_pat, paste0("fix this R CMD check ", kw[type], ":"),
           grep(pattern, state$rcmdcheck[[type]], value = TRUE)
         ),
         collapse = "\n"

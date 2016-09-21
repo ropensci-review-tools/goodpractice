@@ -25,8 +25,8 @@ make_rcmd_check <- function(
 
   make_check(
     description = description,
-    tags = c("rcmdcheck", NULL),
-    preps = c("rcmdcheck", NULL),
+    tags = c("rcmdcheck", tags),
+    preps = c("rcmdcheck", preps),
     gp = function(state) {
       paste(
         sub(

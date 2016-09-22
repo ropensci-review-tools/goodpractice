@@ -7,8 +7,14 @@ CHECKS$covr <- make_check(
   tags = c("warning", "code coverage", "covr"),
   preps = "covr",
 
-  gp = "write unit tests for all functions, and all package code in
-        general. At least some lines are not covered in this package.",
+  gp = function(state) {
+    percent <- state$covr$pct_by_line
+    paste0(
+      "write unit tests for all functions, and all package code in ",
+      "general. ", trunc(percent), "% of code lines are covered by ",
+      "test cases."
+    )
+  },
 
   check = function(state) {
     zero <- state$covr$zero

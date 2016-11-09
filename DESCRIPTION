@@ -10,7 +10,7 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 Suggests:
     testthat
 Imports:

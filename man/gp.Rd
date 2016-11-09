@@ -4,13 +4,17 @@
 \alias{gp}
 \title{Run good practice checks}
 \usage{
-gp(path = ".", checks = all_checks())
+gp(path = ".", checks = all_checks(), quiet = TRUE)
 }
 \arguments{
 \item{path}{Path to a package root.}
 
 \item{checks}{Character vector, the checks to run. Defaults to
 all checks. Use \code{\link{all_checks}} to list all checks.}
+
+\item{quiet}{Whether to suppress output from the preparation
+functions. Note that not all preparation functions produce output,
+even if this option is set to \code{FALSE}.}
 }
 \value{
 A goodpractice object that you can query

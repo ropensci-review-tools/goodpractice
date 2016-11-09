@@ -6,13 +6,16 @@
 #' @param path Path to a package root.
 #' @param checks Character vector, the checks to run. Defaults to
 #'   all checks. Use \code{\link{all_checks}} to list all checks.
+#' @param quiet Whether to suppress output from the preparation
+#'   functions. Note that not all preparation functions produce output,
+#'   even if this option is set to \code{FALSE}.
 #' @return A goodpractice object that you can query
 #'   with a simple API. See \code{\link{results}} to start.
 #'
 #' @export
 #' @importFrom desc desc_get
 
-gp <- function(path = ".", checks = all_checks()) {
+gp <- function(path = ".", checks = all_checks(), quiet = TRUE) {
 
   preps <- unique(unlist(lapply(CHECKS[checks], "[[", "preps")))
 
@@ -23,7 +26,7 @@ gp <- function(path = ".", checks = all_checks()) {
 
   for (prep in preps) {
     message("Preparing: ", prep)
-    state <- PREPS[[prep]](state)
+    state <- PREPS[[prep]](state, quiet = quiet)
   }
 
   state$checks <- list()

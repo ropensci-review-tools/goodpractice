@@ -15,7 +15,7 @@ linters_to_lint <- list(
 #' @include lists.R
 #' @importFrom lintr lint_package
 
-PREPS$lintr <- function(state, path = state$path) {
+PREPS$lintr <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
   suppressMessages(
     state$lintr <- lint_package(path, linters = linters_to_lint)

@@ -4,7 +4,7 @@
 \alias{prep_expressions}
 \title{Extract all closures from a package}
 \usage{
-prep_expressions(state, version = NULL)
+prep_expressions(state, version = NULL, quiet)
 }
 \arguments{
 \item{state}{GP state.}

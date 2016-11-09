@@ -52,7 +52,7 @@ r_package_files <- function(path) {
 #'
 #' @importFrom lintr get_source_expressions
 
-prep_expressions <- function(state, version = NULL) {
+prep_expressions <- function(state, version = NULL, quiet) {
   files <- lapply(
     r_package_files(state$path),
     get_source_expressions

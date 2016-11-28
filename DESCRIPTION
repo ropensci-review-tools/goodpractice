@@ -1,7 +1,8 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.0
-Author: Gabor Csardi
+Version: 1.0.1
+Authors@R: person("Gabor", "Csardi", email = "csardi.gabor@gmail.com",
+    role = c("aut", "cre"))
 Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
 Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure,

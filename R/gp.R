@@ -13,6 +13,7 @@
 #'   with a simple API. See \code{\link{results}} to start.
 #'
 #' @export
+#' @aliases goodpractice
 #' @importFrom desc desc_get
 
 gp <- function(path = ".", checks = all_checks(), quiet = TRUE) {
@@ -46,3 +47,7 @@ check_passed <- function(chk) {
 check_failed <- function(chk) {
   ! check_passed(chk)
 }
+
+#' @export goodpractice
+goodpractice <- gp
+

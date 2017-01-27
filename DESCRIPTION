@@ -30,7 +30,9 @@ Imports:
     withr,
     xml2,
     xmlparsedata (>= 1.0.1)
-Remotes: MangoTheCat/cyclocomp
+Remotes: 
+    MangoTheCat/cyclocomp,
+    gaborcsardi/clisymbols
 Collate:
     'api.R'
     'lists.R'

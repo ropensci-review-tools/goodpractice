@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.0
+Version: 1.0.1
 Author: Gabor Csardi
 Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
 Description: Give advice about good practices when building R packages.

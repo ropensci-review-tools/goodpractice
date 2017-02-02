@@ -2,6 +2,7 @@
 % Please edit documentation in R/gp.R
 \name{gp}
 \alias{gp}
+\alias{goodpractice}
 \title{Run good practice checks}
 \usage{
 gp(path = ".", checks = all_checks(), quiet = TRUE)

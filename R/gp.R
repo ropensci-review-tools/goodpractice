@@ -28,9 +28,15 @@ gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
 
   preps <- unique(unlist(lapply(MYCHECKS[checks], "[[", "preps")))
 
+  if(file.exists(file.path(path, "DESCRIPTION"))) {
+    pkgname = desc_get("Package", file = file.path(path, "DESCRIPTION"))
+  } else {
+    pkgname = basename(normalizePath(path))
+  }
+
   state <- list(
     path = path,
-    package = desc_get("Package", file = file.path(path, "DESCRIPTION")),
+    package = pkgname,
     extra_preps = extra_preps,
     extra_checks = extra_checks
   )

@@ -18,4 +18,3 @@ Find occurences of \code{1:length(x)}, \code{1:nrow(x)},
 \code{x} is an R expression.
 }
 \keyword{internal}
-

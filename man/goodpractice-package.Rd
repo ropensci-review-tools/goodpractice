@@ -17,7 +17,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gabor Csardi \email{csardi.gabor@gmail.com}
+\strong{Maintainer}: Gabor Csardi \email{gcsardi@mango-solutions.com}
 
 }
-

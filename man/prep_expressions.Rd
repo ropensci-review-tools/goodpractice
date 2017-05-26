@@ -23,4 +23,3 @@ our own code (based on similar code in functionMap) to
 get the right collation order.
 }
 \keyword{internal}
-

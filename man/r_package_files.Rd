@@ -18,4 +18,3 @@ It uses the `Collate` entry in the `DESCRIPTION` file,
 if there is one. Otherwise the order is alphabetical.
 }
 \keyword{internal}
-

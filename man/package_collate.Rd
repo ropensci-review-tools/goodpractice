@@ -16,4 +16,3 @@ Character scalar or `NULL`.
 `NULL` is returned if there is no such field.
 }
 \keyword{internal}
-

@@ -24,4 +24,3 @@ make_rcmd_check(description, pattern, gp = NULL, type = c("warnings",
 Wrapper on make_check, specific to R CMD check
 }
 \keyword{internal}
-

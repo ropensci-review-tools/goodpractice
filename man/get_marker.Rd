@@ -15,4 +15,3 @@ get_marker(gp, check)
 Get a marker from the positions of a check
 }
 \keyword{internal}
-

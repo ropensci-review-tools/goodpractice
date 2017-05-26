@@ -18,4 +18,3 @@ Names of the failed checks
 \seealso{
 Other API: \code{\link{checks}}, \code{\link{results}}
 }
-

@@ -19,4 +19,3 @@ List all checks performed
 Other API: \code{\link{failed_checks}},
   \code{\link{results}}
 }
-

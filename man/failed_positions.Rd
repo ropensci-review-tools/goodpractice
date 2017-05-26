@@ -24,4 +24,3 @@ is a list with entries: \code{filename}, \code{line_number},
 pairs of start and end positions for each line involved in the
 check.
 }
-

@@ -16,4 +16,3 @@ export_json(gp, file, pretty = FALSE)
 \description{
 Export failed checks to JSON
 }
-

@@ -21,4 +21,3 @@ Return all check results in a data frame
 Other API: \code{\link{checks}},
   \code{\link{failed_checks}}
 }
-

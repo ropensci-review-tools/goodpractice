@@ -13,4 +13,3 @@ Regular expression.
 Default pattern for R files
 }
 \keyword{internal}
-

@@ -97,7 +97,9 @@ gp_footer <- function(x) {
 
 gp_advice <- function(state, fail) {
 
-  chk <- CHECKS[[fail]]
+  MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
+
+  chk <- MYCHECKS[[fail]]
   res <- state$checks[[fail]]
 
   str <- if (is.function(chk$gp)) chk$gp(state) else chk$gp

@@ -1,5 +1,5 @@
 
-#' @include lists.R
+#' @include lists.R customization.R
 
 CHECKS$covr <- make_check(
 

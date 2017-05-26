@@ -36,6 +36,7 @@ Remotes:
 Collate:
     'api.R'
     'lists.R'
+    'customization.R'
     'chk_covr.R'
     'chk_cyclocomp.R'
     'chk_description.R'

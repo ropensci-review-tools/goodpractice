@@ -6,6 +6,10 @@
 #' @param path Path to a package root.
 #' @param checks Character vector, the checks to run. Defaults to
 #'   all checks. Use \code{\link{all_checks}} to list all checks.
+#' @param extra_preps Custom preparation functions. See
+#'   \code{\link{make_prep}} on creating preparation functions.
+#' @param extra_checks Custom checks. See \code{\link{make_check}} on
+#'   creating checks.
 #' @param quiet Whether to suppress output from the preparation
 #'   functions. Note that not all preparation functions produce output,
 #'   even if this option is set to \code{FALSE}.
@@ -16,24 +20,30 @@
 #' @aliases goodpractice
 #' @importFrom desc desc_get
 
-gp <- function(path = ".", checks = all_checks(), quiet = TRUE) {
+gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
+               extra_checks = NULL, quiet = TRUE) {
 
-  preps <- unique(unlist(lapply(CHECKS[checks], "[[", "preps")))
+  MYPREPS <- prepare_preps(PREPS, extra_preps)
+  MYCHECKS <- prepare_checks(CHECKS, extra_checks)
+
+  preps <- unique(unlist(lapply(MYCHECKS[checks], "[[", "preps")))
 
   state <- list(
     path = path,
-    package = desc_get("Package", file = file.path(path, "DESCRIPTION"))
+    package = desc_get("Package", file = file.path(path, "DESCRIPTION")),
+    extra_preps = extra_preps,
+    extra_checks = extra_checks
   )
 
   for (prep in preps) {
     message("Preparing: ", prep)
-    state <- PREPS[[prep]](state, quiet = quiet)
+    state <- MYPREPS[[prep]](state, quiet = quiet)
   }
 
   state$checks <- list()
 
   for (check in checks) {
-    state$checks[[check]] <- CHECKS[[check]]$check(state)
+    state$checks[[check]] <- MYCHECKS[[check]]$check(state)
   }
 
   class(state) <- "goodPractice"
@@ -50,4 +60,3 @@ check_failed <- function(chk) {
 
 #' @export goodpractice
 goodpractice <- gp
-

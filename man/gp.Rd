@@ -5,13 +5,20 @@
 \alias{goodpractice}
 \title{Run good practice checks}
 \usage{
-gp(path = ".", checks = all_checks(), quiet = TRUE)
+gp(path = ".", checks = all_checks(), extra_preps = NULL,
+  extra_checks = NULL, quiet = TRUE)
 }
 \arguments{
 \item{path}{Path to a package root.}
 
 \item{checks}{Character vector, the checks to run. Defaults to
 all checks. Use \code{\link{all_checks}} to list all checks.}
+
+\item{extra_preps}{Custom preparation functions. See
+\code{\link{make_prep}} on creating preparation functions.}
+
+\item{extra_checks}{Custom checks. See \code{\link{make_check}} on
+creating checks.}
 
 \item{quiet}{Whether to suppress output from the preparation
 functions. Note that not all preparation functions produce output,
@@ -24,4 +31,3 @@ A goodpractice object that you can query
 \description{
 To see the results, just print it to the screen.
 }
-

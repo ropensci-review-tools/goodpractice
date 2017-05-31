@@ -28,9 +28,9 @@ make_check <- function(description, check, gp, ...) {
 }
 
 prepare_preps <- function(preps, extra_preps) {
-  modifyList(preps, extra_preps)
+  utils::modifyList(preps, c(list(), extra_preps))
 }
 
 prepare_checks <- function(checks, extra_checks) {
-  modifyList(checks, extra_checks)
+  utils::modifyList(checks, c(list(), extra_checks))
 }

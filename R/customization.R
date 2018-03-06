@@ -18,6 +18,12 @@ make_prep <- function(name, func) {
   }
 }
 
+#' Create a check function
+#' 
+#' @param description A description of the check.
+#' @param check A function that takes the \code{state} as an argument.
+#' @param gp A short description of what is good practice.
+#' @param ... Further arguments.
 #' @export
 
 make_check <- function(description, check, gp, ...) {

@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: person("Gabor", "Csardi", email = "gcsardi@mango-solutions.com",
     role = c("aut", "cre"))
 Description: Give advice about good practices when building R packages.

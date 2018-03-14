@@ -12,7 +12,9 @@ URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
 RoxygenNote: 6.0.1.9000
 Suggests:
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Imports:
     clisymbols,
     covr,
@@ -30,7 +32,7 @@ Imports:
     withr,
     xml2,
     xmlparsedata (>= 1.0.1)
-Collate: 
+Collate:
     'api.R'
     'customization.R'
     'lists.R'
@@ -54,3 +56,4 @@ Collate:
     'print.R'
     'rstudio_markers.R'
     'utils.R'
+VignetteBuilder: knitr

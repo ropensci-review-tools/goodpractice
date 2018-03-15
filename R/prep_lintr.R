@@ -18,7 +18,8 @@ linters_to_lint <- list(
 PREPS$lintr <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
   suppressMessages(
-    state$lintr <- lint_package(path, linters = linters_to_lint)
+    state$lintr <- try(lint_package(path, linters = linters_to_lint), silent = TRUE)
   )
+  if(inherits(state$lintr, "try-error")) warning("Prep step for linter failed.")
   state
 }

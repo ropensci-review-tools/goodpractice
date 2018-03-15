@@ -12,6 +12,8 @@ CHECKS$no_description_depends <- make_check(
         instead.',
 
   check = function(state) {
+    if(inherits(state$description, "try-error")) return(NA)
+    
     deps <- state$description$get_deps()
     ## Remove 'methods' and R, these are OK
     deps <- deps[! deps$package %in% c("methods", "R"), , drop = FALSE]
@@ -32,6 +34,8 @@ CHECKS$no_description_date <- make_check(
         the package when you perform `R CMD build` on it.',
 
   check = function(state) {
+    if(inherits(state$description, "try-error")) return(NA)
+    
     ! state$description$has_fields('Date')
   }
 )
@@ -49,6 +53,8 @@ CHECKS$description_url <- make_check(
         add an URL to GitHub, or the CRAN package package page.',
 
   check = function(state) {
+    if(inherits(state$description, "try-error")) return(NA)
+    
     state$description$has_fields("URL")
   }
 )
@@ -66,6 +72,8 @@ CHECKS$description_bugreports <- make_check(
         for free, https://github.com, https://gitlab.com, etc.',
 
   check = function(state) {
+    if(inherits(state$description, "try-error")) return(NA)
+    
     state$description$has_fields('BugReports')
   }
 )

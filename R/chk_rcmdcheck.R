@@ -39,6 +39,7 @@ make_rcmd_check <- function(
       )
     },
     check = function(state) {
+      if(inherits(state$rcmdcheck, "try-error")) return(NA)
       ! any(grep(pattern, state$rcmdcheck[[type]]))
     }
   )

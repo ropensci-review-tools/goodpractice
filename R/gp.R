@@ -57,7 +57,8 @@ gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
 }
 
 check_passed <- function(chk) {
-  isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]]))
+  isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]])) || 
+    is.na(chk) || ("status" %in% names(chk) && is.na(chk[["status"]]))
 }
 
 check_failed <- function(chk) {

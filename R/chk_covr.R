@@ -17,9 +17,12 @@ CHECKS$covr <- make_check(
   },
 
   check = function(state) {
+    if(inherits(state$covr, "try-error"))
+      return(list(status = NA, positions = list()))
+    
     zero <- state$covr$zero
     if (NROW(zero) == 0) return(list(status = TRUE, positions = list()))
-
+    
     positions <- lapply(seq_len(NROW(zero)), function(i) {
       list(
         filename = zero$filename[i],
@@ -29,7 +32,7 @@ CHECKS$covr <- make_check(
         line = NA_character_
       )
     })
-
+    
     list(status = FALSE, positions = positions)
   }
 )

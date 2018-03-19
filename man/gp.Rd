@@ -31,3 +31,9 @@ A goodpractice object that you can query
 \description{
 To see the results, just print it to the screen.
 }
+\examples{
+path <- system.file("bad1", package = "goodpractice")
+# run a subset of all checks available
+g <- gp(path, checks = all_checks()[3:16])
+g
+}

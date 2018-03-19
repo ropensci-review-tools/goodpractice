@@ -17,6 +17,12 @@ Data frame, with columns:
 \description{
 Return all check results in a data frame
 }
+\examples{
+path <- system.file("bad1", package = "goodpractice")
+# run a subset of all checks available
+g <- gp(path, checks = all_checks()[3:16])
+results(g)
+}
 \seealso{
 Other API: \code{\link{checks}},
   \code{\link{failed_checks}}

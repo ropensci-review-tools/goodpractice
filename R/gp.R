@@ -19,6 +19,11 @@
 #' @export
 #' @aliases goodpractice
 #' @importFrom desc desc_get
+#' @examples 
+#' path <- system.file("bad1", package = "goodpractice")
+#' # run a subset of all checks available
+#' g <- gp(path, checks = all_checks()[3:16])
+#' g
 
 gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
                extra_checks = NULL, quiet = TRUE) {

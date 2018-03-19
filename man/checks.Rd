@@ -15,6 +15,12 @@ Character vector of check names.
 \description{
 List all checks performed
 }
+\examples{
+path <- system.file("bad1", package = "goodpractice")
+# run a subset of all checks available
+g <- gp(path, checks = all_checks()[3:16])
+checks(g)
+}
 \seealso{
 Other API: \code{\link{failed_checks}},
   \code{\link{results}}

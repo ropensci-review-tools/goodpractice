@@ -13,7 +13,7 @@ test_that("extra check", {
     check = function(state) state$desc$has_fields("URL")
   )
 
-  res <- gp("bad1", checks = c("url", "no_description_depends"),
+  res <- gp("bad1", checks = "no_description_depends",
             extra_preps = list(desc = make_prep("desc", url_prep)),
-            extra_checks = list(url = url_chk))
+            extra_checks = list("url" = url_chk))
 })

@@ -6,6 +6,11 @@
 #'
 #' @family API
 #' @export
+#' @examples 
+#' path <- system.file("bad1", package = "goodpractice")
+#' # run a subset of all checks available
+#' g <- gp(path, checks = all_checks()[3:16])
+#' checks(g)
 
 checks <- function(gp) {
   names(gp$checks)
@@ -20,6 +25,11 @@ checks <- function(gp) {
 #'
 #' @family API
 #' @export
+#' @examples 
+#' path <- system.file("bad1", package = "goodpractice")
+#' # run a subset of all checks available
+#' g <- gp(path, checks = all_checks()[3:16])
+#' results(g)
 
 results <- function(gp) {
   data.frame(
@@ -37,6 +47,11 @@ results <- function(gp) {
 #'
 #' @family API
 #' @export
+#' @examples 
+#' path <- system.file("bad1", package = "goodpractice")
+#' # run a subset of all checks available
+#' g <- gp(path, checks = all_checks()[3:16])
+#' failed_checks(g)
 
 failed_checks <- function(gp) {
   names(Filter(check_failed, gp$checks))

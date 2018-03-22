@@ -130,7 +130,7 @@ CHECKS$lintr_library_require_linter <- make_check(
 
     ## library() and require() are OK in tests and vignettes
     res$positions <- Filter(
-      f = function(x) grepl("^R/", x$filename),
+      f = function(x) grepl("^R[/(\\)]", x$filename),
       res$positions
     )
     res$status <- length(res$positions) == 0

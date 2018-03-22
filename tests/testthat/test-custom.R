@@ -13,7 +13,7 @@ test_that("extra check", {
     }
   )
   
-  res <- gp(bad1, checks = NULL,
+  res <- gp(bad1, checks = "simple_tf",
             extra_checks = list(simple_tf = simple_truefalse_not_tf))
   
   expect_equal(checks(res), "simple_tf")
@@ -33,9 +33,9 @@ test_that("extra prep and check pair", {
     check = function(state) state$desc$has_fields("URL")
   )
 
-  res <- gp(bad1, checks = "no_description_depends",
-            extra_preps = list("desc" = make_prep("desc", url_prep)),
-            extra_checks = list("url" = url_chk))
+  res <- gp(bad1, checks = c("no_description_depends", "url"),
+            extra_preps = list(desc = make_prep("desc", url_prep)),
+            extra_checks = list(url = url_chk))
   
   expect_equal(checks(res), c("no_description_depends", "url"))
   expect_equal(results(res)$result, rep(FALSE, 2))

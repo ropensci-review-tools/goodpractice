@@ -31,7 +31,6 @@ gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
   MYPREPS <- prepare_preps(PREPS, extra_preps)
   MYCHECKS <- prepare_checks(CHECKS, extra_checks)
 
-  checks <- unique(c(checks, names(extra_checks)))
   preps <- unique(unlist(lapply(MYCHECKS[checks], "[[", "preps")))
 
   if(file.exists(file.path(path, "DESCRIPTION"))) {

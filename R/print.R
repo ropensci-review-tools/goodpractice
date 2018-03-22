@@ -10,7 +10,7 @@ print.goodPractice <- function(x, ...) {
   failure <- FALSE
 
   for (check in names(x$checks)) {
-    if (! check_passed(x$checks[[check]])) {
+    if (! check_passed(x$checks[[check]], na_as_passed = TRUE)) {
       if (!failure) {
         failure <- TRUE
         gp_header(x)

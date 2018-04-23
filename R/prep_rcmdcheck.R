@@ -4,6 +4,7 @@
 
 PREPS$rcmdcheck <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
-  state$rcmdcheck <- rcmdcheck(path, quiet = quiet)
+  state$rcmdcheck <- try(rcmdcheck(path, quiet = quiet), silent = quiet)
+  if(inherits(state$rcmdcheck, "try-error")) warning("Prep step for rcmdcheck failed.\n")
   state
 }

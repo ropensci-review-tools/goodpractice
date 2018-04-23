@@ -19,6 +19,11 @@
 #' @export
 #' @aliases goodpractice
 #' @importFrom desc desc_get
+#' @examples 
+#' path <- system.file("bad1", package = "goodpractice")
+#' # run a subset of all checks available
+#' g <- gp(path, checks = all_checks()[3:16])
+#' g
 
 gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
                extra_checks = NULL, quiet = TRUE) {
@@ -56,12 +61,19 @@ gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
   state
 }
 
-check_passed <- function(chk) {
-  isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]]))
+check_passed <- function(chk, na_as_passed = FALSE) {
+  if(na_as_passed){
+  isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]])) || 
+    is.na(chk) || ("status" %in% names(chk) && is.na(chk[["status"]]))
+  } else {
+    if (is.na(chk) || ("status" %in% names(chk) && is.na(chk[["status"]]))) 
+      return(NA)
+    isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]]))
+  }
 }
 
-check_failed <- function(chk) {
-  ! check_passed(chk)
+check_failed <- function(chk, na_as_passed = FALSE) {
+  ! check_passed(chk, na_as_passed = na_as_passed)
 }
 
 #' @export goodpractice

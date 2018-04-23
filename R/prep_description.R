@@ -3,6 +3,7 @@
 #' @importFrom desc description
 
 PREPS$description <- function(state, path = state$path, quiet) {
-  state$description <- description$new(file.path(path, "DESCRIPTION"))
+  state$description <- try(description$new(file.path(path, "DESCRIPTION")), silent = quiet)
+  if(inherits(state$description, "try-error")) warning("Prep step for description failed.\n")
   state
 }

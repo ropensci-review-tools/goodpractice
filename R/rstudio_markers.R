@@ -36,7 +36,7 @@ get_marker <- function(gp, check) {
   res <- gp$checks[[check]]
 
   ## Check passed
-  if (check_passed(gp$checks[[check]])) return(NULL)
+  if (check_passed(gp$checks[[check]], na_as_passed = TRUE)) return(NULL)
 
   ## Check failed, but alas, no positions
   if (! "positions" %in% names(gp$checks[[check]])) return(NULL)

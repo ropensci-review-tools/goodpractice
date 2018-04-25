@@ -19,14 +19,12 @@ knitr::opts_chunk$set(
 ## What's it for?
 
 Building an R package is a great way of encapsulating code, documentation and data in a single testable and easily distributable unit.
-<!-- how: minimum is R CMD check -->
+
 For a package to be distributed via CRAN, it needs to pass a set of checks implemented in `R CMD check`, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?
 
-<!-- how: other good practices -->
 These checks are helpful in developing a solid R package but they don't check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Incuding an URL for bug reports lets people more easily report bugs if they find any. 
 
-<!-- goodpractice bundles up existing tools with additional checks -->
-Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](http://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](http://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](http://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](http://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid (e.g., `TRUE` and `FALSE` are not reserved words and hence can be overwritten by the user).
+Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](http://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](http://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](http://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](http://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid (e.g., `T` and `F` are not reserved words and hence can be overwritten by the user).
 You can use **gooodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well!
 
 
@@ -68,7 +66,7 @@ g_url <- gp(pkg_path, checks = "description_url")
 g_url
 ```
 
-### API
+### Doing more than just printing
 
 Apart from printing a `goodPractice` object as returned by `gp()` to access the advice, you can also access which checks were carried out and which of those failed:
 
@@ -131,7 +129,7 @@ g_tf <- gp(pkg_path, checks = c("truefalse_not_tf", "simple_tf"),
                      extra_checks = list(simple_tf = check_simple_tf))
 ```
 
-Including a prep step is optional but can be helpful if the check requires more complex calculations (such as calculating cyclomatic complexity or test coverage) or several checks require the same prepartions upfront. In the following example we check for two different field to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can easily be carried out, building on some preparation based on the [**desc**](https://cran.r-project.org/package=desc) package for handling DESCRIPTION files.
+Including a prep step is optional but can be helpful if several checks require the same prepartions upfront. In the following example we check for two different fields to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can easily be carried out building on some preparation based on the [**desc**](https://cran.r-project.org/package=desc) package for handling DESCRIPTION files.
 
 The checks are linked to the preparation via the prep name: it appears as the `name` argument to `make_prep()`, as the `preps` argument to `make_check()` and finally as the name in the list for the `extra_preps` argument to `gp()`.
 

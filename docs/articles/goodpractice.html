@@ -73,7 +73,7 @@
       <h1>goodpractice</h1>
                         <h4 class="author">Hannah Frick</h4>
             
-            <h4 class="date">2018-04-24</h4>
+            <h4 class="date">2018-04-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mangothecat/goodpractice/blob/master/vignettes/goodpractice.Rmd"><code>vignettes/goodpractice.Rmd</code></a></small>
       <div class="hidden name"><code>goodpractice.Rmd</code></div>
@@ -91,9 +91,9 @@
 <!-- goodpractice bundles up existing tools with additional checks -->
 <p>Tools for automatically checking several of these aspects already exist and the <strong>goodpractice</strong> package bundles the checks from <a href="http://cran.r-project.org/package=rcmdcheck"><strong>rcmdcheck</strong></a> with code coverage through the <a href="http://cran.r-project.org/package=covr"><strong>covr</strong></a> package, source code linting via the <a href="http://cran.r-project.org/package=lintr"><strong>lintr</strong></a> package and cyclompatic complexity via the <a href="http://cran.r-project.org/package=cyclocomp"><strong>cyclocomp</strong></a> package and augments it with some further checks on good practice for R package development such as avoiding <code>T</code> and <code>F</code> in favour of <code>TRUE</code> and <code>FALSE</code>. It provides advice on which practices to follow and which to avoid (e.g., <code>TRUE</code> and <code>FALSE</code> are not reserved words and hence can be overwritten by the user). You can use <strong>gooodpractice</strong> checks as a reminder for you and your collegues - and if you have custom checks to run, you can make <strong>goodpractice</strong> run those as well!</p>
 </div>
-<div id="whats-in-the-box" class="section level2">
+<div id="good-practice-out-of-the-box" class="section level2">
 <h2 class="hasAnchor">
-<a href="#whats-in-the-box" class="anchor"></a>What’s in the box?</h2>
+<a href="#good-practice-out-of-the-box" class="anchor"></a>Good practice out of the box</h2>
 <div id="main-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#main-function" class="anchor"></a>Main function</h3>
@@ -214,9 +214,9 @@
 <p>Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is <code>NA</code>. It is also possible to export the results to a JSON file with <code><a href="../reference/export_json.html">export_json()</a></code>.</p>
 </div>
 </div>
-<div id="how-can-i-customise-the-checks" class="section level2">
+<div id="customised-checks" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-can-i-customise-the-checks" class="anchor"></a>How can I customise the checks?</h2>
+<a href="#customised-checks" class="anchor"></a>Customised checks</h2>
 <p>In addition to selecting which of the default checks should be carried out, users can provide their own custom checks.</p>
 <div id="whats-happening-inside-of-gp" class="section level3">
 <h3 class="hasAnchor">
@@ -296,8 +296,8 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#whats-it-for">What’s it for?</a></li>
-      <li><a href="#whats-in-the-box">What’s in the box?</a></li>
-      <li><a href="#how-can-i-customise-the-checks">How can I customise the checks?</a></li>
+      <li><a href="#good-practice-out-of-the-box">Good practice out of the box</a></li>
+      <li><a href="#customised-checks">Customised checks</a></li>
       </ul>
 </div>
       </div>

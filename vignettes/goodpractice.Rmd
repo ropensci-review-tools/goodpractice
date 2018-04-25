@@ -30,7 +30,7 @@ Tools for automatically checking several of these aspects already exist and the 
 You can use **gooodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well!
 
 
-## What's in the box?
+## Good practice out of the box
 
 ### Main function
 
@@ -90,7 +90,7 @@ results(g)[1:5,]
 Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is `NA`. It is also possible to export the results to a JSON file with `export_json()`.
 
 
-## How can I customise the checks?
+## Customised checks
 
 In addition to selecting which of the default checks should be carried out, users can provide their own custom checks. 
 

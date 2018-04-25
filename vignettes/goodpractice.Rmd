@@ -27,7 +27,7 @@ These checks are helpful in developing a solid R package but they don't check fo
 
 <!-- goodpractice bundles up existing tools with additional checks -->
 Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](http://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](http://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](http://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](http://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid (e.g., `TRUE` and `FALSE` are not reserved words and hence can be overwritten by the user).
-You can use **gooodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well!
+You can use **goodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well!
 
 
 ## Good practice out of the box
@@ -101,7 +101,7 @@ The `gp()` function essentially carries out two steps:
 1. Running all the preparations, such as calculating test coverage or cyclomatic complexity.
 2. Carrying out the checks, e.g., if cyclomatic complexity exceeds a threshold.
 
-The results of both the preparition step and the check step are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fails.
+The results of both the preparition step and the check step are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fail.
 
 
 ### What do I need to do to make my own checks?

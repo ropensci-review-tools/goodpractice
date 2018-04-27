@@ -17,6 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gabor Csardi \email{gcsardi@mango-solutions.com}
+\strong{Maintainer}: Hannah Frick \email{hfrick@mango-solutions.com}
+
+Authors:
+\itemize{
+  \item Gabor Csardi \email{csardi.gabor@gmail.com}
+}
 
 }

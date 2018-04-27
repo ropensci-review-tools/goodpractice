@@ -5,3 +5,5 @@
 ^.travis.yml$
 ^appveyor.yml$
 ^appveyor\.yml$
+index.Rmd
+index.md

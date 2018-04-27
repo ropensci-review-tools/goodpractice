@@ -85,7 +85,7 @@
       <h1>goodpractice</h1>
                         <h4 class="author">Hannah Frick</h4>
             
-            <h4 class="date">2018-04-26</h4>
+            <h4 class="date">2018-04-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mangothecat/goodpractice/blob/master/vignettes/goodpractice.Rmd"><code>vignettes/goodpractice.Rmd</code></a></small>
       <div class="hidden name"><code>goodpractice.Rmd</code></div>
@@ -101,7 +101,7 @@
 <p>For a package to be distributed via CRAN, it needs to pass a set of checks implemented in <code>R CMD check</code>, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?</p>
 <p>These checks are helpful in developing a solid R package but they don’t check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Incuding an URL for bug reports lets people more easily report bugs if they find any.</p>
 <p>Tools for automatically checking several of these aspects already exist and the <strong>goodpractice</strong> package bundles the checks from <a href="http://cran.r-project.org/package=rcmdcheck"><strong>rcmdcheck</strong></a> with code coverage through the <a href="http://cran.r-project.org/package=covr"><strong>covr</strong></a> package, source code linting via the <a href="http://cran.r-project.org/package=lintr"><strong>lintr</strong></a> package and cyclompatic complexity via the <a href="http://cran.r-project.org/package=cyclocomp"><strong>cyclocomp</strong></a> package and augments it with some further checks on good practice for R package development such as avoiding <code>T</code> and <code>F</code> in favour of <code>TRUE</code> and <code>FALSE</code>. It provides advice on which practices to follow and which to avoid.</p>
-<p>You can use <strong>gooodpractice</strong> checks as a reminder for you and your collegues - and if you have custom checks to run, you can make <strong>goodpractice</strong> run those as well! Please see the vignette <a href="FIXME">Custom Checks</a> for more details.</p>
+<p>You can use <strong>goodpractice</strong> checks as a reminder for you and your collegues - and if you have custom checks to run, you can make <strong>goodpractice</strong> run those as well! Please see the vignette <a href="https://mangothecat.github.io/goodpractice/articles/custom_checks.html">Custom Checks</a> for more details.</p>
 </div>
 <div id="good-practice-out-of-the-box" class="section level2">
 <h2 class="hasAnchor">

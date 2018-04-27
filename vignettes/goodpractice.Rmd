@@ -26,7 +26,7 @@ These checks are helpful in developing a solid R package but they don't check fo
 
 Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](http://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](http://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](http://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](http://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid.
 
-You can use **gooodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well! Please see the vignette [Custom Checks](FIXME) for more details.
+You can use **goodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well! Please see the vignette [Custom Checks](https://mangothecat.github.io/goodpractice/articles/custom_checks.html) for more details.
 
 
 ## Good practice out of the box

@@ -5,12 +5,12 @@
 
 #' Wrapper on make_check, specific to R CMD check
 #'
-#' @param description TODO
-#' @param type TODO
-#' @param pattern TODO
-#' @param tags TODO
-#' @param preps TODO
-#' @param ... TODO
+#' @param description A description of the check.
+#' @param type Type of notification, one of "warnings", "notes" or "errors".
+#' @param pattern The text pattern identifying the check.
+#' @param tags Tags to be passed on to make_check.
+#' @param preps Preps to be passed on to make_check.
+#' @param ... Currently not supported.
 #'
 #' @keywords internal
 #' @include lists.R

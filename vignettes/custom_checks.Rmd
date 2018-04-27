@@ -25,7 +25,7 @@ The `gp()` function essentially carries out two types of steps:
 - First, it runs preparation steps for the checks, such as calculating test coverage or cyclomatic complexity.
 - Then it carrys out the checks, e.g., if cyclomatic complexity exceeds a threshold.
 
-The results of the preparation steps and the checks are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fails.
+The results of the preparation steps and the checks are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fail.
 
 
 ## Writing custom checks

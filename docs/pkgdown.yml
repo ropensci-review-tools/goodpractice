@@ -2,5 +2,6 @@ pandoc: 2.1.3
 pkgdown: 0.1.0.9000
 pkgdown_sha: 4d7e9ae89738ab279f0db53d8cef2a77abaf07dd
 articles:
+  custom_checks: custom_checks.html
   goodpractice: goodpractice.html
 

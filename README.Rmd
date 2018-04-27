@@ -1,6 +1,12 @@
+---
+title: "goodpractice"
+output: github_document
+---
 
-```{r, setup, echo = FALSE, message = FALSE}
+```{r, setup, include = FALSE}
+#, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(
+  echo = TRUE,
   comment = "#>",
   tidy = FALSE,
   error = FALSE,
@@ -8,11 +14,8 @@ knitr::opts_chunk$set(
   fig.height = 8)
 ```
 
-# goodpractice
-
 > Advice on R Package Building
 
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![Linux Build Status](https://travis-ci.org/MangoTheCat/goodpractice.svg?branch=master)](https://travis-ci.org/MangoTheCat/goodpractice)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/github/MangoTheCat/goodpractice?svg=true)](https://ci.appveyor.com/project/gaborcsardi/goodpractice)
 [![](http://www.r-pkg.org/badges/version/goodpractice)](http://www.r-pkg.org/pkg/goodpractice)
@@ -27,6 +30,9 @@ formatting, etc.
 
 ```{r eval = FALSE}
 source("https://install-github.me/MangoTheCat/goodpractice")
+# or
+# install.packages("devtools")
+devtools::install_github("mangothecat/goodpractice") 
 ```
 
 ## Usage
@@ -34,6 +40,32 @@ source("https://install-github.me/MangoTheCat/goodpractice")
 ```r
 library(goodpractice)
 gp("<my-package>")
+```
+
+## Example
+
+```{r, message = FALSE, warning = FALSE}
+library(goodpractice)
+# use example package contained in the goodpractice package
+pkg_path <- system.file("bad1", package = "goodpractice")
+g <- gp(pkg_path)
+g
+
+# show all available checks
+# all_checks()
+
+# run only a specific check
+g_url <- gp(pkg_path, checks = "description_url")
+g_url
+
+# which checks were carried out?
+checks(g_url)
+
+# which checks failed?
+failed_checks(g)
+
+# show the first 5 checks carried out and their results
+results(g)[1:5,]
 ```
 
 ## License

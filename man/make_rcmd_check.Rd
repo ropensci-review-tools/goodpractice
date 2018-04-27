@@ -8,17 +8,17 @@ make_rcmd_check(description, pattern, gp = NULL, type = c("warnings",
   "notes", "errors"), tags = NULL, preps = NULL, ...)
 }
 \arguments{
-\item{description}{TODO}
+\item{description}{A description of the check.}
 
-\item{pattern}{TODO}
+\item{pattern}{The text pattern identifying the check.}
 
-\item{type}{TODO}
+\item{type}{Type of notification, one of "warnings", "notes" or "errors".}
 
-\item{tags}{TODO}
+\item{tags}{Tags to be passed on to make_check.}
 
-\item{preps}{TODO}
+\item{preps}{Preps to be passed on to make_check.}
 
-\item{...}{TODO}
+\item{...}{Currently not supported.}
 }
 \description{
 Wrapper on make_check, specific to R CMD check

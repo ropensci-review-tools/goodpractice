@@ -4,7 +4,7 @@ author: "Hannah Frick"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{goodpractice}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,15 +19,14 @@ knitr::opts_chunk$set(
 ## What's it for?
 
 Building an R package is a great way of encapsulating code, documentation and data in a single testable and easily distributable unit.
-<!-- how: minimum is R CMD check -->
+
 For a package to be distributed via CRAN, it needs to pass a set of checks implemented in `R CMD check`, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?
 
-<!-- how: other good practices -->
 These checks are helpful in developing a solid R package but they don't check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Incuding an URL for bug reports lets people more easily report bugs if they find any. 
 
-<!-- goodpractice bundles up existing tools with additional checks -->
-Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](http://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](http://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](http://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](http://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid (e.g., `TRUE` and `FALSE` are not reserved words and hence can be overwritten by the user).
-You can use **gooodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well!
+Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](http://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](http://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](http://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](http://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid.
+
+You can use **gooodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well! Please see the vignette [Custom Checks](FIXME) for more details.
 
 
 ## Good practice out of the box
@@ -52,14 +51,10 @@ g
 So with this package, we've done a few things in the DESCRIPTION file for which there are reasons not to do them, have unnecessary trailing semicolons in the code and used `T` and `F` for `TRUE` and `FALSE`. The output of `gp()` tells you what you did that isn't considered good practice and if it's in the R code, it points you the location of your faux-pas. In general, the messages are supposed to not only point out to you _what_ you might want to avoid but also _why_.
 
 
-The above example tries to run all 230 checks available, to see the full list use `all_checks()`.
-```{r, eval=FALSE, echo=FALSE}
-all_checks()
-```
-If you only want to run a subset of the checks, e.g., the one on the URL field in the DESCRIPTION, you can specify the checks by name:
+The above example tries to run all 230 checks available, to see the full list use `all_checks()`. If you only want to run a subset of the checks, e.g., the one on the URL field in the DESCRIPTION, you can specify the checks by name:
 
 ```{r}
-# what is the name of the check
+# what is the name of the check?
 grep("url", all_checks(), value = TRUE)
 
 # run only this check
@@ -68,103 +63,23 @@ g_url <- gp(pkg_path, checks = "description_url")
 g_url
 ```
 
-### API
+### Doing more than just printing
 
 Apart from printing a `goodPractice` object as returned by `gp()` to access the advice, you can also access which checks were carried out and which of those failed:
 
 ```{r}
-# Which checks were carried out?
+# which checks were carried out?
 checks(g_url)
 
-# Which checks failed?
+# which checks failed?
 failed_checks(g)
 ```
 
 To access all the checks carried out with their results in a data frame, use `results()` on your `goodPractice` object.
 
 ```{r}
-# Show the first 5 checks carried out and their results
+# show the first 5 checks carried out and their results
 results(g)[1:5,]
 ```
 
 Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is `NA`. It is also possible to export the results to a JSON file with `export_json()`.
-
-
-## Customised checks
-
-In addition to selecting which of the default checks should be carried out, users can provide their own custom checks. 
-
-### What's happening inside of `gp()`?
-
-The `gp()` function essentially carries out two steps:
-
-1. Running all the preparations, such as calculating test coverage or cyclomatic complexity.
-2. Carrying out the checks, e.g., if cyclomatic complexity exceeds a threshold.
-
-The results of both the preparition step and the check step are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fails.
-
-
-### What do I need to do to make my own checks?
-
-Custom checks can be created with the `make_check()` function. As inputs it takes a short `description` of the check, the `check` itself, and the `gp` advice to be given in case the check fails. To illustrate this, let's use a simplified version of the check on `T` and `F` instead of `TRUE` and `FALSE`. 
-
-The `check` argument is a function which takes the state as the input and carries out the check, returning `TRUE` if the check was successful. The state includes the path to the source code of the package and the `checkTnF()` function of the **tools** package can be used to check if `T` or `F` was used. 
-
-```{r}
-# make a simple version of the T/F check
-check_simple_tf <- make_check(
-  
-  description = "TRUE and FALSE is used, not T and F",
-  gp = "avoid 'T' and 'F', use 'TRUE' and 'FALSE' instead.",
-  check = function(state) {
-      length(tools::checkTnF(dir = state$path)) == 0
-  }
-)
-```
-
-Additional checks can be used in `gp()` via the `extra_checks` argument. This should be a named list of `check` objects as returned by the `make_check()` function. All checks to be carried out, readless of whether they are provided by the **goodpractice** package or custom checks, must be named in the `checks` argument to `gp()`.
-
-The check on `T`/`F` implemented in the package gives more helpful advice and returns which files contain `T` and `F` so let's do a quick comparison and run both implementations:
-
-```{r}
-g_tf <- gp(pkg_path, checks = c("truefalse_not_tf", "simple_tf"),
-                     extra_checks = list(simple_tf = check_simple_tf))
-```
-
-Including a prep step is optional but can be helpful if the check requires more complex calculations (such as calculating cyclomatic complexity or test coverage) or several checks require the same prepartions upfront. In the following example we check for two different field to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can easily be carried out, building on some preparation based on the [**desc**](https://cran.r-project.org/package=desc) package for handling DESCRIPTION files.
-
-The checks are linked to the preparation via the prep name: it appears as the `name` argument to `make_prep()`, as the `preps` argument to `make_check()` and finally as the name in the list for the `extra_preps` argument to `gp()`.
-
-```{r}
-# prep: process DESCRIPTION file
-desc_fun <- function(path, quiet) {
-  desc::description$new(path)
-}
-
-prep_desc <- make_prep(name = "desc", func = desc_fun)
-
-# check for an URL field
-check_url <- make_check(
-  description = "URL field in DESCRIPTION",
-  preps = "desc",
-  gp = "have a URL field in DESCRIPTION",
-  check = function(state) state$desc$has_fields("URL")
-)
-
-# check for a BugReport field
-check_bugreports <- make_check(
-  description = "BugReports in DESCRIPTION",
-  preps = "desc",
-  gp = "add a BugReports field to DESCRIPTION",
-  check = function(state) state$desc$has_fields('BugReports')
-)
-
-# run the two checks with their corresponding prep step
-g_desc <- gp(pkg_path, checks = c("url", "bugreports"), #"no_description_depends"
-          extra_preps = list("desc" = prep_desc),
-          extra_checks = list("url" = check_url, "bugreports" = check_bugreports))
-
-g_desc
-```
-
-More examples for using custom checks can be found in the [rOpenSci unconf 2017](http://unconf17.ropensci.org/) project [**checkers**](https://github.com/ropenscilabs/checkers) for automated checking of best practices for research compendia.

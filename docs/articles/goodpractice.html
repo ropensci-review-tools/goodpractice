@@ -47,6 +47,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/custom_checks.html">Custom Checks</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -73,7 +85,7 @@
       <h1>goodpractice</h1>
                         <h4 class="author">Hannah Frick</h4>
             
-            <h4 class="date">2018-04-25</h4>
+            <h4 class="date">2018-04-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mangothecat/goodpractice/blob/master/vignettes/goodpractice.Rmd"><code>vignettes/goodpractice.Rmd</code></a></small>
       <div class="hidden name"><code>goodpractice.Rmd</code></div>
@@ -85,11 +97,11 @@
 <div id="whats-it-for" class="section level2">
 <h2 class="hasAnchor">
 <a href="#whats-it-for" class="anchor"></a>What’s it for?</h2>
-<p>Building an R package is a great way of encapsulating code, documentation and data in a single testable and easily distributable unit. <!-- how: minimum is R CMD check --> For a package to be distributed via CRAN, it needs to pass a set of checks implemented in <code>R CMD check</code>, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?</p>
-<!-- how: other good practices -->
+<p>Building an R package is a great way of encapsulating code, documentation and data in a single testable and easily distributable unit.</p>
+<p>For a package to be distributed via CRAN, it needs to pass a set of checks implemented in <code>R CMD check</code>, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?</p>
 <p>These checks are helpful in developing a solid R package but they don’t check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Incuding an URL for bug reports lets people more easily report bugs if they find any.</p>
-<!-- goodpractice bundles up existing tools with additional checks -->
-<p>Tools for automatically checking several of these aspects already exist and the <strong>goodpractice</strong> package bundles the checks from <a href="http://cran.r-project.org/package=rcmdcheck"><strong>rcmdcheck</strong></a> with code coverage through the <a href="http://cran.r-project.org/package=covr"><strong>covr</strong></a> package, source code linting via the <a href="http://cran.r-project.org/package=lintr"><strong>lintr</strong></a> package and cyclompatic complexity via the <a href="http://cran.r-project.org/package=cyclocomp"><strong>cyclocomp</strong></a> package and augments it with some further checks on good practice for R package development such as avoiding <code>T</code> and <code>F</code> in favour of <code>TRUE</code> and <code>FALSE</code>. It provides advice on which practices to follow and which to avoid (e.g., <code>TRUE</code> and <code>FALSE</code> are not reserved words and hence can be overwritten by the user). You can use <strong>gooodpractice</strong> checks as a reminder for you and your collegues - and if you have custom checks to run, you can make <strong>goodpractice</strong> run those as well!</p>
+<p>Tools for automatically checking several of these aspects already exist and the <strong>goodpractice</strong> package bundles the checks from <a href="http://cran.r-project.org/package=rcmdcheck"><strong>rcmdcheck</strong></a> with code coverage through the <a href="http://cran.r-project.org/package=covr"><strong>covr</strong></a> package, source code linting via the <a href="http://cran.r-project.org/package=lintr"><strong>lintr</strong></a> package and cyclompatic complexity via the <a href="http://cran.r-project.org/package=cyclocomp"><strong>cyclocomp</strong></a> package and augments it with some further checks on good practice for R package development such as avoiding <code>T</code> and <code>F</code> in favour of <code>TRUE</code> and <code>FALSE</code>. It provides advice on which practices to follow and which to avoid.</p>
+<p>You can use <strong>gooodpractice</strong> checks as a reminder for you and your collegues - and if you have custom checks to run, you can make <strong>goodpractice</strong> run those as well! Please see the vignette <a href="FIXME">Custom Checks</a> for more details.</p>
 </div>
 <div id="good-practice-out-of-the-box" class="section level2">
 <h2 class="hasAnchor">
@@ -163,9 +175,8 @@
 <a class="sourceLine" id="cb1-63" data-line-number="63"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-64" data-line-number="64"><span class="co">#&gt; ───────────────────────────────────────────────────────────────────────────</span></a></code></pre></div>
 <p>So with this package, we’ve done a few things in the DESCRIPTION file for which there are reasons not to do them, have unnecessary trailing semicolons in the code and used <code>T</code> and <code>F</code> for <code>TRUE</code> and <code>FALSE</code>. The output of <code><a href="../reference/gp.html">gp()</a></code> tells you what you did that isn’t considered good practice and if it’s in the R code, it points you the location of your faux-pas. In general, the messages are supposed to not only point out to you <em>what</em> you might want to avoid but also <em>why</em>.</p>
-<p>The above example tries to run all 230 checks available, to see the full list use <code><a href="../reference/all_checks.html">all_checks()</a></code>.</p>
-<p>If you only want to run a subset of the checks, e.g., the one on the URL field in the DESCRIPTION, you can specify the checks by name:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># what is the name of the check</span></a>
+<p>The above example tries to run all 230 checks available, to see the full list use <code><a href="../reference/all_checks.html">all_checks()</a></code>. If you only want to run a subset of the checks, e.g., the one on the URL field in the DESCRIPTION, you can specify the checks by name:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># what is the name of the check?</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">grep</span>(<span class="st">"url"</span>, <span class="kw"><a href="../reference/all_checks.html">all_checks</a></span>(), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; [1] "description_url"</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"></a>
@@ -184,15 +195,15 @@
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;     package page.</span></a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; ───────────────────────────────────────────────────────────────────────────</span></a></code></pre></div>
 </div>
-<div id="api" class="section level3">
+<div id="doing-more-than-just-printing" class="section level3">
 <h3 class="hasAnchor">
-<a href="#api" class="anchor"></a>API</h3>
+<a href="#doing-more-than-just-printing" class="anchor"></a>Doing more than just printing</h3>
 <p>Apart from printing a <code>goodPractice</code> object as returned by <code><a href="../reference/gp.html">gp()</a></code> to access the advice, you can also access which checks were carried out and which of those failed:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Which checks were carried out?</span></a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># which checks were carried out?</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/checks.html">checks</a></span>(g_url)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] "description_url"</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># Which checks failed?</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># which checks failed?</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="../reference/failed_checks.html">failed_checks</a></span>(g)</a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; [1] "no_description_depends"                </span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; [2] "no_description_date"                   </span></a>
@@ -203,7 +214,7 @@
 <a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; [7] "rcmdcheck_package_dependencies_present"</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; [8] "truefalse_not_tf"</span></a></code></pre></div>
 <p>To access all the checks carried out with their results in a data frame, use <code><a href="../reference/results.html">results()</a></code> on your <code>goodPractice</code> object.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Show the first 5 checks carried out and their results</span></a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># show the first 5 checks carried out and their results</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/results.html">results</a></span>(g)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;                    check result</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; 1                   covr     NA</span></a>
@@ -212,80 +223,6 @@
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 4    no_description_date  FALSE</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 5        description_url  FALSE</span></a></code></pre></div>
 <p>Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is <code>NA</code>. It is also possible to export the results to a JSON file with <code><a href="../reference/export_json.html">export_json()</a></code>.</p>
-</div>
-</div>
-<div id="customised-checks" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customised-checks" class="anchor"></a>Customised checks</h2>
-<p>In addition to selecting which of the default checks should be carried out, users can provide their own custom checks.</p>
-<div id="whats-happening-inside-of-gp" class="section level3">
-<h3 class="hasAnchor">
-<a href="#whats-happening-inside-of-gp" class="anchor"></a>What’s happening inside of <code><a href="../reference/gp.html">gp()</a></code>?</h3>
-<p>The <code><a href="../reference/gp.html">gp()</a></code> function essentially carries out two steps:</p>
-<ol style="list-style-type: decimal">
-<li>Running all the preparations, such as calculating test coverage or cyclomatic complexity.</li>
-<li>Carrying out the checks, e.g., if cyclomatic complexity exceeds a threshold.</li>
-</ol>
-<p>The results of both the preparition step and the check step are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fails.</p>
-</div>
-<div id="what-do-i-need-to-do-to-make-my-own-checks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-do-i-need-to-do-to-make-my-own-checks" class="anchor"></a>What do I need to do to make my own checks?</h3>
-<p>Custom checks can be created with the <code><a href="../reference/make_check.html">make_check()</a></code> function. As inputs it takes a short <code>description</code> of the check, the <code>check</code> itself, and the <code>gp</code> advice to be given in case the check fails. To illustrate this, let’s use a simplified version of the check on <code>T</code> and <code>F</code> instead of <code>TRUE</code> and <code>FALSE</code>.</p>
-<p>The <code>check</code> argument is a function which takes the state as the input and carries out the check, returning <code>TRUE</code> if the check was successful. The state includes the path to the source code of the package and the <code>checkTnF()</code> function of the <strong>tools</strong> package can be used to check if <code>T</code> or <code>F</code> was used.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># make a simple version of the T/F check</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">check_simple_tf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/make_check.html">make_check</a></span>(</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  </a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"TRUE and FALSE is used, not T and F"</span>,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">gp =</span> <span class="st">"avoid 'T' and 'F', use 'TRUE' and 'FALSE' instead."</span>,</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">check =</span> <span class="cf">function</span>(state) {</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">      <span class="kw">length</span>(tools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tools/topics/checkTnF">checkTnF</a></span>(<span class="dt">dir =</span> state<span class="op">$</span>path)) <span class="op">==</span><span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">  }</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">)</a></code></pre></div>
-<p>Additional checks can be used in <code><a href="../reference/gp.html">gp()</a></code> via the <code>extra_checks</code> argument. This should be a named list of <code>check</code> objects as returned by the <code><a href="../reference/make_check.html">make_check()</a></code> function. All checks to be carried out, readless of whether they are provided by the <strong>goodpractice</strong> package or custom checks, must be named in the <code>checks</code> argument to <code><a href="../reference/gp.html">gp()</a></code>.</p>
-<p>The check on <code>T</code>/<code>F</code> implemented in the package gives more helpful advice and returns which files contain <code>T</code> and <code>F</code> so let’s do a quick comparison and run both implementations:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">g_tf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp.html">gp</a></span>(pkg_path, <span class="dt">checks =</span> <span class="kw">c</span>(<span class="st">"truefalse_not_tf"</span>, <span class="st">"simple_tf"</span>),</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">                     <span class="dt">extra_checks =</span> <span class="kw">list</span>(<span class="dt">simple_tf =</span> check_simple_tf))</a></code></pre></div>
-<p>Including a prep step is optional but can be helpful if the check requires more complex calculations (such as calculating cyclomatic complexity or test coverage) or several checks require the same prepartions upfront. In the following example we check for two different field to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can easily be carried out, building on some preparation based on the <a href="https://cran.r-project.org/package=desc"><strong>desc</strong></a> package for handling DESCRIPTION files.</p>
-<p>The checks are linked to the preparation via the prep name: it appears as the <code>name</code> argument to <code><a href="../reference/make_prep.html">make_prep()</a></code>, as the <code>preps</code> argument to <code><a href="../reference/make_check.html">make_check()</a></code> and finally as the name in the list for the <code>extra_preps</code> argument to <code><a href="../reference/gp.html">gp()</a></code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># prep: process DESCRIPTION file</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">desc_fun &lt;-<span class="st"> </span><span class="cf">function</span>(path, quiet) {</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">  desc<span class="op">::</span>description<span class="op">$</span><span class="kw">new</span>(path)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">prep_desc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/make_prep.html">make_prep</a></span>(<span class="dt">name =</span> <span class="st">"desc"</span>, <span class="dt">func =</span> desc_fun)</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co"># check for an URL field</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">check_url &lt;-<span class="st"> </span><span class="kw"><a href="../reference/make_check.html">make_check</a></span>(</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">description =</span> <span class="st">"URL field in DESCRIPTION"</span>,</a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">  <span class="dt">preps =</span> <span class="st">"desc"</span>,</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">  <span class="dt">gp =</span> <span class="st">"have a URL field in DESCRIPTION"</span>,</a>
-<a class="sourceLine" id="cb7-13" data-line-number="13">  <span class="dt">check =</span> <span class="cf">function</span>(state) state<span class="op">$</span>desc<span class="op">$</span><span class="kw">has_fields</span>(<span class="st">"URL"</span>)</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14">)</a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co"># check for a BugReport field</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17">check_bugreports &lt;-<span class="st"> </span><span class="kw"><a href="../reference/make_check.html">make_check</a></span>(</a>
-<a class="sourceLine" id="cb7-18" data-line-number="18">  <span class="dt">description =</span> <span class="st">"BugReports in DESCRIPTION"</span>,</a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">  <span class="dt">preps =</span> <span class="st">"desc"</span>,</a>
-<a class="sourceLine" id="cb7-20" data-line-number="20">  <span class="dt">gp =</span> <span class="st">"add a BugReports field to DESCRIPTION"</span>,</a>
-<a class="sourceLine" id="cb7-21" data-line-number="21">  <span class="dt">check =</span> <span class="cf">function</span>(state) state<span class="op">$</span>desc<span class="op">$</span><span class="kw">has_fields</span>(<span class="st">'BugReports'</span>)</a>
-<a class="sourceLine" id="cb7-22" data-line-number="22">)</a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co"># run the two checks with their corresponding prep step</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25">g_desc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gp.html">gp</a></span>(pkg_path, <span class="dt">checks =</span> <span class="kw">c</span>(<span class="st">"url"</span>, <span class="st">"bugreports"</span>), <span class="co">#"no_description_depends"</span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26">          <span class="dt">extra_preps =</span> <span class="kw">list</span>(<span class="st">"desc"</span> =<span class="st"> </span>prep_desc),</a>
-<a class="sourceLine" id="cb7-27" data-line-number="27">          <span class="dt">extra_checks =</span> <span class="kw">list</span>(<span class="st">"url"</span> =<span class="st"> </span>check_url, <span class="st">"bugreports"</span> =<span class="st"> </span>check_bugreports))</a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; Preparing: desc</span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30">g_desc</a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; ── GP badpackage ──────────────────────────────────────────────────────────</span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; It is good practice to</span></a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt;   ✖ have a URL field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   ✖ add a BugReports field to DESCRIPTION</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; ───────────────────────────────────────────────────────────────────────────</span></a></code></pre></div>
-<p>More examples for using custom checks can be found in the <a href="http://unconf17.ropensci.org/">rOpenSci unconf 2017</a> project <a href="https://github.com/ropenscilabs/checkers"><strong>checkers</strong></a> for automated checking of best practices for research compendia.</p>
 </div>
 </div>
   </div>
@@ -297,7 +234,6 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#whats-it-for">What’s it for?</a></li>
       <li><a href="#good-practice-out-of-the-box">Good practice out of the box</a></li>
-      <li><a href="#customised-checks">Customised checks</a></li>
       </ul>
 </div>
       </div>

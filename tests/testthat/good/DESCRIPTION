@@ -5,6 +5,6 @@ Author: Gabor Csardi
 Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
 Description: Give advice about good practices when building R packages.
 License: GPL-2
-URL: http://github.com/mangothecat/goodpractice
-BugReports: http://github.com/mangothecat/goodpractice/issues
+URL: https://github.com/mangothecat/goodpractice
+BugReports: https://github.com/mangothecat/goodpractice/issues
 RoxygenNote: 5.0.1

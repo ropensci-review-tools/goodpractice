@@ -9,7 +9,7 @@ Status](https://travis-ci.org/MangoTheCat/goodpractice.svg?branch=master)](https
 status](https://ci.appveyor.com/api/projects/status/github/MangoTheCat/goodpractice?svg=true)](https://ci.appveyor.com/project/gaborcsardi/goodpractice)
 [![](https://www.r-pkg.org/badges/version/goodpractice)](https://www.r-pkg.org/pkg/goodpractice)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/goodpractice)](http://www.r-pkg.org/pkg/goodpractice)
+downloads](https://cranlogs.r-pkg.org/badges/goodpractice)](https://www.r-pkg.org/pkg/goodpractice)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/MangoTheCat/goodpractice/master.svg)](https://codecov.io/github/MangoTheCat/goodpractice?branch=master)
 

@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.2
+Version: 1.0.2.9000
 Authors@R: c(person("Gabor", "Csardi", email = "csardi.gabor@gmail.com",
     role = c("aut")),
     person("Hannah", "Frick", email = "hfrick@mango-solutions.com", 

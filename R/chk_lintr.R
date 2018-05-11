@@ -4,7 +4,9 @@ get_lintr_position <- function(linter) {
 }
 
 get_lintr_state <- function(state, linter) {
-  if(inherits(state$lintr, "try-error")) return(list(status = NA, position = list()))
+  if(inherits(state$lintr, "try-error")) {
+    return(list(status = NA, position = list()))
+  }
   
   linters <- vapply(state$lintr, "[[", "", "linter")
   list(
@@ -124,7 +126,9 @@ CHECKS$lintr_library_require_linter <- make_check(
         them as 'Depends' dependencies.",
 
   check = function(state) {
-    if(inherits(state$lintr, "try-error")) return(list(status = NA, position = list()))
+    if(inherits(state$lintr, "try-error")) {
+      return(list(status = NA, position = list()))
+    }
     
     res <- get_lintr_state(state, "library_require_linter")
 

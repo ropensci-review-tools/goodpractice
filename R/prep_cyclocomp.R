@@ -4,6 +4,8 @@
 
 PREPS$cyclocomp <- function(state, path = state$path, quiet) {
   state$cyclocomp <- try(cyclocomp_package_dir(path), silent = quiet)
-  if(inherits(state$cyclocomp, "try-error")) warning("Prep step for cyclomatic complexity failed.")
+  if(inherits(state$cyclocomp, "try-error")) {
+    warning("Prep step for cyclomatic complexity failed.")
+  }
   state
 }

@@ -7,6 +7,8 @@ PREPS$namespace <- function(state, path = state$path, quiet) {
     basename(path),
     file.path(path, "..")
   ), silent = quiet)
-  if(inherits(state$namespace, "try-error")) warning("Prep step for namespace failed.")
+  if(inherits(state$namespace, "try-error")) {
+    warning("Prep step for namespace failed.")
+  }
   state
 }

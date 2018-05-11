@@ -19,6 +19,14 @@ complexity, code formatting, etc.
 
 ## Installation
 
+You can install the release version from CRAN
+
+``` r
+install.packages("goodpractice")
+```
+
+and the development version from GitHub
+
 ``` r
 source("https://install-github.me/MangoTheCat/goodpractice")
 # or

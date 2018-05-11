@@ -28,6 +28,14 @@ formatting, etc.
 
 ## Installation
 
+You can install the release version from CRAN
+
+```{r eval = FALSE}
+install.packages("goodpractice")
+```
+
+and the development version from GitHub 
+
 ```{r eval = FALSE}
 source("https://install-github.me/MangoTheCat/goodpractice")
 # or

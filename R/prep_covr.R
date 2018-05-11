@@ -4,7 +4,8 @@
 #' @importFrom withr with_options
 
 PREPS$covr <- function(state, path = state$path, quiet) {
-  covr <- try(list(coverage = package_coverage(path, quiet = quiet)), silent = quiet)
+  covr <- try(list(coverage = package_coverage(path, quiet = quiet)), 
+              silent = quiet)
   
   if (inherits(covr, "try-error")) {
     warning("Prep step for test coverage failed.")

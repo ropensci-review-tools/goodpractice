@@ -1,7 +1,5 @@
-goodpractice
-================
 
-> Advice on R Package Building
+# goodpractice <img src="man/figures/logo.png" align="right" width="20%" height="20%" />
 
 [![Linux Build
 Status](https://travis-ci.org/MangoTheCat/goodpractice.svg?branch=master)](https://travis-ci.org/MangoTheCat/goodpractice)
@@ -12,6 +10,8 @@ status](https://ci.appveyor.com/api/projects/status/github/MangoTheCat/goodpract
 downloads](https://cranlogs.r-pkg.org/badges/goodpractice)](https://www.r-pkg.org/pkg/goodpractice)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/MangoTheCat/goodpractice/master.svg)](https://codecov.io/github/MangoTheCat/goodpractice?branch=master)
+
+## Advice on R Package Building
 
 Give advice about good practices when building R packages. Advice
 includes functions and syntax to avoid, package structure, code

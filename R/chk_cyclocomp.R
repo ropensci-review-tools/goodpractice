@@ -20,7 +20,7 @@ CHECKS$cyclocomp <- make_check(
     )
     paste0(
       "write short and simple functions. These functions have high
-       cyclomatic complexity (>", cyclocomp_limit,"): ", funcs, ".",
+       cyclomatic complexity (>", cyclocomp_limit,"): ", funcs, ". ",
       "You can make them easier to reason about by encapsulating distinct steps
       of your function into subfunctions."
     )

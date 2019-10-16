@@ -62,13 +62,18 @@ gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
 }
 
 check_passed <- function(chk, na_as_passed = FALSE) {
-  if(na_as_passed){
-  isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]])) || 
-    is.na(chk) || ("status" %in% names(chk) && is.na(chk[["status"]]))
+  status <- if ("status" %in% names(chk)) {
+    chk$status
   } else {
-    if (is.na(chk) || ("status" %in% names(chk) && is.na(chk[["status"]]))) 
-      return(NA)
-    isTRUE(chk) || ("status" %in% names(chk) && isTRUE(chk[["status"]]))
+    chk
+  }
+
+  if (na_as_passed) {
+    isTRUE(status) || is.na(status)
+  } else if (is.na(status)) {
+    NA
+  } else {
+    isTRUE(status)
   }
 }
 

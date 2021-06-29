@@ -4,8 +4,15 @@
 \alias{make_rcmd_check}
 \title{Wrapper on make_check, specific to R CMD check}
 \usage{
-make_rcmd_check(description, pattern, gp = NULL, type = c("warnings",
-  "notes", "errors"), tags = NULL, preps = NULL, ...)
+make_rcmd_check(
+  description,
+  pattern,
+  gp = NULL,
+  type = c("warnings", "notes", "errors"),
+  tags = NULL,
+  preps = NULL,
+  ...
+)
 }
 \arguments{
 \item{description}{A description of the check.}

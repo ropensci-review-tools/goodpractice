@@ -1,10 +1,12 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.2.9001
+Version: 1.0.2.9002
 Authors@R: c(
     person("Gabor", "Csardi", email = "csardi.gabor@gmail.com", role = "aut"),
-    person("Hannah", "Frick", email = "hfrick@mango-solutions.com", role = c("aut", "cre")),
-    person("Owen", "Jones", email = "owenjonesuob@gmail.com", role = "aut")
+    person("Hannah", "Frick", email = "hfrick@mango-solutions.com", role = "aut"),
+    person("Owen", "Jones", email = "owenjonesuob@gmail.com", role = "aut"),
+    person("Daniel", "de Bortoli", email = "daniel.debortoli@mango-solutions.com", role = c("aut", "cre")),
+    person("Hannah", "Alexander", email = "halexander@mango-solutions.com", role = "aut")
     )
 Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure,
@@ -13,7 +15,8 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1
+Encoding: UTF-8
 Suggests:
     testthat,
     knitr,

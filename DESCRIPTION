@@ -5,7 +5,8 @@ Authors@R: c(
     person("Gabor", "Csardi", email = "csardi.gabor@gmail.com", role = "aut"),
     person("Hannah", "Frick", email = "hfrick@mango-solutions.com", role = "aut"),
     person("Owen", "Jones", email = "owenjonesuob@gmail.com", role = "aut"),
-    person("Daniel", "de Bortoli", email = "daniel.debortoli@mango-solutions.com", role = c("aut", "cre"))
+    person("Daniel", "de Bortoli", email = "daniel.debortoli@mango-solutions.com", role = c("aut", "cre")),
+    person("Hannah", "Alexander", email = "halexander@mango-solutions.com", role = "aut")
     )
 Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure,

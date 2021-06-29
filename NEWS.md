@@ -2,7 +2,7 @@
 
 Additions:
 
-* GitHub Actions now used for CI/CD checks
+* GitHub Actions now used for CI/CD checks (#145).
 
 
 

@@ -23,8 +23,13 @@ Authors:
 \itemize{
   \item Gabor Csardi \email{csardi.gabor@gmail.com}
   \item Hannah Frick \email{hfrick@mango-solutions.com}
-  \item Owen Jones \email{owenjonesuob@gmail.com}
+  \item Owen Jones \email{owenjonesuob@gmail.com} (owenjonesuob)
   \item Hannah Alexander \email{halexander@mango-solutions.com}
+}
+
+Other contributors:
+\itemize{
+  \item Fabian Scheipl (fabian-s) [contributor]
 }
 
 }

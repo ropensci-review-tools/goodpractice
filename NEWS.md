@@ -2,8 +2,14 @@
 
 Additions:
 
+* Limit for cyclomatic complexity check can be adjusted using the `gp.cyclocomp.limit` option, default 50 (#132, @fabian-s).
 * GitHub Actions now used for CI/CD checks (#145).
 
+
+Bugfixes:
+
+* Documentation for custom checks significantly improved (#133, @fabian-s).
+* Year updated in `LICENSE`, and `LICENSE.md` added to clarify that {goodpractice} uses the MIT license (#144).
 
 
 

@@ -29,6 +29,7 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Mango Solutions (MangoTheCat) [copyright holder]
   \item Fabian Scheipl (fabian-s) [contributor]
 }
 

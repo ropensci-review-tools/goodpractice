@@ -1,27 +1,38 @@
 Package: goodpractice
 Title: Advice on R Package Building
 Version: 1.0.2.9003
-Authors@R: c(
-    person("Daniel", "de Bortoli", email = "daniel.debortoli@mango-solutions.com", role = c("aut", "cre")),
-    person("Gabor", "Csardi", email = "csardi.gabor@gmail.com", role = "aut"),
-    person("Hannah", "Frick", email = "hfrick@mango-solutions.com", role = "aut"),
-    person("Owen", "Jones", email = "owenjonesuob@gmail.com", role = "aut", comment = c(GitHub = "owenjonesuob")),
-    person("Hannah", "Alexander", email = "halexander@mango-solutions.com", role = "aut"),
-    person("Fabian", "Scheipl", role = "ctb", comment = c(GitHub = "fabian-s"))
-    )
+Authors@R: 
+    c(person(given = "Daniel",
+             family = "de Bortoli",
+             role = c("aut", "cre"),
+             email = "daniel.debortoli@mango-solutions.com"),
+      person(given = "Gabor",
+             family = "Csardi",
+             role = "aut",
+             email = "csardi.gabor@gmail.com"),
+      person(given = "Hannah",
+             family = "Frick",
+             role = "aut",
+             email = "hfrick@mango-solutions.com"),
+      person(given = "Owen",
+             family = "Jones",
+             role = "aut",
+             email = "owenjonesuob@gmail.com",
+             comment = c(GitHub = "owenjonesuob")),
+      person(given = "Hannah",
+             family = "Alexander",
+             role = "aut",
+             email = "halexander@mango-solutions.com"),
+      person(given = "Fabian",
+             family = "Scheipl",
+             role = "ctb",
+             comment = c(GitHub = "fabian-s")))
 Description: Give advice about good practices when building R packages.
-    Advice includes functions and syntax to avoid, package structure,
-    code complexity, code formatting, etc.
+    Advice includes functions and syntax to avoid, package structure, code
+    complexity, code formatting, etc.
 License: MIT + file LICENSE
-LazyData: true
 URL: https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
-RoxygenNote: 7.1.1
-Encoding: UTF-8
-Suggests:
-    testthat,
-    knitr,
-    rmarkdown
 Imports:
     clisymbols,
     covr,
@@ -39,28 +50,13 @@ Imports:
     withr,
     xml2,
     xmlparsedata (>= 1.0.1)
-Collate:
-    'api.R'
-    'customization.R'
-    'lists.R'
-    'chk_covr.R'
-    'chk_cyclocomp.R'
-    'chk_description.R'
-    'chk_lintr.R'
-    'chk_namespace.R'
-    'chk_rcmdcheck.R'
-    'chk_tnf.R'
-    'gp.R'
-    'my_linters.R'
-    'package.R'
-    'prep_covr.R'
-    'prep_cyclocomp.R'
-    'prep_description.R'
-    'prep_expressions.R'
-    'prep_lintr.R'
-    'prep_namespace.R'
-    'prep_rcmdcheck.R'
-    'print.R'
-    'rstudio_markers.R'
-    'utils.R'
-VignetteBuilder: knitr
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

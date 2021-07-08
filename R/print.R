@@ -1,5 +1,8 @@
+#' Print goodpractice results
+#'
+#' @param x Object of class `goodPractice`, as returned by [gp()].
 #' @param positions_limit how many positions to print at most.
-#' @export
+#'
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
 #' @importFrom clisymbols symbol

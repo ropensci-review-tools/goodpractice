@@ -26,7 +26,7 @@ the  \code{check}-functions (see example).}
 
 \item{gp}{A short description of what is good practice.}
 
-\item{...}{Further arguments. Most important: A \code{preps} argument that 
+\item{...}{Further arguments. Most important: A \code{preps} argument that
 contains the names of all the preparation functions required for the check.}
 }
 \description{

@@ -7,6 +7,8 @@
 \method{print}{goodPractice}(x, positions_limit = 5, ...)
 }
 \arguments{
+\item{x}{Object of class \code{goodPractice}, as returned by \code{\link[=gp]{gp()}}.}
+
 \item{positions_limit}{how many positions to print at most.}
 }
 \description{

@@ -1,8 +1,11 @@
 Package: goodpractice
 Title: Advice on R Package Building
 Version: 1.0.2.9004
-Authors@R: 
-    c(person(given = "Daniel",
+Authors@R:
+    c(person(given = "Mango Solutions",
+             role = "cph",
+             comment = c(GitHub = "MangoTheCat")),
+      person(given = "Daniel",
              family = "de Bortoli",
              role = c("aut", "cre"),
              email = "daniel.debortoli@mango-solutions.com"),

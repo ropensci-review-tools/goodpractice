@@ -7,6 +7,8 @@
 #' @importFrom praise praise
 #' @importFrom clisymbols symbol
 #' @importFrom crayon red bold
+#'
+#' @export
 
 print.goodPractice <- function(x, positions_limit = 5, ...) {
 

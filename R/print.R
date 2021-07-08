@@ -1,11 +1,11 @@
-
+#' @param positions_limit how many positions to print at most.
 #' @export
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
 #' @importFrom clisymbols symbol
 #' @importFrom crayon red bold
 
-print.goodPractice <- function(x, ...) {
+print.goodPractice <- function(x, positions_limit = 5, ...) {
 
   failure <- FALSE
 
@@ -15,7 +15,7 @@ print.goodPractice <- function(x, ...) {
         failure <- TRUE
         gp_header(x)
       }
-      gp_advice(x, check)
+      gp_advice(x, check, positions_limit)
     }
   }
 
@@ -95,7 +95,7 @@ gp_footer <- function(x) {
 
 #' @importFrom clisymbols symbol
 
-gp_advice <- function(state, fail) {
+gp_advice <- function(state, fail, limit) {
 
   MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
 
@@ -116,15 +116,15 @@ gp_advice <- function(state, fail) {
 
   cat(str)
 
-  if ("positions" %in% names(res)) gp_positions(res[["positions"]])
+  if ("positions" %in% names(res)) gp_positions(res[["positions"]], limit)
 
   cat("\n")
 }
 
-gp_positions <- function(pos, limit = 5) {
+gp_positions <- function(pos, limit) {
 
   num <- length(pos)
-  if (length(pos) > limit) pos <- pos[1:5]
+  if (length(pos) > limit) pos <- pos[1:limit]
 
   cat("\n\n")
   lapply(pos, function(x) {
@@ -134,7 +134,7 @@ gp_positions <- function(pos, limit = 5) {
   })
 
   if (num > limit) {
-    and <- paste0("    ... and ", num - 5, " more lines\n")
+    and <- paste0("    ... and ", num - limit, " more lines\n")
     cat(crayon::blue(and))
   }
 }

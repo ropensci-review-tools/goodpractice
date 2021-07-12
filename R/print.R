@@ -10,7 +10,7 @@
 #'
 #' @export
 
-print.goodPractice <- function(x, positions_limit = 5, ...) {
+print.goodPractice <- function(x, positions_limit = 5) {
 
   failure <- FALSE
 

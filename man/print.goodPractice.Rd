@@ -4,12 +4,14 @@
 \alias{print.goodPractice}
 \title{Print goodpractice results}
 \usage{
-\method{print}{goodPractice}(x, positions_limit = 5)
+\method{print}{goodPractice}(x, positions_limit = 5, ...)
 }
 \arguments{
 \item{x}{Object of class \code{goodPractice}, as returned by \code{\link[=gp]{gp()}}.}
 
 \item{positions_limit}{how many positions to print at most.}
+
+\item{...}{Unused, for compatibility with \code{\link[base:print]{base::print()}} generic method.}
 }
 \description{
 Print goodpractice results

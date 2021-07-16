@@ -18,8 +18,10 @@ test_that("print with default and explicit positions.limit", {
   # problem by simply replacing all newlines (and indents) with a single space.
   # So essentially for now we are checking that the content is correct, but not
   # worrying so much about the layout. Not perfect, but good enough for now!
+  # For the same reason, switch out the unicode "cross" (look for `symbol$cross`
+  # in print.R) for a consistently-available ampersand
   expect_equal(
-    gsub("\\s+", " ", paste0(capture_output_lines(print(x)), collapse = "\n")),
+    gsub("\\s+", " ", sub("\u2716|<U[+]2716>", "&", paste0(capture_output_lines(print(x)), collapse = "\n"))),
     gsub(
       "\\s+", " ",
       paste0(c(
@@ -27,7 +29,7 @@ test_that("print with default and explicit positions.limit", {
         "",
         "It is good practice to",
         "",
-        "  <U+2716> avoid 'T' and 'F', as they are just variables which are set",
+        "  & avoid 'T' and 'F', as they are just variables which are set",
         "    to the logicals 'TRUE' and 'FALSE' by default, but are not reserved",
         "    words and hence can be overwritten by the user.  Hence, one should",
         "    always use 'TRUE' and 'FALSE' for the logicals.",

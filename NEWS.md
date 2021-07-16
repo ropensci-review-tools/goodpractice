@@ -2,7 +2,7 @@
 
 Additions:
 
-* Limit for cyclomatic complexity check can be adjusted using the `gp.cyclocomp.limit` option, default 50 (#132, @fabian-s).
+* Limit for cyclomatic complexity check can be adjusted using the `goodpractice.cyclocomp.limit` option, default 50 (#132, @fabian-s).
 * The number of lines printed to the console by each check result can be set using the new `positions_limit` parameter into `print()` - previously it was always 5 lines (#130, @fabian-s).
 * GitHub Actions now used for CI/CD checks (#145).
 

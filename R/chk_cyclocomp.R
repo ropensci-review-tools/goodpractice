@@ -10,7 +10,7 @@ CHECKS$cyclocomp <- make_check(
   preps = "cyclocomp",
 
   gp = function(state) {
-    cyclocomp_limit <- getOption("gp.cyclocomp.limit", 50)
+    cyclocomp_limit <- getOption("goodpractice.cyclocomp.limit", 50)
     cyc <- state$cyclocomp
     long <- which(cyc$cyclocomp > cyclocomp_limit)
     funcs <- paste0(
@@ -27,7 +27,7 @@ CHECKS$cyclocomp <- make_check(
   },
 
   check = function(state) {
-    cyclocomp_limit <- getOption("gp.cyclocomp.limit", 50)
+    cyclocomp_limit <- getOption("goodpractice.cyclocomp.limit", 50)
     if (inherits(state$cyclocomp, "try-error")) return(NA)
     all(state$cyclocomp$cyclocomp <= cyclocomp_limit)
   }

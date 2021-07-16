@@ -20,8 +20,9 @@ test_that("print with default and explicit positions.limit", {
   # worrying so much about the layout. Not perfect, but good enough for now!
   # For the same reason, switch out the unicode "cross" (look for `symbol$cross`
   # in print.R) for a consistently-available ampersand
+  # And switch out the unicode box-border for a good old-fashioned hyphen
   expect_equal(
-    gsub("\\s+", " ", sub("\u2716|<U[+]2716>", "&", paste0(capture_output_lines(print(x)), collapse = "\n"))),
+    gsub("\\s+", " ", sub("\u2716|<U[+]2716>", "&", gsub("\u2500|<U[+]2500>", "-", paste0(capture_output_lines(print(x)), collapse = "\n")))),
     gsub(
       "\\s+", " ",
       paste0(c(

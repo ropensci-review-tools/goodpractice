@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Object of class \code{goodPractice}, as returned by \code{\link[=gp]{gp()}}.}
 
-\item{positions_limit}{how many positions to print at most.}
+\item{positions_limit}{How many positions to print at most.}
 
 \item{...}{Unused, for compatibility with \code{\link[base:print]{base::print()}} generic method.}
 }

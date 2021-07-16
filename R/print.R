@@ -1,7 +1,7 @@
 #' Print goodpractice results
 #'
 #' @param x Object of class `goodPractice`, as returned by [gp()].
-#' @param positions_limit how many positions to print at most.
+#' @param positions_limit How many positions to print at most.
 #' @param ... Unused, for compatibility with [base::print()] generic method.
 #'
 #' @importFrom rstudioapi hasFun

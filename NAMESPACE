@@ -3,6 +3,7 @@
 S3method(print,goodPractice)
 export(all_checks)
 export(checks)
+export(describe_check)
 export(export_json)
 export(failed_checks)
 export(failed_positions)

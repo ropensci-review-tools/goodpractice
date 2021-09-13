@@ -23,7 +23,7 @@ all_checks <- function() {
 #'                  "rcmdcheck_missing_docs")
 #' describe_check(check_name)
 
-describe_check <- function(check_name) {
+describe_check <- function(check_name = NULL) {
     check_name <- check_name[check_name %in% names(CHECKS)]
     lapply(CHECKS[check_name], function(i) i$description)
 } 

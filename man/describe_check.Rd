@@ -4,7 +4,7 @@
 \alias{describe_check}
 \title{Describe one or more checks}
 \usage{
-describe_check(check_name)
+describe_check(check_name = NULL)
 }
 \value{
 List of character descriptions for each \code{check_name}

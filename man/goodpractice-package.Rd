@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Daniel de Bortoli \email{daniel.debortoli@mango-solutions.com}
+\strong{Maintainer}: Daniel de Bortoli \email{daniel.debortoli@mango-solutions.com} (ddbortoli)
 
 Authors:
 \itemize{

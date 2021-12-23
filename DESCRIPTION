@@ -8,7 +8,8 @@ Authors@R:
       person(given = "Daniel",
              family = "de Bortoli",
              role = c("aut", "cre"),
-             email = "daniel.debortoli@mango-solutions.com"),
+             email = "daniel.debortoli@mango-solutions.com",
+             comment = c(GitHub = "ddbortoli")),
       person(given = "Gabor",
              family = "Csardi",
              role = "aut",
@@ -56,7 +57,7 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
@@ -87,3 +88,4 @@ Collate:
     'print.R'
     'rstudio_markers.R'
     'utils.R'
+Config/testthat/edition: 3

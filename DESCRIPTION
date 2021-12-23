@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.2.9004
+Version: 1.0.2.9005
 Authors@R:
     c(person(given = "Mango Solutions",
              role = "cph",

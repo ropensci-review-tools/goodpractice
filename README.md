@@ -8,7 +8,7 @@ status](https://www.r-pkg.org/badges/version/goodpractice)](https://CRAN.R-proje
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/goodpractice)](https://www.r-pkg.org/pkg/goodpractice)
 [![Codecov test
-coverage](https://codecov.io/gh/MangoTheCat/goodpractice/branch/main/graph/badge.svg)](https://codecov.io/gh/MangoTheCat/goodpractice?branch=main)
+coverage](https://codecov.io/gh/MangoTheCat/goodpractice/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main)
 <!-- badges: end -->
 
 ## Advice on R Package Building

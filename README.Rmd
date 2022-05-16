@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
   [![R-CMD-check](https://github.com/MangoTheCat/goodpractice/workflows/R-CMD-check/badge.svg)](https://github.com/MangoTheCat/goodpractice/actions)
   [![CRAN status](https://www.r-pkg.org/badges/version/goodpractice)](https://CRAN.R-project.org/package=goodpractice)
   [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/goodpractice)](https://www.r-pkg.org/pkg/goodpractice)
-  [![Codecov test coverage](https://codecov.io/gh/MangoTheCat/goodpractice/branch/main/graph/badge.svg)](https://codecov.io/gh/MangoTheCat/goodpractice?branch=main)
+  [![Codecov test coverage](https://codecov.io/gh/MangoTheCat/goodpractice/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main)
   <!-- badges: end -->
 
 

@@ -1,4 +1,4 @@
-# goodpractice 1.0.3 (2021-12-23)
+# goodpractice 1.0.3
 
 Additions:
 

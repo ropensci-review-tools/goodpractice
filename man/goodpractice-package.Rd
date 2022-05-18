@@ -17,12 +17,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Daniel de Bortoli \email{daniel.debortoli@mango-solutions.com} (ddbortoli)
+\strong{Maintainer}: Ana Simmons \email{ana.simmons@ascent.io} (anasimmons)
 
 Authors:
 \itemize{
   \item Gabor Csardi \email{csardi.gabor@gmail.com}
-  \item Hannah Frick \email{hfrick@mango-solutions.com}
+  \item Hannah Frick \email{hannah.frick@gmail.com}
   \item Owen Jones \email{owenjonesuob@gmail.com} (owenjonesuob)
   \item Hannah Alexander \email{halexander@mango-solutions.com}
 }

@@ -21,7 +21,7 @@ package_collate <- function(path = ".") {
 #'
 #' @param path Path to the root of the R package.
 #' @return A character vector of (relative) file
-#'   names in the corrent collation order.
+#'   names in the current collation order.
 #' @keywords internal
 
 r_package_files <- function(path) {
@@ -43,7 +43,7 @@ r_package_files <- function(path) {
 #' We can use lintr to extract the functions, but need to use
 #' our own code (based on similar code in functionMap) to
 #' get the right collation order.
-#' 
+#'
 #' @param state GP state.
 #' @param version Currently ignored.
 #' @return The modified state, with the closures in a named list.

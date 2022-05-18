@@ -11,7 +11,7 @@ r_package_files(path)
 }
 \value{
 A character vector of (relative) file
-names in the corrent collation order.
+names in the current collation order.
 }
 \description{
 It uses the \code{Collate} entry in the \code{DESCRIPTION} file,

@@ -97,4 +97,4 @@ gp(pkg_path, checks = c("url", "bugreports"),
    extra_checks = list("url" = check_url, "bugreports" = check_bugreports))
 ```
 
-More examples for using custom checks can be found in the [rOpenSci unconf 2017](http://unconf17.ropensci.org/) project [**checkers**](https://github.com/ropenscilabs/checkers) for automated checking of best practices for research compendia.
+More examples for using custom checks can be found in the [rOpenSci unconf 2017](https://unconf17.ropensci.org/) project [**checkers**](https://github.com/ropensci-archive/checkers) for automated checking of best practices for research compendia.

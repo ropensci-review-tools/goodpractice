@@ -1,15 +1,15 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.2.9005
+Version: 1.0.3
 Authors@R:
     c(person(given = "Mango Solutions",
              role = "cph",
              comment = c(GitHub = "MangoTheCat")),
-      person(given = "Daniel",
-             family = "de Bortoli",
+      person(given = "Ana",
+             family = "Simmons",
              role = c("aut", "cre"),
-             email = "daniel.debortoli@mango-solutions.com",
-             comment = c(GitHub = "ddbortoli")),
+             email = "ana.simmons@ascent.io",
+             comment = c(GitHub = "anasimmons")),
       person(given = "Gabor",
              family = "Csardi",
              role = "aut",
@@ -17,7 +17,7 @@ Authors@R:
       person(given = "Hannah",
              family = "Frick",
              role = "aut",
-             email = "hfrick@mango-solutions.com"),
+             email = "hannah.frick@gmail.com"),
       person(given = "Owen",
              family = "Jones",
              role = "aut",

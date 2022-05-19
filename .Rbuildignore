@@ -8,3 +8,4 @@ index.md
 ^codecov\.yml$
 ^LICENSE\.md$
 ^CRAN-SUBMISSION$
+^cran-comments\.md$

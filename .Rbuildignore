@@ -7,3 +7,4 @@ index.md
 ^\.github$
 ^codecov\.yml$
 ^LICENSE\.md$
+^CRAN-SUBMISSION$

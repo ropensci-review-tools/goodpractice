@@ -17,10 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ana Simmons \email{ana.simmons@ascent.io} (anasimmons)
+\strong{Maintainer}: Karina Marks \email{karina.marks@ascent.io} (KarinaMarks)
 
 Authors:
 \itemize{
+  \item Daniel de Bortoli (ddbortoli)
   \item Gabor Csardi \email{csardi.gabor@gmail.com}
   \item Hannah Frick \email{hannah.frick@gmail.com}
   \item Owen Jones \email{owenjonesuob@gmail.com} (owenjonesuob)
@@ -30,6 +31,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Mango Solutions (MangoTheCat) [copyright holder]
+  \item Ana Simmons \email{ana.simmons@ascent.io} (anasimmons) [contributor]
   \item Fabian Scheipl (fabian-s) [contributor]
 }
 

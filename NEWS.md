@@ -7,6 +7,7 @@ Additions:
 * GitHub Actions now used for CI/CD checks (#145), as well as to calculate code coverage with {covr} and build the package site with {pkgdown}.
 
 
+
 Bugfixes:
 
 * Documentation for custom checks significantly improved (#133, @fabian-s).

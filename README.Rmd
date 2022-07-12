@@ -81,4 +81,4 @@ results(g)[1:5,]
 
 ## License
 
-MIT © Mango Solutions
+MIT © 2022 Ascent Digital Services UK Limited

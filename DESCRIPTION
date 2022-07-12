@@ -2,7 +2,7 @@ Package: goodpractice
 Title: Advice on R Package Building
 Version: 1.0.3
 Authors@R:
-    c(person(given = "Mango Solutions",
+    c(person(given = "Ascent Digital Services UK Limited",
              role = "cph",
              comment = c(GitHub = "MangoTheCat")),
       person(given = "Karina",

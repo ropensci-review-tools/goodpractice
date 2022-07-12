@@ -4,10 +4,7 @@
 \alias{seq_linter}
 \title{Find dangerous 1:x expressions}
 \usage{
-seq_linter(source_file)
-}
-\arguments{
-\item{source_file}{Parse data. Passed from lintr.}
+seq_linter()
 }
 \value{
 Lint object.

@@ -1,6 +1,4 @@
 
-context("description")
-
 D1 <-
 "Package: foo
 Title: Foo Package
@@ -34,12 +32,12 @@ test_that("Depends: R is OK", {
 })
 
 test_that("Date", {
-  
+
   state <- list(description = desc::description$new(text = D1))
   expect_true(
     CHECKS$no_description_date$check(state)
   )
-  
+
   state <- list(description = desc::description$new(text = D2))
   expect_false(
     CHECKS$no_description_date$check(state)
@@ -47,12 +45,12 @@ test_that("Date", {
 })
 
 test_that("URL", {
-  
+
   state <- list(description = desc::description$new(text = D1))
   expect_true(
     CHECKS$description_url$check(state)
   )
-  
+
   state <- list(description = desc::description$new(text = D2))
   expect_false(
     CHECKS$description_url$check(state)
@@ -60,12 +58,12 @@ test_that("URL", {
 })
 
 test_that("BugReports", {
-  
+
   state <- list(description = desc::description$new(text = D1))
   expect_true(
     CHECKS$description_bugreports$check(state)
   )
-  
+
   state <- list(description = desc::description$new(text = D2))
   expect_false(
     CHECKS$description_bugreports$check(state)

@@ -35,7 +35,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   } else {
     cat(
       "\n", sep = "",
-      bold(red(symbol$heart)),
+      bold(red(clisymbols::symbol$heart)),
       praise(paste0(
         " ${Exclamation}! ${Adjective} package! ",
         "Keep up the ${adjective} work!"
@@ -50,7 +50,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
 #' @importFrom clisymbols symbol
 
 make_line <- function(x) {
-  paste(rep(symbol$line, x), collapse = "")
+  paste(rep(clisymbols::symbol$line, x), collapse = "")
 }
 
 lines <- vapply(1:100, FUN.VALUE = "", make_line)
@@ -113,7 +113,7 @@ gp_advice <- function(state, fail, limit) {
   str <- gsub("\n\\s*", " ", str)
   str <- paste(
     strwrap(
-      paste0(crayon::red(symbol$cross), " ", str),
+      paste0(crayon::red(clisymbols::symbol$cross), " ", str),
       indent = 2,
       exdent = 4
     ),

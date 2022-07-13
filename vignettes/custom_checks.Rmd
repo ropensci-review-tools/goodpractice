@@ -23,7 +23,7 @@ By default, the `goodpractice()` function and its alias `gp()` run all the check
 The `gp()` function essentially carries out two types of steps:
 
 - First, it runs preparation steps for the checks, such as calculating test coverage or cyclomatic complexity.
-- Then it carrys out the checks, e.g., if cyclomatic complexity exceeds a threshold.
+- Then it carries out the checks, e.g., if cyclomatic complexity exceeds a threshold.
 
 The results of the preparation steps and the checks are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fail.
 
@@ -50,9 +50,9 @@ check_simple_tf <- make_check(
 )
 ```
 
-Additional checks can be used in `gp()` via the `extra_checks` argument. This should be a named list of `check` objects as returned by the `make_check()` function. All checks to be carried out, readless of whether they are provided by the **goodpractice** package or custom checks, must be named in the `checks` argument to `gp()`.
+Additional checks can be used in `gp()` via the `extra_checks` argument. This should be a named list of `check` objects as returned by the `make_check()` function. All checks to be carried out, regardless of whether they are provided by the **goodpractice** package or custom checks, must be named in the `checks` argument to `gp()`.
 
-The check on `T`/`F` implemented in the package gives more helpful advice than this simpified version and returns which files contain `T` and `F` so let's do a quick comparison and run both versions:
+The check on `T`/`F` implemented in the package gives more helpful advice than this simplified version and returns which files contain `T` and `F` so let's do a quick comparison and run both versions:
 
 ```{r}
 # get path to example package
@@ -63,7 +63,7 @@ gp(pkg_path, checks = c("simple_tf", "truefalse_not_tf"),
 
 ### Including a preparation step
 
-Including a preparation step is optional but can be helpful if several checks require the same prepartions upfront. In the following example we check for two different fields to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can be carried out easily building on a preparation step with the [**desc**](https://cran.r-project.org/package=desc) package for handling DESCRIPTION files.
+Including a preparation step is optional but can be helpful if several checks require the same preparations upfront. In the following example we check for two different fields to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can be carried out easily building on a preparation step with the [**desc**](https://cran.r-project.org/package=desc) package for handling DESCRIPTION files.
 
 The checks are linked to the preparation via the prep name: it appears as the `name` argument to `make_prep()`, as the `preps` argument to `make_check()` and finally as the name in the list for the `extra_preps` argument to `gp()`.
 
@@ -97,4 +97,4 @@ gp(pkg_path, checks = c("url", "bugreports"),
    extra_checks = list("url" = check_url, "bugreports" = check_bugreports))
 ```
 
-More examples for using custom checks can be found in the [rOpenSci unconf 2017](http://unconf17.ropensci.org/) project [**checkers**](https://github.com/ropenscilabs/checkers) for automated checking of best practices for research compendia.
+More examples for using custom checks can be found in the [rOpenSci unconf 2017](https://unconf17.ropensci.org/) project [**checkers**](https://github.com/ropensci-archive/checkers) for automated checking of best practices for research compendia.

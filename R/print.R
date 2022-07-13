@@ -1,11 +1,17 @@
-
-#' @export
+#' Print goodpractice results
+#'
+#' @param x Object of class `goodPractice`, as returned by [gp()].
+#' @param positions_limit How many positions to print at most.
+#' @param ... Unused, for compatibility with [base::print()] generic method.
+#'
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
 #' @importFrom clisymbols symbol
 #' @importFrom crayon red bold
+#'
+#' @export
 
-print.goodPractice <- function(x, ...) {
+print.goodPractice <- function(x, positions_limit = 5, ...) {
 
   failure <- FALSE
 
@@ -15,7 +21,7 @@ print.goodPractice <- function(x, ...) {
         failure <- TRUE
         gp_header(x)
       }
-      gp_advice(x, check)
+      gp_advice(x, check, positions_limit)
     }
   }
 
@@ -29,7 +35,7 @@ print.goodPractice <- function(x, ...) {
   } else {
     cat(
       "\n", sep = "",
-      bold(red(symbol$heart)),
+      bold(red(clisymbols::symbol$heart)),
       praise(paste0(
         " ${Exclamation}! ${Adjective} package! ",
         "Keep up the ${adjective} work!"
@@ -44,7 +50,7 @@ print.goodPractice <- function(x, ...) {
 #' @importFrom clisymbols symbol
 
 make_line <- function(x) {
-  paste(rep(symbol$line, x), collapse = "")
+  paste(rep(clisymbols::symbol$line, x), collapse = "")
 }
 
 lines <- vapply(1:100, FUN.VALUE = "", make_line)
@@ -95,7 +101,7 @@ gp_footer <- function(x) {
 
 #' @importFrom clisymbols symbol
 
-gp_advice <- function(state, fail) {
+gp_advice <- function(state, fail, limit) {
 
   MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
 
@@ -107,7 +113,7 @@ gp_advice <- function(state, fail) {
   str <- gsub("\n\\s*", " ", str)
   str <- paste(
     strwrap(
-      paste0(crayon::red(symbol$cross), " ", str),
+      paste0(crayon::red(clisymbols::symbol$cross), " ", str),
       indent = 2,
       exdent = 4
     ),
@@ -116,15 +122,15 @@ gp_advice <- function(state, fail) {
 
   cat(str)
 
-  if ("positions" %in% names(res)) gp_positions(res[["positions"]])
+  if ("positions" %in% names(res)) gp_positions(res[["positions"]], limit)
 
   cat("\n")
 }
 
-gp_positions <- function(pos, limit = 5) {
+gp_positions <- function(pos, limit) {
 
   num <- length(pos)
-  if (length(pos) > limit) pos <- pos[1:5]
+  if (length(pos) > limit) pos <- pos[1:limit]
 
   cat("\n\n")
   lapply(pos, function(x) {
@@ -134,7 +140,7 @@ gp_positions <- function(pos, limit = 5) {
   })
 
   if (num > limit) {
-    and <- paste0("    ... and ", num - 5, " more lines\n")
+    and <- paste0("    ... and ", num - limit, " more lines\n")
     cat(crayon::blue(and))
   }
 }

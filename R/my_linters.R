@@ -1,7 +1,7 @@
 
 #' @importFrom lintr Lint
 
-trailing_semicolon_linter <- function(source_file) {
+trailing_semicolon_linter <- function() lintr::Linter(function(source_file) {
 
   allsc <- which(source_file$parsed_content$token == "';'")
 
@@ -32,27 +32,25 @@ trailing_semicolon_linter <- function(source_file) {
         type = "style",
         message = "Avoid trailing semicolons, they are not needed.",
         line = source_file$lines[as.character(parsed$line1)],
-        ranges = list(c(parsed$col1, parsed$col2)),
-        linter = "trailing_semicolon_linter"
+        ranges = list(c(parsed$col1, parsed$col2))
       )
     }
   )
-}
+})
 
 #' Find dangerous 1:x expressions
 #'
-#' Find occurences of \code{1:length(x)}, \code{1:nrow(x)},
+#' Find occurrences of \code{1:length(x)}, \code{1:nrow(x)},
 #' \code{1:ncol(x)}, \code{1:NROW(x)}, \code{1:NCOL(x)} where
 #' \code{x} is an R expression.
 #'
-#' @param source_file Parse data. Passed from lintr.
 #' @return Lint object.
 #'
 #' @importFrom xmlparsedata xml_parse_data
 #' @importFrom xml2 read_xml xml_find_all xml_text xml_children xml_attr
 #' @keywords internal
 
-seq_linter <- function(source_file) {
+seq_linter <- function() lintr::Linter(function(source_file) {
 
   if (!length(source_file$parsed_content)) return(list())
 
@@ -102,17 +100,16 @@ seq_linter <- function(source_file) {
         message = paste0(
           "Avoid ", f1, ":", f2, " expressions, use seq_len."),
         line = source_file$lines[line1],
-        ranges = list(c(as.integer(col1), as.integer(col2))),
-        linter = "seq_linter"
+        ranges = list(c(as.integer(col1), as.integer(col2)))
       )
     }
   )
-}
+})
 
 #' @importFrom lintr Lint
 
 dangerous_functions_linter <- function(source_file, funcs, type,
-                                       msg, linter) {
+                                       msg, linter) lintr::Linter(function(source_file) {
 
   bad <- which(
     source_file$parsed_content$token == "SYMBOL_FUNCTION_CALL" &
@@ -130,20 +127,18 @@ dangerous_functions_linter <- function(source_file, funcs, type,
         type = type,
         message = msg,
         line = source_file$lines[as.character(parsed$line1)],
-        ranges = list(c(parsed$col1, parsed$col2)),
-        linter = linter
+        ranges = list(c(parsed$col1, parsed$col2))
       )
     }
   )
-}
+})
 
 attach_detach_linter <- function(source_file) {
   dangerous_functions_linter(
     source_file,
     funcs = c("attach", "detach"),
     type = "warning",
-    msg = "Avoid attach/detach, it is easy to create errors with it",
-    linter = "attach_detach_linter"
+    msg = "Avoid attach/detach, it is easy to create errors with it"
   )
 }
 
@@ -152,8 +147,7 @@ setwd_linter <- function(source_file) {
     source_file,
     funcs = "setwd",
     type = "warning",
-    msg = "Avoid changing the working directory, or restore it in on.exit",
-    linter = "setwd_linter"
+    msg = "Avoid changing the working directory, or restore it in on.exit"
   )
 }
 
@@ -162,8 +156,7 @@ sapply_linter <- function(source_file) {
     source_file,
     funcs = "sapply",
     type = "warning",
-    msg = "Avoid using sapply, consider vapply instead, that's type safe",
-    linter = "sapply_linter"
+    msg = "Avoid using sapply, consider vapply instead, that's type safe"
   )
 }
 
@@ -172,7 +165,6 @@ library_require_linter <- function(source_file) {
     source_file,
     funcs = c("library", "require"),
     type = "warning",
-    msg = "Avoid library() and require() calls in packages",
-    linter = "library_require_linter"
+    msg = "Avoid library() and require() calls in packages"
   )
 }

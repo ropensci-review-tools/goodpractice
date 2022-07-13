@@ -5,8 +5,13 @@
 \alias{goodpractice}
 \title{Run good practice checks}
 \usage{
-gp(path = ".", checks = all_checks(), extra_preps = NULL,
-  extra_checks = NULL, quiet = TRUE)
+gp(
+  path = ".",
+  checks = all_checks(),
+  extra_preps = NULL,
+  extra_checks = NULL,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{path}{Path to a package root.}
@@ -26,7 +31,7 @@ even if this option is set to \code{FALSE}.}
 }
 \value{
 A goodpractice object that you can query
-  with a simple API. See \code{\link{results}} to start.
+with a simple API. See \code{\link{results}} to start.
 }
 \description{
 To see the results, just print it to the screen.

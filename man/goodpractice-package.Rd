@@ -17,11 +17,22 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Hannah Frick \email{hfrick@mango-solutions.com}
+\strong{Maintainer}: Karina Marks \email{karina.marks@ascent.io} (KarinaMarks)
 
 Authors:
 \itemize{
+  \item Daniel de Bortoli (ddbortoli)
   \item Gabor Csardi \email{csardi.gabor@gmail.com}
+  \item Hannah Frick \email{hannah.frick@gmail.com}
+  \item Owen Jones \email{owenjonesuob@gmail.com} (owenjonesuob)
+  \item Hannah Alexander \email{halexander@mango-solutions.com}
+}
+
+Other contributors:
+\itemize{
+  \item Ascent Digital Services UK Limited (MangoTheCat) [copyright holder]
+  \item Ana Simmons \email{ana.simmons@ascent.io} (anasimmons) [contributor]
+  \item Fabian Scheipl (fabian-s) [contributor]
 }
 
 }

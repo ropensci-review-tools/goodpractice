@@ -4,16 +4,13 @@
 \alias{seq_linter}
 \title{Find dangerous 1:x expressions}
 \usage{
-seq_linter(source_file)
-}
-\arguments{
-\item{source_file}{Parse data. Passed from lintr.}
+seq_linter()
 }
 \value{
 Lint object.
 }
 \description{
-Find occurences of \code{1:length(x)}, \code{1:nrow(x)},
+Find occurrences of \code{1:length(x)}, \code{1:nrow(x)},
 \code{1:ncol(x)}, \code{1:NROW(x)}, \code{1:NCOL(x)} where
 \code{x} is an R expression.
 }

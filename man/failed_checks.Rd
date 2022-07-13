@@ -22,5 +22,8 @@ g <- gp(path, checks = all_checks()[3:16])
 failed_checks(g)
 }
 \seealso{
-Other API: \code{\link{checks}}, \code{\link{results}}
+Other API: 
+\code{\link{checks}()},
+\code{\link{results}()}
 }
+\concept{API}

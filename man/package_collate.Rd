@@ -2,7 +2,7 @@
 % Please edit documentation in R/prep_expressions.R
 \name{package_collate}
 \alias{package_collate}
-\title{`Collate` field from `DESCRIPTION`}
+\title{\code{Collate} field from \code{DESCRIPTION}}
 \usage{
 package_collate(path = ".")
 }
@@ -10,9 +10,9 @@ package_collate(path = ".")
 \item{path}{Path to the package root.}
 }
 \value{
-Character scalar or `NULL`.
+Character scalar or \code{NULL}.
 }
 \description{
-`NULL` is returned if there is no such field.
+\code{NULL} is returned if there is no such field.
 }
 \keyword{internal}

@@ -48,7 +48,7 @@ g <- gp(pkg_path)
 ```
 
     #> 
-    #> * checking for file ‘/private/var/folders/f3/gr9my1s97r3654cmvzc6dngm0000gn/T/Rtmp6Kts8C/remotesa3ff1315cc49/badpackage/DESCRIPTION’ ... OK
+    #> * checking for file ‘/tmp/Rtmpel0L5F/remotesd7c53a259c/badpackage/DESCRIPTION’ ... OK
     #> * preparing ‘badpackage’:
     #> * checking DESCRIPTION meta-information ... OK
     #> * checking vignette meta-information ... OK
@@ -155,4 +155,4 @@ results(g)[1:5,]
 
 ## License
 
-MIT © Mango Solutions
+MIT © 2022 Ascent Digital Services UK Limited

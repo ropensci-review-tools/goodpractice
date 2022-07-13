@@ -28,10 +28,7 @@ install.packages("goodpractice")
 and the development version from GitHub
 
 ``` r
-source("https://install-github.me/MangoTheCat/goodpractice")
-# or
-# install.packages("devtools")
-devtools::install_github("mangothecat/goodpractice") 
+remotes::install_github("mangothecat/goodpractice")
 ```
 
 ## Usage

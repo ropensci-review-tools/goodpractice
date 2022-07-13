@@ -37,13 +37,10 @@ You can install the release version from CRAN
 install.packages("goodpractice")
 ```
 
-and the development version from GitHub 
+and the development version from GitHub
 
 ```{r eval = FALSE}
-source("https://install-github.me/MangoTheCat/goodpractice")
-# or
-# install.packages("devtools")
-devtools::install_github("mangothecat/goodpractice") 
+remotes::install_github("mangothecat/goodpractice")
 ```
 
 ## Usage
@@ -81,4 +78,4 @@ results(g)[1:5,]
 
 ## License
 
-MIT © Mango Solutions
+MIT © 2022 Ascent Digital Services UK Limited

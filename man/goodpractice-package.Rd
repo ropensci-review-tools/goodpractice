@@ -30,7 +30,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Mango Solutions (MangoTheCat) [copyright holder]
+  \item Ascent Digital Services UK Limited (MangoTheCat) [copyright holder]
   \item Ana Simmons \email{ana.simmons@ascent.io} (anasimmons) [contributor]
   \item Fabian Scheipl (fabian-s) [contributor]
 }

@@ -1,8 +1,10 @@
 
-context("API")
-
 bad1 <- system.file("bad1", package = "goodpractice")
-x <- gp(bad1, checks = c("covr", "description_bugreports"))
+
+# Warning message checked in test-coverage.R
+x <- suppressWarnings(
+  gp(bad1, checks = c("covr", "description_bugreports"))
+)
 
 test_that("checks", {
   expect_equal(checks(x), c("covr", "description_bugreports"))

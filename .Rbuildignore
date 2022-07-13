@@ -9,3 +9,4 @@ index.md
 ^LICENSE\.md$
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
+^pkgdown

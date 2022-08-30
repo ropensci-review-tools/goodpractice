@@ -1,4 +1,4 @@
-# goodpractice 1.0.3
+# goodpractice 1.0.4
 
 Additions:
 

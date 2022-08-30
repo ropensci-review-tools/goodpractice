@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.3
+Version: 1.0.4
 Authors@R:
     c(person(given = "Ascent Digital Services UK Limited",
              role = "cph",

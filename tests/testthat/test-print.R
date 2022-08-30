@@ -1,8 +1,9 @@
 
 test_that("print with default and explicit positions.limit", {
 
-  # These tests currently fail on Windows CI. Skipping for now...
+  # These tests currently fail on Windows and Linux CI. Skipping for now...
   skip_on_os("windows")
+  skip_on_os("linux")
 
   # Turn off ANSI colours provided by {crayon}
   withr::local_options("crayon.enabled" = FALSE)

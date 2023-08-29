@@ -44,7 +44,7 @@ Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure, code
     complexity, code formatting, etc.
 License: MIT + file LICENSE
-URL: https://github.com/mangothecat/goodpractice
+URL: http://mangothecat.github.io/goodpractice/, https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
 Imports:
     clisymbols,

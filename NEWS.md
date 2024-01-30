@@ -1,3 +1,8 @@
+# goodpractice 1.0.4-1
+
+* CRAN fixes - skipping failing test and updating roxygen
+* Adding pkgdown site to DESCRIPTION (#160, @olivroy)
+
 # goodpractice 1.0.3
 
 Additions:

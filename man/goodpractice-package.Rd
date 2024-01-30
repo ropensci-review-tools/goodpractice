@@ -2,6 +2,7 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{goodpractice-package}
+\alias{goodpractice-package}
 \title{goodpractice: Advice on R Package Building}
 \description{
 Give advice about good practices when building R packages. Advice includes
@@ -11,6 +12,7 @@ formatting, etc.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://mangothecat.github.io/goodpractice/}
   \item \url{https://github.com/mangothecat/goodpractice}
   \item Report bugs at \url{https://github.com/mangothecat/goodpractice/issues}
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{goodpractice-package}
+\alias{goodpractice-package}
 \title{goodpractice: Advice on R Package Building}
 \description{
 Give advice about good practices when building R packages. Advice includes

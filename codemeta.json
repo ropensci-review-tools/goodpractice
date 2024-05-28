@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
   "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.4.3",
+  "version": "1.0.4.004",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -308,10 +308,13 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=xmlparsedata"
     },
-    "SystemRequirements": null
+    "SystemRequirements": {}
   },
   "fileSize": "155.332KB",
   "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
-  "contIntegration": ["https://github.com/MangoTheCat/goodpractice/actions", "https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main"]
+  "contIntegration": [
+    "https://github.com/MangoTheCat/goodpractice/actions",
+    "https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main"
+  ]
 }

@@ -34,11 +34,11 @@ Defining custom preparations and checks
 }
 \section{Functions}{
 \itemize{
-\item \code{make_prep}: Create a preparation function
+\item \code{make_prep()}: Create a preparation function
 
-\item \code{make_check}: Create a check function
+\item \code{make_check()}: Create a check function
+
 }}
-
 \examples{
 # make a preparation function
 url_prep <- make_prep(

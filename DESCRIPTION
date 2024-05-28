@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.3
+Version: 1.0.4-1
 Authors@R:
     c(person(given = "Ascent Digital Services UK Limited",
              role = "cph",
@@ -44,7 +44,7 @@ Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure, code
     complexity, code formatting, etc.
 License: MIT + file LICENSE
-URL: https://github.com/mangothecat/goodpractice
+URL: https://mangothecat.github.io/goodpractice/, https://github.com/mangothecat/goodpractice
 BugReports: https://github.com/mangothecat/goodpractice/issues
 Imports:
     clisymbols,
@@ -71,7 +71,7 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3
 Collate: 
     'api.R'

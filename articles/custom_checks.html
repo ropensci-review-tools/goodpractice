@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">goodpractice</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4-1</span>
       </span>
     </div>
 
@@ -89,9 +89,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Custom Checks</h1>
-                        <h4 data-toc-skip class="author">Hannah Frick</h4>
+                        <h4 data-toc-skip class="author">Hannah
+Frick</h4>
             
-            <h4 data-toc-skip class="date">2022-08-30</h4>
+            <h4 data-toc-skip class="date">2024-05-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mangothecat/goodpractice/blob/HEAD/vignettes/custom_checks.Rmd" class="external-link"><code>vignettes/custom_checks.Rmd</code></a></small>
       <div class="hidden name"><code>custom_checks.Rmd</code></div>
@@ -100,16 +101,25 @@
 
     
     
-<p>By default, the <code><a href="../reference/gp.html">goodpractice()</a></code> function and its alias <code><a href="../reference/gp.html">gp()</a></code> run all the checks available in the package (use <code><a href="../reference/all_checks.html">all_checks()</a></code> to show all checks implemented). In addition, users can provide their own custom checks.</p>
+<p>By default, the <code><a href="../reference/gp.html">goodpractice()</a></code> function and its alias
+<code><a href="../reference/gp.html">gp()</a></code> run all the checks available in the package (use
+<code><a href="../reference/all_checks.html">all_checks()</a></code> to show all checks implemented). In addition,
+users can provide their own custom checks.</p>
 <div class="section level2">
 <h2 id="whats-happening-inside-of-gp">What’s happening inside of <code>gp()</code>?<a class="anchor" aria-label="anchor" href="#whats-happening-inside-of-gp"></a>
 </h2>
-<p>The <code><a href="../reference/gp.html">gp()</a></code> function essentially carries out two types of steps:</p>
+<p>The <code><a href="../reference/gp.html">gp()</a></code> function essentially carries out two types of
+steps:</p>
 <ul>
-<li>First, it runs preparation steps for the checks, such as calculating test coverage or cyclomatic complexity.</li>
-<li>Then it carries out the checks, e.g., if cyclomatic complexity exceeds a threshold.</li>
+<li>First, it runs preparation steps for the checks, such as calculating
+test coverage or cyclomatic complexity.</li>
+<li>Then it carries out the checks, e.g., if cyclomatic complexity
+exceeds a threshold.</li>
 </ul>
-<p>The results of the preparation steps and the checks are added to the return object, also referred to as the state. The print method accesses the check results and prints the advice for the failed checks - or praise if none fail.</p>
+<p>The results of the preparation steps and the checks are added to the
+return object, also referred to as the state. The print method accesses
+the check results and prints the advice for the failed checks - or
+praise if none fail.</p>
 </div>
 <div class="section level2">
 <h2 id="writing-custom-checks">Writing custom checks<a class="anchor" aria-label="anchor" href="#writing-custom-checks"></a>
@@ -117,10 +127,20 @@
 <div class="section level3">
 <h3 id="checks-without-corresponding-preparation-steps">Checks without corresponding preparation steps<a class="anchor" aria-label="anchor" href="#checks-without-corresponding-preparation-steps"></a>
 </h3>
-<p>Custom checks can be created with the <code><a href="../reference/customization.html">make_check()</a></code> function. As inputs it takes a short <code>description</code> of the check, the <code>check</code> itself, and the <code>gp</code> advice to be given in case the check fails. To illustrate this, let’s use a simplified version of the check on <code>T</code> and <code>F</code> instead of <code>TRUE</code> and <code>FALSE</code>.</p>
-<p>The <code>check</code> argument is a function which takes the state as the input and carries out the check, returning <code>TRUE</code> if the check was successful. The state includes the path to the source code of the package and the <code>checkTnF()</code> function of the <strong>tools</strong> package can be used to check if <code>T</code> or <code>F</code> was used.</p>
+<p>Custom checks can be created with the <code><a href="../reference/customization.html">make_check()</a></code>
+function. As inputs it takes a short <code>description</code> of the
+check, the <code>check</code> itself, and the <code>gp</code> advice to
+be given in case the check fails. To illustrate this, let’s use a
+simplified version of the check on <code>T</code> and <code>F</code>
+instead of <code>TRUE</code> and <code>FALSE</code>.</p>
+<p>The <code>check</code> argument is a function which takes the state
+as the input and carries out the check, returning <code>TRUE</code> if
+the check was successful. The state includes the path to the source code
+of the package and the <code>checkTnF()</code> function of the
+<strong>tools</strong> package can be used to check if <code>T</code> or
+<code>F</code> was used.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mangothecat/goodpractice" class="external-link">goodpractice</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mangothecat.github.io/goodpractice/" class="external-link">goodpractice</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># make a simple version of the T/F check</span></span>
 <span><span class="va">check_simple_tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/customization.html">make_check</a></span><span class="op">(</span></span>
@@ -131,8 +151,17 @@
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/checkTnF.html" class="external-link">checkTnF</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="va">state</span><span class="op">$</span><span class="va">path</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Additional checks can be used in <code><a href="../reference/gp.html">gp()</a></code> via the <code>extra_checks</code> argument. This should be a named list of <code>check</code> objects as returned by the <code><a href="../reference/customization.html">make_check()</a></code> function. All checks to be carried out, regardless of whether they are provided by the <strong>goodpractice</strong> package or custom checks, must be named in the <code>checks</code> argument to <code><a href="../reference/gp.html">gp()</a></code>.</p>
-<p>The check on <code>T</code>/<code>F</code> implemented in the package gives more helpful advice than this simplified version and returns which files contain <code>T</code> and <code>F</code> so let’s do a quick comparison and run both versions:</p>
+<p>Additional checks can be used in <code><a href="../reference/gp.html">gp()</a></code> via the
+<code>extra_checks</code> argument. This should be a named list of
+<code>check</code> objects as returned by the <code><a href="../reference/customization.html">make_check()</a></code>
+function. All checks to be carried out, regardless of whether they are
+provided by the <strong>goodpractice</strong> package or custom checks,
+must be named in the <code>checks</code> argument to
+<code><a href="../reference/gp.html">gp()</a></code>.</p>
+<p>The check on <code>T</code>/<code>F</code> implemented in the package
+gives more helpful advice than this simplified version and returns which
+files contain <code>T</code> and <code>F</code> so let’s do a quick
+comparison and run both versions:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get path to example package</span></span>
 <span><span class="va">pkg_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"bad1"</span>, package <span class="op">=</span> <span class="st">"goodpractice"</span><span class="op">)</span></span>
@@ -160,12 +189,21 @@
 <div class="section level3">
 <h3 id="including-a-preparation-step">Including a preparation step<a class="anchor" aria-label="anchor" href="#including-a-preparation-step"></a>
 </h3>
-<p>Including a preparation step is optional but can be helpful if several checks require the same preparations upfront. In the following example we check for two different fields to be present in the DESCRIPTION file, the URL field and the BugReports field. Both checks can be carried out easily building on a preparation step with the <a href="https://cran.r-project.org/package=desc" class="external-link"><strong>desc</strong></a> package for handling DESCRIPTION files.</p>
-<p>The checks are linked to the preparation via the prep name: it appears as the <code>name</code> argument to <code><a href="../reference/customization.html">make_prep()</a></code>, as the <code>preps</code> argument to <code><a href="../reference/customization.html">make_check()</a></code> and finally as the name in the list for the <code>extra_preps</code> argument to <code><a href="../reference/gp.html">gp()</a></code>.</p>
+<p>Including a preparation step is optional but can be helpful if
+several checks require the same preparations upfront. In the following
+example we check for two different fields to be present in the
+DESCRIPTION file, the URL field and the BugReports field. Both checks
+can be carried out easily building on a preparation step with the <a href="https://cran.r-project.org/package=desc" class="external-link"><strong>desc</strong></a>
+package for handling DESCRIPTION files.</p>
+<p>The checks are linked to the preparation via the prep name: it
+appears as the <code>name</code> argument to <code><a href="../reference/customization.html">make_prep()</a></code>,
+as the <code>preps</code> argument to <code><a href="../reference/customization.html">make_check()</a></code> and
+finally as the name in the list for the <code>extra_preps</code>
+argument to <code><a href="../reference/gp.html">gp()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prep: process DESCRIPTION file</span></span>
 <span><span class="va">desc_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span>, <span class="va">quiet</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">desc</span><span class="fu">::</span><span class="va"><a href="http://r-lib.github.io/desc/reference/description.html" class="external-link">description</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
+<span>  <span class="fu">desc</span><span class="fu">::</span><span class="va"><a href="https://desc.r-lib.org/reference/description.html" class="external-link">description</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">prep_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/customization.html">make_prep</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"desc"</span>, func <span class="op">=</span> <span class="va">desc_fun</span><span class="op">)</span></span>
@@ -198,7 +236,9 @@
 <span><span class="co">#&gt;   <span style="color: #BB0000;">✖</span> have a URL field in DESCRIPTION</span></span>
 <span><span class="co">#&gt;   <span style="color: #BB0000;">✖</span> add a BugReports field to DESCRIPTION</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">────────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>
-<p>More examples for using custom checks can be found in the <a href="https://unconf17.ropensci.org/" class="external-link">rOpenSci unconf 2017</a> project <a href="https://github.com/ropensci-archive/checkers" class="external-link"><strong>checkers</strong></a> for automated checking of best practices for research compendia.</p>
+<p>More examples for using custom checks can be found in the <a href="https://unconf17.ropensci.org/" class="external-link">rOpenSci unconf 2017</a> project
+<a href="https://github.com/ropensci-archive/checkers" class="external-link"><strong>checkers</strong></a>
+for automated checking of best practices for research compendia.</p>
 </div>
 </div>
   </div>
@@ -220,7 +260,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

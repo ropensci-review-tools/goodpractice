@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">goodpractice</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4-1</span>
       </span>
     </div>
 
@@ -89,9 +89,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>goodpractice</h1>
-                        <h4 data-toc-skip class="author">Hannah Frick</h4>
+                        <h4 data-toc-skip class="author">Hannah
+Frick</h4>
             
-            <h4 data-toc-skip class="date">2022-08-30</h4>
+            <h4 data-toc-skip class="date">2024-05-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mangothecat/goodpractice/blob/HEAD/vignettes/goodpractice.Rmd" class="external-link"><code>vignettes/goodpractice.Rmd</code></a></small>
       <div class="hidden name"><code>goodpractice.Rmd</code></div>
@@ -103,11 +104,33 @@
 <div class="section level2">
 <h2 id="whats-it-for">What’s it for?<a class="anchor" aria-label="anchor" href="#whats-it-for"></a>
 </h2>
-<p>Building an R package is a great way of encapsulating code, documentation and data in a single testable and easily distributable unit.</p>
-<p>For a package to be distributed via CRAN, it needs to pass a set of checks implemented in <code>R CMD check</code>, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?</p>
-<p>These checks are helpful in developing a solid R package but they don’t check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Including an URL for bug reports lets people more easily report bugs if they find any.</p>
-<p>Tools for automatically checking several of these aspects already exist and the <strong>goodpractice</strong> package bundles the checks from <a href="https://cran.r-project.org/package=rcmdcheck" class="external-link"><strong>rcmdcheck</strong></a> with code coverage through the <a href="https://cran.r-project.org/package=covr" class="external-link"><strong>covr</strong></a> package, source code linting via the <a href="https://cran.r-project.org/package=lintr" class="external-link"><strong>lintr</strong></a> package and cyclomatic complexity via the <a href="https://cran.r-project.org/package=cyclocomp" class="external-link"><strong>cyclocomp</strong></a> package and augments it with some further checks on good practice for R package development such as avoiding <code>T</code> and <code>F</code> in favour of <code>TRUE</code> and <code>FALSE</code>. It provides advice on which practices to follow and which to avoid.</p>
-<p>You can use <strong>goodpractice</strong> checks as a reminder for you and your colleagues - and if you have custom checks to run, you can make <strong>goodpractice</strong> run those as well! Please see the vignette “Custom Checks” for more details.</p>
+<p>Building an R package is a great way of encapsulating code,
+documentation and data in a single testable and easily distributable
+unit.</p>
+<p>For a package to be distributed via CRAN, it needs to pass a set of
+checks implemented in <code>R CMD check</code>, such as: Is there
+minimal documentation, e.g., are all arguments of exported functions
+documented? Are all dependencies declared?</p>
+<p>These checks are helpful in developing a solid R package but they
+don’t check for several other good practices. For example, a package
+does not need to contain any tests but is it good practice to include
+such. Following a coding standard helps readability. Avoiding overly
+complex functions reduces the risk of bugs. Including an URL for bug
+reports lets people more easily report bugs if they find any.</p>
+<p>Tools for automatically checking several of these aspects already
+exist and the <strong>goodpractice</strong> package bundles the checks
+from <a href="https://cran.r-project.org/package=rcmdcheck" class="external-link"><strong>rcmdcheck</strong></a>
+with code coverage through the <a href="https://cran.r-project.org/package=covr" class="external-link"><strong>covr</strong></a>
+package, source code linting via the <a href="https://cran.r-project.org/package=lintr" class="external-link"><strong>lintr</strong></a>
+package and cyclomatic complexity via the <a href="https://cran.r-project.org/package=cyclocomp" class="external-link"><strong>cyclocomp</strong></a>
+package and augments it with some further checks on good practice for R
+package development such as avoiding <code>T</code> and <code>F</code>
+in favour of <code>TRUE</code> and <code>FALSE</code>. It provides
+advice on which practices to follow and which to avoid.</p>
+<p>You can use <strong>goodpractice</strong> checks as a reminder for
+you and your colleagues - and if you have custom checks to run, you can
+make <strong>goodpractice</strong> run those as well! Please see the
+vignette “Custom Checks” for more details.</p>
 </div>
 <div class="section level2">
 <h2 id="good-practice-out-of-the-box">Good practice out of the box<a class="anchor" aria-label="anchor" href="#good-practice-out-of-the-box"></a>
@@ -115,9 +138,13 @@
 <div class="section level3">
 <h3 id="main-function">Main function<a class="anchor" aria-label="anchor" href="#main-function"></a>
 </h3>
-<p>The main function is <code><a href="../reference/gp.html">goodpractice()</a></code> and has an alias <code><a href="../reference/gp.html">gp()</a></code> which takes the path to the source code of a package as its first argument. The <strong>goodpractice</strong> package contains the source for a simple package which violates some good practices. We’ll use this for the examples.</p>
+<p>The main function is <code><a href="../reference/gp.html">goodpractice()</a></code> and has an alias
+<code><a href="../reference/gp.html">gp()</a></code> which takes the path to the source code of a package
+as its first argument. The <strong>goodpractice</strong> package
+contains the source for a simple package which violates some good
+practices. We’ll use this for the examples.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mangothecat/goodpractice" class="external-link">goodpractice</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mangothecat.github.io/goodpractice/" class="external-link">goodpractice</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># get path to example package</span></span>
 <span><span class="va">pkg_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"bad1"</span>, package <span class="op">=</span> <span class="st">"goodpractice"</span><span class="op">)</span></span>
@@ -128,16 +155,17 @@
 <span><span class="co">#&gt; Warning in MYPREPS[[prep]](state, quiet = quiet): Prep step for test coverage</span></span>
 <span><span class="co">#&gt; failed.</span></span>
 <span><span class="co">#&gt; Preparing: cyclocomp</span></span>
-<span><span class="co">#&gt; Warning in read.dcf(path): cannot open compressed file './DESCRIPTION', probable</span></span>
-<span><span class="co">#&gt; reason 'No such file or directory'</span></span>
+<span><span class="co">#&gt; Warning in read.dcf(path): cannot open compressed file './DESCRIPTION',</span></span>
+<span><span class="co">#&gt; probable reason 'No such file or directory'</span></span>
 <span><span class="co">#&gt; Warning in MYPREPS[[prep]](state, quiet = quiet): Prep step for cyclomatic</span></span>
 <span><span class="co">#&gt; complexity failed.</span></span>
 <span><span class="co">#&gt; Preparing: description</span></span>
 <span><span class="co">#&gt; Preparing: lintr</span></span>
 <span><span class="co">#&gt; Preparing: namespace</span></span>
 <span><span class="co">#&gt; Preparing: rcmdcheck</span></span>
-<span><span class="co">#&gt; pdflatex not found! Not building PDF manual.</span></span>
-<span></span>
+<span><span class="co">#&gt; pdflatex not found! Not building PDF manual.</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># show the result</span></span>
 <span><span class="va">g</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">── GP badpackage ───────────────────────────────────────────────────────────────</span></span></span>
@@ -183,17 +211,29 @@
 <span><span class="co">#&gt; <span style="color: #0000BB;">    ... and 4 more lines</span></span></span>
 <span><span class="co"><span style="color: #0000BB;">#&gt; </span></span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">────────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>
-<p>So with this package, we’ve done a few things in the DESCRIPTION file for which there are reasons not to do them, have unnecessary trailing semicolons in the code and used <code>T</code> and <code>F</code> for <code>TRUE</code> and <code>FALSE</code>. The output of <code><a href="../reference/gp.html">gp()</a></code> tells you what you did that isn’t considered good practice and if it’s in the R code, it points you the location of your faux-pas. In general, the messages are supposed to not only point out to you <em>what</em> you might want to avoid but also <em>why</em>.</p>
-<p>The above example tries to run all 230 checks available, to see the full list use <code><a href="../reference/all_checks.html">all_checks()</a></code>. If you only want to run a subset of the checks, e.g., the one on the URL field in the DESCRIPTION, you can specify the checks by name:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>So with this package, we’ve done a few things in the DESCRIPTION file
+for which there are reasons not to do them, have unnecessary trailing
+semicolons in the code and used <code>T</code> and <code>F</code> for
+<code>TRUE</code> and <code>FALSE</code>. The output of
+<code><a href="../reference/gp.html">gp()</a></code> tells you what you did that isn’t considered good
+practice and if it’s in the R code, it points you the location of your
+faux-pas. In general, the messages are supposed to not only point out to
+you <em>what</em> you might want to avoid but also <em>why</em>.</p>
+<p>The above example tries to run all 230 checks available, to see the
+full list use <code><a href="../reference/all_checks.html">all_checks()</a></code>. If you only want to run a
+subset of the checks, e.g., the one on the URL field in the DESCRIPTION,
+you can specify the checks by name:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># what is the name of the check?</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"url"</span>, <span class="fu"><a href="../reference/all_checks.html">all_checks</a></span><span class="op">(</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "description_url"</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] "description_url"</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># run only this check</span></span>
 <span><span class="va">g_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gp.html">gp</a></span><span class="op">(</span><span class="va">pkg_path</span>, checks <span class="op">=</span> <span class="st">"description_url"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Preparing: description</span></span>
-<span></span>
+<span><span class="co">#&gt; Preparing: description</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">g_url</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">── GP badpackage ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -208,12 +248,15 @@
 <div class="section level3">
 <h3 id="doing-more-than-just-printing">Doing more than just printing<a class="anchor" aria-label="anchor" href="#doing-more-than-just-printing"></a>
 </h3>
-<p>Apart from printing a <code>goodPractice</code> object as returned by <code><a href="../reference/gp.html">gp()</a></code> to access the advice, you can also access which checks were carried out and which of those failed:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>Apart from printing a <code>goodPractice</code> object as returned by
+<code><a href="../reference/gp.html">gp()</a></code> to access the advice, you can also access which checks
+were carried out and which of those failed:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># which checks were carried out?</span></span>
 <span><span class="fu"><a href="../reference/checks.html">checks</a></span><span class="op">(</span><span class="va">g_url</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "description_url"</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] "description_url"</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># which checks failed?</span></span>
 <span><span class="fu"><a href="../reference/failed_checks.html">failed_checks</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "no_description_depends"                </span></span>
@@ -224,8 +267,10 @@
 <span><span class="co">#&gt; [6] "no_import_package_as_a_whole"          </span></span>
 <span><span class="co">#&gt; [7] "rcmdcheck_package_dependencies_present"</span></span>
 <span><span class="co">#&gt; [8] "truefalse_not_tf"</span></span></code></pre></div>
-<p>To access all the checks carried out with their results in a data frame, use <code><a href="../reference/results.html">results()</a></code> on your <code>goodPractice</code> object.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>To access all the checks carried out with their results in a data
+frame, use <code><a href="../reference/results.html">results()</a></code> on your <code>goodPractice</code>
+object.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># show the first 5 checks carried out and their results</span></span>
 <span><span class="fu"><a href="../reference/results.html">results</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span></span>
 <span><span class="co">#&gt;                    check result</span></span>
@@ -234,7 +279,11 @@
 <span><span class="co">#&gt; 3 no_description_depends  FALSE</span></span>
 <span><span class="co">#&gt; 4    no_description_date  FALSE</span></span>
 <span><span class="co">#&gt; 5        description_url  FALSE</span></span></code></pre></div>
-<p>Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is <code>NA</code>. It is also possible to export the results to a JSON file with <code><a href="../reference/export_json.html">export_json()</a></code>.</p>
+<p>Note that the code coverage could not be calculated. The
+corresponding check does not show up in the failed checks (because it
+was not carried out) and the result is <code>NA</code>. It is also
+possible to export the results to a JSON file with
+<code><a href="../reference/export_json.html">export_json()</a></code>.</p>
 </div>
 </div>
   </div>
@@ -256,7 +305,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

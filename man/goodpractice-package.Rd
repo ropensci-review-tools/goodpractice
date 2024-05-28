@@ -12,17 +12,18 @@ formatting, etc.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://mangothecat.github.io/goodpractice/}
-  \item \url{https://github.com/mangothecat/goodpractice}
-  \item Report bugs at \url{https://github.com/mangothecat/goodpractice/issues}
+  \item \url{https://ropensci-review-tools.github.io/goodpractice/}
+  \item \url{https://github.com/ropensci-review-tools/goodpractice}
+  \item Report bugs at \url{https://github.com/ropensci-review-tools/goodpractice/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Karina Marks \email{karina.marks@ascent.io} (KarinaMarks)
+\strong{Maintainer}: Mark Padgham \email{mark@ropensci.org} (\href{https://orcid.org/0000-0003-2172-5265}{ORCID})
 
 Authors:
 \itemize{
+  \item Karina Marks \email{karina.marks@ascent.io} (KarinaMarks)
   \item Daniel de Bortoli (ddbortoli)
   \item Gabor Csardi \email{csardi.gabor@gmail.com}
   \item Hannah Frick \email{hannah.frick@gmail.com}

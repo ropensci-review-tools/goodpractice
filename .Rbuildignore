@@ -10,3 +10,4 @@ index.md
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
 ^pkgdown
+.ropensci-staff

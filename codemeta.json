@@ -4,11 +4,11 @@
   "identifier": "goodpractice",
   "description": "Give advice about good practices when building R packages. Advice includes functions and syntax to avoid, package structure, code complexity, code formatting, etc.",
   "name": "goodpractice: Advice on R Package Building",
-  "relatedLink": "https://mangothecat.github.io/goodpractice/",
-  "codeRepository": "https://github.com/mangothecat/goodpractice",
-  "issueTracker": "https://github.com/mangothecat/goodpractice/issues",
+  "relatedLink": "https://ropensci-review-tools.github.io/goodpractice/",
+  "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
+  "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.4.003",
+  "version": "1.0.4.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -16,6 +16,13 @@
   },
   "runtimePlatform": "R version 4.4.0 (2024-04-24)",
   "author": [
+    {
+      "@type": "Person",
+      "givenName": "Mark",
+      "familyName": "Padgham",
+      "email": "mark@ropensci.org",
+      "@id": "https://orcid.org/0000-0003-2172-5265"
+    },
     {
       "@type": "Person",
       "givenName": "Karina",
@@ -74,9 +81,10 @@
   "maintainer": [
     {
       "@type": "Person",
-      "givenName": "Karina",
-      "familyName": "Marks",
-      "email": "karina.marks@ascent.io"
+      "givenName": "Mark",
+      "familyName": "Padgham",
+      "email": "mark@ropensci.org",
+      "@id": "https://orcid.org/0000-0003-2172-5265"
     }
   ],
   "softwareSuggestions": [
@@ -300,13 +308,10 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=xmlparsedata"
     },
-    "SystemRequirements": {}
+    "SystemRequirements": null
   },
-  "fileSize": "155.09KB",
-  "releaseNotes": "https://github.com/mangothecat/goodpractice/blob/master/NEWS.md",
+  "fileSize": "155.332KB",
+  "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
-  "contIntegration": [
-    "https://github.com/MangoTheCat/goodpractice/actions",
-    "https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main"
-  ]
+  "contIntegration": ["https://github.com/MangoTheCat/goodpractice/actions", "https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main"]
 }

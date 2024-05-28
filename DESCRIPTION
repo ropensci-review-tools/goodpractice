@@ -2,12 +2,18 @@ Package: goodpractice
 Title: Advice on R Package Building
 Version: 1.0.4.003
 Authors@R:
-    c(person(given = "Ascent Digital Services UK Limited",
+    c(
+      person(given = "Mark",
+             family = "Padgham",
+             role = c("aut", "cre"),
+             email = "mark@ropensci.org",
+             comment = c(ORCID = "0000-0003-2172-5265")),
+      person(given = "Ascent Digital Services UK Limited",
              role = "cph",
              comment = c(GitHub = "MangoTheCat")),
       person(given = "Karina",
              family = "Marks",
-             role = c("aut", "cre"),
+             role = "aut",
              email = "karina.marks@ascent.io",
              comment = c(GitHub = "KarinaMarks")),       
       person(given = "Daniel",
@@ -44,8 +50,8 @@ Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure, code
     complexity, code formatting, etc.
 License: MIT + file LICENSE
-URL: https://mangothecat.github.io/goodpractice/, https://github.com/mangothecat/goodpractice
-BugReports: https://github.com/mangothecat/goodpractice/issues
+URL: https://ropensci-review-tools.github.io/goodpractice/, https://github.com/ropensci-review-tools/goodpractice
+BugReports: https://github.com/ropensci-review-tools/goodpractice/issues
 Imports:
     clisymbols,
     covr,

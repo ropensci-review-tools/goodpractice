@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.0.4.009
+Version: 1.0.4.010
 Authors@R:
     c(
       person(given = "Mark",
@@ -50,7 +50,7 @@ Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure, code
     complexity, code formatting, etc.
 License: MIT + file LICENSE
-URL: https://ropensci-review-tools.github.io/goodpractice/, https://github.com/ropensci-review-tools/goodpractice
+URL: https://docs.ropensci.org/goodpractice/, https://github.com/ropensci-review-tools/goodpractice
 BugReports: https://github.com/ropensci-review-tools/goodpractice/issues
 Imports:
     clisymbols,

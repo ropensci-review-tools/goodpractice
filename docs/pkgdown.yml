@@ -1,8 +1,0 @@
-pandoc: 2.14.0.3
-pkgdown: 2.0.3
-pkgdown_sha: ~
-articles:
-  custom_checks: custom_checks.html
-  goodpractice: goodpractice.html
-last_built: 2022-05-19T10:13Z
-

@@ -2,13 +2,13 @@
 # goodpractice <img src="man/figures/logo.png" align="right" width="20%" height="20%" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/MangoTheCat/goodpractice/workflows/R-CMD-check/badge.svg)](https://github.com/MangoTheCat/goodpractice/actions)
+[![R-CMD-check](https://github.com/ropensci-review-tools/goodpractice/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci-review-tools/goodpractice/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/goodpractice)](https://CRAN.R-project.org/package=goodpractice)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/goodpractice)](https://www.r-pkg.org/pkg/goodpractice)
 [![Codecov test
-coverage](https://codecov.io/gh/MangoTheCat/goodpractice/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main)
+coverage](https://codecov.io/gh/ropensci-review-tools/goodpractice/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main)
 <!-- badges: end -->
 
 ## Advice on R Package Building
@@ -28,7 +28,7 @@ install.packages("goodpractice")
 and the development version from GitHub
 
 ``` r
-remotes::install_github("mangothecat/goodpractice")
+remotes::install_github("ropensci-review-tools/goodpractice")
 ```
 
 ## Usage
@@ -47,14 +47,14 @@ pkg_path <- system.file("bad1", package = "goodpractice")
 g <- gp(pkg_path)
 ```
 
-    #> 
-    #> * checking for file ‘/tmp/Rtmpel0L5F/remotesd7c53a259c/badpackage/DESCRIPTION’ ... OK
-    #> * preparing ‘badpackage’:
-    #> * checking DESCRIPTION meta-information ... OK
-    #> * checking vignette meta-information ... OK
-    #> * checking for LF line-endings in source and make files and shell scripts
-    #> * checking for empty or unneeded directories
-    #> * building ‘badpackage_1.0.0.tar.gz’
+    #> ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    #>      checking for file ‘/tmp/RtmpjAXJO4/remotes2649f3077b5d9/badpackage/DESCRIPTION’ ...  ✔
+    #>   ─  preparing ‘badpackage’:
+    #>   ─  checking DESCRIPTION meta-information ...  ✔
+    #>   ─  checking vignette meta-information ...  ✔
+    #>   ─  checking for LF line-endings in source and make files and shell scripts (362ms)
+    #>   ─  checking for empty or unneeded directories
+    #>   ─  building ‘badpackage_1.0.0.tar.gz’
 
 ``` r
 g

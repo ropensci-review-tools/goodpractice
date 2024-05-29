@@ -1,0 +1,320 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "goodpractice",
+  "description": "Give advice about good practices when building R packages. Advice includes functions and syntax to avoid, package structure, code complexity, code formatting, etc.",
+  "name": "goodpractice: Advice on R Package Building",
+  "relatedLink": "https://ropensci-review-tools.github.io/goodpractice/",
+  "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
+  "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "1.0.4.010",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Mark",
+      "familyName": "Padgham",
+      "email": "mark@ropensci.org",
+      "@id": "https://orcid.org/0000-0003-2172-5265"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Karina",
+      "familyName": "Marks",
+      "email": "karina.marks@ascent.io"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Daniel",
+      "familyName": "de Bortoli"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Gabor",
+      "familyName": "Csardi",
+      "email": "csardi.gabor@gmail.com"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Hannah",
+      "familyName": "Frick",
+      "email": "hannah.frick@gmail.com"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Owen",
+      "familyName": "Jones",
+      "email": "owenjonesuob@gmail.com"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Hannah",
+      "familyName": "Alexander",
+      "email": "halexander@mango-solutions.com"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Ana",
+      "familyName": "Simmons",
+      "email": "ana.simmons@ascent.io"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Fabian",
+      "familyName": "Scheipl"
+    }
+  ],
+  "copyrightHolder": [
+    {
+      "@type": "Organization",
+      "name": "Ascent Digital Services UK Limited"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Mark",
+      "familyName": "Padgham",
+      "email": "mark@ropensci.org",
+      "@id": "https://orcid.org/0000-0003-2172-5265"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "clisymbols",
+      "name": "clisymbols",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=clisymbols"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "crayon",
+      "name": "crayon",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=crayon"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "cyclocomp",
+      "name": "cyclocomp",
+      "version": ">= 1.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cyclocomp"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "desc",
+      "name": "desc",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=desc"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "jsonlite",
+      "name": "jsonlite",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jsonlite"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "lintr",
+      "name": "lintr",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=lintr"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "praise",
+      "name": "praise",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=praise"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "rcmdcheck",
+      "name": "rcmdcheck",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rcmdcheck"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "rstudioapi",
+      "name": "rstudioapi",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rstudioapi"
+    },
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "tools",
+      "name": "tools"
+    },
+    "12": {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
+    "13": {
+      "@type": "SoftwareApplication",
+      "identifier": "whoami",
+      "name": "whoami",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=whoami"
+    },
+    "14": {
+      "@type": "SoftwareApplication",
+      "identifier": "withr",
+      "name": "withr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=withr"
+    },
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "xml2",
+      "name": "xml2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=xml2"
+    },
+    "16": {
+      "@type": "SoftwareApplication",
+      "identifier": "xmlparsedata",
+      "name": "xmlparsedata",
+      "version": ">= 1.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=xmlparsedata"
+    },
+    "SystemRequirements": {}
+  },
+  "fileSize": "155.332KB",
+  "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/master/NEWS.md",
+  "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
+  "contIntegration": [
+    "https://github.com/MangoTheCat/goodpractice/actions",
+    "https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main"
+  ]
+}

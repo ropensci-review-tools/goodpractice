@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">goodpractice</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4.010</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mangothecat/goodpractice/" class="external-link">
+  <a href="https://github.com/ropensci-review-tools/goodpractice/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -105,31 +105,31 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"goodpractice"</span><span class="op">)</span></span></code></pre></div>
 <p>and the development version from GitHub</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mangothecat/goodpractice"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ropensci-review-tools/goodpractice"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mangothecat.github.io/goodpractice/" class="external-link">goodpractice</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/goodpractice/" class="external-link">goodpractice</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/gp.html">gp</a></span><span class="op">(</span><span class="st">"&lt;my-package&gt;"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mangothecat.github.io/goodpractice/" class="external-link">goodpractice</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/goodpractice/" class="external-link">goodpractice</a></span><span class="op">)</span></span>
 <span><span class="co"># use example package contained in the goodpractice package</span></span>
 <span><span class="va">pkg_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"bad1"</span>, package <span class="op">=</span> <span class="st">"goodpractice"</span><span class="op">)</span></span>
 <span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gp.html">gp</a></span><span class="op">(</span><span class="va">pkg_path</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; * checking for file ‘/tmp/Rtmpel0L5F/remotesd7c53a259c/badpackage/DESCRIPTION’ ... OK</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; * preparing ‘badpackage’:</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; * checking DESCRIPTION meta-information ... OK</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; * checking vignette meta-information ... OK</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; * checking for LF line-endings in source and make files and shell scripts</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; * checking for empty or unneeded directories</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; * building ‘badpackage_1.0.0.tar.gz’</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;      checking for file ‘/tmp/RtmpjAXJO4/remotes2649f3077b5d9/badpackage/DESCRIPTION’ ...  ✔</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   ─  preparing ‘badpackage’:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;   ─  checking DESCRIPTION meta-information ...  ✔</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;   ─  checking vignette meta-information ...  ✔</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;   ─  checking for LF line-endings in source and make files and shell scripts (362ms)</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;   ─  checking for empty or unneeded directories</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   ─  building ‘badpackage_1.0.0.tar.gz’</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">g</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#&gt; ── GP badpackage ───────────────────────────────────────────────────────────────</span></span>
@@ -226,8 +226,8 @@
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=goodpractice" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/mangothecat/goodpractice/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/mangothecat/goodpractice/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/ropensci-review-tools/goodpractice/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/ropensci-review-tools/goodpractice/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -250,7 +250,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Karina Marks <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Mark Padgham <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-2172-5265" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Karina Marks <br><small class="roles"> Author </small>  </li>
 <li>Daniel de Bortoli <br><small class="roles"> Author </small>  </li>
 <li>Gabor Csardi <br><small class="roles"> Author </small>  </li>
 <li>Hannah Frick <br><small class="roles"> Author </small>  </li>
@@ -263,10 +264,10 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/MangoTheCat/goodpractice/actions" class="external-link"><img src="https://github.com/MangoTheCat/goodpractice/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/ropensci-review-tools/goodpractice/actions" class="external-link"><img src="https://github.com/ropensci-review-tools/goodpractice/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://CRAN.R-project.org/package=goodpractice" class="external-link"><img src="https://www.r-pkg.org/badges/version/goodpractice" alt="CRAN status"></a></li>
 <li><a href="https://www.r-pkg.org/pkg/goodpractice" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/goodpractice" alt="CRAN RStudio mirror downloads"></a></li>
-<li><a href="https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main" class="external-link"><img src="https://codecov.io/gh/MangoTheCat/goodpractice/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main" class="external-link"><img src="https://codecov.io/gh/ropensci-review-tools/goodpractice/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
@@ -276,7 +277,7 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Karina Marks, Daniel de Bortoli, Gabor Csardi, Hannah Frick, Owen Jones, Hannah Alexander.</p>
+<p>Developed by Mark Padgham, Karina Marks, Daniel de Bortoli, Gabor Csardi, Hannah Frick, Owen Jones, Hannah Alexander.</p>
 </div>
 
 <div class="pkgdown">

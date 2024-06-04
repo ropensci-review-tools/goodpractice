@@ -1,4 +1,10 @@
-# goodpractice 1.0.4-1
+# goodpractice (development version)
+
+* goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
+
+* If your editor supports it, goodpractice now prints clickable hyperlinks to console.
+
+# goodpractice 1.0.5
 
 * CRAN fixes - skipping failing test and adding \alias{goodpractice} to package Rd
 * Adding pkgdown site to DESCRIPTION (#160, @olivroy)

@@ -4,11 +4,11 @@
   "identifier": "goodpractice",
   "description": "Give advice about good practices when building R packages. Advice includes functions and syntax to avoid, package structure, code complexity, code formatting, etc.",
   "name": "goodpractice: Advice on R Package Building",
-  "relatedLink": "https://docs.ropensci.org/goodpractice/",
+  "relatedLink": ["https://docs.ropensci.org/goodpractice/", "https://CRAN.R-project.org/package=goodpractice"],
   "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
   "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.4.12",
+  "version": "1.0.5.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -304,5 +304,8 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "157.946KB"
+  "fileSize": "157.657KB",
+  "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/master/NEWS.md",
+  "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
+  "contIntegration": ["https://github.com/ropensci-review-tools/goodpractice/actions", "https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main"]
 }

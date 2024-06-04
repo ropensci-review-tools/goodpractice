@@ -49,7 +49,7 @@ g <- gp(pkg_path)
 
     #> ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #>      checking for file ‘/tmp/RtmpjAXJO4/remotes2649f3077b5d9/badpackage/DESCRIPTION’ ...  ✔
-    #>   ─  preparing ‘badpackage’:
+    #>   ─  i Preparing ‘badpackage’:
     #>   ─  checking DESCRIPTION meta-information ...  ✔
     #>   ─  checking vignette meta-information ...  ✔
     #>   ─  checking for LF line-endings in source and make files and shell scripts (362ms)

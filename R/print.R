@@ -6,8 +6,7 @@
 #'
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
-#' @importFrom clisymbols symbol
-#' @importFrom crayon red bold
+#' @importFrom cli symbol col_red style_bold
 #'
 #' @export
 
@@ -26,7 +25,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   }
 
   if (failure) {
-    gp_footer(x)
+    gp_footer()
     if (getOption("goodpractice.rstudio_source_markers", TRUE) &&
         hasFun("sourceMarkers")) {
       rstudio_source_markers(x)
@@ -35,7 +34,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   } else {
     cat(
       "\n", sep = "",
-      bold(red(clisymbols::symbol$heart)),
+      style_bold(col_red(cli::symbol$heart)),
       praise(paste0(
         " ${Exclamation}! ${Adjective} package! ",
         "Keep up the ${adjective} work!"
@@ -47,59 +46,19 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   invisible(x)
 }
 
-#' @importFrom clisymbols symbol
-
-make_line <- function(x) {
-  paste(rep(clisymbols::symbol$line, x), collapse = "")
-}
-
-lines <- vapply(1:100, FUN.VALUE = "", make_line)
-
-header_line <- function(left = "", right = "",
-                        width = getOption("width")) {
-
-  ncl <- nchar(left)
-  ncr <- nchar(right)
-
-  if (ncl) left <- paste0(" ", left, " ")
-  if (ncr) right <- paste0(" ", right, " ")
-  ndashes <- width - ((ncl > 0) * 2  + (ncr > 0) * 2 + ncl + ncr)
-
-  if (ndashes < 4) {
-    right <- substr(right, 1, ncr - (4 - ndashes))
-    ncr <- nchar(right)
-
-  }
-
-  dashes <- if (ndashes <= length(lines)) {
-    lines[ndashes]
-  } else {
-    make_line(ndashes)
-  }
-
-  res <- paste0(
-    substr(dashes, 1, 2),
-    left,
-    substr(dashes, 3, ndashes - 4),
-    right,
-    substr(dashes, ndashes - 3, ndashes)
-  )[1]
-
-  substring(res, 1, width)
-}
-
 gp_header <- function(x) {
-  h <- header_line(left = paste("GP", x$package))
-  cat(crayon::yellow(h), "\n\n", sep = "")
-  cat(crayon::bold("It is good practice to"), "\n\n", sep = "")
+  cli::cat_rule(
+    left = paste("GP", x$package),
+    col = "yellow"
+  )
+  cat("\n", cli::style_bold("It is good practice to"), "\n\n", sep = "")
 }
 
-gp_footer <- function(x) {
-  f <- header_line()
-  cat(crayon::yellow(f), "\n")
+gp_footer <- function() {
+  cli::cat_rule(col = "yellow")
 }
 
-#' @importFrom clisymbols symbol
+#' @importFrom cli symbol
 
 gp_advice <- function(state, fail, limit) {
 
@@ -112,8 +71,8 @@ gp_advice <- function(state, fail, limit) {
 
   str <- gsub("\n\\s*", " ", str)
   str <- paste(
-    strwrap(
-      paste0(crayon::red(clisymbols::symbol$cross), " ", str),
+    cli::ansi_strwrap(
+      paste0(cli::col_red(cli::symbol$cross), " ", str),
       indent = 2,
       exdent = 4
     ),
@@ -141,6 +100,6 @@ gp_positions <- function(pos, limit) {
 
   if (num > limit) {
     and <- paste0("    ... and ", num - limit, " more lines\n")
-    cat(crayon::blue(and))
+    cat(cli::col_blue(and))
   }
 }

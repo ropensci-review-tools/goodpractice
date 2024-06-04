@@ -81,7 +81,13 @@ gp_advice <- function(state, fail, limit) {
 
   cat(str)
 
-  if ("positions" %in% names(res)) gp_positions(res[["positions"]], limit)
+  if ("positions" %in% names(res)) {
+    # To create functioning links, change directory to package path temporarily.
+    withr::with_dir(
+      state$path,
+      gp_positions(res[["positions"]], limit)
+    )
+  }
 
   cat("\n")
 }
@@ -93,9 +99,20 @@ gp_positions <- function(pos, limit) {
 
   cat("\n\n")
   lapply(pos, function(x) {
-    cat(sep = "", "    ", crayon::blue(x$filename), ":",
-        crayon::blue(as.character(x$line_number)), ":",
-        crayon::blue(as.character(x$column_number)), "\n")
+    # Only display line and column when available
+    if (is.na(x$line_number)) {
+      # In the unlikely scenario that only column is available
+      # it would still be unusable without line_number
+      pos <- ""
+    } else {
+      pos <- paste0(":", x$line_number)
+      if (!is.na(x$column_number)) {
+        pos <- paste0(pos, ":", x$column_number)
+      }
+    }
+    cat(sep = "", "    ", 
+        cli::format_inline(paste0("{.path ", x$filename, pos, "}")),
+        "\n")
   })
 
   if (num > limit) {

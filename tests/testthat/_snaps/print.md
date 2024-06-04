@@ -12,11 +12,11 @@
           overwritten by the user.  Hence, one should always use 'TRUE' and 'FALSE'
           for the logicals.
       
-          R/tf.R:NA:NA
-          R/tf.R:NA:NA
-          R/tf.R:NA:NA
-          R/tf.R:NA:NA
-          R/tf.R:NA:NA
+          'R/tf.R'
+          'R/tf.R'
+          'R/tf.R'
+          'R/tf.R'
+          'R/tf.R'
           ... and 4 more lines
       
       --------------------------------------------------------------------------------

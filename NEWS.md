@@ -1,4 +1,4 @@
-# goodpractice (development version)
+# goodpractice 1.0.5.9000 (dev version)
 
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 
@@ -6,8 +6,10 @@
 
 # goodpractice 1.0.5
 
+* New maintainer: rOpenSci
+* Package reinstated on CRAN, after archiving of previous version.
 * CRAN fixes - skipping failing test and adding \alias{goodpractice} to package Rd
-* Adding pkgdown site to DESCRIPTION (#160, @olivroy)
+* Adding docs.ropensci site to DESCRIPTION
 
 # goodpractice 1.0.3
 

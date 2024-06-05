@@ -1,7 +1,9 @@
-# goodpractice 1.0.4-1
+# goodpractice 1.0.5
 
+* New maintainer: rOpenSci
+* Package reinstated on CRAN, after archiving of previous version.
 * CRAN fixes - skipping failing test and adding \alias{goodpractice} to package Rd
-* Adding pkgdown site to DESCRIPTION (#160, @olivroy)
+* Adding docs.ropensci site to DESCRIPTION
 
 # goodpractice 1.0.3
 

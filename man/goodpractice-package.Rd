@@ -12,7 +12,7 @@ formatting, etc.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://ropensci-review-tools.github.io/goodpractice/}
+  \item \url{https://docs.ropensci.org/goodpractice/}
   \item \url{https://github.com/ropensci-review-tools/goodpractice}
   \item Report bugs at \url{https://github.com/ropensci-review-tools/goodpractice/issues}
 }

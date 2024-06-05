@@ -53,9 +53,8 @@ License: MIT + file LICENSE
 URL: https://docs.ropensci.org/goodpractice/, https://github.com/ropensci-review-tools/goodpractice
 BugReports: https://github.com/ropensci-review-tools/goodpractice/issues
 Imports:
-    clisymbols,
+    cli,
     covr,
-    crayon,
     cyclocomp (>= 1.1.0),
     desc,
     jsonlite,

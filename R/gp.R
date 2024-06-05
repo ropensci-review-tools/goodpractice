@@ -47,7 +47,7 @@ gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
   )
 
   for (prep in preps) {
-    message("Preparing: ", prep)
+    cli::cli_inform(c(i = "Preparing: {prep}"))
     state <- MYPREPS[[prep]](state, quiet = quiet)
   }
 

@@ -1,3 +1,5 @@
+# goodpractice 1.0.5.9000 (dev version)
+
 # goodpractice 1.0.5
 
 * New maintainer: rOpenSci

@@ -4,23 +4,17 @@
   "identifier": "goodpractice",
   "description": "Give advice about good practices when building R packages. Advice includes functions and syntax to avoid, package structure, code complexity, code formatting, etc.",
   "name": "goodpractice: Advice on R Package Building",
-  "relatedLink": ["https://docs.ropensci.org/goodpractice/", "https://CRAN.R-project.org/package=goodpractice"],
+  "relatedLink": "https://ropensci-review-tools.github.io/goodpractice/",
   "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
   "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.5.9000",
+  "version": "1.0.4.012",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31 ucrt)",
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
-  },
+  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
   "author": [
     {
       "@type": "Person",
@@ -135,15 +129,15 @@
   "softwareRequirements": {
     "1": {
       "@type": "SoftwareApplication",
-      "identifier": "cli",
-      "name": "cli",
+      "identifier": "clisymbols",
+      "name": "clisymbols",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=cli"
+      "sameAs": "https://CRAN.R-project.org/package=clisymbols"
     },
     "2": {
       "@type": "SoftwareApplication",
@@ -159,6 +153,18 @@
     },
     "3": {
       "@type": "SoftwareApplication",
+      "identifier": "crayon",
+      "name": "crayon",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=crayon"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
       "identifier": "cyclocomp",
       "name": "cyclocomp",
       "version": ">= 1.1.0",
@@ -170,7 +176,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cyclocomp"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "desc",
       "name": "desc",
@@ -182,7 +188,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=desc"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "jsonlite",
       "name": "jsonlite",
@@ -194,7 +200,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=jsonlite"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "lintr",
       "name": "lintr",
@@ -207,7 +213,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=lintr"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "praise",
       "name": "praise",
@@ -219,7 +225,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=praise"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "rcmdcheck",
       "name": "rcmdcheck",
@@ -231,7 +237,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rcmdcheck"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "rstudioapi",
       "name": "rstudioapi",
@@ -243,17 +249,17 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rstudioapi"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "tools",
       "name": "tools"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "12": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "whoami",
       "name": "whoami",
@@ -265,7 +271,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=whoami"
     },
-    "13": {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "withr",
       "name": "withr",
@@ -277,7 +283,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=withr"
     },
-    "14": {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "xml2",
       "name": "xml2",
@@ -289,7 +295,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=xml2"
     },
-    "15": {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "xmlparsedata",
       "name": "xmlparsedata",
@@ -302,10 +308,13 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=xmlparsedata"
     },
-    "SystemRequirements": null
+    "SystemRequirements": {}
   },
-  "fileSize": "157.657KB",
+  "fileSize": "155.332KB",
   "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
-  "contIntegration": ["https://github.com/ropensci-review-tools/goodpractice/actions", "https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main"]
+  "contIntegration": [
+    "https://github.com/MangoTheCat/goodpractice/actions",
+    "https://app.codecov.io/gh/MangoTheCat/goodpractice?branch=main"
+  ]
 }

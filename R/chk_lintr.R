@@ -52,7 +52,7 @@ CHECKS$lintr_line_length_linter <- make_check(
   }
 )
 
-CHECKS$lintr_trailing_semicolon_linter <- make_check(
+CHECKS$lintr_semicolon_linter <- make_check(
 
   description = "No trailing semicolons",
   tags = c("style", "lintr"),
@@ -63,7 +63,7 @@ CHECKS$lintr_trailing_semicolon_linter <- make_check(
         forbid them",
 
   check = function(state) {
-    get_lintr_state(state, "trailing_semicolon_linter")
+    get_lintr_state(state, "semicolon_linter")
   }
 )
 

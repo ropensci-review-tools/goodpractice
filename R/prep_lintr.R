@@ -4,6 +4,7 @@
 linters_to_lint <- list(
   assignment_linter = lintr::assignment_linter(),
   line_length_linter = lintr::line_length_linter(80),
+  package_hooks_linter = lintr::package_hooks_linter(),
   semicolon_linter = lintr::semicolon_linter(allow_compound = TRUE),
   attach_detach_linter = attach_detach_linter(),
   setwd_linter = setwd_linter(),

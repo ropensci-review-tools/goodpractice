@@ -88,7 +88,6 @@ Collate:
     'chk_rcmdcheck.R'
     'chk_tnf.R'
     'gp.R'
-    'my_linters.R'
     'package.R'
     'prep_covr.R'
     'prep_cyclocomp.R'

@@ -9,7 +9,7 @@ linters_to_lint <- list(
   setwd_linter = setwd_linter(),
   sapply_linter = sapply_linter(),
   library_require_linter = library_require_linter(),
-  seq_linter = seq_linter()
+  seq_linter = lintr::seq_linter()
 )
 
 #' @include lists.R

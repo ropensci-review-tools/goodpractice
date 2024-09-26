@@ -1,4 +1,3 @@
-
 # goodpractice <img src="man/figures/logo.png" align="right" width="20%" height="20%" />
 
 <!-- badges: start -->
@@ -28,7 +27,7 @@ install.packages("goodpractice")
 and the development version from GitHub
 
 ``` r
-remotes::install_github("ropensci-review-tools/goodpractice")
+pak::pak("ropensci-review-tools/goodpractice")
 ```
 
 ## Usage
@@ -48,59 +47,52 @@ g <- gp(pkg_path)
 ```
 
     #> ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    #>      checking for file ‘/tmp/RtmpjAXJO4/remotes2649f3077b5d9/badpackage/DESCRIPTION’ ...  ✔
-    #>   ─  i Preparing ‘badpackage’:
-    #>   ─  checking DESCRIPTION meta-information ...  ✔
-    #>   ─  checking vignette meta-information ...  ✔
-    #>   ─  checking for LF line-endings in source and make files and shell scripts (362ms)
+    #>      checking for file ‘/tmp/Rtmpoq5BBi/remotes9dcd65cdcc55/badpackage/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/Rtmpoq5BBi/remotes9dcd65cdcc55/badpackage/DESCRIPTION’
+    #>   ─  preparing ‘badpackage’:
+    #>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+    #>      checking vignette meta-information ...  ✔  checking vignette meta-information
+    #>   ─  checking for LF line-endings in source and make files and shell scripts (400ms)
     #>   ─  checking for empty or unneeded directories
-    #>   ─  building ‘badpackage_1.0.0.tar.gz’
+    #> ─  building ‘badpackage_1.0.0.tar.gz’
+    #>      
+    #> 
 
 ``` r
 g
 ```
 
-    #> ── GP badpackage ───────────────────────────────────────────────────────────────
+    #> ── GP badpackage ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #> 
     #> It is good practice to
     #> 
-    #>   ✖ not use "Depends" in DESCRIPTION, as it can cause name clashes, and
-    #>     poor interaction with other packages. Use "Imports" instead.
-    #>   ✖ omit "Date" in DESCRIPTION. It is not required and it gets invalid
-    #>     quite often. A build date will be added to the package when you
+    #>   ✖ not use "Depends" in DESCRIPTION, as it can cause name clashes, and poor interaction with other packages. Use "Imports" instead.
+    #>   ✖ omit "Date" in DESCRIPTION. It is not required and it gets invalid quite often. A build date will be added to the package when you
     #>     perform `R CMD build` on it.
-    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information
-    #>     about your package online. If your package does not have a
+    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information about your package online. If your package does not have a
     #>     homepage, add an URL to GitHub, or the CRAN package package page.
-    #>   ✖ add a "BugReports" field to DESCRIPTION, and point it to a bug
-    #>     tracker. Many online code hosting services provide bug trackers for
+    #>   ✖ add a "BugReports" field to DESCRIPTION, and point it to a bug tracker. Many online code hosting services provide bug trackers for
     #>     free, https://github.com, https://gitlab.com, etc.
-    #>   ✖ omit trailing semicolons from code lines. They are not needed and
-    #>     most R coding standards forbid them
+    #>   ✖ omit trailing semicolons from code lines. They are not needed and most R coding standards forbid them
     #> 
-    #>     R/semicolons.R:4:30
-    #>     R/semicolons.R:5:29
-    #>     R/semicolons.R:9:38
+    #>     'R/semicolons.R:4:30'
+    #>     'R/semicolons.R:5:29'
+    #>     'R/semicolons.R:9:38'
     #> 
-    #>   ✖ not import packages as a whole, as this can cause name clashes
-    #>     between the imported packages. Instead, import only the specific
+    #>   ✖ not import packages as a whole, as this can cause name clashes between the imported packages. Instead, import only the specific
     #>     functions you need.
-    #>   ✖ fix this R CMD check ERROR: VignetteBuilder package not declared:
-    #>     ‘knitr’ See section ‘The DESCRIPTION file’ in the ‘Writing R
+    #>   ✖ fix this R CMD check ERROR: VignetteBuilder package not declared: ‘knitr’ See section ‘The DESCRIPTION file’ in the ‘Writing R
     #>     Extensions’ manual.
-    #>   ✖ avoid 'T' and 'F', as they are just variables which are set to the
-    #>     logicals 'TRUE' and 'FALSE' by default, but are not reserved words
-    #>     and hence can be overwritten by the user.  Hence, one should always
-    #>     use 'TRUE' and 'FALSE' for the logicals.
+    #>   ✖ avoid 'T' and 'F', as they are just variables which are set to the logicals 'TRUE' and 'FALSE' by default, but are not reserved
+    #>     words and hence can be overwritten by the user.  Hence, one should always use 'TRUE' and 'FALSE' for the logicals.
     #> 
-    #>     R/tf.R:NA:NA
-    #>     R/tf.R:NA:NA
-    #>     R/tf.R:NA:NA
-    #>     R/tf.R:NA:NA
-    #>     R/tf.R:NA:NA
+    #>     'R/tf.R'
+    #>     'R/tf.R'
+    #>     'R/tf.R'
+    #>     'R/tf.R'
+    #>     'R/tf.R'
     #>     ... and 4 more lines
     #> 
-    #> ────────────────────────────────────────────────────────────────────────────────
+    #> ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ``` r
 # show all available checks
@@ -111,14 +103,13 @@ g_url <- gp(pkg_path, checks = "description_url")
 g_url
 ```
 
-    #> ── GP badpackage ───────────────────────────────────────────────────────────────
+    #> ── GP badpackage ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #> 
     #> It is good practice to
     #> 
-    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information
-    #>     about your package online. If your package does not have a
+    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information about your package online. If your package does not have a
     #>     homepage, add an URL to GitHub, or the CRAN package package page.
-    #> ────────────────────────────────────────────────────────────────────────────────
+    #> ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ``` r
 # which checks were carried out?
@@ -136,7 +127,7 @@ failed_checks(g)
     #> [2] "no_description_date"                   
     #> [3] "description_url"                       
     #> [4] "description_bugreports"                
-    #> [5] "lintr_trailing_semicolon_linter"       
+    #> [5] "lintr_semicolon_linter"                
     #> [6] "no_import_package_as_a_whole"          
     #> [7] "rcmdcheck_package_dependencies_present"
     #> [8] "truefalse_not_tf"
@@ -155,4 +146,4 @@ results(g)[1:5,]
 
 ## License
 
-MIT © 2022 Ascent Digital Services UK Limited
+MIT © 2024 rOpenSci

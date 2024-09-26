@@ -78,4 +78,4 @@ results(g)[1:5,]
 
 ## License
 
-MIT © 2022 Ascent Digital Services UK Limited
+MIT © 2024 rOpenSci

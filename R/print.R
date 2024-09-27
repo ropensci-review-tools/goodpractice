@@ -111,7 +111,7 @@ gp_positions <- function(pos, limit) {
       }
     }
     cat(sep = "", "    ", 
-        cli::format_inline(paste0("{.path ", x$filename, pos, "}")),
+        cli::format_inline("{.path {x$filename}{pos}}"),
         "\n")
   })
 

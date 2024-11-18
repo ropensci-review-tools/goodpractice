@@ -44,7 +44,7 @@ CHECKS$lintr_line_length_linter <- make_check(
 
   gp = "avoid long code lines, it is bad for
         readability. Also, many people prefer editor windows
-        that are about 80 characters wide. Try make your lines
+        that are about 80 characters wide. Try making your lines
         shorter than 80 characters",
 
   check = function(state) {

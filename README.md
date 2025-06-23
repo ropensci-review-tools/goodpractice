@@ -145,7 +145,7 @@ for details.
 
 ## License
 
-MIT © 2025 rOpenSci
+MIT © 2022 Ascent Digital Services UK Limited
 
 ## Contributors
 

@@ -139,9 +139,8 @@ results(g)[1:5,]
 
 ## Contributing
 
-We welcome any and all contributions to this package. See
-[CONTRIBUTING.md](https://github.com/ropensci-review-tools/goodpractice/blob/main/CONTRIBUTING.md)
-for details.
+We welcome any and all contributions to this package.
+See [CONTRIBUTING.md](https://github.com/ropensci-review-tools/goodpractice/blob/main/CONTRIBUTING.md) for details.
 
 ## License
 

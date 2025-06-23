@@ -1,7 +1,7 @@
 
 #' @include lists.R
 
-cyclocomp_limit <- 50
+
 
 CHECKS$cyclocomp <- make_check(
 
@@ -10,6 +10,7 @@ CHECKS$cyclocomp <- make_check(
   preps = "cyclocomp",
 
   gp = function(state) {
+    cyclocomp_limit <- getOption("goodpractice.cyclocomp.limit", 50)
     cyc <- state$cyclocomp
     long <- which(cyc$cyclocomp > cyclocomp_limit)
     funcs <- paste0(
@@ -19,12 +20,15 @@ CHECKS$cyclocomp <- make_check(
     )
     paste0(
       "write short and simple functions. These functions have high
-       cyclomatic complexity:", funcs, "."
+       cyclomatic complexity (>", cyclocomp_limit,"): ", funcs, ". ",
+      "You can make them easier to reason about by encapsulating distinct steps
+      of your function into subfunctions."
     )
   },
 
   check = function(state) {
-    if(inherits(state$cyclocomp, "try-error")) return(NA)
+    cyclocomp_limit <- getOption("goodpractice.cyclocomp.limit", 50)
+    if (inherits(state$cyclocomp, "try-error")) return(NA)
     all(state$cyclocomp$cyclocomp <= cyclocomp_limit)
   }
 )

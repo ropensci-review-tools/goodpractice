@@ -1,11 +1,16 @@
-
-#' @export
+#' Print goodpractice results
+#'
+#' @param x Object of class `goodPractice`, as returned by [gp()].
+#' @param positions_limit How many positions to print at most.
+#' @param ... Unused, for compatibility with [base::print()] generic method.
+#'
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
-#' @importFrom clisymbols symbol
-#' @importFrom crayon red bold
+#' @importFrom cli symbol col_red style_bold
+#'
+#' @export
 
-print.goodPractice <- function(x, ...) {
+print.goodPractice <- function(x, positions_limit = 5, ...) {
 
   failure <- FALSE
 
@@ -15,12 +20,12 @@ print.goodPractice <- function(x, ...) {
         failure <- TRUE
         gp_header(x)
       }
-      gp_advice(x, check)
+      gp_advice(x, check, positions_limit)
     }
   }
 
   if (failure) {
-    gp_footer(x)
+    gp_footer()
     if (getOption("goodpractice.rstudio_source_markers", TRUE) &&
         hasFun("sourceMarkers")) {
       rstudio_source_markers(x)
@@ -29,7 +34,7 @@ print.goodPractice <- function(x, ...) {
   } else {
     cat(
       "\n", sep = "",
-      bold(red(symbol$heart)),
+      style_bold(col_red(cli::symbol$heart)),
       praise(paste0(
         " ${Exclamation}! ${Adjective} package! ",
         "Keep up the ${adjective} work!"
@@ -41,61 +46,21 @@ print.goodPractice <- function(x, ...) {
   invisible(x)
 }
 
-#' @importFrom clisymbols symbol
-
-make_line <- function(x) {
-  paste(rep(symbol$line, x), collapse = "")
-}
-
-lines <- vapply(1:100, FUN.VALUE = "", make_line)
-
-header_line <- function(left = "", right = "",
-                        width = getOption("width")) {
-
-  ncl <- nchar(left)
-  ncr <- nchar(right)
-
-  if (ncl) left <- paste0(" ", left, " ")
-  if (ncr) right <- paste0(" ", right, " ")
-  ndashes <- width - ((ncl > 0) * 2  + (ncr > 0) * 2 + ncl + ncr)
-
-  if (ndashes < 4) {
-    right <- substr(right, 1, ncr - (4 - ndashes))
-    ncr <- nchar(right)
-
-  }
-
-  dashes <- if (ndashes <= length(lines)) {
-    lines[ndashes]
-  } else {
-    make_line(ndashes)
-  }
-
-  res <- paste0(
-    substr(dashes, 1, 2),
-    left,
-    substr(dashes, 3, ndashes - 4),
-    right,
-    substr(dashes, ndashes - 3, ndashes)
-  )[1]
-
-  substring(res, 1, width)
-}
-
 gp_header <- function(x) {
-  h <- header_line(left = paste("GP", x$package))
-  cat(crayon::yellow(h), "\n\n", sep = "")
-  cat(crayon::bold("It is good practice to"), "\n\n", sep = "")
+  cli::cat_rule(
+    left = paste("GP", x$package),
+    col = "yellow"
+  )
+  cat("\n", cli::style_bold("It is good practice to"), "\n\n", sep = "")
 }
 
-gp_footer <- function(x) {
-  f <- header_line()
-  cat(crayon::yellow(f), "\n")
+gp_footer <- function() {
+  cli::cat_rule(col = "yellow")
 }
 
-#' @importFrom clisymbols symbol
+#' @importFrom cli symbol
 
-gp_advice <- function(state, fail) {
+gp_advice <- function(state, fail, limit) {
 
   MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
 
@@ -106,8 +71,8 @@ gp_advice <- function(state, fail) {
 
   str <- gsub("\n\\s*", " ", str)
   str <- paste(
-    strwrap(
-      paste0(crayon::red(symbol$cross), " ", str),
+    cli::ansi_strwrap(
+      paste0(cli::col_red(cli::symbol$cross), " ", str),
       indent = 2,
       exdent = 4
     ),
@@ -116,25 +81,42 @@ gp_advice <- function(state, fail) {
 
   cat(str)
 
-  if ("positions" %in% names(res)) gp_positions(res[["positions"]])
+  if ("positions" %in% names(res)) {
+    # To create functioning links, change directory to package path temporarily.
+    withr::with_dir(
+      state$path,
+      gp_positions(res[["positions"]], limit)
+    )
+  }
 
   cat("\n")
 }
 
-gp_positions <- function(pos, limit = 5) {
+gp_positions <- function(pos, limit) {
 
   num <- length(pos)
-  if (length(pos) > limit) pos <- pos[1:5]
+  if (length(pos) > limit) pos <- pos[1:limit]
 
   cat("\n\n")
   lapply(pos, function(x) {
-    cat(sep = "", "    ", crayon::blue(x$filename), ":",
-        crayon::blue(as.character(x$line_number)), ":",
-        crayon::blue(as.character(x$column_number)), "\n")
+    # Only display line and column when available
+    if (is.na(x$line_number)) {
+      # In the unlikely scenario that only column is available
+      # it would still be unusable without line_number
+      pos <- ""
+    } else {
+      pos <- paste0(":", x$line_number)
+      if (!is.na(x$column_number)) {
+        pos <- paste0(pos, ":", x$column_number)
+      }
+    }
+    cat(sep = "", "    ", 
+        cli::format_inline("{.path {x$filename}{pos}}"),
+        "\n")
   })
 
   if (num > limit) {
-    and <- paste0("    ... and ", num - 5, " more lines\n")
-    cat(crayon::blue(and))
+    and <- paste0("    ... and ", num - limit, " more lines\n")
+    cat(cli::col_blue(and))
   }
 }

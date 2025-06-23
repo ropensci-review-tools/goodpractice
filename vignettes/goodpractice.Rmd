@@ -22,18 +22,18 @@ Building an R package is a great way of encapsulating code, documentation and da
 
 For a package to be distributed via CRAN, it needs to pass a set of checks implemented in `R CMD check`, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?
 
-These checks are helpful in developing a solid R package but they don't check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Incuding an URL for bug reports lets people more easily report bugs if they find any. 
+These checks are helpful in developing a solid R package but they don't check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Including an URL for bug reports lets people more easily report bugs if they find any. 
 
-Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](https://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](https://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](https://cran.r-project.org/package=lintr) package and cyclompatic complexity via the [**cyclocomp**](https://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid.
+Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](https://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](https://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](https://cran.r-project.org/package=lintr) package and cyclomatic complexity via the [**cyclocomp**](https://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid.
 
-You can use **goodpractice** checks as a reminder for you and your collegues - and if you have custom checks to run, you can make **goodpractice** run those as well! Please see the vignette [Custom Checks](https://mangothecat.github.io/goodpractice/articles/custom_checks.html) for more details.
+You can use **goodpractice** checks as a reminder for you and your colleagues - and if you have custom checks to run, you can make **goodpractice** run those as well! Please see the vignette "Custom Checks" for more details.
 
 
 ## Good practice out of the box
 
 ### Main function
 
-The main fuction is `goodpractice()` and has an alias `gp()` which takes the path to the source code of a package as its first argument. The **goodpractice** package contains the source for a simple package which violates some good practices. We'll use this for the examples.
+The main function is `goodpractice()` and has an alias `gp()` which takes the path to the source code of a package as its first argument. The **goodpractice** package contains the source for a simple package which violates some good practices. We'll use this for the examples.
 
 ```{r}
 library(goodpractice)

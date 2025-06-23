@@ -4,5 +4,5 @@
 #' functions and syntax to avoid, package structure, code complexity, code
 #' formatting, etc.
 #' @name goodpractice-package
-#' @aliases NULL
+#' @aliases goodpractice-package
 "_PACKAGE"

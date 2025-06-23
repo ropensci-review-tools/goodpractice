@@ -8,8 +8,8 @@ CHECKS$no_import_package_as_a_whole <- make_check(
   preps = "namespace",
 
   gp = 'not import packages as a whole, as this can cause name
-        clashes between the imported packages. Instead, import
-        only the specific functions you need.',
+        clashes between the imported packages, especially over time as packages change.
+        Instead, import only the specific functions you need.',
 
   check = function(state) {
     if(inherits(state$namespace, "try-error")) return(NA)

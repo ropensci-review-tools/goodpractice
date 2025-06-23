@@ -11,10 +11,10 @@ r_package_files(path)
 }
 \value{
 A character vector of (relative) file
-  names in the corrent collation order.
+names in the current collation order.
 }
 \description{
-It uses the `Collate` entry in the `DESCRIPTION` file,
+It uses the \code{Collate} entry in the \code{DESCRIPTION} file,
 if there is one. Otherwise the order is alphabetical.
 }
 \keyword{internal}

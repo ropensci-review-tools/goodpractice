@@ -7,7 +7,7 @@
 get_marker(gp, check)
 }
 \arguments{
-\item{gp}{`gp()` output}
+\item{gp}{\code{gp()} output}
 
 \item{check}{name of the check to extract}
 }

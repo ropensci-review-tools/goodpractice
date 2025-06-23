@@ -44,7 +44,7 @@ CHECKS$lintr_line_length_linter <- make_check(
 
   gp = "avoid long code lines, it is bad for
         readability. Also, many people prefer editor windows
-        that are about 80 characters wide. Try make your lines
+        that are about 80 characters wide. Try making your lines
         shorter than 80 characters",
 
   check = function(state) {
@@ -52,7 +52,7 @@ CHECKS$lintr_line_length_linter <- make_check(
   }
 )
 
-CHECKS$lintr_trailing_semicolon_linter <- make_check(
+CHECKS$lintr_semicolon_linter <- make_check(
 
   description = "No trailing semicolons",
   tags = c("style", "lintr"),
@@ -63,7 +63,7 @@ CHECKS$lintr_trailing_semicolon_linter <- make_check(
         forbid them",
 
   check = function(state) {
-    get_lintr_state(state, "trailing_semicolon_linter")
+    get_lintr_state(state, "semicolon_linter")
   }
 )
 

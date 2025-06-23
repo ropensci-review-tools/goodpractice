@@ -46,14 +46,14 @@ pkg_path <- system.file("bad1", package = "goodpractice")
 g <- gp(pkg_path)
 ```
 
-    #> ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    #>      checking for file ‘/tmp/Rtmpoq5BBi/remotes9dcd65cdcc55/badpackage/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/Rtmpoq5BBi/remotes9dcd65cdcc55/badpackage/DESCRIPTION’
+    #> ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    #>      checking for file ‘/tmp/RtmpToCodX/remotes3aa707ad21a85/badpackage/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpToCodX/remotes3aa707ad21a85/badpackage/DESCRIPTION’
     #>   ─  preparing ‘badpackage’:
     #>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
     #>      checking vignette meta-information ...  ✔  checking vignette meta-information
-    #>   ─  checking for LF line-endings in source and make files and shell scripts (400ms)
+    #>   ─  checking for LF line-endings in source and make files and shell scripts (389ms)
     #>   ─  checking for empty or unneeded directories
-    #> ─  building ‘badpackage_1.0.0.tar.gz’
+    #>   ─  building ‘badpackage_1.0.0.tar.gz’
     #>      
     #> 
 
@@ -61,29 +61,23 @@ g <- gp(pkg_path)
 g
 ```
 
-    #> ── GP badpackage ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    #> ── GP badpackage ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #> 
     #> It is good practice to
     #> 
     #>   ✖ not use "Depends" in DESCRIPTION, as it can cause name clashes, and poor interaction with other packages. Use "Imports" instead.
-    #>   ✖ omit "Date" in DESCRIPTION. It is not required and it gets invalid quite often. A build date will be added to the package when you
-    #>     perform `R CMD build` on it.
-    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information about your package online. If your package does not have a
-    #>     homepage, add an URL to GitHub, or the CRAN package package page.
-    #>   ✖ add a "BugReports" field to DESCRIPTION, and point it to a bug tracker. Many online code hosting services provide bug trackers for
-    #>     free, https://github.com, https://gitlab.com, etc.
+    #>   ✖ omit "Date" in DESCRIPTION. It is not required and it gets invalid quite often. A build date will be added to the package when you perform `R CMD build` on it.
+    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information about your package online. If your package does not have a homepage, add an URL to GitHub, or the CRAN package package page.
+    #>   ✖ add a "BugReports" field to DESCRIPTION, and point it to a bug tracker. Many online code hosting services provide bug trackers for free, https://github.com, https://gitlab.com, etc.
     #>   ✖ omit trailing semicolons from code lines. They are not needed and most R coding standards forbid them
     #> 
     #>     'R/semicolons.R:4:30'
     #>     'R/semicolons.R:5:29'
     #>     'R/semicolons.R:9:38'
     #> 
-    #>   ✖ not import packages as a whole, as this can cause name clashes between the imported packages. Instead, import only the specific
-    #>     functions you need.
-    #>   ✖ fix this R CMD check ERROR: VignetteBuilder package not declared: ‘knitr’ See section ‘The DESCRIPTION file’ in the ‘Writing R
-    #>     Extensions’ manual.
-    #>   ✖ avoid 'T' and 'F', as they are just variables which are set to the logicals 'TRUE' and 'FALSE' by default, but are not reserved
-    #>     words and hence can be overwritten by the user.  Hence, one should always use 'TRUE' and 'FALSE' for the logicals.
+    #>   ✖ not import packages as a whole, as this can cause name clashes between the imported packages. Instead, import only the specific functions you need.
+    #>   ✖ fix this R CMD check ERROR: VignetteBuilder package not declared: ‘knitr’ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’ manual.
+    #>   ✖ avoid 'T' and 'F', as they are just variables which are set to the logicals 'TRUE' and 'FALSE' by default, but are not reserved words and hence can be overwritten by the user.  Hence, one should always use 'TRUE' and 'FALSE' for the logicals.
     #> 
     #>     'R/tf.R'
     #>     'R/tf.R'
@@ -92,7 +86,7 @@ g
     #>     'R/tf.R'
     #>     ... and 4 more lines
     #> 
-    #> ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    #> ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ``` r
 # show all available checks
@@ -103,13 +97,12 @@ g_url <- gp(pkg_path, checks = "description_url")
 g_url
 ```
 
-    #> ── GP badpackage ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    #> ── GP badpackage ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #> 
     #> It is good practice to
     #> 
-    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information about your package online. If your package does not have a
-    #>     homepage, add an URL to GitHub, or the CRAN package package page.
-    #> ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    #>   ✖ add a "URL" field to DESCRIPTION. It helps users find information about your package online. If your package does not have a homepage, add an URL to GitHub, or the CRAN package package page.
+    #> ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ``` r
 # which checks were carried out?
@@ -144,23 +137,29 @@ results(g)[1:5,]
     #> 4    no_description_date  FALSE
     #> 5        description_url  FALSE
 
+## Contributing
+
+We welcome any and all contributions to this package.
+See [CONTRIBUTING.md](https://github.com/ropensci-review-tools/goodpractice/blob/main/CONTRIBUTING.md) for details.
+
 ## License
 
-MIT © 2024 rOpenSci
+MIT © 2022 Ascent Digital Services UK Limited
 
 ## Contributors
-
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropensci/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
+All contributions to this project are gratefully acknowledged using the
+[`allcontributors` package](https://github.com/ropensci/allcontributors)
+following the [all-contributors](https://allcontributors.org)
+specification. Contributions of any kind are welcome!
 
 ### Code
 
 <table>
-
 <tr>
 <td align="center">
 <a href="https://github.com/gaborcsardi">
@@ -205,8 +204,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=olivroy">olivroy</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/dougmet">
@@ -251,8 +248,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=andrewl776">andrewl776</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/HAlexander23">
@@ -291,14 +286,11 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=marberts">marberts</a>
 </td>
 </tr>
-
 </table>
-
 
 ### Issue Authors
 
 <table>
-
 <tr>
 <td align="center">
 <a href="https://github.com/peterhurford">
@@ -343,8 +335,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3Amdozmorov">mdozmorov</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/vdicolab">
@@ -389,8 +379,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3Amaelle">maelle</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/erleholgersen">
@@ -435,8 +423,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3ABisaloo">Bisaloo</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/bfgray3">
@@ -481,14 +467,11 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3AHenningLorenzen-ext-bayer">HenningLorenzen-ext-bayer</a>
 </td>
 </tr>
-
 </table>
-
 
 ### Issue Contributors
 
 <table>
-
 <tr>
 <td align="center">
 <a href="https://github.com/drisso">
@@ -533,8 +516,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+commenter%3Aannakrystalli">annakrystalli</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/sda030">
@@ -549,10 +530,7 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+commenter%3Amccroweyclinton-EPA">mccroweyclinton-EPA</a>
 </td>
 </tr>
-
 </table>
-
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-

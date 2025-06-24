@@ -24,6 +24,6 @@ all_checks <- function() {
 #' describe_check(check_name)
 
 describe_check <- function(check_name = NULL) {
-    check_name <- check_name[check_name %in% names(CHECKS)]
+    check_name <- intersect(check_name, names(CHECKS))
     lapply(CHECKS[check_name], function(i) i$description)
 } 

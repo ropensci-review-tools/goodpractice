@@ -17,10 +17,10 @@ all_checks <- function() {
 #' @export
 #' @examples 
 #' describe_check("rcmdcheck_non_portable_makevars")
-#' check_name <- c ("no_description_depends",
-#'                  "lintr_assignment_linter",
-#'                  "no_import_package_as_a_whole",
-#'                  "rcmdcheck_missing_docs")
+#' check_name <- c("no_description_depends",
+#'                 "lintr_assignment_linter",
+#'                 "no_import_package_as_a_whole",
+#'                 "rcmdcheck_missing_docs")
 #' describe_check(check_name)
 
 describe_check <- function(check_name = NULL) {

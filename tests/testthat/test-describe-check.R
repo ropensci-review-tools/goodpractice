@@ -22,4 +22,8 @@ test_that("describe_check", {
   expect_type(d6, "list")
   expect_false(length(d6) == length(chks6))
   expect_identical(d6, d4)
+
+  d_all <- describe_check(all_checks())
+  expect_length(d_all, length(all_checks()))
+  expect_named(d_all, all_checks())
 })

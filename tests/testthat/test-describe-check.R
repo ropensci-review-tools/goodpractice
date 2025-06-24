@@ -23,5 +23,5 @@ test_that("describe_check", {
     expect_is(d, "list")
     expect_false(length(d) == length(chk))
     expect_false(identical(chk, names(d)))
-    expect_true(length(d) < length(chk))
+    expect_lt(length(d), length(chk))
 })

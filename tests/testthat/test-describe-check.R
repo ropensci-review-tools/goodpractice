@@ -15,7 +15,7 @@ test_that("describe_check", {
              "rcmdcheck_missing_docs")
     d <- describe_check(chk)
     expect_is(d, "list")
-    expect_true(length(d) == length(chk))
+    expect_length(d, length(chk))
     expect_true(identical(chk, names(d)))
 
     chk <- c(chk, "a", "b") # "a", "b" are not checks, so ignored

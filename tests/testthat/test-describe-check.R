@@ -16,7 +16,7 @@ test_that("describe_check", {
     d <- describe_check(chk)
     expect_is(d, "list")
     expect_length(d, length(chk))
-    expect_true(identical(chk, names(d)))
+    expect_named(d, chk)
 
     chk <- c(chk, "a", "b") # "a", "b" are not checks, so ignored
     d <- describe_check(chk)

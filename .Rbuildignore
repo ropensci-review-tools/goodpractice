@@ -1,5 +1,6 @@
 .ropensci-staff
 ^.*\.Rproj$
+^CONTRIBUTING.md$
 ^LICENSE\.md$
 ^README.Rmd$
 ^\.Rproj\.user$

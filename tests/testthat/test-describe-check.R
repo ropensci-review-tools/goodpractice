@@ -6,7 +6,7 @@ test_that("describe_check", {
     chk <- "rcmdcheck_non_portable_makevars"
     d <- describe_check(chk)
     expect_is(d, "list")
-    expect_equal(length(d), length(chk))
+    expect_length(d, length(chk))
     expect_identical(chk, names(d))
 
     chk <- c("no_description_depends",

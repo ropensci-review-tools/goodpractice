@@ -26,4 +26,6 @@ test_that("describe_check", {
   d_all <- describe_check(all_checks())
   expect_length(d_all, length(all_checks()))
   expect_named(d_all, all_checks())
+
+  expect_snapshot(describe_check(all_checks()))
 })

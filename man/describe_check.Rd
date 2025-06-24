@@ -6,6 +6,9 @@
 \usage{
 describe_check(check_name = NULL)
 }
+\arguments{
+\item{check_name}{Names of checks to be described.}
+}
 \value{
 List of character descriptions for each \code{check_name}
 }
@@ -14,9 +17,13 @@ Describe one or more checks
 }
 \examples{
 describe_check("rcmdcheck_non_portable_makevars")
-check_name <- c ("no_description_depends",
-                 "lintr_assignment_linter",
-                 "no_import_package_as_a_whole",
-                 "rcmdcheck_missing_docs")
+check_name <- c("no_description_depends",
+                "lintr_assignment_linter",
+                "no_import_package_as_a_whole",
+                "rcmdcheck_missing_docs")
 describe_check(check_name)
+# Or to see all checks:
+\dontrun{
+  describe_check(all_checks())
+}
 }

@@ -7,7 +7,7 @@ test_that("describe_check", {
     d <- describe_check(chk)
     expect_is(d, "list")
     expect_length(d, length(chk))
-    expect_identical(chk, names(d))
+    expect_named(d, chk)
 
     chk <- c("no_description_depends",
              "lintr_assignment_linter",

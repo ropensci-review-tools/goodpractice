@@ -47,11 +47,11 @@ g <- gp(pkg_path)
 ```
 
     #> ── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    #>      checking for file ‘/tmp/RtmpUra5Qo/remotesd0601fa78771/badpackage/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpUra5Qo/remotesd0601fa78771/badpackage/DESCRIPTION’
+    #>      checking for file ‘/tmp/RtmpbRJIqj/remotes4c5c623495dc/badpackage/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpbRJIqj/remotes4c5c623495dc/badpackage/DESCRIPTION’
     #>   ─  preparing ‘badpackage’:
     #>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
     #>      checking vignette meta-information ...  ✔  checking vignette meta-information
-    #>   ─  checking for LF line-endings in source and make files and shell scripts (382ms)
+    #>   ─  checking for LF line-endings in source and make files and shell scripts (395ms)
     #>   ─  checking for empty or unneeded directories
     #>   ─  building ‘badpackage_1.0.0.tar.gz’
     #>      
@@ -140,7 +140,7 @@ results(g)[1:5,]
 ## Contributing
 
 We welcome any and all contributions to this package. See
-[CONTRIBUTING.md](https://github.com/ropensci-review-tools/goodpractice/blob/main/.github/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://docs.ropensci.org/goodpractice/CONTRIBUTING.html)
 for details.
 
 ## License

@@ -1,8 +1,8 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
-
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
+- New `describe_check()` function to print descriptions of all implemented checks (@152)
 
 # goodpractice 1.0.5
 

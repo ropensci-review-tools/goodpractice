@@ -39,7 +39,10 @@ gp <- function(
   if (file.exists(file.path(path, "DESCRIPTION"))) {
     pkgname <- desc_get("Package", file = file.path(path, "DESCRIPTION"))
   } else {
-    pkgname <- basename(normalizePath(path))
+    cli::cli_abort(c(
+      "{.path path} must be a package.",
+      i = "Can't find DESCRIPTION."
+    ))
   }
 
   state <- list(

@@ -1,4 +1,3 @@
-
 #' Run good practice checks
 #'
 #' To see the results, just print it to the screen.
@@ -19,24 +18,31 @@
 #' @export
 #' @aliases goodpractice
 #' @importFrom desc desc_get
-#' @examples 
+#' @examples
 #' path <- system.file("bad1", package = "goodpractice")
 #' # run a subset of all checks available
 #' g <- gp(path, checks = all_checks()[3:16])
 #' g
 
-gp <- function(path = ".", checks = all_checks(), extra_preps = NULL,
-               extra_checks = NULL, quiet = TRUE) {
-
+gp <- function(
+  path = ".",
+  checks = all_checks(),
+  extra_preps = NULL,
+  extra_checks = NULL,
+  quiet = TRUE
+) {
   MYPREPS <- prepare_preps(PREPS, extra_preps)
   MYCHECKS <- prepare_checks(CHECKS, extra_checks)
 
   preps <- unique(unlist(lapply(MYCHECKS[checks], "[[", "preps")))
 
-  if(file.exists(file.path(path, "DESCRIPTION"))) {
+  if (file.exists(file.path(path, "DESCRIPTION"))) {
     pkgname <- desc_get("Package", file = file.path(path, "DESCRIPTION"))
   } else {
-    pkgname <- basename(normalizePath(path))
+    cli::cli_abort(c(
+      "{.path path} must be a package.",
+      i = "Can't find DESCRIPTION."
+    ))
   }
 
   state <- list(
@@ -78,7 +84,7 @@ check_passed <- function(chk, na_as_passed = FALSE) {
 }
 
 check_failed <- function(chk, na_as_passed = FALSE) {
-  ! check_passed(chk, na_as_passed = na_as_passed)
+  !check_passed(chk, na_as_passed = na_as_passed)
 }
 
 #' @export goodpractice

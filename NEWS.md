@@ -1,5 +1,7 @@
 # goodpractice 1.0.5.9000 (dev version)
 
+* `gp()` now fails if the path provided to it is not a package (does not contain a
+  DESCRIPTION file) (#190, @maelle)
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)

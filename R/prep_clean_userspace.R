@@ -15,12 +15,16 @@ PREPS$clean_userspace <- function(state, path = state$path, quiet) {
           run_examples_base <- function(p) {
             mandir <- file.path(p, "man")
             if (!dir.exists(mandir)) return(invisible())
-            rd_files <- list.files(mandir, pattern = "\\.Rd$", full.names = TRUE)
+            rd_files <- list.files(
+              mandir, pattern = "\\.Rd$", full.names = TRUE
+            )
             tmpdir <- tempfile("gp_examples_")
             dir.create(tmpdir)
             on.exit(unlink(tmpdir, recursive = TRUE), add = TRUE)
             for (rd in rd_files) {
-              ex_file <- file.path(tmpdir, paste0(basename(rd), ".R"))
+              ex_file <- file.path(
+                tmpdir, paste0(basename(rd), ".R")
+              )
               tryCatch({
                 tools::Rd2ex(rd, out = ex_file)
                 if (file.exists(ex_file) && file.size(ex_file) > 0) {
@@ -41,19 +45,28 @@ PREPS$clean_userspace <- function(state, path = state$path, quiet) {
             error = function(e) NULL
           )
           after_examples <- snapshot_dir(path)
-          new_from_examples <- setdiff(after_examples, before_examples)
+          new_from_examples <- setdiff(
+            after_examples, before_examples
+          )
           if (length(new_from_examples)) {
             leftovers <- rbind(leftovers, data.frame(
-              source = "examples", file = new_from_examples,
+              source = "examples",
+              file = new_from_examples,
               stringsAsFactors = FALSE
             ))
           }
 
           testdir <- file.path(path, "tests", "testthat")
-          if (dir.exists(testdir) && requireNamespace("testthat", quietly = TRUE)) {
+          has_tt <- dir.exists(testdir) &&
+            requireNamespace("testthat", quietly = TRUE)
+          if (has_tt) {
             before_tests <- snapshot_dir(path)
             tryCatch(
-              withr::with_dir(path, testthat::test_dir(testdir, reporter = "silent")),
+              withr::with_dir(path, {
+                testthat::test_dir(
+                  testdir, reporter = "silent"
+                )
+              }),
               error = function(e) NULL
             )
             after_tests <- snapshot_dir(path)
@@ -86,12 +99,16 @@ PREPS$clean_userspace <- function(state, path = state$path, quiet) {
       run_examples_base <- function(p) {
         mandir <- file.path(p, "man")
         if (!dir.exists(mandir)) return(invisible())
-        rd_files <- list.files(mandir, pattern = "\\.Rd$", full.names = TRUE)
+        rd_files <- list.files(
+          mandir, pattern = "\\.Rd$", full.names = TRUE
+        )
         tmpdir <- tempfile("gp_examples_")
         dir.create(tmpdir)
         on.exit(unlink(tmpdir, recursive = TRUE), add = TRUE)
         for (rd in rd_files) {
-          ex_file <- file.path(tmpdir, paste0(basename(rd), ".R"))
+          ex_file <- file.path(
+            tmpdir, paste0(basename(rd), ".R")
+          )
           tryCatch({
             tools::Rd2ex(rd, out = ex_file)
             if (file.exists(ex_file) && file.size(ex_file) > 0) {
@@ -110,25 +127,38 @@ PREPS$clean_userspace <- function(state, path = state$path, quiet) {
       tryCatch(
         withr::with_dir(path, run_examples_base(path)),
         error = function(e) {
-          if (!quiet) warning("Running examples failed: ", e$message)
+          if (!quiet) {
+            warning("Running examples failed: ", e$message)
+          }
         }
       )
       after_examples <- snapshot_dir(path)
-      new_from_examples <- setdiff(after_examples, before_examples)
+      new_from_examples <- setdiff(
+        after_examples, before_examples
+      )
       if (length(new_from_examples)) {
         leftovers <- rbind(leftovers, data.frame(
-          source = "examples", file = new_from_examples,
+          source = "examples",
+          file = new_from_examples,
           stringsAsFactors = FALSE
         ))
       }
 
       testdir <- file.path(path, "tests", "testthat")
-      if (dir.exists(testdir) && requireNamespace("testthat", quietly = TRUE)) {
+      has_tt <- dir.exists(testdir) &&
+        requireNamespace("testthat", quietly = TRUE)
+      if (has_tt) {
         before_tests <- snapshot_dir(path)
         tryCatch(
-          withr::with_dir(path, testthat::test_dir(testdir, reporter = "silent")),
+          withr::with_dir(path, {
+            testthat::test_dir(
+              testdir, reporter = "silent"
+            )
+          }),
           error = function(e) {
-            if (!quiet) warning("Running tests failed: ", e$message)
+            if (!quiet) {
+              warning("Running tests failed: ", e$message)
+            }
           }
         )
         after_tests <- snapshot_dir(path)

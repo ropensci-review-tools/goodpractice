@@ -1,4 +1,6 @@
 
+#' @noRd
+#' @keywords internal
 #' @importFrom rstudioapi callFun
 
 rstudio_source_markers <- function(gp) {
@@ -16,6 +18,8 @@ rstudio_source_markers <- function(gp) {
   )
 }
 
+#' @noRd
+#' @keywords internal
 get_markers <- function(gp) {
   m <- lapply(names(gp$checks), get_marker, gp = gp)
   m <- drop_nulls(m)
@@ -27,6 +31,7 @@ get_markers <- function(gp) {
 #' @param gp `gp()` output
 #' @param check name of the check to extract
 #'
+#' @noRd
 #' @keywords internal
 #' @importFrom utils head
 

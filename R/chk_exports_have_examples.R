@@ -28,7 +28,13 @@ CHECKS$exports_have_examples <- make_check(
       )
       s3methods <- vapply(
         sm,
-        function(x) if (length(x) >= 3) paste0(trimws(x[2]), ".", trimws(x[3])) else "",
+        function(x) {
+          if (length(x) >= 3) {
+            paste0(trimws(x[2]), ".", trimws(x[3]))
+          } else {
+            ""
+          }
+        },
         ""
       )
       s3methods <- s3methods[nzchar(s3methods)]
@@ -49,6 +55,7 @@ CHECKS$exports_have_examples <- make_check(
         name <- mo[2]
 
         j <- i - 1
+        while (j > 0 && grepl("^\\s*$", lines[j])) j <- j - 1
         rox <- character()
         while (j > 0 && grepl("^\\s*#'", lines[j])) {
           rox <- c(lines[j], rox)
@@ -64,7 +71,8 @@ CHECKS$exports_have_examples <- make_check(
 
         exported <- has_export || in_namespace
 
-        if (exported && !is_s3method && !has_examples && !has_rdname && !has_describein) {
+        skip <- is_s3method || has_rdname || has_describein
+        if (exported && !skip && !has_examples) {
           problems[[length(problems) + 1]] <- list(
             filename = file.path("R", basename(f)),
             line_number = i,

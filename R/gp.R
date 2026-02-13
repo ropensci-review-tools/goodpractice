@@ -68,6 +68,8 @@ gp <- function(
   state
 }
 
+#' @noRd
+#' @keywords internal
 check_passed <- function(chk, na_as_passed = FALSE) {
   status <- if ("status" %in% names(chk)) {
     chk$status
@@ -84,6 +86,8 @@ check_passed <- function(chk, na_as_passed = FALSE) {
   }
 }
 
+#' @noRd
+#' @keywords internal
 check_failed <- function(chk, na_as_passed = FALSE) {
   !check_passed(chk, na_as_passed = na_as_passed)
 }

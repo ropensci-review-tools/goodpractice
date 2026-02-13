@@ -1,8 +1,12 @@
 
+#' @noRd
+#' @keywords internal
 get_lintr_position <- function(linter) {
   linter[c("filename", "line_number", "column_number", "ranges", "line")]
 }
 
+#' @noRd
+#' @keywords internal
 get_lintr_state <- function(state, linter) {
   if(inherits(state$lintr, "try-error")) {
     return(list(status = NA, position = list()))

@@ -46,6 +46,8 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   invisible(x)
 }
 
+#' @noRd
+#' @keywords internal
 gp_header <- function(x) {
   cli::cat_rule(
     left = paste("GP", x$package),
@@ -54,10 +56,14 @@ gp_header <- function(x) {
   cat("\n", cli::style_bold("It is good practice to"), "\n\n", sep = "")
 }
 
+#' @noRd
+#' @keywords internal
 gp_footer <- function() {
   cli::cat_rule(col = "yellow")
 }
 
+#' @noRd
+#' @keywords internal
 #' @importFrom cli symbol
 
 gp_advice <- function(state, fail, limit) {
@@ -92,6 +98,8 @@ gp_advice <- function(state, fail, limit) {
   cat("\n")
 }
 
+#' @noRd
+#' @keywords internal
 gp_positions <- function(pos, limit) {
 
   num <- length(pos)

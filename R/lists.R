@@ -4,8 +4,10 @@ CHECKS <- list()
 
 #' List the names of all checks
 #'
-#' @return Character vector of checks
+#' @return Character vector of check names.
 #' @export
+#' @examples
+#' all_checks()
 
 all_checks <- function() {
   names(CHECKS)
@@ -24,7 +26,7 @@ all_checks <- function() {
 #'                 "rcmdcheck_missing_docs")
 #' describe_check(check_name)
 #' # Or to see all checks:
-#' \dontrun{
+#' \donttest{
 #'   describe_check(all_checks())
 #' }
 

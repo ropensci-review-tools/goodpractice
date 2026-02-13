@@ -12,6 +12,7 @@
 #' @param preps Preps to be passed on to make_check.
 #' @param ... Currently not supported.
 #'
+#' @noRd
 #' @keywords internal
 #' @include lists.R
 

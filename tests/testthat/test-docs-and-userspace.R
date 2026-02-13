@@ -21,7 +21,7 @@ test_that("export_or_nord passes when all functions are tagged", {
 
 # -- nord_has_keywords_internal -----------------------------------------------
 
-test_that("nord_has_keywords_internal fails when @noRd lacks @keywords internal", {
+test_that("nord_has_keywords_internal fails when @noRd lacks @keywords", {
   gp_res <- gp("bad_tags", checks = "nord_has_keywords_internal")
   res <- results(gp_res)
   expect_false(get_result(res, "nord_has_keywords_internal"))
@@ -31,7 +31,7 @@ test_that("nord_has_keywords_internal fails when @noRd lacks @keywords internal"
   expect_true(any(grepl("internal_no_keywords", lines)))
 })
 
-test_that("nord_has_keywords_internal passes when @noRd has @keywords internal", {
+test_that("nord_has_keywords_internal passes when @noRd has @keywords", {
   gp_res <- gp("good", checks = "nord_has_keywords_internal")
   res <- results(gp_res)
   expect_true(get_result(res, "nord_has_keywords_internal"))

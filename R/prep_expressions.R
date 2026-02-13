@@ -5,6 +5,7 @@
 #'
 #' @param path Path to the package root.
 #' @return Character scalar or `NULL`.
+#' @noRd
 #' @keywords internal
 #'
 #' @importFrom desc desc_get_collate
@@ -22,6 +23,7 @@ package_collate <- function(path = ".") {
 #' @param path Path to the root of the R package.
 #' @return A character vector of (relative) file
 #'   names in the current collation order.
+#' @noRd
 #' @keywords internal
 
 r_package_files <- function(path) {
@@ -48,6 +50,7 @@ r_package_files <- function(path) {
 #' @param version Currently ignored.
 #' @return The modified state, with the closures in a named list.
 #'
+#' @noRd
 #' @keywords internal
 #'
 #' @importFrom lintr get_source_expressions

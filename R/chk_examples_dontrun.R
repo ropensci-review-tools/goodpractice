@@ -1,5 +1,7 @@
 #' @include lists.R
 
+#' @noRd
+#' @keywords internal
 extract_examples_blocks <- function(path) {
   blocks <- list()
   rfiles <- r_package_files(path)

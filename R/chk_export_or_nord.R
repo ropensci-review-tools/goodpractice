@@ -38,6 +38,7 @@ CHECKS$export_or_nord <- make_check(
         name <- mo[2]
 
         j <- i - 1
+        while (j > 0 && grepl("^\\s*$", lines[j])) j <- j - 1
         rox <- character()
         while (j > 0 && grepl("^\\s*#'", lines[j])) {
           rox <- c(lines[j], rox)
@@ -93,6 +94,7 @@ CHECKS$nord_has_keywords_internal <- make_check(
         if (length(mo) == 0) next
 
         j <- i - 1
+        while (j > 0 && grepl("^\\s*$", lines[j])) j <- j - 1
         rox <- character()
         while (j > 0 && grepl("^\\s*#'", lines[j])) {
           rox <- c(lines[j], rox)
@@ -149,6 +151,7 @@ CHECKS$export_and_keywords_internal <- make_check(
         if (length(mo) == 0) next
 
         j <- i - 1
+        while (j > 0 && grepl("^\\s*$", lines[j])) j <- j - 1
         rox <- character()
         while (j > 0 && grepl("^\\s*#'", lines[j])) {
           rox <- c(lines[j], rox)

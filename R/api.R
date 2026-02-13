@@ -73,12 +73,18 @@ failed_checks <- function(gp) {
 #' @return A list of lists of positions. See details below.
 #'
 #' @export
+#' @examples
+#' path <- system.file("bad1", package = "goodpractice")
+#' g <- gp(path, checks = all_checks()[3:16])
+#' failed_positions(g)
 
 failed_positions <- function(gp) {
   failed <- Filter(check_failed, gp$checks)
   lapply(failed, get_position)
 }
 
+#' @noRd
+#' @keywords internal
 get_position <- function(chk) {
   if (! "positions" %in% names(chk)) NULL else chk$positions
 }
@@ -88,10 +94,15 @@ get_position <- function(chk) {
 #' @param gp \code{\link{gp}} output.
 #' @param file Output connection or file.
 #' @param pretty Whether to pretty-print the JSON.
+#' @return Invisible \code{NULL}, called for side effect.
 #'
 #' @export
 #' @importFrom jsonlite toJSON
 #' @importFrom whoami username fullname
+#' @examples
+#' path <- system.file("bad1", package = "goodpractice")
+#' g <- gp(path, checks = all_checks()[3:16])
+#' export_json(g, file = tempfile())
 
 export_json <- function(gp, file, pretty = FALSE) {
 

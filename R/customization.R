@@ -60,10 +60,14 @@ make_check <- function(description, check, gp, ...) {
   )
 }
 
+#' @noRd
+#' @keywords internal
 prepare_preps <- function(preps, extra_preps) {
   utils::modifyList(preps, c(list(), extra_preps))
 }
 
+#' @noRd
+#' @keywords internal
 prepare_checks <- function(checks, extra_checks) {
   utils::modifyList(checks, c(list(), extra_checks))
 }

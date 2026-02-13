@@ -53,8 +53,9 @@ gp <- function(
   )
 
   for (prep in preps) {
-    cli::cli_inform(c(i = "Preparing: {prep}"))
+    cli::cli_progress_step("Preparing: {prep}")
     state <- MYPREPS[[prep]](state, quiet = quiet)
+    cli::cli_progress_done()
   }
 
   state$checks <- list()

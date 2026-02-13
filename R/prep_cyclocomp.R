@@ -3,39 +3,26 @@
 #' @importFrom cyclocomp cyclocomp_package_dir
 
 PREPS$cyclocomp <- function(state, path = state$path, quiet) {
-  if (quiet && requireNamespace("callr", quietly = TRUE)) {
-    state$cyclocomp <- try(
-      callr::r(
-        function(path) {
-          cc <- cyclocomp::cyclocomp_package_dir(path)
-          pkg <- basename(path)
-          ns <- asNamespace(pkg)
-          is_fun <- vapply(cc$name, function(nm) {
-            exists(nm, envir = ns, inherits = FALSE) &&
-              is.function(get(nm, envir = ns))
-          }, logical(1))
-          cc[is_fun, ]
-        },
-        args = list(path = normalizePath(path)),
-        show = FALSE
-      ),
-      silent = TRUE
-    )
-  } else {
-    state$cyclocomp <- try(
-      cyclocomp_package_dir(path),
-      silent = quiet
-    )
-    if (!inherits(state$cyclocomp, "try-error")) {
-      pkg <- basename(normalizePath(path))
-      ns <- asNamespace(pkg)
-      is_fun <- vapply(state$cyclocomp$name, function(nm) {
-        exists(nm, envir = ns, inherits = FALSE) &&
-          is.function(get(nm, envir = ns))
-      }, logical(1))
-      state$cyclocomp <- state$cyclocomp[is_fun, ]
+  state$cyclocomp <- try({
+    if (quiet) {
+      withr::with_output_sink(nullfile(),
+        withr::with_message_sink(nullfile(),
+          cc <- cyclocomp_package_dir(path)
+        )
+      )
+    } else {
+      cc <- cyclocomp_package_dir(path)
     }
-  }
+
+    pkg <- read.dcf(file.path(path, "DESCRIPTION"), "Package")[1, 1]
+    ns <- asNamespace(pkg)
+    is_fun <- vapply(cc$name, function(nm) {
+      exists(nm, envir = ns, inherits = FALSE) &&
+        is.function(get(nm, envir = ns))
+    }, logical(1))
+    cc[is_fun, ]
+  }, silent = quiet)
+
   if (inherits(state$cyclocomp, "try-error")) {
     warning("Prep step for cyclomatic complexity failed.")
   }

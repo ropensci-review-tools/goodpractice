@@ -1,4 +1,3 @@
-
 get_result <- function(res, check) res$result[res$check == check]
 
 test_that("exports_have_examples fails when exported function lacks examples", {

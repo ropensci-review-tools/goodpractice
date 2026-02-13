@@ -13,6 +13,14 @@ export_json(gp, file, pretty = FALSE)
 
 \item{pretty}{Whether to pretty-print the JSON.}
 }
+\value{
+Invisible \code{NULL}, called for side effect.
+}
 \description{
 Export failed checks to JSON
+}
+\examples{
+path <- system.file("bad1", package = "goodpractice")
+g <- gp(path, checks = all_checks()[3:16])
+export_json(g, file = tempfile())
 }

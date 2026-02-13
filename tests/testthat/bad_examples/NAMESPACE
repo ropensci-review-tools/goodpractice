@@ -3,3 +3,4 @@
 export(uses_dontrun)
 export(all_wrapped)
 export(good_example)
+export(multi_block)

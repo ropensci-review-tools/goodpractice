@@ -29,3 +29,16 @@ all_wrapped <- function() {
 good_example <- function() {
   NULL
 }
+
+#' Function with consecutive examples blocks
+#'
+#' @examples
+#' x <- 1
+#' @examples
+#' \dontrun{
+#'   multi_block()
+#' }
+#' @export
+multi_block <- function() {
+  TRUE
+}

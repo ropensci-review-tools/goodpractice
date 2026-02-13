@@ -7,8 +7,11 @@
 all_checks()
 }
 \value{
-Character vector of checks
+Character vector of check names.
 }
 \description{
 List the names of all checks
+}
+\examples{
+all_checks()
 }

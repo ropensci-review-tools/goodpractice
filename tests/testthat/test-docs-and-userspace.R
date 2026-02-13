@@ -1,4 +1,3 @@
-
 get_result <- function(res, check) res$result[res$check == check]
 
 # -- export_or_nord ----------------------------------------------------------

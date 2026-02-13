@@ -23,7 +23,7 @@ check_name <- c("no_description_depends",
                 "rcmdcheck_missing_docs")
 describe_check(check_name)
 # Or to see all checks:
-\dontrun{
+\donttest{
   describe_check(all_checks())
 }
 }

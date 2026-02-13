@@ -1,4 +1,4 @@
-#' @include lists.R
+#' @include lists.R customization.R
 
 CHECKS$clean_userspace <- make_check(
 

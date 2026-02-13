@@ -76,19 +76,26 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
-Collate: 
+Collate:
     'api.R'
     'customization.R'
     'lists.R'
+    'chk_clean_userspace.R'
     'chk_covr.R'
     'chk_cyclocomp.R'
+    'chk_data_doc.R'
     'chk_description.R'
+    'chk_docs_return.R'
+    'chk_examples_dontrun.R'
+    'chk_export_or_nord.R'
+    'chk_exports_have_examples.R'
     'chk_lintr.R'
     'chk_namespace.R'
     'chk_rcmdcheck.R'
     'chk_tnf.R'
     'gp.R'
     'package.R'
+    'prep_clean_userspace.R'
     'prep_covr.R'
     'prep_cyclocomp.R'
     'prep_description.R'

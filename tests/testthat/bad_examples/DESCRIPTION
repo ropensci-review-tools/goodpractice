@@ -1,0 +1,7 @@
+Package: badexamplespkg
+Title: Test Package for Dontrun Checks
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Fixture for testing examples_dontrun and examples_all_nonrunnable.
+License: MIT

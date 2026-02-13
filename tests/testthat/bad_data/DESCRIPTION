@@ -1,0 +1,7 @@
+Package: baddatapkg
+Title: Test Package for Data Doc Checks
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Fixture for testing data_doc check.
+License: MIT

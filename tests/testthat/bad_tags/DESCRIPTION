@@ -1,0 +1,7 @@
+Package: badtagspkg
+Title: Test Package for Tag Checks
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Fixture for testing export_or_nord and nord_has_keywords_internal.
+License: MIT

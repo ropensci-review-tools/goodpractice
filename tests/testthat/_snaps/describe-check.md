@@ -3,11 +3,17 @@
     Code
       describe_check(all_checks())
     Output
+      $clean_userspace
+      [1] "Examples and tests do not leave files behind"
+      
       $covr
       [1] "All code is unit tested"
       
       $cyclocomp
       [1] "Functions are simple"
+      
+      $data_doc
+      [1] "Data objects are documented"
       
       $no_description_depends
       [1] "No \"Depends\" in DESCRIPTION"
@@ -20,6 +26,27 @@
       
       $description_bugreports
       [1] "BugReports in DESCRIPTION"
+      
+      $docs_return
+      [1] "Exported functions should have a @return roxygen tag"
+      
+      $examples_dontrun
+      [1] "Examples do not use \\dontrun"
+      
+      $examples_all_nonrunnable
+      [1] "Examples have runnable code outside \\dontrun/\\donttest"
+      
+      $export_or_nord
+      [1] "Functions have roxygen @export or @noRd tags"
+      
+      $nord_has_keywords_internal
+      [1] "Functions tagged @noRd also have @keywords internal"
+      
+      $export_and_keywords_internal
+      [1] "@export and @keywords internal should not co-exist"
+      
+      $exports_have_examples
+      [1] "Exported functions have @examples or @example"
       
       $lintr_assignment_linter
       [1] "'<-' and not '=' is used for assignment"

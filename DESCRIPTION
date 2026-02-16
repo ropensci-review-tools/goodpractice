@@ -71,6 +71,7 @@ Imports:
     rcmdcheck,
     rstudioapi,
     tools,
+    urlchecker,
     utils,
     whoami,
     withr
@@ -95,6 +96,7 @@ Collate:
     'chk_namespace.R'
     'chk_rcmdcheck.R'
     'chk_tnf.R'
+    'chk_urlchecker.R'
     'gp.R'
     'package.R'
     'prep_covr.R'
@@ -104,6 +106,7 @@ Collate:
     'prep_lintr.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'
+    'prep_urlchecker.R'
     'print.R'
     'rstudio_markers.R'
     'utils.R'

@@ -51,6 +51,18 @@
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
       
+      $rd_has_examples
+      [1] "Exported functions have \\examples in .Rd"
+      
+      $rd_has_return
+      [1] "Exported functions have \\value in .Rd"
+      
+      $rd_examples_dontrun
+      [1] "Examples do not use \\dontrun"
+      
+      $rd_examples_runnable
+      [1] "Examples have runnable code outside \\dontrun/\\donttest"
+      
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"
       

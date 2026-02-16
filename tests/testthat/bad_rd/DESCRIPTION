@@ -1,0 +1,7 @@
+Package: badrdpkg
+Title: Test Package for Rd Checks
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Fixture for testing Rd-based documentation checks.
+License: MIT

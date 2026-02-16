@@ -22,10 +22,14 @@ rd_examples_info <- function(ex_section) {
 }
 
 parse_rd_files <- function(mandir) {
-  if (!dir.exists(mandir)) return(list())
+  if (!dir.exists(mandir)) {
+    return(list())
+  }
 
   rd_files <- list.files(mandir, pattern = "\\.Rd$", full.names = TRUE)
-  if (length(rd_files) == 0) return(list())
+  if (length(rd_files) == 0) {
+    return(list())
+  }
 
   lapply(rd_files, function(rd_file) {
     parsed <- tools::parse_Rd(rd_file)
@@ -47,7 +51,10 @@ parse_rd_files <- function(mandir) {
     has_examples <- any(tags == "\\examples")
     has_value <- any(tags == "\\value")
 
-    ex_info <- list(has_dontrun = FALSE, has_runnable_code = FALSE)
+    ex_info <- list(
+      has_dontrun = FALSE,
+      has_runnable_code = FALSE
+    )
     if (has_examples) {
       ex_info <- rd_examples_info(parsed[tags == "\\examples"][[1]])
     }

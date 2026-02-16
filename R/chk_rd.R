@@ -25,42 +25,43 @@ rd_exported_aliases <- function(state) {
   setdiff(exports, s3methods)
 }
 
+rd_check_field <- function(state, field) {
+  if (inherits(state$rd, "try-error")) return(rd_na_result())
+
+  rd_data <- state$rd
+  if (length(rd_data) == 0) return(rd_na_result())
+
+  exports <- rd_exported_aliases(state)
+  problems <- list()
+
+  for (alias in exports) {
+    topic <- rd_find_topic(rd_data, alias)
+    if (is.null(topic)) next
+
+    if (!isTRUE(topic[[field]])) {
+      problems[[length(problems) + 1]] <- list(
+        filename = file.path("man", topic$file),
+        line_number = NA_integer_,
+        column_number = NA_integer_,
+        ranges = list(),
+        line = alias
+      )
+    }
+  }
+
+  list(
+    status = length(problems) == 0,
+    positions = problems
+  )
+}
+
 make_rd_check <- function(description, gp, field, tags = NULL) {
   make_check(
     description = description,
     tags = c("documentation", tags),
     preps = c("rd", "namespace"),
     gp = gp,
-
-    check = function(state) {
-      if (inherits(state$rd, "try-error")) return(rd_na_result())
-
-      rd_data <- state$rd
-      if (length(rd_data) == 0) return(rd_na_result())
-
-      exports <- rd_exported_aliases(state)
-      problems <- list()
-
-      for (alias in exports) {
-        topic <- rd_find_topic(rd_data, alias)
-        if (is.null(topic)) next
-
-        if (!isTRUE(topic[[field]])) {
-          problems[[length(problems) + 1]] <- list(
-            filename = file.path("man", topic$file),
-            line_number = NA_integer_,
-            column_number = NA_integer_,
-            ranges = list(),
-            line = alias
-          )
-        }
-      }
-
-      list(
-        status = length(problems) == 0,
-        positions = problems
-      )
-    }
+    check = function(state) rd_check_field(state, field)
   )
 }
 

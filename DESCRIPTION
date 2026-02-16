@@ -45,7 +45,15 @@ Authors@R:
       person(given = "Fabian",
              family = "Scheipl",
              role = "ctb",
-             comment = c(GitHub = "fabian-s")))
+             comment = c(GitHub = "fabian-s")),
+      person(given = "Athanasia Mo", 
+             family = "Mowinckel",
+             email = "a.m.mowinckel@psykologi.uio.no", 
+             role = c("ctb"),
+            comment = c(
+                GitHub = "drmowinckels", 
+                ORCID = "0000-0002-5756-0223")
+       ))
 Description: Give advice about good practices when building R packages.
     Advice includes functions and syntax to avoid, package structure, code
     complexity, code formatting, etc.

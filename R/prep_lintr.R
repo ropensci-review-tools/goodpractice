@@ -24,10 +24,18 @@ linters_to_lint <- list(
 
 PREPS$lintr <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
-  suppressMessages(
-    state$lintr <- try(lint_package(path, linters = linters_to_lint),
-                       silent = TRUE)
-  )
+  lintr_config <- file.path(path, ".lintr")
+  if (file.exists(lintr_config)) {
+    cli::cli_inform("Using {.file .lintr} config from {.path {path}}")
+    suppressMessages(
+      state$lintr <- try(lint_package(path), silent = TRUE)
+    )
+  } else {
+    suppressMessages(
+      state$lintr <- try(lint_package(path, linters = linters_to_lint),
+                         silent = TRUE)
+    )
+  }
   if(inherits(state$lintr, "try-error")) {
     warning("Prep step for linter failed.")
   }

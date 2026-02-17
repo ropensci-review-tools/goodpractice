@@ -51,6 +51,12 @@
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
       
+      $on_exit_add
+      [1] "on.exit() calls use add = TRUE"
+      
+      $on_exit_missing
+      [1] "State-changing functions use on.exit() to restore state"
+      
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"
       

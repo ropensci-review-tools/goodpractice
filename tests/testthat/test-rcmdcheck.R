@@ -19,7 +19,7 @@
 #                                  "rcmdcheck_undefined_globals"))
 # res_bad2 <- results(gp_bad2)
 #
-# get_result <- function(res, check) res$result[res$check == check]
+# get_result <- function(res, check) res$passed[res$check == check]
 #
 #
 # test_that("rcmdcheck_package_dependencies_present", {
@@ -48,6 +48,6 @@
 #   expect_true(get_result(res_bad2, "rcmdcheck_missing_docs"))
 #
 #   x <- gp("baddoc", checks = "rcmdcheck_missing_docs")
-#   expect_false(results(x)$result)
+#   expect_false(results(x)$passed)
 #
 # })

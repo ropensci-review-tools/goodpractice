@@ -1,0 +1,7 @@
+Package: badvignettes
+Title: Test Package with Bad Vignette Patterns
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: A test package with anti-patterns in vignettes.
+License: GPL-2

@@ -96,6 +96,7 @@ Collate:
     'chk_namespace.R'
     'chk_rcmdcheck.R'
     'chk_tnf.R'
+    'chk_vignette.R'
     'gp.R'
     'package.R'
     'prep_covr.R'

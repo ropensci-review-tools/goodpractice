@@ -79,7 +79,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0)
 Remotes:
-    ropensci-review-tools/cyclocomp
+    gaborcsardi/cyclocomp
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

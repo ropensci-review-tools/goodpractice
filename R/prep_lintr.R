@@ -29,7 +29,11 @@ PREPS$lintr <- function(state, path = state$path, quiet) {
                        silent = TRUE)
   )
   if(inherits(state$lintr, "try-error")) {
-    warning("Prep step for linter failed.")
+    warning(
+      "Prep step for lintr failed: ",
+      conditionMessage(attr(state$lintr, "condition")),
+      call. = FALSE
+    )
   }
   state
 }

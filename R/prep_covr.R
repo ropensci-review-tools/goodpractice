@@ -8,7 +8,11 @@ PREPS$covr <- function(state, path = state$path, quiet) {
               silent = quiet)
   
   if (inherits(covr, "try-error")) {
-    warning("Prep step for test coverage failed.")
+    warning(
+      "Prep step for covr failed: ",
+      conditionMessage(attr(covr, "condition")),
+      call. = FALSE
+    )
   } else {
     with_options(
       list(covr.rstudio_source_markers = FALSE),

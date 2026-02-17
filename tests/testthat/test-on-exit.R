@@ -110,3 +110,19 @@ test_that("on_exit_missing ignores state changes in nested functions", {
   ]
   expect_true(outer_row$has_on_exit)
 })
+
+# -- helper functions ----------------------------------------------------------
+
+test_that("find_calls_shallow handles recursive non-call nodes", {
+  pl <- pairlist(a = quote(options(x = 1)), b = quote(par(mar = c(1, 1, 1, 1))))
+  result <- find_calls_shallow(pl, c("options", "par"))
+  expect_true("options" %in% result)
+  expect_true("par" %in% result)
+})
+
+test_that("find_on_exit_calls handles recursive non-call nodes", {
+  pl <- pairlist(a = quote(on.exit(options(old))), b = 1L)
+  result <- find_on_exit_calls(pl)
+  expect_length(result, 1)
+  expect_false(result[[1]]$has_add)
+})

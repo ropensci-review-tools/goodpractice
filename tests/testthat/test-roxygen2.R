@@ -1,0 +1,124 @@
+get_result <- function(res, check) res$result[res$check == check]
+
+# -- uses_roxygen2 detection --------------------------------------------------
+
+test_that("uses_roxygen2 returns TRUE for roxygen2 packages", {
+  expect_true(uses_roxygen2("bad_roxygen"))
+})
+
+test_that("uses_roxygen2 returns FALSE for non-roxygen2 packages", {
+  expect_false(uses_roxygen2("no_roxygen"))
+})
+
+test_that("uses_roxygen2 returns FALSE for missing DESCRIPTION", {
+  expect_false(uses_roxygen2(tempfile()))
+})
+
+# -- prep skips non-roxygen2 packages -----------------------------------------
+
+test_that("roxygen2 checks return NA for non-roxygen2 packages", {
+  expect_warning(
+    gp_res <- gp("no_roxygen", checks = "roxygen2_unknown_tags"),
+    "Prep step for roxygen2 failed"
+  )
+  res <- results(gp_res)
+  expect_true(is.na(get_result(res, "roxygen2_unknown_tags")))
+})
+
+# -- roxygen2_has_export_or_nord ----------------------------------------------
+
+test_that("roxygen2_has_export_or_nord fails for untagged functions", {
+  gp_res <- gp("bad_roxygen", checks = "roxygen2_has_export_or_nord")
+  res <- results(gp_res)
+  expect_false(get_result(res, "roxygen2_has_export_or_nord"))
+
+  pos <- failed_positions(gp_res)$roxygen2_has_export_or_nord
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true(any(grepl("untagged_func", lines)))
+})
+
+test_that("roxygen2_has_export_or_nord passes when all tagged", {
+  gp_res <- gp("good", checks = "roxygen2_has_export_or_nord")
+  res <- results(gp_res)
+  expect_true(get_result(res, "roxygen2_has_export_or_nord"))
+})
+
+# -- roxygen2_nord_has_keywords_internal --------------------------------------
+
+test_that("roxygen2_nord_has_keywords_internal fails when @noRd lacks @keywords", {
+  gp_res <- gp("bad_roxygen", checks = "roxygen2_nord_has_keywords_internal")
+  res <- results(gp_res)
+  expect_false(get_result(res, "roxygen2_nord_has_keywords_internal"))
+
+  pos <- failed_positions(gp_res)$roxygen2_nord_has_keywords_internal
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true(any(grepl("internal_no_keywords", lines)))
+})
+
+test_that("roxygen2_nord_has_keywords_internal passes when all @noRd have @keywords", {
+  gp_res <- gp("good", checks = "roxygen2_nord_has_keywords_internal")
+  res <- results(gp_res)
+  expect_true(get_result(res, "roxygen2_nord_has_keywords_internal"))
+})
+
+# -- roxygen2_no_export_and_keywords_internal ---------------------------------
+
+test_that("roxygen2_no_export_and_keywords_internal fails on conflict", {
+  gp_res <- gp("bad_roxygen", checks = "roxygen2_no_export_and_keywords_internal")
+  res <- results(gp_res)
+  expect_false(get_result(res, "roxygen2_no_export_and_keywords_internal"))
+
+  pos <- failed_positions(gp_res)$roxygen2_no_export_and_keywords_internal
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true(any(grepl("confused_func", lines)))
+})
+
+test_that("roxygen2_no_export_and_keywords_internal passes when consistent", {
+  gp_res <- gp("good", checks = "roxygen2_no_export_and_keywords_internal")
+  res <- results(gp_res)
+  expect_true(get_result(res, "roxygen2_no_export_and_keywords_internal"))
+})
+
+# -- roxygen2_unknown_tags ----------------------------------------------------
+
+test_that("roxygen2_unknown_tags fails on deprecated/unknown tags", {
+  gp_res <- gp("bad_roxygen", checks = "roxygen2_unknown_tags")
+  res <- results(gp_res)
+  expect_false(get_result(res, "roxygen2_unknown_tags"))
+
+  pos <- failed_positions(gp_res)$roxygen2_unknown_tags
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true(any(grepl("@S3method", lines)))
+})
+
+test_that("roxygen2_unknown_tags passes when all tags are valid", {
+  gp_res <- gp("good", checks = "roxygen2_unknown_tags")
+  res <- results(gp_res)
+  expect_true(get_result(res, "roxygen2_unknown_tags"))
+})
+
+# -- roxygen2_valid_inherit ---------------------------------------------------
+
+test_that("roxygen2_valid_inherit fails on nonexistent reference", {
+  gp_res <- gp("bad_roxygen", checks = "roxygen2_valid_inherit")
+  res <- results(gp_res)
+  expect_false(get_result(res, "roxygen2_valid_inherit"))
+
+  pos <- failed_positions(gp_res)$roxygen2_valid_inherit
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true(any(grepl("bad_inherit_func", lines)))
+})
+
+test_that("roxygen2_valid_inherit passes with valid references", {
+  gp_res <- gp("good", checks = "roxygen2_valid_inherit")
+  res <- results(gp_res)
+  expect_true(get_result(res, "roxygen2_valid_inherit"))
+})
+
+# -- prep error handling ------------------------------------------------------
+
+test_that("roxygen2 checks return NA on prep failure", {
+  state <- list(roxygen2 = structure("error", class = "try-error"))
+  result <- CHECKS$roxygen2_unknown_tags$check(state)
+  expect_true(is.na(result$status))
+})

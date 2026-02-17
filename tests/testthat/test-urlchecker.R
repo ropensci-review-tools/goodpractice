@@ -135,6 +135,18 @@ test_that("positions report filename from From column", {
   expect_equal(result$positions[[1]]$filename, "man/foo.Rd")
 })
 
+# -- offline gate --------------------------------------------------------------
+
+test_that("urlchecker checks return NA when offline", {
+  local_mocked_bindings(has_internet = function() FALSE)
+  expect_warning(
+    gp_res <- gp("good", checks = "urlchecker_ok"),
+    "Prep step for urlchecker failed"
+  )
+  res <- results(gp_res)
+  expect_true(is.na(res$result[res$check == "urlchecker_ok"]))
+})
+
 # -- integration tests (network) ----------------------------------------------
 
 test_that("urlchecker prep runs on good fixture", {

@@ -22,10 +22,33 @@ linters_to_lint <- list(
 #' @include lists.R
 #' @importFrom lintr lint_package
 
+read_lintr_linters <- function(config_path) {
+  lines <- readLines(config_path, warn = FALSE)
+  linter_line <- grep("^\\s*linters:", lines, value = TRUE)
+  if (length(linter_line) == 0) return(NULL)
+  expr_text <- sub("^\\s*linters:\\s*", "", linter_line[[1]])
+  tryCatch(
+    eval(parse(text = expr_text), envir = asNamespace("lintr")),
+    error = function(e) NULL
+  )
+}
+
+resolve_linters <- function(path) {
+  lintr_config <- file.path(path, ".lintr")
+  if (!file.exists(lintr_config)) return(linters_to_lint)
+
+  cli::cli_inform("Using {.file .lintr} config from {.path {path}}")
+  user_linters <- read_lintr_linters(lintr_config)
+  if (is.null(user_linters)) return(linters_to_lint)
+
+  modifyList(linters_to_lint, user_linters)
+}
+
 PREPS$lintr <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
+  linters <- resolve_linters(path)
   suppressMessages(
-    state$lintr <- try(lint_package(path, linters = linters_to_lint),
+    state$lintr <- try(lint_package(path, linters = linters),
                        silent = TRUE)
   )
   if(inherits(state$lintr, "try-error")) {

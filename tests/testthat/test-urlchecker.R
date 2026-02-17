@@ -75,6 +75,53 @@ test_that("urlchecker_no_redirects has CRAN tag", {
   expect_true("CRAN" %in% chk$tags)
 })
 
+test_that("make_urlchecker_check factory produces working checks", {
+  custom <- make_urlchecker_check(
+    description = "test check",
+    gp = "test advice",
+    filter = function(db) db[db$Status == "999", ],
+    tags = "test"
+  )
+  expect_s3_class(custom, "check")
+  expect_equal(custom$description, "test check")
+  expect_true("test" %in% custom$tags)
+  expect_true("urlchecker" %in% custom$preps)
+
+  db <- make_urlchecker_db(
+    urls = c("https://a.com", "https://b.com"),
+    status = c("999", "200"),
+    message = c("Custom", "OK"),
+    new = c("", "")
+  )
+  db <- add_from(db, list("DESCRIPTION", "DESCRIPTION"))
+
+  result <- custom$check(list(urlchecker = db))
+  expect_false(result$status)
+  expect_length(result$positions, 1)
+  expect_equal(result$positions[[1]]$line, "https://a.com")
+
+  result_pass <- custom$check(list(urlchecker = make_urlchecker_db()))
+  expect_true(result_pass$status)
+
+  result_na <- custom$check(list(
+    urlchecker = structure("err", class = "try-error")
+  ))
+  expect_true(is.na(result_na$status))
+
+  result_null <- custom$check(list(urlchecker = NULL))
+  expect_true(result_null$status)
+
+  db_no_match <- make_urlchecker_db(
+    urls = "https://ok.com",
+    status = "200",
+    message = "OK",
+    new = ""
+  )
+  db_no_match <- add_from(db_no_match, list("DESCRIPTION"))
+  result_filtered <- custom$check(list(urlchecker = db_no_match))
+  expect_true(result_filtered$status)
+})
+
 # -- NULL state ----------------------------------------------------------------
 
 test_that("urlchecker_ok passes when state$urlchecker is NULL", {
@@ -296,6 +343,100 @@ test_that("PREPS$urlchecker warns on failure", {
     "Prep step for urlchecker failed"
   )
   expect_true(inherits(state$urlchecker, "try-error"))
+})
+
+# -- gp() integration with mocked prep ----------------------------------------
+
+mock_url_check <- function(db) {
+  function(path, ...) db
+}
+
+test_that("urlchecker_ok passes through gp() with no problems", {
+  db <- make_urlchecker_db(
+    urls = "https://example.com",
+    status = "200",
+    message = "OK",
+    new = ""
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
+  gp_res <- gp("good", checks = "urlchecker_ok")
+  res <- results(gp_res)
+  expect_true(res$result[res$check == "urlchecker_ok"])
+})
+
+test_that("urlchecker_ok fails through gp() with broken URLs", {
+  db <- make_urlchecker_db(
+    urls = "https://broken.com",
+    status = "404",
+    message = "Not Found",
+    new = ""
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
+  gp_res <- gp("good", checks = "urlchecker_ok")
+  res <- results(gp_res)
+  expect_false(res$result[res$check == "urlchecker_ok"])
+  pos <- failed_positions(gp_res)$urlchecker_ok
+  expect_length(pos, 1)
+  expect_equal(pos[[1]]$line, "https://broken.com")
+})
+
+test_that("urlchecker_no_redirects fails through gp() with redirects", {
+  db <- make_urlchecker_db(
+    urls = "https://old.com",
+    status = "200",
+    message = "OK",
+    new = "https://new.com"
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
+  gp_res <- gp("good", checks = "urlchecker_no_redirects")
+  res <- results(gp_res)
+  expect_false(res$result[res$check == "urlchecker_no_redirects"])
+})
+
+test_that("urlchecker_no_redirects passes through gp() with no redirects", {
+  db <- make_urlchecker_db(
+    urls = "https://fine.com",
+    status = "200",
+    message = "OK",
+    new = ""
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
+  gp_res <- gp("good", checks = "urlchecker_no_redirects")
+  res <- results(gp_res)
+  expect_true(res$result[res$check == "urlchecker_no_redirects"])
+})
+
+test_that("urlchecker checks return NA through gp() on prep failure", {
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(
+    url_check = function(path, ...) stop("boom"),
+    .package = "urlchecker"
+  )
+  expect_warning(
+    gp_res <- gp("good", checks = c("urlchecker_ok", "urlchecker_no_redirects")),
+    "Prep step for urlchecker failed"
+  )
+  res <- results(gp_res)
+  expect_true(is.na(res$result[res$check == "urlchecker_ok"]))
+  expect_true(is.na(res$result[res$check == "urlchecker_no_redirects"]))
+})
+
+test_that("urlchecker checks pass through gp() with empty db", {
+  db <- make_urlchecker_db()
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
+  gp_res <- gp("good", checks = c("urlchecker_ok", "urlchecker_no_redirects"))
+  res <- results(gp_res)
+  expect_true(res$result[res$check == "urlchecker_ok"])
+  expect_true(res$result[res$check == "urlchecker_no_redirects"])
 })
 
 # -- offline gate --------------------------------------------------------------

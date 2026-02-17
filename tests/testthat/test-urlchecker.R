@@ -21,6 +21,74 @@ add_from <- function(db, from) {
   db
 }
 
+# -- helpers -------------------------------------------------------------------
+
+test_that("urlchecker_na_result returns NA status with empty positions", {
+  res <- urlchecker_na_result()
+  expect_true(is.na(res$status))
+  expect_length(res$positions, 0)
+})
+
+test_that("urlchecker_make_positions extracts first From entry as filename", {
+  db <- make_urlchecker_db(
+    urls = c("https://a.com", "https://b.com"),
+    status = c("404", "500"),
+    message = c("Not Found", "Error"),
+    new = c("", "")
+  )
+  db <- add_from(db, list(c("DESCRIPTION", "R/foo.R"), "man/bar.Rd"))
+  pos <- urlchecker_make_positions(db)
+  expect_length(pos, 2)
+  expect_equal(pos[[1]]$filename, "DESCRIPTION")
+  expect_equal(pos[[2]]$filename, "man/bar.Rd")
+  expect_equal(pos[[1]]$line, "https://a.com")
+  expect_equal(pos[[2]]$line, "https://b.com")
+  expect_true(is.na(pos[[1]]$line_number))
+  expect_true(is.na(pos[[1]]$column_number))
+})
+
+test_that("urlchecker_make_positions handles empty From with 'unknown'", {
+  db <- make_urlchecker_db(
+    urls = "https://a.com",
+    status = "404",
+    message = "Not Found",
+    new = ""
+  )
+  db <- add_from(db, list(character()))
+  pos <- urlchecker_make_positions(db)
+  expect_equal(pos[[1]]$filename, "unknown")
+})
+
+# -- factory structure ---------------------------------------------------------
+
+test_that("make_urlchecker_check produces a valid check object", {
+  chk <- CHECKS$urlchecker_ok
+  expect_s3_class(chk, "check")
+  expect_equal(chk$description, "All URLs are reachable")
+  expect_true("urlchecker" %in% chk$preps)
+  expect_true("url" %in% chk$tags)
+  expect_true(is.function(chk$check))
+})
+
+test_that("urlchecker_no_redirects has CRAN tag", {
+  chk <- CHECKS$urlchecker_no_redirects
+  expect_true("CRAN" %in% chk$tags)
+})
+
+# -- NULL state ----------------------------------------------------------------
+
+test_that("urlchecker_ok passes when state$urlchecker is NULL", {
+  state <- list(urlchecker = NULL)
+  result <- CHECKS$urlchecker_ok$check(state)
+  expect_true(result$status)
+})
+
+test_that("urlchecker_no_redirects passes when state$urlchecker is NULL", {
+  state <- list(urlchecker = NULL)
+  result <- CHECKS$urlchecker_no_redirects$check(state)
+  expect_true(result$status)
+})
+
 # -- urlchecker_ok ------------------------------------------------------------
 
 test_that("urlchecker_ok passes when no broken URLs", {
@@ -133,6 +201,101 @@ test_that("positions report filename from From column", {
   state <- list(urlchecker = db)
   result <- CHECKS$urlchecker_ok$check(state)
   expect_equal(result$positions[[1]]$filename, "man/foo.Rd")
+})
+
+# -- multiple failures ---------------------------------------------------------
+
+test_that("urlchecker_ok reports all broken URLs", {
+  db <- make_urlchecker_db(
+    urls = c("https://a.com", "https://b.com", "https://c.com"),
+    status = c("404", "200", "500"),
+    message = c("Not Found", "OK", "Server Error"),
+    new = c("", "", "")
+  )
+  db <- add_from(db, list("DESCRIPTION", "DESCRIPTION", "man/foo.Rd"))
+  state <- list(urlchecker = db)
+  result <- CHECKS$urlchecker_ok$check(state)
+  expect_false(result$status)
+  expect_length(result$positions, 2)
+  urls <- vapply(result$positions, `[[`, "", "line")
+  expect_setequal(urls, c("https://a.com", "https://c.com"))
+})
+
+test_that("urlchecker_no_redirects reports all redirecting URLs", {
+  db <- make_urlchecker_db(
+    urls = c("https://a.com", "https://b.com", "https://c.com"),
+    status = c("200", "200", "200"),
+    message = c("OK", "OK", "OK"),
+    new = c("https://a.org", "", "https://c.org")
+  )
+  db <- add_from(db, list("DESCRIPTION", "DESCRIPTION", "man/foo.Rd"))
+  state <- list(urlchecker = db)
+  result <- CHECKS$urlchecker_no_redirects$check(state)
+  expect_false(result$status)
+  expect_length(result$positions, 2)
+})
+
+# -- filter edge cases ---------------------------------------------------------
+
+test_that("urlchecker_ok treats 302 as acceptable", {
+  db <- make_urlchecker_db(
+    urls = "https://a.com",
+    status = "302",
+    message = "Found",
+    new = "https://a.org"
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  state <- list(urlchecker = db)
+  result <- CHECKS$urlchecker_ok$check(state)
+  expect_true(result$status)
+})
+
+test_that("urlchecker_ok catches timeout status", {
+  db <- make_urlchecker_db(
+    urls = "https://slow.com",
+    status = "Timeout",
+    message = "Connection timed out",
+    new = ""
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  state <- list(urlchecker = db)
+  result <- CHECKS$urlchecker_ok$check(state)
+  expect_false(result$status)
+})
+
+# -- prep tests ----------------------------------------------------------------
+
+test_that("PREPS$urlchecker stores result in state", {
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(
+    url_check = function(path, ...) {
+      make_urlchecker_db(
+        urls = "https://example.com",
+        status = "200",
+        message = "OK",
+        new = ""
+      )
+    },
+    .package = "urlchecker"
+  )
+  state <- list(path = "good")
+  state <- PREPS$urlchecker(state, quiet = TRUE)
+  expect_false(inherits(state$urlchecker, "try-error"))
+  expect_s3_class(state$urlchecker, "data.frame")
+})
+
+test_that("PREPS$urlchecker warns on failure", {
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(
+    url_check = function(path, ...) stop("url_check failed"),
+    .package = "urlchecker"
+  )
+  state <- list(path = "good")
+  expect_warning(
+    state <- PREPS$urlchecker(state, quiet = TRUE),
+    "Prep step for urlchecker failed"
+  )
+  expect_true(inherits(state$urlchecker, "try-error"))
 })
 
 # -- offline gate --------------------------------------------------------------

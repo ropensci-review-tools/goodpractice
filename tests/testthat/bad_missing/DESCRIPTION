@@ -1,0 +1,7 @@
+Package: badmissing
+Title: Test Package for missing() Check
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Package that uses missing().
+License: GPL-2

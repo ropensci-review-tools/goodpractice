@@ -5,6 +5,18 @@
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
+* New DESCRIPTION checks (#122, #85):
+  - `description_not_start_with_package`: Description should not start with
+    "This package"
+  - `description_urls_in_angle_brackets`: URLs in Description must be wrapped
+    in angle brackets
+  - `description_doi_format`: DOIs should use `<doi:...>` not full URLs
+  - `description_urls_not_http`: URLs should use https not http
+  - `no_description_duplicate_deps`: No duplicate packages across dependency
+    fields
+  - `description_valid_roles`: Authors@R roles must be valid MARC relator codes
+  - `description_pkgname_single_quoted`: Package names in Title/Description
+    must be single-quoted
 
 # goodpractice 1.0.5
 

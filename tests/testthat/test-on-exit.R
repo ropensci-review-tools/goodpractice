@@ -1,4 +1,4 @@
-get_result <- function(res, check) res$result[res$check == check]
+get_result <- function(res, check) res$passed[res$check == check]
 
 test_that("on_exit_add fails when on.exit() lacks add = TRUE", {
   gp_res <- gp("bad_on_exit", checks = "on_exit_add")

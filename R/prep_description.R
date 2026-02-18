@@ -1,5 +1,5 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom desc description
 
 PREPS$description <- function(state, path = state$path, quiet) {

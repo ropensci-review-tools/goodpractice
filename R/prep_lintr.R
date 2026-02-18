@@ -19,7 +19,7 @@ linters_to_lint <- list(
   seq_linter = lintr::seq_linter()
 )
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom lintr lint_package
 
 PREPS$lintr <- function(state, path = state$path, quiet) {

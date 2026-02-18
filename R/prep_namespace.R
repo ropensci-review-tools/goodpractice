@@ -1,5 +1,5 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 
 PREPS$namespace <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)

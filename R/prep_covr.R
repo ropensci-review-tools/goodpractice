@@ -1,5 +1,5 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom covr package_coverage zero_coverage percent_coverage
 #' @importFrom withr with_options
 

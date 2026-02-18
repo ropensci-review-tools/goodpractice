@@ -1,5 +1,5 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom cyclocomp cyclocomp_package_dir
 
 PREPS$cyclocomp <- function(state, path = state$path, quiet) {

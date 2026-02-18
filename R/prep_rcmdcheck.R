@@ -1,5 +1,5 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom rcmdcheck rcmdcheck
 
 PREPS$rcmdcheck <- function(state, path = state$path, quiet) {

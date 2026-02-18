@@ -1,10 +1,9 @@
 #' @include lists.R
-#' @importFrom utils getFromNamespace
+#' @importFrom spelling spell_check_package
 
 PREPS$spelling <- function(state, path = state$path, quiet) {
-  spell_check <- getFromNamespace("spell_check_package", "spelling")
   state$spelling <- try(
-    suppressMessages(spell_check(path)),
+    suppressMessages(spell_check_package(path)),
     silent = quiet
   )
   if (inherits(state$spelling, "try-error")) {

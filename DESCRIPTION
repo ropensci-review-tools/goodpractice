@@ -70,6 +70,7 @@ Imports:
     praise,
     rcmdcheck,
     rstudioapi,
+    spelling,
     tools,
     utils,
     whoami,
@@ -82,7 +83,7 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 Config/ropensci/maintainer: staff
 Collate: 
@@ -95,6 +96,7 @@ Collate:
     'chk_lintr.R'
     'chk_namespace.R'
     'chk_rcmdcheck.R'
+    'chk_spelling.R'
     'chk_tnf.R'
     'gp.R'
     'package.R'
@@ -105,6 +107,7 @@ Collate:
     'prep_lintr.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'
+    'prep_spelling.R'
     'print.R'
     'rstudio_markers.R'
     'utils.R'

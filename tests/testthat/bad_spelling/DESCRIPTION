@@ -1,0 +1,8 @@
+Package: badspelling
+Title: Test Packge for Spellign Check
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Package with misspeled words in documentation.
+License: GPL-2
+Language: en-US

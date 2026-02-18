@@ -82,7 +82,7 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 Config/ropensci/maintainer: staff
 Collate: 
@@ -94,6 +94,7 @@ Collate:
     'chk_description.R'
     'chk_lintr.R'
     'chk_namespace.R'
+    'chk_print_return.R'
     'chk_rcmdcheck.R'
     'chk_tnf.R'
     'gp.R'

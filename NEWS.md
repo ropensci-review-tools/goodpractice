@@ -5,6 +5,7 @@
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
+* New `print_return_invisible` check: flags print methods that don't return `invisible(x)` (#49).
 
 # goodpractice 1.0.5
 

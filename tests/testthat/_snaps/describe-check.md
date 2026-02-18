@@ -51,6 +51,9 @@
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
       
+      $print_return_invisible
+      [1] "Print methods return the object invisibly"
+      
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"
       

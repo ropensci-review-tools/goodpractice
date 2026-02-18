@@ -1,4 +1,4 @@
-get_result <- function(res, check) res$result[res$check == check]
+get_result <- function(res, check) res$passed[res$check == check]
 
 test_that("no_missing fails when missing() is used", {
   gp_res <- gp("bad_missing", checks = "no_missing")

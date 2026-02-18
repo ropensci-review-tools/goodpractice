@@ -5,6 +5,8 @@
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
+* New `vignette_no_rm_list` check: flags `rm(list = ls())` in vignettes (#20).
+* New `vignette_no_setwd` check: flags `setwd()` in vignettes (#21).
 
 # goodpractice 1.0.5
 

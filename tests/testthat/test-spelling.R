@@ -1,4 +1,4 @@
-get_result <- function(res, check) res$result[res$check == check]
+get_result <- function(res, check) res$passed[res$check == check]
 
 test_that("spelling fails when misspelled words exist", {
   gp_res <- gp("bad_spelling", checks = "spelling")

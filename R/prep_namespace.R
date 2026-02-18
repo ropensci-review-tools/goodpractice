@@ -3,16 +3,7 @@
 
 PREPS$namespace <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
-  state$namespace <- try(parseNamespaceFile(
-    basename(path),
-    file.path(path, "..")
-  ), silent = quiet)
-  if(inherits(state$namespace, "try-error")) {
-    warning(
-      "Prep step for namespace failed: ",
-      conditionMessage(attr(state$namespace, "condition")),
-      call. = FALSE
-    )
-  }
-  state
+  run_prep_step(state, "namespace", function() {
+    parseNamespaceFile(basename(path), file.path(path, ".."))
+  }, quiet = quiet)
 }

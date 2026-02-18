@@ -1,4 +1,4 @@
-get_result <- function(res, check) res$result[res$check == check]
+get_result <- function(res, check) res$passed[res$check == check]
 
 test_that("r_file_extension fails when .r or .q files exist", {
   gp_res <- gp("bad_r_ext", checks = "r_file_extension")

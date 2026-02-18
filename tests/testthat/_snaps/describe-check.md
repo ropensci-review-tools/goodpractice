@@ -52,7 +52,7 @@
       [1] "exportPattern in NAMESPACE file"
       
       $r_file_extension
-      [1] "R scripts use .R file extension, not .r"
+      [1] "R scripts use .R file extension, not .r or .q"
       
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"

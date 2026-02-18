@@ -2,12 +2,12 @@
 
 CHECKS$r_file_extension <- make_check(
 
-  description = "R scripts use .R file extension, not .r",
+  description = "R scripts use .R file extension, not .r or .q",
   tags = c("CRAN", "warning"),
   preps = character(),
 
   gp = paste(
-    "use the .R file extension for R scripts, not .r.",
+    "use the .R file extension for R scripts, not .r or .q.",
     "CRAN requires the uppercase .R extension."
   ),
 
@@ -19,7 +19,7 @@ CHECKS$r_file_extension <- make_check(
       return(list(status = TRUE, positions = list()))
     }
 
-    files <- list.files(rdir, pattern = "\\.[r]$")
+    files <- list.files(rdir, pattern = "\\.(r|q)$")
 
     if (length(files) == 0) {
       list(status = TRUE, positions = list())

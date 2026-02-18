@@ -40,11 +40,17 @@ library(goodpractice)
 
 # get path to example package
 pkg_path <- system.file("bad1", package = "goodpractice")
+```
 
+```{r, echo = TRUE, eval = FALSE}
 # run gp() on it
-# (covr and cyclocomp prep steps warn on this toy package)
+g <- gp(pkg_path)
+```
+```{r, echo = FALSE, eval = TRUE}
 g <- suppressWarnings(gp(pkg_path))
+```
 
+```{r}
 # show the result
 g
 ```

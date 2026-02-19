@@ -693,6 +693,9 @@
       $rcmdcheck_some_code_in_docs
       [1] "*Some* form of documentation should contain some code to run "
       
+      $reverse_dependencies
+      [1] "Check for reverse dependencies on CRAN"
+      
       $truefalse_not_tf
       [1] "TRUE and FALSE is used, not T and F"
       

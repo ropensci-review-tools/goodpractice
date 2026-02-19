@@ -6,6 +6,8 @@
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
+* New `reverse_dependencies` check: queries CRAN for reverse dependencies and advises
+  running `revdepcheck::revdep_check()` before submission.
 
 # goodpractice 1.0.5
 

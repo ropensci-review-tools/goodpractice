@@ -1,12 +1,10 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom rcmdcheck rcmdcheck
 
 PREPS$rcmdcheck <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
-  state$rcmdcheck <- try(rcmdcheck(path, quiet = quiet), silent = quiet)
-  if(inherits(state$rcmdcheck, "try-error")) {
-    warning("Prep step for rcmdcheck failed.")
-  }
-  state
+  run_prep_step(state, "rcmdcheck", function() {
+    rcmdcheck(path, quiet = quiet)
+  }, quiet = quiet)
 }

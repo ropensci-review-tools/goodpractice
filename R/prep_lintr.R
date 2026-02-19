@@ -19,17 +19,12 @@ linters_to_lint <- list(
   seq_linter = lintr::seq_linter()
 )
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom lintr lint_package
 
 PREPS$lintr <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
-  suppressMessages(
-    state$lintr <- try(lint_package(path, linters = linters_to_lint),
-                       silent = TRUE)
-  )
-  if(inherits(state$lintr, "try-error")) {
-    warning("Prep step for linter failed.")
-  }
-  state
+  run_prep_step(state, "lintr", function() {
+    suppressMessages(lint_package(path, linters = linters_to_lint))
+  }, quiet = quiet)
 }

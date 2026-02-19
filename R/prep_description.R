@@ -1,12 +1,9 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom desc description
 
 PREPS$description <- function(state, path = state$path, quiet) {
-  state$description <- try(description$new(file.path(path, "DESCRIPTION")), 
-                           silent = quiet)
-  if(inherits(state$description, "try-error")) {
-    warning("Prep step for description failed.")
-  }
-  state
+  run_prep_step(state, "description", function() {
+    description$new(file.path(path, "DESCRIPTION"))
+  }, quiet = quiet)
 }

@@ -94,6 +94,7 @@ Collate:
     'chk_description.R'
     'chk_lintr.R'
     'chk_namespace.R'
+    'chk_r_file_extension.R'
     'chk_rcmdcheck.R'
     'chk_tnf.R'
     'chk_vignette.R'

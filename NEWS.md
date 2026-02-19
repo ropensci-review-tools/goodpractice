@@ -6,6 +6,8 @@
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
+* New `on_exit_add` check: flags `on.exit()` calls missing `add = TRUE` (#138).
+* New `on_exit_missing` check: detects functions that change global state (e.g. `options()`, `par()`, `setwd()`) without using `on.exit()` to restore it (#138).
 
 # goodpractice 1.0.5
 

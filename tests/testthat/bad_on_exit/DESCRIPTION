@@ -1,0 +1,7 @@
+Package: badonexit
+Title: Test Package with Bad on.exit Calls
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: A test package with on.exit calls missing add = TRUE.
+License: GPL-2

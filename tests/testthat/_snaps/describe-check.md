@@ -19,7 +19,7 @@
       [1] "URL in DESCRIPTION"
       
       $description_not_start_with_package
-      [1] "Description does not start with \"This package\""
+      [1] "Description does not start with package name reference"
       
       $description_urls_in_angle_brackets
       [1] "URLs in Description are enclosed in angle brackets"

@@ -696,4 +696,10 @@
       $truefalse_not_tf
       [1] "TRUE and FALSE is used, not T and F"
       
+      $vignette_no_rm_list
+      [1] "Vignettes do not use rm(list = ls())"
+      
+      $vignette_no_setwd
+      [1] "Vignettes do not use setwd()"
+      
 

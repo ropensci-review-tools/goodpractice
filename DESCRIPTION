@@ -69,6 +69,7 @@ Imports:
     lintr (>= 3.0.0),
     praise,
     rcmdcheck,
+    roxygen2,
     rstudioapi,
     tools,
     utils,
@@ -96,6 +97,7 @@ Collate:
     'chk_namespace.R'
     'chk_r_file_extension.R'
     'chk_rcmdcheck.R'
+    'chk_roxygen2.R'
     'chk_tnf.R'
     'gp.R'
     'package.R'
@@ -106,6 +108,7 @@ Collate:
     'prep_lintr.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'
+    'prep_roxygen2.R'
     'print.R'
     'rstudio_markers.R'
     'utils.R'

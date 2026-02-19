@@ -21,6 +21,18 @@
       $description_bugreports
       [1] "BugReports in DESCRIPTION"
       
+      $has_readme
+      [1] "README file exists"
+      
+      $has_news
+      [1] "NEWS file exists"
+      
+      $truefalse_not_tf
+      [1] "TRUE and FALSE is used, not T and F"
+      
+      $r_file_extension
+      [1] "R scripts use .R file extension, not .r or .q"
+      
       $lintr_assignment_linter
       [1] "'<-' and not '=' is used for assignment"
       
@@ -50,9 +62,6 @@
       
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
-      
-      $r_file_extension
-      [1] "R scripts use .R file extension, not .r or .q"
       
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"
@@ -692,8 +701,5 @@
       
       $rcmdcheck_some_code_in_docs
       [1] "*Some* form of documentation should contain some code to run "
-      
-      $truefalse_not_tf
-      [1] "TRUE and FALSE is used, not T and F"
       
 

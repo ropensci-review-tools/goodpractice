@@ -53,10 +53,10 @@
       
       $on_exit_add
       [1] "on.exit() calls use add = TRUE"
-
+      
       $on_exit_missing
       [1] "State-changing functions use on.exit() to restore state"
-
+      
       $r_file_extension
       [1] "R scripts use .R file extension, not .r or .q"
       

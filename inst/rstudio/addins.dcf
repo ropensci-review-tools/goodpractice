@@ -1,0 +1,4 @@
+Name: Check Good Practices
+Description: Checks code for violations of good practices
+Binding: goodpractice
+Interactive: false

@@ -15,3 +15,10 @@ test_that("spelling passes when no misspellings exist", {
   res <- results(gp_res)
   expect_true(get_result(res, "spelling"))
 })
+
+test_that("spelling returns NA when no inst/WORDLIST exists", {
+  state <- list(spelling = "no_wordlist")
+  result <- CHECKS$spelling$check(state)
+  expect_true(is.na(result$status))
+  expect_equal(result$positions, list())
+})

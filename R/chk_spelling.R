@@ -13,7 +13,8 @@ CHECKS$spelling <- make_check(
   ),
 
   check = function(state) {
-    if (inherits(state$spelling, "try-error")) {
+    if (identical(state$spelling, "no_wordlist") ||
+        inherits(state$spelling, "try-error")) {
       return(list(status = NA, positions = list()))
     }
 

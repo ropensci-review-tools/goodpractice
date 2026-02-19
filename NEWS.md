@@ -5,6 +5,7 @@
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
+* New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
 * Prep step error handling refactored into `run_prep_step()` helper. New prep
   functions can use `run_prep_step(state, "name", function() { ... }, quiet)`
   instead of manually wrapping work in `try()` and emitting warnings on failure.

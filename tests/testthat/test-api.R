@@ -12,7 +12,7 @@ test_that("checks", {
 test_that("results", {
   res <- data.frame(
     check = c("covr", "description_bugreports"),
-    result = c(NA, FALSE),
+    passed = c(NA, FALSE),
     stringsAsFactors = FALSE
   )
   expect_equal(results(x), res)

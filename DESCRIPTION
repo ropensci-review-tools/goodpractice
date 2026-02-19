@@ -82,8 +82,9 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/ropensci/maintainer: staff
 Collate: 
     'api.R'
     'customization.R'
@@ -93,8 +94,9 @@ Collate:
     'chk_description.R'
     'chk_lintr.R'
     'chk_namespace.R'
-    'chk_rd.R'
+    'chk_r_file_extension.R'
     'chk_rcmdcheck.R'
+    'chk_rd.R'
     'chk_tnf.R'
     'gp.R'
     'package.R'
@@ -104,8 +106,8 @@ Collate:
     'prep_expressions.R'
     'prep_lintr.R'
     'prep_namespace.R'
-    'prep_rd.R'
     'prep_rcmdcheck.R'
+    'prep_rd.R'
     'print.R'
     'rstudio_markers.R'
     'utils.R'

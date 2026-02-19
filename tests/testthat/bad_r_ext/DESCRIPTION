@@ -1,0 +1,7 @@
+Package: badrext
+Title: Test Package with Bad R File Extension
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: A test package using .r instead of .R.
+License: GPL-2

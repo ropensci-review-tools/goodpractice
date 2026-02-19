@@ -51,17 +51,8 @@
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
       
-      $rd_has_examples
-      [1] "Exported functions have \\examples in .Rd"
-      
-      $rd_has_return
-      [1] "Exported functions have \\value in .Rd"
-      
-      $rd_examples_dontrun
-      [1] "Examples do not use \\dontrun"
-      
-      $rd_examples_runnable
-      [1] "Examples have runnable code outside \\dontrun/\\donttest"
+      $r_file_extension
+      [1] "R scripts use .R file extension, not .r or .q"
       
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"
@@ -701,6 +692,18 @@
       
       $rcmdcheck_some_code_in_docs
       [1] "*Some* form of documentation should contain some code to run "
+      
+      $rd_has_examples
+      [1] "Exported functions have \\examples in .Rd"
+      
+      $rd_has_return
+      [1] "Exported functions have \\value in .Rd"
+      
+      $rd_examples_dontrun
+      [1] "Examples do not use \\dontrun"
+      
+      $rd_examples_runnable
+      [1] "Examples have runnable code outside \\dontrun/\\donttest"
       
       $truefalse_not_tf
       [1] "TRUE and FALSE is used, not T and F"

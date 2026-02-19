@@ -63,20 +63,24 @@ CHECKS$description_url <- make_check(
 
 CHECKS$description_not_start_with_package <- make_check(
 
-  description = 'Description does not start with "This package"',
+  description = 'Description does not start with package name reference',
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'not start the Description field with "This package". Describe
-        what the package does without referring to the package itself,
-        e.g. "Provides tools for ..." instead of "This package provides
-        tools for ...".',
+  gp = 'not start the Description field by referring to the package
+        itself, e.g. "This package ...", "This is a package ...",
+        or "The FooBar package ...". Describe what the package does
+        directly, e.g. "Provides tools for ..." instead of
+        "This package provides tools for ...".',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
 
     desc_text <- state$description$get_field("Description")
-    !grepl("^This package\\b", desc_text, ignore.case = TRUE)
+    pkg_name <- state$description$get_field("Package")
+    starts_this_pkg <- grepl("^This\\s+(is\\s+a\\s+)?package\\b", desc_text, ignore.case = TRUE)
+    starts_the_pkg <- grepl(paste0("^The\\s+", pkg_name, "\\s+package\\b"), desc_text, ignore.case = TRUE)
+    !(starts_this_pkg || starts_the_pkg)
   }
 )
 
@@ -130,8 +134,9 @@ CHECKS$description_urls_not_http <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'use https:// instead of http:// for URLs in the Description
-        field. CRAN prefers secure URLs where available.',
+  gp = 'consider using https:// instead of http:// for URLs in the
+        Description field. CRAN prefers secure URLs where available.
+        Check if there might be a secure https:// alternative.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)

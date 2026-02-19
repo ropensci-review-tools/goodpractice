@@ -25,6 +25,20 @@ Maintainer: foo@foofoo.com
 Description: This package does things.
 "
 
+D3_this_is_a <-
+"Package: foo
+Title: Foo Package
+Maintainer: foo@foofoo.com
+Description: This is a package to do things.
+"
+
+D3_the_pkg <-
+"Package: foo
+Title: Foo Package
+Maintainer: foo@foofoo.com
+Description: The foo package does things.
+"
+
 D_url_good <-
 "Package: foo
 Title: Foo Package
@@ -178,7 +192,7 @@ test_that("URL", {
   )
 })
 
-test_that("Description not starting with 'This package'", {
+test_that("Description not starting with package name reference", {
 
   state <- list(description = desc::description$new(text = D1))
   expect_true(
@@ -186,6 +200,16 @@ test_that("Description not starting with 'This package'", {
   )
 
   state <- list(description = desc::description$new(text = D3))
+  expect_false(
+    CHECKS$description_not_start_with_package$check(state)
+  )
+
+  state <- list(description = desc::description$new(text = D3_this_is_a))
+  expect_false(
+    CHECKS$description_not_start_with_package$check(state)
+  )
+
+  state <- list(description = desc::description$new(text = D3_the_pkg))
   expect_false(
     CHECKS$description_not_start_with_package$check(state)
   )

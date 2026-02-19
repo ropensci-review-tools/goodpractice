@@ -6,6 +6,7 @@
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
+* New `no_missing` check: flags use of `missing()` for argument checking (#48).
 
 # goodpractice 1.0.5
 

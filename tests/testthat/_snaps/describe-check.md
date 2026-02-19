@@ -45,6 +45,9 @@
       $lintr_seq_linter
       [1] "Avoid 1:length(...) and similar expressions"
       
+      $no_missing
+      [1] "Functions do not use missing() to check arguments"
+      
       $no_import_package_as_a_whole
       [1] "Packages are not imported as a whole"
       

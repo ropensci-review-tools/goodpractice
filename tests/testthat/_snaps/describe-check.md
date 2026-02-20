@@ -714,6 +714,9 @@
       $rcmdcheck_some_code_in_docs
       [1] "*Some* form of documentation should contain some code to run "
       
+      $spelling
+      [1] "No misspelled words in documentation"
+      
       $truefalse_not_tf
       [1] "TRUE and FALSE is used, not T and F"
       

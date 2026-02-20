@@ -18,6 +18,27 @@
       $description_url
       [1] "URL in DESCRIPTION"
       
+      $description_not_start_with_package
+      [1] "Description does not start with package name reference"
+      
+      $description_urls_in_angle_brackets
+      [1] "URLs in Description are enclosed in angle brackets"
+      
+      $description_doi_format
+      [1] "DOIs in Description use <doi:...> format"
+      
+      $description_urls_not_http
+      [1] "URLs in Description use https not http"
+      
+      $no_description_duplicate_deps
+      [1] "No duplicate dependencies in DESCRIPTION"
+      
+      $description_valid_roles
+      [1] "Authors have valid roles in DESCRIPTION"
+      
+      $description_pkgname_single_quoted
+      [1] "Package names in Title/Description are single-quoted"
+      
       $description_bugreports
       [1] "BugReports in DESCRIPTION"
       
@@ -50,6 +71,9 @@
       
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
+      
+      $r_file_extension
+      [1] "R scripts use .R file extension, not .r or .q"
       
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"

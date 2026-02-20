@@ -15,7 +15,7 @@ test_that("extra check", {
             extra_checks = list(simple_tf = simple_truefalse_not_tf))
 
   expect_equal(checks(res), "simple_tf")
-  expect_false(results(res)$result)
+  expect_false(results(res)$passed)
 
 })
 
@@ -36,6 +36,6 @@ test_that("extra prep and check pair", {
             extra_checks = list(url = url_chk))
 
   expect_equal(checks(res), c("no_description_depends", "url"))
-  expect_equal(results(res)$result, rep(FALSE, 2))
+  expect_equal(results(res)$passed, rep(FALSE, 2))
 
 })

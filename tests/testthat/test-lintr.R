@@ -29,7 +29,7 @@ res_bad2 <- results(gp_bad2)
 gp_bad3 <- gp("bad3", checks = gp_lintrs)
 res_bad3 <- results(gp_bad3)
 
-get_result <- function(res, check) res$result[res$check == check]
+get_result <- function(res, check) res$passed[res$check == check]
 
 
 test_that("lintr_assignment_linter", {

@@ -21,7 +21,7 @@ checks <- function(gp) {
 #' @param gp \code{\link{gp}} output.
 #' @return Data frame, with columns:
 #' \item{check}{The name of the check.}
-#' \item{result}{Logical, whether it has failed or not.}
+#' \item{passed}{Logical, whether the check passed.}
 #'
 #' @family API
 #' @export
@@ -36,7 +36,7 @@ results <- function(gp) {
     stringsAsFactors = FALSE,
     row.names = NULL,
     check = names(gp$checks),
-    result = vapply(gp$checks, check_passed, TRUE)
+    passed = vapply(gp$checks, check_passed, TRUE)
   )
 }
 

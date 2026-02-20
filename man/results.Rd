@@ -12,7 +12,7 @@ results(gp)
 \value{
 Data frame, with columns:
 \item{check}{The name of the check.}
-\item{result}{Logical, whether it has failed or not.}
+\item{passed}{Logical, whether the check passed.}
 }
 \description{
 Return all check results in a data frame

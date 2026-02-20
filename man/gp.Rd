@@ -7,7 +7,7 @@
 \usage{
 gp(
   path = ".",
-  checks = all_checks(),
+  checks = NULL,
   extra_preps = NULL,
   extra_checks = NULL,
   quiet = TRUE
@@ -16,8 +16,12 @@ gp(
 \arguments{
 \item{path}{Path to a package root.}
 
-\item{checks}{Character vector, the checks to run. Defaults to
-all checks. Use \code{\link{all_checks}} to list all checks.}
+\item{checks}{Character vector, the checks to run. When \code{NULL}
+(the default), all registered checks are run, subject to any
+exclusions from \code{goodpractice.exclude_preps} or
+\code{GP_EXCLUDE_PREPS}. Explicitly passing check names overrides
+any exclusion settings. Use \code{\link{all_checks}} to list
+available checks.}
 
 \item{extra_preps}{Custom preparation functions. See
 \code{\link{make_prep}} on creating preparation functions.}
@@ -36,6 +40,25 @@ with a simple API. See \code{\link{results}} to start.
 \description{
 To see the results, just print it to the screen.
 }
+\section{Excluding check groups}{
+
+When using the default \code{checks = all_checks()}, entire groups of
+checks can be excluded by prep name via the
+\code{goodpractice.exclude_preps} option or the \code{GP_EXCLUDE_PREPS}
+environment variable (comma-separated). The option takes precedence.
+
+\preformatted{
+# Skip URL and coverage checks:
+options(goodpractice.exclude_preps = c("urlchecker", "covr"))
+
+# Or via environment variable:
+Sys.setenv(GP_EXCLUDE_PREPS = "urlchecker,covr")
+}
+
+Exclusion only applies when \code{checks = NULL} (the default).
+Explicit \code{checks} arguments are never filtered.
+}
+
 \examples{
 path <- system.file("bad1", package = "goodpractice")
 # run a subset of all checks available

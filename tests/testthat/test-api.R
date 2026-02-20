@@ -30,6 +30,18 @@ test_that("failed_positions returns positions for failed checks", {
   expect_true("description_bugreports" %in% names(fp))
 })
 
+test_that("failed_positions returns NULL when check has no positions", {
+  fp <- failed_positions(x)
+  expect_null(fp$description_bugreports)
+})
+
+test_that("failed_positions returns positions when check has them", {
+  y <- gp(bad1, checks = "truefalse_not_tf")
+  fp <- failed_positions(y)
+  expect_type(fp$truefalse_not_tf, "list")
+  expect_true(length(fp$truefalse_not_tf) > 0)
+})
+
 test_that("export_json writes valid JSON", {
   tmp <- withr::local_tempfile(fileext = ".json")
   export_json(x, file = tmp)

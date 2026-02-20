@@ -90,3 +90,50 @@ results(g)[1:5,]
 ```
 
 Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is `NA`. It is also possible to export the results to a JSON file with `export_json()`.
+
+
+## Excluding check groups
+
+Running all checks can be time-consuming, especially when some preparation steps like code coverage (`covr`) or `R CMD check` (`rcmdcheck`) are slow. Instead of listing individual checks to include, you can exclude entire groups of checks by their preparation step name.
+
+Each check in **goodpractice** depends on one or more preparation steps. The available prep names are: `covr`, `cyclocomp`, `description`, `expressions`, `lintr`, `namespace`, and `rcmdcheck`. Excluding a prep name removes all checks that depend on it.
+
+### Using an R option
+
+Set the `goodpractice.exclude_preps` option to a character vector of prep names:
+
+```{r, eval = FALSE}
+# skip code coverage and cyclomatic complexity checks
+options(goodpractice.exclude_preps = c("covr", "cyclocomp"))
+gp(".")
+```
+
+### Using an environment variable
+
+Set the `GP_EXCLUDE_PREPS` environment variable to a comma-separated list of prep names:
+
+```{r, eval = FALSE}
+Sys.setenv(GP_EXCLUDE_PREPS = "covr,cyclocomp")
+gp(".")
+```
+
+This is particularly useful in CI/CD pipelines where you may want to configure behaviour without modifying R code:
+
+```bash
+GP_EXCLUDE_PREPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
+```
+
+### Precedence rules
+
+- The R option (`goodpractice.exclude_preps`) takes precedence over the environment variable (`GP_EXCLUDE_PREPS`) when both are set.
+- Exclusion only applies when `checks = NULL` (the default). If you explicitly pass check names to the `checks` argument, exclusion settings are ignored.
+
+```{r, eval = FALSE}
+options(goodpractice.exclude_preps = "covr")
+
+# covr checks are excluded
+gp(".")
+
+# covr checks still run because checks are explicitly specified
+gp(".", checks = "covr")
+```

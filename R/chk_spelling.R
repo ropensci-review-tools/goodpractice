@@ -1,5 +1,21 @@
 #' @include lists.R
 
+spelling_positions <- function(word, locations) {
+  unlist(lapply(locations, function(loc) {
+    parts <- strsplit(loc, ":")[[1]]
+    line_nums <- as.integer(strsplit(parts[2], ",")[[1]])
+    lapply(line_nums, function(ln) {
+      list(
+        filename = parts[1],
+        line_number = ln,
+        column_number = NA_integer_,
+        ranges = list(),
+        line = word
+      )
+    })
+  }), recursive = FALSE)
+}
+
 CHECKS$spelling <- make_check(
 
   description = "No misspelled words in documentation",
@@ -23,24 +39,10 @@ CHECKS$spelling <- make_check(
       return(list(status = TRUE, positions = list()))
     }
 
-    problems <- list()
-    for (i in seq_len(nrow(res))) {
-      locations <- res$found[[i]]
-      for (loc in locations) {
-        parts <- strsplit(loc, ":")[[1]]
-        line_nums <- as.integer(strsplit(parts[2], ",")[[1]])
-        for (ln in line_nums) {
-          problems[[length(problems) + 1]] <- list(
-            filename = parts[1],
-            line_number = ln,
-            column_number = NA_integer_,
-            ranges = list(),
-            line = res$word[i]
-          )
-        }
-      }
-    }
-
-    list(status = FALSE, positions = problems)
+    positions <- unlist(
+      Map(spelling_positions, res$word, res$found),
+      recursive = FALSE
+    )
+    list(status = FALSE, positions = positions)
   }
 )

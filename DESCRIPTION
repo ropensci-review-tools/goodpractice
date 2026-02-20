@@ -46,10 +46,10 @@ Authors@R:
              family = "Scheipl",
              role = "ctb",
              comment = c(GitHub = "fabian-s")),
-      person(given = "Athanasia Mo", 
+      person(given = "Athanasia Mo",
              family = "Mowinckel",
-             email = "a.m.mowinckel@psykologi.uio.no", 
-             role = c("ctb"),
+             email = "a.m.mowinckel@psykologi.uio.no",
+             role = c("aut"),
             comment = c(
                 GitHub = "drmowinckels", 
                 ORCID = "0000-0002-5756-0223")
@@ -79,6 +79,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
+Remotes:
+    gaborcsardi/cyclocomp
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

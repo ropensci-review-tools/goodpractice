@@ -37,6 +37,7 @@ Other contributors:
   \item Ascent Digital Services UK Limited (MangoTheCat) [copyright holder]
   \item Ana Simmons \email{ana.simmons@ascent.io} (anasimmons) [contributor]
   \item Fabian Scheipl (fabian-s) [contributor]
+  \item Athanasia Mo Mowinckel \email{a.m.mowinckel@psykologi.uio.no} (\href{https://orcid.org/0000-0002-5756-0223}{ORCID}) (drmowinckels) [contributor]
 }
 
 }

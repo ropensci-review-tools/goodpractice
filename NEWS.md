@@ -1,5 +1,7 @@
 # goodpractice 1.0.5.9000 (dev version)
 
+* New `has_readme` and `has_news` checks for package documentation
+  completeness (#45).
 * `gp()` now fails if the path provided to it is not a package (does not contain a
   DESCRIPTION file) (#190, @maelle)
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).

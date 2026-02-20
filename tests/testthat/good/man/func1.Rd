@@ -9,4 +9,9 @@ func1()
 \description{
 Random function
 }
-
+\value{
+Nothing useful.
+}
+\examples{
+func1()
+}

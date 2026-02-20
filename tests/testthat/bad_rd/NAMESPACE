@@ -1,0 +1,6 @@
+export(no_value)
+export(no_examples)
+export(dontrun_example)
+export(all_wrapped)
+export(good_func)
+S3method(print,badrd)

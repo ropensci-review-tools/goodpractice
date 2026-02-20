@@ -29,6 +29,7 @@ Authors:
   \item Hannah Frick \email{hannah.frick@gmail.com}
   \item Owen Jones \email{owenjonesuob@gmail.com} (owenjonesuob)
   \item Hannah Alexander \email{halexander@mango-solutions.com}
+  \item Athanasia Mo Mowinckel \email{a.m.mowinckel@psykologi.uio.no} (\href{https://orcid.org/0000-0002-5756-0223}{ORCID}) (drmowinckels)
 }
 
 Other contributors:

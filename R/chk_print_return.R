@@ -15,7 +15,7 @@ CHECKS$print_return_invisible <- make_check(
 
   description = "Print methods return the object invisibly",
   tags = c("warning", "best practice"),
-  preps = character(),
+  preps = "functions",
 
   gp = paste(
     "print methods should return the input object invisibly,",
@@ -24,7 +24,7 @@ CHECKS$print_return_invisible <- make_check(
   ),
 
   check = function(state) {
-    fns <- parse_package_functions(state$path)
+    fns <- state$functions %||% parse_package_functions(state$path)
     problems <- list()
 
     for (fn in fns) {

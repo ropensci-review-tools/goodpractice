@@ -532,15 +532,11 @@ CHECKS$tidyverse_test_file_names <- make_check(
 
 ## --------------------------------------------------------------------
 
-find_top_level_functions <- function(path) {
-  parse_package_functions(path)
-}
-
 CHECKS$tidyverse_no_missing <- make_check(
 
   description = "Functions do not use missing() to check arguments",
   tags = c("warning", "tidyverse"),
-  preps = character(),
+  preps = "functions",
 
   gp = paste(
     "avoid using missing() to check whether arguments were supplied.",
@@ -550,7 +546,7 @@ CHECKS$tidyverse_no_missing <- make_check(
   ),
 
   check = function(state) {
-    funcs <- find_top_level_functions(state$path)
+    funcs <- state$functions %||% parse_package_functions(state$path)
     problems <- list()
 
     for (fn in funcs) {
@@ -579,7 +575,7 @@ CHECKS$tidyverse_export_order <- make_check(
 
   description = "Exported functions are defined before internal helpers",
   tags = c("style", "tidyverse"),
-  preps = "namespace",
+  preps = c("functions", "namespace"),
 
   gp = "define exported (user-facing) functions before internal
         helper functions within each R source file.",
@@ -606,7 +602,7 @@ CHECKS$tidyverse_export_order <- make_check(
       FALSE
     }
 
-    funcs <- find_top_level_functions(state$path)
+    funcs <- state$functions %||% parse_package_functions(state$path)
     if (length(funcs) == 0) {
       return(list(status = TRUE, positions = list()))
     }

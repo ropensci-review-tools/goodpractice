@@ -33,7 +33,7 @@
 #' @keywords internal
 
 run_prep_step <- function(state, prep_name, fn, ..., silent = FALSE) {
-  state[[prep_name]] <- try(fn(...), silent = silent)
+  state[[prep_name]] <- try(do.call(fn, list(...)), silent = silent)
   if (inherits(state[[prep_name]], "try-error")) {
     warning(
       "Prep step for ", prep_name, " failed: ",

@@ -13,6 +13,42 @@ is_skipped_chunk <- function(header) {
     grepl("purl\\s*=\\s*(FALSE|F)\\b", header)
 }
 
+match_chunk_pairs <- function(starts, ends) {
+  if (length(starts) == 0) return(matrix(integer(0), ncol = 2))
+
+  paired_starts <- integer()
+  paired_ends <- integer()
+
+  for (s in starts) {
+    candidates <- ends[ends > s]
+    if (length(candidates) == 0) next
+    e <- candidates[1]
+    paired_starts <- c(paired_starts, s)
+    paired_ends <- c(paired_ends, e)
+    ends <- ends[ends > e]
+  }
+
+  if (length(paired_starts) == 0) return(matrix(integer(0), ncol = 2))
+
+  chunks <- cbind(start = paired_starts, end = paired_ends)
+
+  ok <- all(chunks[, 2] > chunks[, 1])
+  if (nrow(chunks) > 1) {
+    ok <- ok &&
+      all(diff(chunks[, 1]) > 0) &&
+      all(diff(chunks[, 2]) > 0) &&
+      all(chunks[-1, 1] > chunks[-nrow(chunks), 2])
+  }
+
+  if (!ok) {
+    warning("Chunk start/end indices failed sanity checks in vignette",
+            call. = FALSE)
+    return(matrix(integer(0), ncol = 2))
+  }
+
+  chunks
+}
+
 extract_vignette_code <- function(f) {
   lines <- tryCatch(readLines(f, warn = FALSE), error = function(e) NULL)
   if (is.null(lines)) return(NULL)
@@ -20,29 +56,26 @@ extract_vignette_code <- function(f) {
   ext <- tolower(tools::file_ext(f))
 
   if (ext %in% c("rmd", "qmd")) {
-    chunk_starts <- grep("^```\\s*\\{\\s*r\\b", lines)
+    all_starts <- grep("^```\\s*\\{\\s*r\\b", lines)
     fence_ends <- grep("^```\\s*$", lines)
   } else if (ext == "rnw") {
-    chunk_starts <- grep("^<<.*>>=\\s*$", lines)
+    all_starts <- grep("^<<.*>>=\\s*$", lines)
     fence_ends <- grep("^@\\s*$", lines)
   } else {
     return(NULL)
   }
 
-  if (length(chunk_starts) == 0) return(NULL)
+  chunk_starts <- all_starts[!vapply(lines[all_starts], is_skipped_chunk,
+                                     logical(1))]
+  chunks <- match_chunk_pairs(chunk_starts, fence_ends)
+  if (nrow(chunks) == 0) return(NULL)
 
   output <- rep("", n)
-  for (start in chunk_starts) {
-    if (is_skipped_chunk(lines[start])) next
-    end <- fence_ends[fence_ends > start]
-    if (length(end) == 0) next
-    end <- end[1]
-    code_start <- start + 1L
-    code_end <- end - 1L
-    if (code_end >= code_start) {
-      output[code_start:code_end] <- lines[code_start:code_end]
-    }
-  }
+  indices <- unlist(apply(chunks, 1, function(i) {
+    if (i[2] - i[1] <= 1) return(integer(0))
+    seq(i[1] + 1L, i[2] - 1L)
+  }))
+  output[indices] <- lines[indices]
 
   if (all(output == "")) return(NULL)
   output

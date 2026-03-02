@@ -49,11 +49,8 @@ STATE_CHANGING_CALLS <- c(
 )
 
 PREPS$on_exit <- function(state, path = state$path, quiet) {
-  enc <- tryCatch(
-    desc::desc_get_field("Encoding", default = "UTF-8", file = path),
-    error = function(e) "UTF-8"
-  )
-  rfiles <- r_package_files(path)
+  fns <- parse_package_functions(path)
+
   state_changers <- data.frame(
     file = character(),
     name = character(),
@@ -71,59 +68,31 @@ PREPS$on_exit <- function(state, path = state$path, quiet) {
     stringsAsFactors = FALSE
   )
 
-  for (f in rfiles) {
-    if (!file.exists(f)) next
-    exprs <- tryCatch(
-      parse(f, keep.source = TRUE, encoding = enc),
-      error = function(e) {
-        tryCatch(
-          parse(f, keep.source = FALSE, encoding = enc),
-          error = function(e) NULL
-        )
-      }
-    )
-    if (is.null(exprs) || length(exprs) == 0) next
+  for (fn in fns) {
+    changers <- find_calls_shallow(fn$body, STATE_CHANGING_CALLS)
+    oe_calls <- find_on_exit_calls(fn$body)
+    has_on_exit <- length(oe_calls) > 0
 
-    srcrefs <- attr(exprs, "srcref")
+    if (length(changers) > 0) {
+      state_changers <- rbind(state_changers, data.frame(
+        file = basename(fn$file),
+        name = fn$name,
+        line = fn$line,
+        changers = paste(unique(changers), collapse = ", "),
+        has_on_exit = has_on_exit,
+        stringsAsFactors = FALSE
+      ))
+    }
 
-    for (i in seq_along(exprs)) {
-      e <- exprs[[i]]
-      if (!is.call(e)) next
-
-      op <- deparse(e[[1]])
-      if (!(op %in% c("<-", "=")) || length(e) != 3) next
-      if (!is.call(e[[3]])) next
-      if (!identical(deparse(e[[3]][[1]]), "function")) next
-
-      name <- deparse(e[[2]])
-      body_expr <- e[[3]][[3]]
-      line <- if (!is.null(srcrefs[[i]])) srcrefs[[i]][1] else NA_integer_
-
-      changers <- find_calls_shallow(body_expr, STATE_CHANGING_CALLS)
-      oe_calls <- find_on_exit_calls(body_expr)
-      has_on_exit <- length(oe_calls) > 0
-
-      if (length(changers) > 0) {
-        state_changers <- rbind(state_changers, data.frame(
-          file = basename(f),
-          name = name,
-          line = line,
-          changers = paste(unique(changers), collapse = ", "),
-          has_on_exit = has_on_exit,
-          stringsAsFactors = FALSE
-        ))
-      }
-
-      for (oe in oe_calls) {
-        on_exit_calls <- rbind(on_exit_calls, data.frame(
-          file = basename(f),
-          name = name,
-          line = line,
-          is_empty = oe$is_empty,
-          has_add = oe$has_add,
-          stringsAsFactors = FALSE
-        ))
-      }
+    for (oe in oe_calls) {
+      on_exit_calls <- rbind(on_exit_calls, data.frame(
+        file = basename(fn$file),
+        name = fn$name,
+        line = fn$line,
+        is_empty = oe$is_empty,
+        has_add = oe$has_add,
+        stringsAsFactors = FALSE
+      ))
     }
   }
 

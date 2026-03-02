@@ -113,6 +113,7 @@ Collate:
     'prep_cyclocomp.R'
     'prep_description.R'
     'prep_expressions.R'
+    'prep_functions.R'
     'prep_lintr.R'
     'prep_namespace.R'
     'prep_on_exit.R'

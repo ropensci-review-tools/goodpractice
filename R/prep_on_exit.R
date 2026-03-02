@@ -49,7 +49,7 @@ STATE_CHANGING_CALLS <- c(
 )
 
 PREPS$on_exit <- function(state, path = state$path, quiet) {
-  fns <- parse_package_functions(path)
+  fns <- state$functions %||% parse_package_functions(path)
 
   state_changers <- data.frame(
     file = character(),

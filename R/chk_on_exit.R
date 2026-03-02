@@ -4,7 +4,7 @@ CHECKS$on_exit_add <- make_check(
 
   description = "on.exit() calls use add = TRUE",
   tags = c("best practice", "warning"),
-  preps = "on_exit",
+  preps = c("functions", "on_exit"),
 
   gp = paste(
     "always use add = TRUE in on.exit() calls.",
@@ -39,7 +39,7 @@ CHECKS$on_exit_missing <- make_check(
 
   description = "State-changing functions use on.exit() to restore state",
   tags = c("best practice", "warning"),
-  preps = "on_exit",
+  preps = c("functions", "on_exit"),
 
   gp = paste(
     "use on.exit() to restore state after calling functions like",

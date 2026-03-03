@@ -8,9 +8,17 @@ vignette_files <- function(path) {
              full.names = TRUE, recursive = TRUE)
 }
 
-is_skipped_chunk <- function(header) {
-  grepl("eval\\s*=\\s*(FALSE|F)\\b", header) ||
-    grepl("purl\\s*=\\s*(FALSE|F)\\b", header)
+is_skipped_chunk <- function(lines, start, end) {
+  header <- lines[start]
+  if (grepl("eval\\s*=\\s*(FALSE|F)\\b", header) ||
+      grepl("purl\\s*=\\s*(FALSE|F)\\b", header)) {
+    return(TRUE)
+  }
+  if (end <= start + 1L) return(FALSE)
+  body <- lines[seq(start + 1L, end - 1L)]
+  hashpipe <- body[grepl("^#\\|", body)]
+  any(grepl("eval\\s*:\\s*(false|FALSE|F)\\b", hashpipe)) ||
+    any(grepl("purl\\s*:\\s*(false|FALSE|F)\\b", hashpipe))
 }
 
 match_chunk_pairs <- function(starts, ends) {
@@ -65,9 +73,13 @@ extract_vignette_code <- function(f) {
     return(NULL)
   }
 
-  chunk_starts <- all_starts[!vapply(lines[all_starts], is_skipped_chunk,
-                                     logical(1))]
-  chunks <- match_chunk_pairs(chunk_starts, fence_ends)
+  all_chunks <- match_chunk_pairs(all_starts, fence_ends)
+  if (nrow(all_chunks) == 0) return(NULL)
+
+  keep <- !vapply(seq_len(nrow(all_chunks)), function(i) {
+    is_skipped_chunk(lines, all_chunks[i, 1], all_chunks[i, 2])
+  }, logical(1))
+  chunks <- all_chunks[keep, , drop = FALSE]
   if (nrow(chunks) == 0) return(NULL)
 
   output <- rep("", n)

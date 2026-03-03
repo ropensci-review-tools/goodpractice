@@ -333,6 +333,90 @@ test_that("vignette_parse_data returns NULL for unparseable code", {
   expect_null(goodpractice:::vignette_parse_data(f))
 })
 
+# -- PREPS$functions ----------------------------------------------------------
+
+test_that("PREPS$functions stores parsed functions in state", {
+  state <- PREPS$functions(list(path = "good"), quiet = TRUE)
+  expect_true(is.list(state$functions))
+})
+
+# -- PREPS$vignette ----------------------------------------------------------
+
+test_that("PREPS$vignette stores parse_data and lines", {
+  pkg <- withr::local_tempdir()
+  file.copy(
+    list.files("good", full.names = TRUE, recursive = TRUE),
+    pkg
+  )
+  dir.create(file.path(pkg, "vignettes"), showWarnings = FALSE)
+  writeLines(c(
+    "---",
+    "title: test",
+    "---",
+    "",
+    "```{r}",
+    "x <- 1",
+    "```"
+  ), file.path(pkg, "vignettes", "demo.Rmd"))
+
+  state <- PREPS$vignette(list(path = pkg), quiet = TRUE)
+  expect_equal(length(state$vignette), 1)
+  entry <- state$vignette[[1]]
+  expect_true("parse_data" %in% names(entry))
+  expect_true("lines" %in% names(entry))
+  expect_true(is.data.frame(entry$parse_data))
+  expect_true(any(grepl("x <- 1", entry$lines)))
+})
+
+test_that("PREPS$vignette skips files with no parseable code", {
+  pkg <- withr::local_tempdir()
+  file.copy(
+    list.files("good", full.names = TRUE, recursive = TRUE),
+    pkg
+  )
+  dir.create(file.path(pkg, "vignettes"), showWarnings = FALSE)
+  writeLines(c(
+    "---",
+    "title: prose only",
+    "---",
+    "",
+    "No code chunks here."
+  ), file.path(pkg, "vignettes", "nochunks.Rmd"))
+
+  state <- PREPS$vignette(list(path = pkg), quiet = TRUE)
+  expect_equal(length(state$vignette), 0)
+})
+
+# -- call_descendants --------------------------------------------------------
+
+test_that("call_descendants returns all nested IDs", {
+  code <- "rm(list = ls())"
+  parsed <- parse(text = code, keep.source = TRUE)
+  pd <- getParseData(parsed)
+
+  ls_row <- pd[pd$token == "SYMBOL_FUNCTION_CALL" & pd$text == "ls", ]
+  expect_equal(nrow(ls_row), 1)
+
+  desc_ids <- goodpractice:::call_descendants(pd, ls_row$id[1])
+  desc <- pd[pd$id %in% desc_ids, ]
+  expect_true(nrow(desc) > 0)
+})
+
+# -- check_vignette_calls ---------------------------------------------------
+
+test_that("check_vignette_calls skips rm() when nested ls() not found", {
+  code <- "rm(x)"
+  parsed <- parse(text = code, keep.source = TRUE)
+  pd <- getParseData(parsed)
+
+  state <- list(vignette = list(
+    "test.Rmd" = list(parse_data = pd, lines = code)
+  ))
+  result <- goodpractice:::check_vignette_calls(state, "rm", nested_fn = "ls")
+  expect_true(result$status)
+  expect_equal(length(result$positions), 0)
+})
+
 test_that("check_vignette_calls passes with empty vignette state", {
   state <- list(vignette = list())
   result <- goodpractice:::check_vignette_calls(state, "setwd")

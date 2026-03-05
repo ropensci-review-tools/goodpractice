@@ -36,10 +36,10 @@ test_that("failed_positions returns NULL when check has no positions", {
 })
 
 test_that("failed_positions returns positions when check has them", {
-  y <- gp(bad1, checks = "truefalse_not_tf")
+  y <- gp(bad1, checks = "r_file_extension")
   fp <- failed_positions(y)
-  expect_type(fp$truefalse_not_tf, "list")
-  expect_true(length(fp$truefalse_not_tf) > 0)
+  expect_type(fp$r_file_extension, "list")
+  expect_true(length(fp$r_file_extension) > 0)
 })
 
 test_that("export_json writes valid JSON", {

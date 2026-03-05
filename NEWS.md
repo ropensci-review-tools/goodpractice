@@ -6,7 +6,8 @@
 * New `default_checks()` and `tidyverse_checks()` helper functions.
   `gp()` now defaults to `default_checks()` instead of `all_checks()`,
   keeping optional check sets out of the default run.
-* `gp()` now fails if the path provided to it is not a package (does not contain a
+* New `has_readme` and `has_news` checks for package documentation
+  completeness (#45).* `gp()` now fails if the path provided to it is not a package (does not contain a
   DESCRIPTION file) (#190, @maelle)
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.

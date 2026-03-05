@@ -1,5 +1,5 @@
 bad1 <- system.file("bad1", package = "goodpractice")
-gp_obj <- gp(bad1, checks = "truefalse_not_tf")
+gp_obj <- gp(bad1, checks = "r_file_extension")
 
 test_that("get_marker returns NULL for passing checks", {
   passing <- gp("good", checks = "description_bugreports")
@@ -9,13 +9,13 @@ test_that("get_marker returns NULL for passing checks", {
 
 test_that("get_marker returns NULL when no positions field", {
   state <- gp_obj
-  state$checks$truefalse_not_tf <- FALSE
-  result <- get_marker(state, "truefalse_not_tf")
+  state$checks$r_file_extension <- FALSE
+  result <- get_marker(state, "r_file_extension")
   expect_null(result)
 })
 
 test_that("get_marker returns position list for failing check", {
-  result <- get_marker(gp_obj, "truefalse_not_tf")
+  result <- get_marker(gp_obj, "r_file_extension")
   expect_type(result, "list")
   expect_true(length(result) > 0)
   expect_true(all(
@@ -26,9 +26,9 @@ test_that("get_marker returns position list for failing check", {
 
 test_that("get_marker handles NA line_number and column_number", {
   state <- gp_obj
-  state$checks$truefalse_not_tf$positions[[1]]$line_number <- NA
-  state$checks$truefalse_not_tf$positions[[1]]$column_number <- NA
-  result <- get_marker(state, "truefalse_not_tf")
+  state$checks$r_file_extension$positions[[1]]$line_number <- NA
+  state$checks$r_file_extension$positions[[1]]$column_number <- NA
+  result <- get_marker(state, "r_file_extension")
   expect_equal(result[[1]]$line, 1L)
   expect_equal(result[[1]]$column, 1L)
 })

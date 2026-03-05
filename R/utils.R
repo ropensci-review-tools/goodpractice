@@ -24,3 +24,7 @@ loaded_pkg_version <- function(pkg) {
 drop_nulls <- function(l) {
   l[ ! vapply(l, is.null, TRUE) ]
 }
+
+has_internet <- function() {
+  curl::has_internet()
+}

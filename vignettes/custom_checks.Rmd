@@ -52,12 +52,10 @@ check_simple_tf <- make_check(
 
 Additional checks can be used in `gp()` via the `extra_checks` argument. This should be a named list of `check` objects as returned by the `make_check()` function. All checks to be carried out, regardless of whether they are provided by the **goodpractice** package or custom checks, must be named in the `checks` argument to `gp()`.
 
-The check on `T`/`F` implemented in the package gives more helpful advice than this simplified version and returns which files contain `T` and `F` so let's do a quick comparison and run both versions:
-
 ```{r}
 # get path to example package
 pkg_path <- system.file("bad1", package = "goodpractice")
-gp(pkg_path, checks = c("simple_tf", "truefalse_not_tf"),
+gp(pkg_path, checks = "simple_tf",
    extra_checks = list(simple_tf = check_simple_tf))
 ```
 

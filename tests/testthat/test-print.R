@@ -1,6 +1,6 @@
 test_that("print with default and explicit positions.limit", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  x <- gp(bad1, checks = "truefalse_not_tf")
+  x <- gp(bad1, checks = "r_file_extension")
 
   testthat::expect_snapshot(print(x))
 })
@@ -62,7 +62,7 @@ test_that("gp_positions includes column when available", {
 
 test_that("print calls rstudio_source_markers when hasFun is TRUE", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  x <- gp(bad1, checks = "truefalse_not_tf")
+  x <- gp(bad1, checks = "r_file_extension")
 
   called <- FALSE
   local_mocked_bindings(

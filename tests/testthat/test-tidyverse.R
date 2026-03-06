@@ -268,27 +268,43 @@ test_that("parse_package_functions extracts functions with metadata", {
   expect_true(all(vapply(result, function(fn) !is.null(fn$body), logical(1))))
 })
 
-test_that("parse_package_functions falls back on keep.source=FALSE", {
+test_that("parse_package_functions retries with keep.source=FALSE on error", {
   find_funcs <- goodpractice:::parse_package_functions
   pkg <- withr::local_tempdir()
   writeLines(
     c(
       "Package: fallbacktest", "Title: Test", "Version: 1.0.0",
       "Author: Test", "Maintainer: Test <test@test.com>",
-      "Description: Test.", "License: GPL-2",
-      "Encoding: UTF-8"
+      "Description: Test.", "License: GPL-2"
     ),
     file.path(pkg, "DESCRIPTION")
   )
   dir.create(file.path(pkg, "R"))
-  con <- file(file.path(pkg, "R", "bad.R"), open = "wb")
-  writeBin(charToRaw("f <- function() NULL\n# \xff\n"), con)
-  close(con)
+  writeLines("f <- function( {", file.path(pkg, "R", "broken.R"))
   writeLines("g <- function(x) x", file.path(pkg, "R", "good.R"))
 
   result <- find_funcs(pkg)
   names <- vapply(result, `[[`, "", "name")
   expect_true("g" %in% names)
+  expect_false("f" %in% names)
+})
+
+test_that("parse_package_functions skips errors with keep_source=FALSE", {
+  find_funcs <- goodpractice:::parse_package_functions
+  pkg <- withr::local_tempdir()
+  writeLines(
+    c(
+      "Package: fallbacktest2", "Title: Test", "Version: 1.0.0",
+      "Author: Test", "Maintainer: Test <test@test.com>",
+      "Description: Test.", "License: GPL-2"
+    ),
+    file.path(pkg, "DESCRIPTION")
+  )
+  dir.create(file.path(pkg, "R"))
+  writeLines("f <- function( {", file.path(pkg, "R", "broken.R"))
+
+  result <- find_funcs(pkg, keep_source = FALSE)
+  expect_equal(result, list())
 })
 
 test_that("tidyverse_no_missing uses state$functions when available", {

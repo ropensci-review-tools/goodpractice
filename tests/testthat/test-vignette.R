@@ -147,6 +147,16 @@ test_that("match_chunk_pairs skips ends consumed by earlier chunks", {
   expect_equal(result[, "end"], c(2L, 5L))
 })
 
+test_that("match_chunk_pairs warns on unsorted starts failing sanity check", {
+  pair_fn <- goodpractice:::match_chunk_pairs
+  expect_warning(
+    result <- pair_fn(c(5L, 3L), c(4L, 6L, 8L)),
+    "sanity checks"
+  )
+  expect_equal(nrow(result), 0)
+  expect_equal(ncol(result), 2)
+})
+
 # -- is_skipped_chunk --------------------------------------------------------
 
 test_that("is_skipped_chunk detects eval=FALSE and purl=FALSE in header", {
@@ -247,6 +257,20 @@ test_that("extract_vignette_code handles empty chunk body", {
   result <- goodpractice:::extract_vignette_code(f)
   expect_equal(result[9], "x <- 1")
   expect_equal(result[5], "")
+})
+
+test_that("extract_vignette_code returns NULL when all chunks are empty", {
+  f <- tempfile(fileext = ".Rmd")
+  on.exit(unlink(f))
+  writeLines(c(
+    "---",
+    "title: test",
+    "---",
+    "",
+    "```{r}",
+    "```"
+  ), f)
+  expect_null(goodpractice:::extract_vignette_code(f))
 })
 
 test_that("extract_vignette_code returns NULL for unreadable file", {

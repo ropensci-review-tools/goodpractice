@@ -147,10 +147,30 @@ test_that("match_chunk_pairs skips ends consumed by earlier chunks", {
   expect_equal(result[, "end"], c(2L, 5L))
 })
 
-test_that("match_chunk_pairs warns on unsorted starts failing sanity check", {
+test_that("match_chunk_pairs warns when end < start (ordering sanity)", {
   pair_fn <- goodpractice:::match_chunk_pairs
   expect_warning(
-    result <- pair_fn(c(5L, 3L), c(4L, 6L, 8L)),
+    result <- pair_fn(c(5L), c(3L)),
+    "sanity checks"
+  )
+  expect_equal(nrow(result), 0)
+  expect_equal(ncol(result), 2)
+})
+
+test_that("match_chunk_pairs warns on overlapping chunks", {
+  pair_fn <- goodpractice:::match_chunk_pairs
+  expect_warning(
+    result <- pair_fn(c(1L, 3L), c(5L, 7L)),
+    "sanity checks"
+  )
+  expect_equal(nrow(result), 0)
+  expect_equal(ncol(result), 2)
+})
+
+test_that("match_chunk_pairs warns on unsorted starts", {
+  pair_fn <- goodpractice:::match_chunk_pairs
+  expect_warning(
+    result <- pair_fn(c(6L, 1L), c(3L, 9L)),
     "sanity checks"
   )
   expect_equal(nrow(result), 0)
@@ -325,6 +345,21 @@ test_that("extract_vignette_code returns NULL for unknown extension", {
   f <- tempfile(fileext = ".txt")
   on.exit(unlink(f))
   writeLines("some text", f)
+  expect_null(goodpractice:::extract_vignette_code(f))
+})
+
+test_that("extract_vignette_code returns NULL for .md extension", {
+  f <- tempfile(fileext = ".md")
+  on.exit(unlink(f))
+  writeLines(c(
+    "---",
+    "title: test",
+    "---",
+    "",
+    "```{r}",
+    "x <- 1",
+    "```"
+  ), f)
   expect_null(goodpractice:::extract_vignette_code(f))
 })
 

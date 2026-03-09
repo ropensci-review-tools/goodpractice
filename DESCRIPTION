@@ -73,6 +73,8 @@ Imports:
     rstudioapi,
     spelling,
     tools,
+    treesitter,
+    treesitter.r,
     urlchecker,
     utils,
     whoami,

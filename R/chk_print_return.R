@@ -1,16 +1,5 @@
 #' @include lists.R
 
-has_invisible_call <- function(expr) {
-  if (is.call(expr)) {
-    fn <- deparse(expr[[1]])
-    if (fn == "invisible") return(TRUE)
-    for (i in seq_along(expr)) {
-      if (has_invisible_call(expr[[i]])) return(TRUE)
-    }
-  }
-  FALSE
-}
-
 CHECKS$print_return_invisible <- make_check(
 
   description = "Print methods return the object invisibly",
@@ -31,55 +20,49 @@ CHECKS$print_return_invisible <- make_check(
       return(list(status = TRUE, positions = list()))
     }
 
-    enc <- tryCatch(
-      desc::desc_get_field("Encoding", default = "UTF-8", file = path),
-      error = function(e) "UTF-8"
+    lang <- treesitter.r::language()
+    p <- treesitter::parser(lang)
+    invisible_query <- treesitter::query(lang,
+      "(call function: (identifier) @fn (#eq? @fn \"invisible\"))"
     )
 
     rfiles <- list.files(rdir, pattern = "\\.[rR]$", full.names = TRUE)
     problems <- list()
 
     for (f in rfiles) {
-      exprs <- tryCatch(
-        parse(f, keep.source = TRUE, encoding = enc),
-        error = function(e) {
-          tryCatch(
-            parse(f, keep.source = FALSE, encoding = enc),
-            error = function(e) NULL
-          )
-        }
+      code <- tryCatch(
+        paste(readLines(f, warn = FALSE), collapse = "\n"),
+        error = function(e) NULL
       )
-      if (is.null(exprs) || length(exprs) == 0) next
+      if (is.null(code)) next
 
-      srcrefs <- attr(exprs, "srcref")
+      tree <- treesitter::parser_parse(p, code)
+      root <- treesitter::tree_root_node(tree)
 
-      for (i in seq_along(exprs)) {
-        e <- exprs[[i]]
-        if (!is.call(e)) next
+      n_children <- treesitter::node_child_count(root)
+      for (i in seq_len(n_children)) {
+        child <- treesitter::node_child(root, i)
+        if (treesitter::node_type(child) != "binary_operator") next
+        lhs <- treesitter::node_child_by_field_name(child, "lhs")
+        rhs <- treesitter::node_child_by_field_name(child, "rhs")
+        if (is.null(rhs)) next
+        if (treesitter::node_type(rhs) != "function_definition") next
+        if (treesitter::node_type(lhs) != "identifier") next
 
-        op <- deparse(e[[1]])
-        if (!(op %in% c("<-", "=")) || length(e) != 3) next
-        if (!is.call(e[[3]])) next
-        if (!identical(deparse(e[[3]][[1]]), "function")) next
+        name <- treesitter::node_text(lhs)
+        if (!startsWith(name, "print.")) next
 
-        name <- deparse(e[[2]])
-        if (!grepl("^print\\.", name)) next
+        body <- treesitter::node_child_by_field_name(rhs, "body")
+        caps <- treesitter::query_captures(invisible_query, body)
+        if (length(caps$name) > 0) next
 
-        body_expr <- e[[3]][[3]]
-        if (!has_invisible_call(body_expr)) {
-          line <- if (!is.null(srcrefs) && !is.null(srcrefs[[i]])) {
-            srcrefs[[i]][1]
-          } else {
-            NA_integer_
-          }
-          problems[[length(problems) + 1]] <- list(
-            filename = file.path("R", basename(f)),
-            line_number = line,
-            column_number = NA_integer_,
-            ranges = list(),
-            line = name
-          )
-        }
+        problems[[length(problems) + 1]] <- list(
+          filename = file.path("R", basename(f)),
+          line_number = treesitter::node_start_point(lhs)$row + 1L,
+          column_number = NA_integer_,
+          ranges = list(),
+          line = name
+        )
       }
     }
 

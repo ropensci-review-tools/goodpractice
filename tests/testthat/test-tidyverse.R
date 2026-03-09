@@ -217,27 +217,23 @@ test_that("tidyverse_no_missing ignores missing() inside nested functions", {
   expect_true(get_result(res, "tidyverse_no_missing"))
 })
 
-test_that("find_top_level_functions handles edge cases", {
-  find_funcs <- goodpractice:::find_top_level_functions
+test_that("ts_parse handles edge cases", {
+  ts_parse <- goodpractice:::ts_parse
   pkg <- withr::local_tempdir()
-  writeLines(
-    c(
-      "Package: edgetest", "Title: Test", "Version: 1.0.0",
-      "Author: Test", "Maintainer: Test <test@test.com>",
-      "Description: Test.", "License: GPL-2"
-    ),
-    file.path(pkg, "DESCRIPTION")
-  )
 
-  expect_equal(find_funcs(pkg), list())
+  result <- ts_parse(pkg)
+  expect_equal(result$functions, list())
+  expect_equal(result$trees, list())
 
   dir.create(file.path(pkg, "R"))
   writeLines(character(), file.path(pkg, "R", "empty.R"))
-  expect_equal(find_funcs(pkg), list())
+  result <- ts_parse(pkg)
+  expect_equal(result$functions, list())
 
   writeLines(
     c("x <- 42", "library(stats)", "y <- sum(1:10)"),
     file.path(pkg, "R", "misc.R")
   )
-  expect_equal(find_funcs(pkg), list())
+  result <- ts_parse(pkg)
+  expect_equal(result$functions, list())
 })

@@ -160,7 +160,7 @@ CHECKS$roxygen2_unknown_tags <- make_check(
   gp = paste(
     "Fix or remove unknown roxygen2 tags.",
     "This may indicate a typo, a removed tag like @S3method,",
-    "or a custom tag from an unregistered roclet."
+    "or a custom tag from an unregistered roxygen2 extension."
   ),
 
   check = function(state) {

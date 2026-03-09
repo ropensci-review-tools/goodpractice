@@ -152,6 +152,26 @@ test_that("find_function_defs returns empty data.frame when no functions found",
   expect_true(all(c("name", "file", "line") %in% names(result)))
 })
 
+test_that("find_function_defs skips non-identifier LHS assignments", {
+  pkg <- withr::local_tempdir("non_id_lhs")
+  dir.create(file.path(pkg, "R"))
+  writeLines(
+    c("env <- new.env()",
+      "env$helper <- function() 1",
+      "real_fn <- function(x) x + 1"),
+    file.path(pkg, "R", "code.R")
+  )
+  writeLines(
+    c("Package: nonidlhspkg", "Title: Test", "Version: 1.0.0",
+      "Description: Test.", "License: MIT"),
+    file.path(pkg, "DESCRIPTION")
+  )
+
+  result <- find_function_defs(pkg)
+  expect_equal(nrow(result), 1)
+  expect_equal(result$name, "real_fn")
+})
+
 test_that("find_function_defs skips non-existent files", {
   pkg <- withr::local_tempdir("missing_file")
   dir.create(file.path(pkg, "R"))

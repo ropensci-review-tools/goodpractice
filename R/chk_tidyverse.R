@@ -535,6 +535,9 @@ CHECKS$tidyverse_no_missing <- make_check(
 
   check = function(state) {
     ts <- ts_get(state)
+    if (length(ts$functions) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
     funcs <- ts$functions
     missing_q <- treesitter::query(ts$language,
       "(call function: (identifier) @fn (#eq? @fn \"missing\"))"

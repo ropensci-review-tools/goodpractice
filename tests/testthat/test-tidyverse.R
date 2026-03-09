@@ -217,23 +217,29 @@ test_that("tidyverse_no_missing ignores missing() inside nested functions", {
   expect_true(get_result(res, "tidyverse_no_missing"))
 })
 
-test_that("ts_parse handles edge cases", {
-  ts_parse <- goodpractice:::ts_parse
+test_that("treesitter checks pass when no functions are defined", {
   pkg <- withr::local_tempdir()
+  writeLines(
+    c(
+      "Package: edgetest", "Title: Test", "Version: 1.0.0",
+      "Author: Test", "Maintainer: Test <test@test.com>",
+      "Description: Test.", "License: GPL-2"
+    ),
+    file.path(pkg, "DESCRIPTION")
+  )
 
-  result <- ts_parse(pkg)
-  expect_equal(result$functions, list())
-  expect_equal(result$trees, list())
+  gp_res <- gp(pkg, checks = "tidyverse_no_missing")
+  expect_true(results(gp_res)$passed)
 
   dir.create(file.path(pkg, "R"))
   writeLines(character(), file.path(pkg, "R", "empty.R"))
-  result <- ts_parse(pkg)
-  expect_equal(result$functions, list())
+  gp_res <- gp(pkg, checks = "tidyverse_no_missing")
+  expect_true(results(gp_res)$passed)
 
   writeLines(
     c("x <- 42", "library(stats)", "y <- sum(1:10)"),
     file.path(pkg, "R", "misc.R")
   )
-  result <- ts_parse(pkg)
-  expect_equal(result$functions, list())
+  gp_res <- gp(pkg, checks = "tidyverse_no_missing")
+  expect_true(results(gp_res)$passed)
 })

@@ -1,5 +1,5 @@
 
-#' @include prep_treesitter.R
+#' @include treesitter.R
 
 get_tidyverse_lintr_position <- function(lint) {
   lint[c("filename", "line_number", "column_number", "ranges", "line")]

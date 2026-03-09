@@ -1,4 +1,4 @@
-#' @include prep_treesitter.R
+#' @include treesitter.R
 
 CHECKS$print_return_invisible <- make_check(
 

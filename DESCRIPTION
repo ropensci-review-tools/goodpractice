@@ -102,7 +102,7 @@ Collate:
     'chk_generic.R'
     'chk_lintr.R'
     'chk_namespace.R'
-    'prep_treesitter.R'
+    'treesitter.R'
     'chk_print_return.R'
     'chk_rcmdcheck.R'
     'chk_rd.R'

@@ -10,31 +10,40 @@ uses_roxygen2 <- function(path) {
 
 find_function_defs <- function(path) {
   rfiles <- r_package_files(path)
-  fn_re <- "^([A-Za-z0-9_.]+)\\s*(?:<-|=)\\s*function\\b"
-  defs <- list()
+  empty <- data.frame(
+    name = character(), file = character(),
+    line = integer(), stringsAsFactors = FALSE
+  )
 
+  lang <- treesitter.r::language()
+  p <- treesitter::parser(lang)
+
+  defs <- list()
   for (f in rfiles) {
     if (!file.exists(f)) next
-    lines <- readLines(f, warn = FALSE)
-    for (i in seq_along(lines)) {
-      m <- regmatches(lines[i], regexec(fn_re, lines[i]))[[1]]
-      if (length(m) >= 2) {
-        defs[[length(defs) + 1]] <- data.frame(
-          name = m[2],
-          file = f,
-          line = i,
-          stringsAsFactors = FALSE
-        )
-      }
+    code <- paste(readLines(f, warn = FALSE), collapse = "\n")
+    tree <- treesitter::parser_parse(p, code)
+    root <- treesitter::tree_root_node(tree)
+
+    n_children <- treesitter::node_child_count(root)
+    for (i in seq_len(n_children)) {
+      child <- treesitter::node_child(root, i)
+      if (treesitter::node_type(child) != "binary_operator") next
+      lhs <- treesitter::node_child_by_field_name(child, "lhs")
+      rhs <- treesitter::node_child_by_field_name(child, "rhs")
+      if (is.null(rhs)) next
+      if (treesitter::node_type(rhs) != "function_definition") next
+      if (treesitter::node_type(lhs) != "identifier") next
+      defs[[length(defs) + 1]] <- data.frame(
+        name = treesitter::node_text(lhs),
+        file = f,
+        line = treesitter::node_start_point(lhs)$row + 1L,
+        stringsAsFactors = FALSE
+      )
     }
   }
 
-  if (length(defs) == 0) {
-    return(data.frame(
-      name = character(), file = character(),
-      line = integer(), stringsAsFactors = FALSE
-    ))
-  }
+  if (length(defs) == 0) return(empty)
   do.call(rbind, defs)
 }
 

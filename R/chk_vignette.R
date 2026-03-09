@@ -23,22 +23,13 @@ is_skipped_chunk <- function(lines, start, end) {
 
 match_chunk_pairs <- function(starts, ends) {
   if (length(starts) == 0) return(matrix(integer(0), ncol = 2))
-
-  paired_starts <- integer()
-  paired_ends <- integer()
-
-  for (s in starts) {
-    candidates <- ends[ends > s]
-    if (length(candidates) == 0) next
-    e <- candidates[1]
-    paired_starts <- c(paired_starts, s)
-    paired_ends <- c(paired_ends, e)
-    ends <- ends[ends > e]
+  if (length(starts) != length(ends)) {
+    warning("Chunk start/end indices failed sanity checks in vignette",
+            call. = FALSE)
+    return(matrix(integer(0), ncol = 2))
   }
 
-  if (length(paired_starts) == 0) return(matrix(integer(0), ncol = 2))
-
-  chunks <- cbind(start = paired_starts, end = paired_ends)
+  chunks <- cbind(start = starts, end = ends)
 
   ok <- all(chunks[, 2] > chunks[, 1])
   if (nrow(chunks) > 1) {

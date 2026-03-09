@@ -125,19 +125,19 @@ test_that("match_chunk_pairs pairs starts with nearest available end", {
   expect_equal(result[, "end"], c(4L, 9L))
 })
 
-test_that("match_chunk_pairs handles more ends than starts", {
+test_that("match_chunk_pairs warns and returns empty on length mismatch", {
   pair_fn <- goodpractice:::match_chunk_pairs
-  result <- pair_fn(c(3L), c(2L, 5L, 8L))
-  expect_equal(nrow(result), 1)
-  expect_equal(result[, "start"], c(start = 3L))
-  expect_equal(result[, "end"], c(end = 5L))
-})
+  expect_warning(
+    result <- pair_fn(c(3L), c(2L, 5L, 8L)),
+    "sanity checks"
+  )
+  expect_equal(nrow(result), 0)
 
-test_that("match_chunk_pairs drops start with no matching end", {
-  pair_fn <- goodpractice:::match_chunk_pairs
-  result <- pair_fn(c(1L, 6L, 20L), c(4L, 9L))
-  expect_equal(nrow(result), 2)
-  expect_equal(result[, "start"], c(1L, 6L))
+  expect_warning(
+    result <- pair_fn(c(1L, 6L, 20L), c(4L, 9L)),
+    "sanity checks"
+  )
+  expect_equal(nrow(result), 0)
 })
 
 test_that("match_chunk_pairs skips ends consumed by earlier chunks", {
@@ -339,7 +339,11 @@ test_that("extract_vignette_code skips chunk with no closing fence", {
     "```{r}",
     "x <- 1"
   ), f)
-  expect_null(goodpractice:::extract_vignette_code(f))
+  expect_warning(
+    result <- goodpractice:::extract_vignette_code(f),
+    "sanity checks"
+  )
+  expect_null(result)
 })
 
 test_that("vignette_parse_data returns NULL for unparseable code", {

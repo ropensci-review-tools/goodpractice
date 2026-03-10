@@ -27,7 +27,8 @@ ts_body_has_call <- function(fn_node, call_query) {
 
 ts_file_functions <- function(root, file) {
   n_children <- treesitter::node_child_count(root)
-  fns <- list()
+  fns <- vector("list", n_children)
+  k <- 0L
   for (i in seq_len(n_children)) {
     child <- treesitter::node_child(root, i)
     if (treesitter::node_type(child) != "binary_operator") next
@@ -36,14 +37,15 @@ ts_file_functions <- function(root, file) {
     if (is.null(rhs)) next
     if (treesitter::node_type(rhs) != "function_definition") next
     if (treesitter::node_type(lhs) != "identifier") next
-    fns[[length(fns) + 1]] <- list(
+    k <- k + 1L
+    fns[[k]] <- list(
       name = treesitter::node_text(lhs),
       file = file,
       line = treesitter::node_start_point(lhs)$row + 1L,
       fn_node = rhs
     )
   }
-  fns
+  fns[seq_len(k)]
 }
 
 ts_parse <- function(path) {
@@ -56,9 +58,11 @@ ts_parse <- function(path) {
   p <- treesitter::parser(lang)
   rfiles <- list.files(rdir, pattern = "\\.[rR]$", full.names = TRUE)
 
-  trees <- list()
-  functions <- list()
-  for (f in rfiles) {
+  trees <- vector("list", length(rfiles))
+  names(trees) <- rfiles
+  fn_lists <- vector("list", length(rfiles))
+  for (i in seq_along(rfiles)) {
+    f <- rfiles[[i]]
     code <- tryCatch(
       paste(readLines(f, warn = FALSE), collapse = "\n"),
       error = function(e) NULL
@@ -67,10 +71,11 @@ ts_parse <- function(path) {
 
     tree <- treesitter::parser_parse(p, code)
     root <- treesitter::tree_root_node(tree)
-    trees[[f]] <- list(tree = tree, root = root)
-    functions <- c(functions, ts_file_functions(root, f))
+    trees[[i]] <- list(tree = tree, root = root)
+    fn_lists[[i]] <- ts_file_functions(root, f)
   }
 
+  functions <- unlist(fn_lists, recursive = FALSE)
   list(trees = trees, functions = functions, language = lang)
 }
 

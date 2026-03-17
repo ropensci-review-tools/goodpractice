@@ -88,10 +88,7 @@ vignette_parse_data <- function(f) {
   code_lines <- extract_vignette_code(f)
   if (is.null(code_lines)) return(NULL)
 
-  parsed <- tryCatch(
-    parse(text = code_lines, keep.source = TRUE),
-    error = function(e) NULL
-  )
+  parsed <- safe_parse(text = code_lines, keep_source = TRUE)
   if (is.null(parsed) || length(parsed) == 0) return(NULL)
 
   getParseData(parsed)

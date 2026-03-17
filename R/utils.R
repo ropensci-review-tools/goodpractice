@@ -29,6 +29,27 @@ has_internet <- function() {
   curl::has_internet()
 }
 
+safe_parse <- function(file = NULL, text = NULL, keep_source = TRUE,
+                       encoding = "UTF-8") {
+  args <- if (!is.null(file)) {
+    list(file = file, keep.source = keep_source, encoding = encoding)
+  } else {
+    list(text = text, keep.source = keep_source)
+  }
+
+  tryCatch(
+    do.call(base::parse, args),
+    error = function(e) {
+      if (keep_source) {
+        args$keep.source <- FALSE
+        tryCatch(do.call(base::parse, args), error = function(e) NULL)
+      } else {
+        NULL
+      }
+    }
+  )
+}
+
 parse_package_functions <- function(path, keep_source = TRUE) {
   rdir <- file.path(path, "R")
   if (!dir.exists(rdir)) return(list())
@@ -42,19 +63,7 @@ parse_package_functions <- function(path, keep_source = TRUE) {
   result <- list()
 
   for (f in rfiles) {
-    exprs <- tryCatch(
-      parse(f, keep.source = keep_source, encoding = enc),
-      error = function(e) {
-        if (keep_source) {
-          tryCatch(
-            parse(f, keep.source = FALSE, encoding = enc),
-            error = function(e) NULL
-          )
-        } else {
-          NULL
-        }
-      }
-    )
+    exprs <- safe_parse(file = f, keep_source = keep_source, encoding = enc)
     if (is.null(exprs) || length(exprs) == 0) next
 
     srcrefs <- attr(exprs, "srcref")

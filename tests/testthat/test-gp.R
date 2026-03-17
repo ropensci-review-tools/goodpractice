@@ -83,6 +83,6 @@ test_that("empty exclusion returns checks unchanged", {
   withr::local_options(goodpractice.exclude_preps = NULL)
   withr::local_envvar(GP_EXCLUDE_PREPS = "")
   checks <- c("no_description_depends", "covr")
-  result <- goodpractice:::exclude_checks_by_prep(checks, goodpractice:::CHECKS)
+  result <- exclude_checks_by_prep(checks, CHECKS)
   expect_equal(result, checks)
 })

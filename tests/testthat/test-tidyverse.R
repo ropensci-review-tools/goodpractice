@@ -218,7 +218,7 @@ test_that("tidyverse_no_missing ignores missing() inside nested functions", {
 })
 
 test_that("find_top_level_functions handles edge cases", {
-  find_funcs <- goodpractice:::find_top_level_functions
+  find_funcs <- find_top_level_functions
   pkg <- withr::local_tempdir()
   writeLines(
     c(

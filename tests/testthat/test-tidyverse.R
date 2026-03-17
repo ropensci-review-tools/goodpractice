@@ -218,7 +218,7 @@ test_that("tidyverse_no_missing ignores missing() inside nested functions", {
 })
 
 test_that("parse_package_functions handles edge cases", {
-  find_funcs <- goodpractice:::parse_package_functions
+  find_funcs <- parse_package_functions
   pkg <- withr::local_tempdir()
   writeLines(
     c(
@@ -243,7 +243,7 @@ test_that("parse_package_functions handles edge cases", {
 })
 
 test_that("parse_package_functions extracts functions with metadata", {
-  find_funcs <- goodpractice:::parse_package_functions
+  find_funcs <- parse_package_functions
   pkg <- withr::local_tempdir()
   writeLines(
     c(
@@ -269,7 +269,7 @@ test_that("parse_package_functions extracts functions with metadata", {
 })
 
 test_that("parse_package_functions retries with keep.source=FALSE on error", {
-  find_funcs <- goodpractice:::parse_package_functions
+  find_funcs <- parse_package_functions
   pkg <- withr::local_tempdir()
   writeLines(
     c(
@@ -290,7 +290,7 @@ test_that("parse_package_functions retries with keep.source=FALSE on error", {
 })
 
 test_that("parse_package_functions skips errors with keep_source=FALSE", {
-  find_funcs <- goodpractice:::parse_package_functions
+  find_funcs <- parse_package_functions
   pkg <- withr::local_tempdir()
   writeLines(
     c(
@@ -320,7 +320,7 @@ test_that("tidyverse_no_missing uses state$functions when available", {
   dir.create(file.path(pkg, "R"))
   writeLines("ok <- function(x) x", file.path(pkg, "R", "ok.R"))
 
-  state <- list(path = pkg, functions = goodpractice:::parse_package_functions(pkg))
+  state <- list(path = pkg, functions = parse_package_functions(pkg))
   result <- CHECKS$tidyverse_no_missing$check(state)
   expect_true(result$status)
 })
@@ -328,8 +328,8 @@ test_that("tidyverse_no_missing uses state$functions when available", {
 test_that("tidyverse_export_order uses state$functions when available", {
   state <- list(
     path = "good_tidyverse",
-    functions = goodpractice:::parse_package_functions("good_tidyverse"),
-    namespace = goodpractice:::PREPS$namespace(
+    functions = parse_package_functions("good_tidyverse"),
+    namespace = PREPS$namespace(
       list(path = "good_tidyverse"), quiet = TRUE
     )$namespace
   )

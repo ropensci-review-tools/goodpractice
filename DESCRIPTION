@@ -109,6 +109,7 @@ Collate:
     'chk_urlchecker.R'
     'gp.R'
     'package.R'
+    'prep_available_packages.R'
     'prep_covr.R'
     'prep_cyclocomp.R'
     'prep_description.R'

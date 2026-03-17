@@ -13,25 +13,36 @@
 print.goodPractice <- function(x, positions_limit = 5, ...) {
 
   failure <- FALSE
+  has_info <- FALSE
 
   for (check in names(x$checks)) {
-    if (! check_passed(x$checks[[check]], na_as_passed = TRUE)) {
+    type <- check_type(x$checks[[check]])
+    if (!check_passed(x$checks[[check]], na_as_passed = TRUE)) {
       if (!failure) {
         failure <- TRUE
         gp_header(x)
       }
-      gp_advice(x, check, positions_limit)
+      gp_advice(x, check, positions_limit, type = "error")
+    } else if (type == "info") {
+      if (!failure && !has_info) {
+        has_info <- TRUE
+        gp_header(x)
+      }
+      gp_advice(x, check, positions_limit, type = "info")
     }
   }
 
-  if (failure) {
+  if (failure || has_info) {
     gp_footer()
-    if (getOption("goodpractice.rstudio_source_markers", TRUE) &&
+    if (failure &&
+        getOption("goodpractice.rstudio_source_markers", TRUE) &&
         hasFun("sourceMarkers")) {
       rstudio_source_markers(x)
     }
 
-  } else {
+  }
+
+  if (!failure) {
     cat(
       "\n", sep = "",
       style_bold(col_red(cli::symbol$heart)),
@@ -60,7 +71,7 @@ gp_footer <- function() {
 
 #' @importFrom cli symbol
 
-gp_advice <- function(state, fail, limit) {
+gp_advice <- function(state, fail, limit, type = "error") {
 
   MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
 
@@ -70,9 +81,16 @@ gp_advice <- function(state, fail, limit) {
   str <- if (is.function(chk$gp)) chk$gp(state) else chk$gp
 
   str <- gsub("\n\\s*", " ", str)
+
+  icon <- switch(type,
+    info    = cli::col_blue(cli::symbol$info),
+    warning = cli::col_yellow("!"),
+    cli::col_red(cli::symbol$cross)
+  )
+
   str <- paste(
     cli::ansi_strwrap(
-      paste0(cli::col_red(cli::symbol$cross), " ", str),
+      paste0(icon, " ", str),
       indent = 2,
       exdent = 4
     ),
@@ -82,7 +100,6 @@ gp_advice <- function(state, fail, limit) {
   cat(str)
 
   if ("positions" %in% names(res)) {
-    # To create functioning links, change directory to package path temporarily.
     withr::with_dir(
       state$path,
       gp_positions(res[["positions"]], limit)

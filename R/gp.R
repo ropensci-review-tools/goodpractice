@@ -136,5 +136,9 @@ check_failed <- function(chk, na_as_passed = FALSE) {
   !check_passed(chk, na_as_passed = na_as_passed)
 }
 
+check_type <- function(chk) {
+  if (is.list(chk) && "type" %in% names(chk)) chk$type else "error"
+}
+
 #' @export goodpractice
 goodpractice <- gp

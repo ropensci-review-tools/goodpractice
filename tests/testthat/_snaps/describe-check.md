@@ -732,12 +732,6 @@
       $roxygen2_has_export_or_nord
       [1] "Documented functions have @export or @noRd"
       
-      $roxygen2_nord_has_keywords_internal
-      [1] "@noRd functions also have @keywords internal"
-      
-      $roxygen2_no_export_and_keywords_internal
-      [1] "@export and @keywords internal should not co-exist"
-      
       $roxygen2_unknown_tags
       [1] "All roxygen2 tags are recognized"
       

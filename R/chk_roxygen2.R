@@ -77,79 +77,6 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
   }
 )
 
-# -- @noRd should pair with @keywords internal --------------------------------
-
-CHECKS$roxygen2_nord_has_keywords_internal <- make_check(
-
-  description = "@noRd functions also have @keywords internal",
-  tags = c("documentation", "roxygen2"),
-  preps = "roxygen2",
-  gp = "Add @keywords internal alongside @noRd for internal functions.",
-
-  check = function(state) {
-    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
-    rox <- state$roxygen2
-    problems <- list()
-
-    for (block in rox$blocks) {
-      if (!block_is_function(block)) next
-      if (!roxygen2::block_has_tags(block, "noRd")) next
-
-      kw_tags <- roxygen2::block_get_tags(block, "keywords")
-      has_internal <- any(vapply(kw_tags, function(t) {
-        "internal" %in% strsplit(t$val, "\\s+")[[1]]
-      }, logical(1)))
-
-      if (!has_internal) {
-        problems[[length(problems) + 1]] <- make_block_position(block)
-      }
-    }
-
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
-  }
-)
-
-# -- @export + @keywords internal conflict ------------------------------------
-
-CHECKS$roxygen2_no_export_and_keywords_internal <- make_check(
-
-  description = "@export and @keywords internal should not co-exist",
-  tags = c("documentation", "roxygen2"),
-  preps = "roxygen2",
-  gp = paste(
-    "Remove @keywords internal from exported functions, or remove @export",
-    "if the function is meant to be internal."
-  ),
-
-  check = function(state) {
-    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
-    rox <- state$roxygen2
-    problems <- list()
-
-    for (block in rox$blocks) {
-      if (!block_is_function(block)) next
-      if (!roxygen2::block_has_tags(block, "export")) next
-
-      kw_tags <- roxygen2::block_get_tags(block, "keywords")
-      has_internal <- any(vapply(kw_tags, function(t) {
-        "internal" %in% strsplit(t$val, "\\s+")[[1]]
-      }, logical(1)))
-
-      if (has_internal) {
-        problems[[length(problems) + 1]] <- make_block_position(block)
-      }
-    }
-
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
-  }
-)
-
 # -- unknown tags -------------------------------------------------------------
 
 CHECKS$roxygen2_unknown_tags <- make_check(
@@ -160,7 +87,8 @@ CHECKS$roxygen2_unknown_tags <- make_check(
   gp = paste(
     "Fix or remove unknown roxygen2 tags.",
     "This may indicate a typo, a removed tag like @S3method,",
-    "or a custom tag from an unregistered roxygen2 extension."
+    "or a custom tag from an unregistered roxygen2 extension",
+    "(e.g. a roclet or a package that creates new tags)."
   ),
 
   check = function(state) {

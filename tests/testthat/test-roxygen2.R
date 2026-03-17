@@ -43,42 +43,6 @@ test_that("roxygen2_has_export_or_nord passes when all tagged", {
   expect_true(get_result(res, "roxygen2_has_export_or_nord"))
 })
 
-# -- roxygen2_nord_has_keywords_internal --------------------------------------
-
-test_that("roxygen2_nord_has_keywords_internal fails when @noRd lacks @keywords", {
-  gp_res <- gp("bad_roxygen", checks = "roxygen2_nord_has_keywords_internal")
-  res <- results(gp_res)
-  expect_false(get_result(res, "roxygen2_nord_has_keywords_internal"))
-
-  pos <- failed_positions(gp_res)$roxygen2_nord_has_keywords_internal
-  lines <- vapply(pos, `[[`, "", "line")
-  expect_true(any(grepl("internal_no_keywords", lines)))
-})
-
-test_that("roxygen2_nord_has_keywords_internal passes when all @noRd have @keywords", {
-  gp_res <- gp("good", checks = "roxygen2_nord_has_keywords_internal")
-  res <- results(gp_res)
-  expect_true(get_result(res, "roxygen2_nord_has_keywords_internal"))
-})
-
-# -- roxygen2_no_export_and_keywords_internal ---------------------------------
-
-test_that("roxygen2_no_export_and_keywords_internal fails on conflict", {
-  gp_res <- gp("bad_roxygen", checks = "roxygen2_no_export_and_keywords_internal")
-  res <- results(gp_res)
-  expect_false(get_result(res, "roxygen2_no_export_and_keywords_internal"))
-
-  pos <- failed_positions(gp_res)$roxygen2_no_export_and_keywords_internal
-  lines <- vapply(pos, `[[`, "", "line")
-  expect_true(any(grepl("confused_func", lines)))
-})
-
-test_that("roxygen2_no_export_and_keywords_internal passes when consistent", {
-  gp_res <- gp("good", checks = "roxygen2_no_export_and_keywords_internal")
-  res <- results(gp_res)
-  expect_true(get_result(res, "roxygen2_no_export_and_keywords_internal"))
-})
-
 # -- roxygen2_unknown_tags ----------------------------------------------------
 
 test_that("roxygen2_unknown_tags fails on deprecated/unknown tags", {

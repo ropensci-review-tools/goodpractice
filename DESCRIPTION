@@ -110,6 +110,7 @@ Collate:
     'gp.R'
     'package.R'
     'prep_available_packages.R'
+    'prep_utils.R'
     'prep_covr.R'
     'prep_cyclocomp.R'
     'prep_description.R'

@@ -1,11 +1,9 @@
 
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom cyclocomp cyclocomp_package_dir
 
 PREPS$cyclocomp <- function(state, path = state$path, quiet) {
-  state$cyclocomp <- try(cyclocomp_package_dir(path, quiet = quiet), silent = quiet)
-  if(inherits(state$cyclocomp, "try-error")) {
-    warning("Prep step for cyclomatic complexity failed.")
-  }
-  state
+  run_prep_step(state, "cyclocomp", function(path) {
+    cyclocomp_package_dir(path)
+  }, path = path, silent = quiet)
 }

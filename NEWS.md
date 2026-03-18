@@ -16,6 +16,9 @@
 * New `print_return_invisible` check: flags print methods that don't return `invisible(x)` (#49).
 * New `vignette_no_rm_list` check: flags `rm(list = ls())` in vignettes (#20).
 * New `vignette_no_setwd` check: flags `setwd()` in vignettes (#21).
+* Prep step error handling refactored into `run_prep_step()` helper. New prep
+  functions can use `run_prep_step(state, "name", function() { ... }, quiet)`
+  instead of manually wrapping work in `try()` and emitting warnings on failure.
 * New `spelling` check: flags misspelled words in documentation via `spelling::spell_check_package()` (#84).
 * New DESCRIPTION checks (#122, #85):
   - `description_not_start_with_package`: Description should not start with

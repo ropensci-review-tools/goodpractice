@@ -396,6 +396,21 @@ test_that("vignette_parse_data returns NULL for unparseable code", {
   expect_null(vignette_parse_data(f))
 })
 
+# -- safe_parse ---------------------------------------------------------------
+
+test_that("safe_parse parses from file path", {
+  f <- tempfile(fileext = ".R")
+  on.exit(unlink(f))
+  writeLines("x <- 1 + 2", f)
+  result <- safe_parse(file = f)
+  expect_true(length(result) > 0)
+})
+
+test_that("safe_parse returns NULL when keep_source FALSE also fails", {
+  result <- safe_parse(text = "if (TRUE {", keep_source = FALSE)
+  expect_null(result)
+})
+
 # -- PREPS$vignette ----------------------------------------------------------
 
 test_that("PREPS$vignette stores parse_data and lines", {

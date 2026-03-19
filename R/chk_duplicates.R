@@ -9,43 +9,49 @@ extract_param_docs <- function(path) {
   ))
 
   rfiles <- list.files(rdir, pattern = "\\.[rR]$", full.names = TRUE)
-  params <- list()
 
-  for (f in rfiles) {
+  params <- unlist(lapply(rfiles, function(f) {
     lines <- tryCatch(readLines(f, warn = FALSE), error = function(e) character())
     roxygen_idx <- grep("^#'\\s*@param\\s+", lines)
 
-    for (idx in roxygen_idx) {
+    lapply(roxygen_idx, function(idx) {
       m <- regmatches(lines[idx],
         regexec("^#'\\s*@param\\s+(\\S+)\\s+(.*)", lines[idx]))[[1]]
-      if (length(m) < 3) next
+      if (length(m) < 3) return(NULL)
 
-      param_name <- m[2]
       desc_lines <- m[3]
-
       j <- idx + 1L
       while (j <= length(lines) && grepl("^#'\\s+[^@]", lines[j])) {
-        continuation <- sub("^#'\\s+", " ", lines[j])
-        desc_lines <- paste0(desc_lines, continuation)
+        desc_lines <- paste0(desc_lines, sub("^#'\\s+", " ", lines[j]))
         j <- j + 1L
       }
 
-      params[[length(params) + 1]] <- data.frame(
-        param = param_name,
-        desc = trimws(desc_lines),
-        file = f,
-        line = idx,
-        stringsAsFactors = FALSE
+      data.frame(
+        param = m[2], desc = trimws(desc_lines),
+        file = f, line = idx, stringsAsFactors = FALSE
       )
-    }
-  }
+    })
+  }), recursive = FALSE)
 
+  params <- Filter(Negate(is.null), params)
   if (length(params) == 0) return(data.frame(
     param = character(), desc = character(),
     file = character(), line = integer(),
     stringsAsFactors = FALSE
   ))
   do.call(rbind, params)
+}
+
+cross_file_duplicates <- function(df, key_col, file_col) {
+  duped_keys <- unique(df[[key_col]][duplicated(df[[key_col]])])
+  if (length(duped_keys) == 0) return(df[0, , drop = FALSE])
+
+  candidates <- df[df[[key_col]] %in% duped_keys, , drop = FALSE]
+  multi_file <- vapply(duped_keys, function(k) {
+    length(unique(basename(candidates[[file_col]][candidates[[key_col]] == k]))) >= 2
+  }, logical(1))
+
+  candidates[candidates[[key_col]] %in% duped_keys[multi_file], , drop = FALSE]
 }
 
 CHECKS$roxygen2_duplicate_params <- make_check(
@@ -65,37 +71,20 @@ CHECKS$roxygen2_duplicate_params <- make_check(
     if (nrow(pd) == 0) return(list(status = TRUE, positions = list()))
 
     pd$key <- paste(pd$param, pd$desc, sep = "|||")
-    dupes <- pd$key[duplicated(pd$key)]
-    if (length(dupes) == 0) return(list(status = TRUE, positions = list()))
+    dupes <- cross_file_duplicates(pd, "key", "file")
+    if (nrow(dupes) == 0) return(list(status = TRUE, positions = list()))
 
-    dup_rows <- pd[pd$key %in% dupes, ]
-    seen <- character()
-    problems <- list()
+    problems <- lapply(seq_len(nrow(dupes)), function(i) {
+      list(
+        filename = file.path("R", basename(dupes$file[i])),
+        line_number = dupes$line[i],
+        column_number = NA_integer_,
+        ranges = list(),
+        line = paste0("@param ", dupes$param[i])
+      )
+    })
 
-    for (i in seq_len(nrow(dup_rows))) {
-      key <- dup_rows$key[i]
-      if (key %in% seen) next
-      seen <- c(seen, key)
-
-      matches <- dup_rows[dup_rows$key == key, ]
-      files <- unique(basename(matches$file))
-      if (length(files) < 2) next
-
-      for (j in seq_len(nrow(matches))) {
-        problems[[length(problems) + 1]] <- list(
-          filename = file.path("R", basename(matches$file[j])),
-          line_number = matches$line[j],
-          column_number = NA_integer_,
-          ranges = list(),
-          line = paste0("@param ", matches$param[j])
-        )
-      }
-    }
-
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
+    list(status = FALSE, positions = problems)
   }
 )
 
@@ -104,8 +93,7 @@ CHECKS$roxygen2_duplicate_params <- make_check(
 normalize_body_text <- function(fn_node) {
   body <- treesitter::node_child_by_field_name(fn_node, "body")
   if (is.null(body)) return("")
-  txt <- treesitter::node_text(body)
-  gsub("\\s+", " ", trimws(txt))
+  gsub("\\s+", " ", trimws(treesitter::node_text(body)))
 }
 
 CHECKS$duplicate_function_bodies <- make_check(
@@ -132,32 +120,27 @@ CHECKS$duplicate_function_bodies <- make_check(
     trivial <- nchar(bodies) < 20
     bodies[trivial] <- paste0("__trivial__", seq_along(bodies)[trivial])
 
-    duped_bodies <- unique(bodies[duplicated(bodies)])
-    if (length(duped_bodies) == 0) {
-      return(list(status = TRUE, positions = list()))
-    }
-
-    problems <- list()
-    for (body_text in duped_bodies) {
-      idxs <- which(bodies == body_text)
-      fns <- ts$functions[idxs]
-      files <- unique(vapply(fns, `[[`, "", "file"))
-      if (length(files) < 2) next
-
-      for (fn in fns) {
-        problems[[length(problems) + 1]] <- list(
-          filename = file.path("R", basename(fn$file)),
-          line_number = fn$line,
-          column_number = NA_integer_,
-          ranges = list(),
-          line = fn$name
-        )
-      }
-    }
-
-    list(
-      status = length(problems) == 0,
-      positions = problems
+    fn_df <- data.frame(
+      body = bodies,
+      name = vapply(ts$functions, `[[`, "", "name"),
+      file = vapply(ts$functions, `[[`, "", "file"),
+      line = vapply(ts$functions, function(fn) fn$line, numeric(1)),
+      stringsAsFactors = FALSE
     )
+
+    dupes <- cross_file_duplicates(fn_df, "body", "file")
+    if (nrow(dupes) == 0) return(list(status = TRUE, positions = list()))
+
+    problems <- lapply(seq_len(nrow(dupes)), function(i) {
+      list(
+        filename = file.path("R", basename(dupes$file[i])),
+        line_number = dupes$line[i],
+        column_number = NA_integer_,
+        ranges = list(),
+        line = dupes$name[i]
+      )
+    })
+
+    list(status = FALSE, positions = problems)
   }
 )

@@ -60,6 +60,31 @@ test_that("complexity_function_length passes with no R directory", {
   expect_true(res$passed[res$check == "complexity_function_length"])
 })
 
+test_that("ts_function_length counts lines correctly", {
+  code <- "my_fn <- function(x) {\n  x + 1\n  x + 2\n}"
+  lang <- treesitter.r::language()
+  p <- treesitter::parser(lang)
+  tree <- treesitter::parser_parse(p, code)
+  root <- treesitter::tree_root_node(tree)
+  fns <- ts_file_functions(root, "test.R")
+  expect_equal(ts_function_length(fns[[1]]$fn_node), 4L)
+})
+
+test_that("ts_all_called_functions returns empty for no trees", {
+  pkg <- withr::local_tempdir()
+  ts <- ts_parse(pkg)
+  expect_equal(ts_all_called_functions(ts), character())
+})
+
+test_that("ts_all_called_functions extracts call names", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines("f <- function() { mean(1:10) }", file.path(pkg, "R", "code.R"))
+  ts <- ts_parse(pkg)
+  calls <- ts_all_called_functions(ts)
+  expect_true("mean" %in% calls)
+})
+
 # -- complexity_unused_internal ------------------------------------------------
 
 test_that("complexity_unused_internal fails on dead code", {

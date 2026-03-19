@@ -837,4 +837,10 @@
       $urlchecker_no_redirects
       [1] "No URLs redirect to a different location"
       
+      $vignette_no_rm_list
+      [1] "Vignettes do not use rm(list = ls())"
+      
+      $vignette_no_setwd
+      [1] "Vignettes do not use setwd()"
+      
 

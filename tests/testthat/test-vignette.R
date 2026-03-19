@@ -125,15 +125,15 @@ test_that("match_chunk_pairs pairs starts with nearest available end", {
   expect_equal(result[, "end"], c(4L, 9L))
 })
 
-test_that("match_chunk_pairs warns and returns empty on length mismatch", {
+test_that("match_chunk_pairs messages and returns empty on length mismatch", {
   pair_fn <- match_chunk_pairs
-  expect_warning(
+  expect_message(
     result <- pair_fn(c(3L), c(2L, 5L, 8L)),
     "sanity checks"
   )
   expect_equal(nrow(result), 0)
 
-  expect_warning(
+  expect_message(
     result <- pair_fn(c(1L, 6L, 20L), c(4L, 9L)),
     "sanity checks"
   )
@@ -147,9 +147,9 @@ test_that("match_chunk_pairs skips ends consumed by earlier chunks", {
   expect_equal(result[, "end"], c(2L, 5L))
 })
 
-test_that("match_chunk_pairs warns when end < start (ordering sanity)", {
+test_that("match_chunk_pairs messages when end < start (ordering sanity)", {
   pair_fn <- match_chunk_pairs
-  expect_warning(
+  expect_message(
     result <- pair_fn(c(5L), c(3L)),
     "sanity checks"
   )
@@ -157,9 +157,9 @@ test_that("match_chunk_pairs warns when end < start (ordering sanity)", {
   expect_equal(ncol(result), 2)
 })
 
-test_that("match_chunk_pairs warns on overlapping chunks", {
+test_that("match_chunk_pairs messages on overlapping chunks", {
   pair_fn <- match_chunk_pairs
-  expect_warning(
+  expect_message(
     result <- pair_fn(c(1L, 3L), c(5L, 7L)),
     "sanity checks"
   )
@@ -167,9 +167,9 @@ test_that("match_chunk_pairs warns on overlapping chunks", {
   expect_equal(ncol(result), 2)
 })
 
-test_that("match_chunk_pairs warns on unsorted starts", {
+test_that("match_chunk_pairs messages on unsorted starts", {
   pair_fn <- match_chunk_pairs
-  expect_warning(
+  expect_message(
     result <- pair_fn(c(6L, 1L), c(3L, 9L)),
     "sanity checks"
   )
@@ -374,7 +374,7 @@ test_that("extract_vignette_code skips chunk with no closing fence", {
     "```{r}",
     "x <- 1"
   ), f)
-  expect_warning(
+  expect_message(
     result <- extract_vignette_code(f),
     "sanity checks"
   )

@@ -3,6 +3,9 @@
     Code
       describe_check(all_checks())
     Output
+      $no_import_multicore
+      [1] "Avoid importing the 'multicore' package"
+      
       $covr
       [1] "All code is unit tested"
       

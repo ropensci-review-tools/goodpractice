@@ -92,14 +92,47 @@ results(g)[1:5,]
 Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is `NA`. It is also possible to export the results to a JSON file with `export_json()`.
 
 
+## Understanding check groups
+
+Every check in goodpractice belongs to a _group_ based on the data it needs.
+Before any checks run, goodpractice gathers data in _preparation steps_ ("preps") — running `R CMD check`, computing code coverage, linting source files, and so on.
+Each prep runs once, and every check in that group draws from the same results.
+
+Here are the groups and what they cover:
+
+| Group | Prep | What it checks |
+|-------|------|----------------|
+| R CMD check | `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
+| Code coverage | `covr` | Whether all code is covered by tests |
+| Cyclomatic complexity | `cyclocomp` | Whether functions are too complex (default limit: 50) |
+| DESCRIPTION | `description` | Package metadata: URL, BugReports, dependency fields, author roles |
+| Code style (lintr) | `lintr` | Assignment style, line length, semicolons, `sapply()`, `library()` in package code |
+| Namespace | `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
+| .Rd documentation | `rd` | Whether exported functions have `\examples` and `\value` sections |
+| Spelling | `spelling` | Misspelled words in documentation |
+| URL checking | `urlchecker` | Broken or redirecting URLs in documentation |
+| Reverse dependencies | `available_packages` | Whether CRAN reverse dependencies exist (informational) |
+| Prep-free checks | _(none)_ | README exists, NEWS exists, `.R` file extension, `print()` returns invisibly |
+
+Two functions control which checks run:
+
+- `default_checks()` returns the full default set (~250 checks across all groups)
+- `tidyverse_checks()` returns the opt-in tidyverse style set (30 checks)
+- `all_checks()` returns both combined
+
+```{r}
+length(default_checks())
+length(tidyverse_checks())
+length(all_checks())
+```
+
 ## Tidyverse style checks
 
-The default set of checks focuses on universal good practices — things every
-R package benefits from regardless of coding style. But if your team follows
-the [tidyverse style guide](https://style.tidyverse.org/), there is an
-optional set of checks for that too.
+The default checks focus on universal good practices — things every R package benefits from regardless of coding style.
+If your team follows the [tidyverse style guide](https://style.tidyverse.org/), there is an optional set of checks for that too.
 
-These checks are not included in `default_checks()`. You opt in explicitly:
+These checks are not included in `default_checks()`.
+You opt in explicitly:
 
 ```{r, eval = FALSE}
 # run default checks plus tidyverse style checks
@@ -109,21 +142,14 @@ g <- gp(".", checks = c(default_checks(), tidyverse_checks()))
 g <- gp(".", checks = tidyverse_checks())
 ```
 
-Most tidyverse checks are powered by [**lintr**](https://cran.r-project.org/package=lintr)
-under the hood — brace placement, spacing, naming conventions, and so on.
-They run `lintr::lint_package()` once and share the results across all
-lintr-based checks. If your package already has a `.lintr` configuration
-file, those settings are respected: disabled linters stay disabled,
-exclusions are honoured.
+Most tidyverse checks are powered by [**lintr**](https://cran.r-project.org/package=lintr) under the hood — brace placement, spacing, naming conventions, and so on.
+They run `lintr::lint_package()` once and share the results across all lintr-based checks.
+If your package already has a `.lintr` configuration file, those settings are respected: disabled linters stay disabled, exclusions are honoured.
 
-A handful of tidyverse checks go beyond what lintr covers. These look at
-package structure directly — whether R file names use snake_case, whether
-test files mirror source files, whether functions rely on `missing()` instead
-of `NULL` defaults, and whether exported functions appear before internal
-helpers in each file.
+A handful of tidyverse checks go beyond what lintr covers.
+These look at package structure directly — whether R file names use snake_case, whether test files mirror source files, whether functions rely on `missing()` instead of `NULL` defaults, and whether exported functions appear before internal helpers in each file.
 
 ```{r}
-# see all available tidyverse checks
 tidyverse_checks()
 ```
 

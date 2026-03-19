@@ -25,7 +25,7 @@ find_avoided_package_usage <- function(ts, pkg_name) {
     "(#eq? @ns \"", pkg_name, "\"))"
   ))
 
-  matches <- lapply(seq_along(ts$trees), function(i) {
+  matches <- unlist(lapply(seq_along(ts$trees), function(i) {
     entry <- ts$trees[[i]]
     if (is.null(entry)) return(NULL)
     f <- names(ts$trees)[i]
@@ -47,34 +47,34 @@ find_avoided_package_usage <- function(ts, pkg_name) {
         ))
       )
     })
-  })
+  }), recursive = FALSE)
 
-  unlist(matches, recursive = FALSE)
+  if (is.null(matches)) list() else matches
 }
 
-make_avoided_package_check <- function(pkg_name, reason) {
-  force(pkg_name)
-  force(reason)
-  make_check(
-    description = paste0("Avoid importing the '", pkg_name, "' package"),
-    tags = c("warning", "best practice"),
-    preps = character(),
-    gp = paste0("avoid using the '", pkg_name, "' package. ", reason),
-    check = function(state) {
-      ts <- ts_get(state)
-      if (length(ts$trees) == 0) {
-        return(list(status = TRUE, positions = list()))
-      }
-      problems <- find_avoided_package_usage(ts, pkg_name)
-      list(
-        status = length(problems) == 0,
-        positions = problems
-      )
-    }
+check_avoided_package <- function(state, pkg_name) {
+  ts <- ts_get(state)
+  if (length(ts$trees) == 0) {
+    return(list(status = TRUE, positions = list()))
+  }
+  problems <- find_avoided_package_usage(ts, pkg_name)
+  list(
+    status = length(problems) == 0,
+    positions = problems
   )
 }
 
 for (pkg in names(AVOIDED_PACKAGES)) {
-  check_name <- paste0("no_import_", tolower(pkg))
-  CHECKS[[check_name]] <- make_avoided_package_check(pkg, AVOIDED_PACKAGES[[pkg]])
+  local({
+    pkg_name <- pkg
+    reason <- AVOIDED_PACKAGES[[pkg]]
+    check_name <- paste0("no_import_", tolower(pkg_name))
+    CHECKS[[check_name]] <<- make_check(
+      description = paste0("Avoid importing the '", pkg_name, "' package"),
+      tags = c("warning", "best practice"),
+      preps = character(),
+      gp = paste0("avoid using the '", pkg_name, "' package. ", reason),
+      check = function(state) check_avoided_package(state, pkg_name)
+    )
+  })
 }

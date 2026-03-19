@@ -6,6 +6,30 @@
       $no_import_multicore
       [1] "Avoid importing the 'multicore' package"
       
+      $no_import_rcurl
+      [1] "Avoid importing the 'RCurl' package"
+      
+      $no_import_rjson
+      [1] "Avoid importing the 'rjson' package"
+      
+      $no_import_rjsonio
+      [1] "Avoid importing the 'RJSONIO' package"
+      
+      $no_import_xml
+      [1] "Avoid importing the 'XML' package"
+      
+      $no_import_sp
+      [1] "Avoid importing the 'sp' package"
+      
+      $no_import_rgdal
+      [1] "Avoid importing the 'rgdal' package"
+      
+      $no_import_rgeos
+      [1] "Avoid importing the 'rgeos' package"
+      
+      $no_import_maptools
+      [1] "Avoid importing the 'maptools' package"
+      
       $covr
       [1] "All code is unit tested"
       

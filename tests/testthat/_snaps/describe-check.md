@@ -81,6 +81,9 @@
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
       
+      $on_exit_has_add
+      [1] "on.exit() calls include add = TRUE"
+      
       $print_return_invisible
       [1] "Print methods return the object invisibly"
       

@@ -367,7 +367,23 @@ CHECKS$tidyverse_assignment_linter <- make_check(
         standard convention in R and makes code easier to read.",
 
   check = function(state) {
-    get_tidyverse_lintr_state(state, "assignment_linter")
+    result <- get_tidyverse_lintr_state(state, "assignment_linter")
+    if (isTRUE(result$status) || is.na(result$status)) return(result)
+
+    ts <- ts_get(state)
+    s4_ranges <- ts_s4_call_ranges(ts)
+    if (length(s4_ranges) == 0) return(result)
+
+    result$positions <- Filter(function(pos) {
+      f <- basename(pos$filename)
+      ln <- pos$line_number
+      !any(vapply(s4_ranges, function(r) {
+        f == r$file && ln >= r$start && ln <= r$end
+      }, logical(1)))
+    }, result$positions)
+
+    result$status <- length(result$positions) == 0
+    result
   }
 )
 

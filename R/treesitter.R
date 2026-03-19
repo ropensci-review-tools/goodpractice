@@ -79,6 +79,39 @@ ts_parse <- function(path) {
   list(trees = trees, functions = functions, language = lang)
 }
 
+S4_CALL_NAMES <- c(
+  "setMethod", "setGeneric", "setClass",
+  "setReplaceMethod", "setValidity", "setIs"
+)
+
+ts_s4_call_ranges <- function(ts) {
+  if (length(ts$trees) == 0) return(list())
+
+  s4_query <- treesitter::query(ts$language, paste0(
+    "(call function: (identifier) @fn (#match? @fn \"^(",
+    paste(S4_CALL_NAMES, collapse = "|"),
+    ")$\"))"
+  ))
+
+  ranges <- list()
+  for (file in names(ts$trees)) {
+    entry <- ts$trees[[file]]
+    if (is.null(entry)) next
+    caps <- treesitter::query_captures(s4_query, entry$root)
+    for (j in which(caps$name == "fn")) {
+      call_node <- treesitter::node_parent(caps$node[[j]])
+      start_line <- treesitter::node_start_point(call_node)$row + 1L
+      end_line <- treesitter::node_end_point(call_node)$row + 1L
+      ranges[[length(ranges) + 1]] <- list(
+        file = basename(file),
+        start = start_line,
+        end = end_line
+      )
+    }
+  }
+  ranges
+}
+
 ts_get <- function(state) {
   if (is.null(state$.cache$treesitter)) {
     state$.cache$treesitter <- ts_parse(state$path)

@@ -42,6 +42,9 @@
       $description_bugreports
       [1] "BugReports in DESCRIPTION"
       
+      $roxygen2_duplicate_params
+      [1] "Avoid duplicated @param documentation across functions"
+      
       $has_readme
       [1] "README file exists"
       

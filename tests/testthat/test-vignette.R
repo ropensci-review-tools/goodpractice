@@ -396,13 +396,6 @@ test_that("vignette_parse_data returns NULL for unparseable code", {
   expect_null(vignette_parse_data(f))
 })
 
-# -- PREPS$functions ----------------------------------------------------------
-
-test_that("PREPS$functions stores parsed functions in state", {
-  state <- PREPS$functions(list(path = "good"), quiet = TRUE)
-  expect_true(is.list(state$functions))
-})
-
 # -- PREPS$vignette ----------------------------------------------------------
 
 test_that("PREPS$vignette stores parse_data and lines", {

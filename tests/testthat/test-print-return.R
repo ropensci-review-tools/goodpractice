@@ -30,17 +30,3 @@ test_that("print_return_invisible passes when no R directory exists", {
   expect_length(result$positions, 0)
 })
 
-test_that("has_invisible_call detects invisible in various expression forms", {
-  expect_true(has_invisible_call(quote(invisible(x))))
-  expect_true(has_invisible_call(quote({
-    cat("hi\n")
-    invisible(x)
-  })))
-  expect_true(has_invisible_call(quote(
-    if (TRUE) invisible(x) else invisible(x)
-  )))
-  expect_false(has_invisible_call(quote(cat("hi\n"))))
-  expect_false(has_invisible_call(quote(x + 1)))
-  expect_false(has_invisible_call(quote(42)))
-  expect_false(has_invisible_call(quote("text")))
-})

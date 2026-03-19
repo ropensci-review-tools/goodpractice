@@ -217,8 +217,7 @@ test_that("tidyverse_no_missing ignores missing() inside nested functions", {
   expect_true(get_result(res, "tidyverse_no_missing"))
 })
 
-test_that("parse_package_functions handles edge cases", {
-  find_funcs <- parse_package_functions
+test_that("treesitter checks pass when no functions are defined", {
   pkg <- withr::local_tempdir()
   writeLines(
     c(
@@ -229,110 +228,18 @@ test_that("parse_package_functions handles edge cases", {
     file.path(pkg, "DESCRIPTION")
   )
 
-  expect_equal(find_funcs(pkg), list())
+  gp_res <- gp(pkg, checks = "tidyverse_no_missing")
+  expect_true(results(gp_res)$passed)
 
   dir.create(file.path(pkg, "R"))
   writeLines(character(), file.path(pkg, "R", "empty.R"))
-  expect_equal(find_funcs(pkg), list())
+  gp_res <- gp(pkg, checks = "tidyverse_no_missing")
+  expect_true(results(gp_res)$passed)
 
   writeLines(
     c("x <- 42", "library(stats)", "y <- sum(1:10)"),
     file.path(pkg, "R", "misc.R")
   )
-  expect_equal(find_funcs(pkg), list())
-})
-
-test_that("parse_package_functions extracts functions with metadata", {
-  find_funcs <- parse_package_functions
-  pkg <- withr::local_tempdir()
-  writeLines(
-    c(
-      "Package: functest", "Title: Test", "Version: 1.0.0",
-      "Author: Test", "Maintainer: Test <test@test.com>",
-      "Description: Test.", "License: GPL-2"
-    ),
-    file.path(pkg, "DESCRIPTION")
-  )
-  dir.create(file.path(pkg, "R"))
-  writeLines(
-    c("my_func <- function(x) x + 1", "", "helper = function(y) y * 2"),
-    file.path(pkg, "R", "funcs.R")
-  )
-
-  result <- find_funcs(pkg)
-  expect_equal(length(result), 2)
-  names <- vapply(result, `[[`, "", "name")
-  expect_true("my_func" %in% names)
-  expect_true("helper" %in% names)
-  expect_true(all(vapply(result, function(fn) !is.na(fn$line), logical(1))))
-  expect_true(all(vapply(result, function(fn) !is.null(fn$body), logical(1))))
-})
-
-test_that("parse_package_functions retries with keep.source=FALSE on error", {
-  find_funcs <- parse_package_functions
-  pkg <- withr::local_tempdir()
-  writeLines(
-    c(
-      "Package: fallbacktest", "Title: Test", "Version: 1.0.0",
-      "Author: Test", "Maintainer: Test <test@test.com>",
-      "Description: Test.", "License: GPL-2"
-    ),
-    file.path(pkg, "DESCRIPTION")
-  )
-  dir.create(file.path(pkg, "R"))
-  writeLines("f <- function( {", file.path(pkg, "R", "broken.R"))
-  writeLines("g <- function(x) x", file.path(pkg, "R", "good.R"))
-
-  result <- find_funcs(pkg)
-  names <- vapply(result, `[[`, "", "name")
-  expect_true("g" %in% names)
-  expect_false("f" %in% names)
-})
-
-test_that("parse_package_functions skips errors with keep_source=FALSE", {
-  find_funcs <- parse_package_functions
-  pkg <- withr::local_tempdir()
-  writeLines(
-    c(
-      "Package: fallbacktest2", "Title: Test", "Version: 1.0.0",
-      "Author: Test", "Maintainer: Test <test@test.com>",
-      "Description: Test.", "License: GPL-2"
-    ),
-    file.path(pkg, "DESCRIPTION")
-  )
-  dir.create(file.path(pkg, "R"))
-  writeLines("f <- function( {", file.path(pkg, "R", "broken.R"))
-
-  result <- find_funcs(pkg, keep_source = FALSE)
-  expect_equal(result, list())
-})
-
-test_that("tidyverse_no_missing uses state$functions when available", {
-  pkg <- withr::local_tempdir()
-  writeLines(
-    c(
-      "Package: statetest", "Title: Test", "Version: 1.0.0",
-      "Author: Test", "Maintainer: Test <test@test.com>",
-      "Description: Test.", "License: GPL-2"
-    ),
-    file.path(pkg, "DESCRIPTION")
-  )
-  dir.create(file.path(pkg, "R"))
-  writeLines("ok <- function(x) x", file.path(pkg, "R", "ok.R"))
-
-  state <- list(path = pkg, functions = parse_package_functions(pkg))
-  result <- CHECKS$tidyverse_no_missing$check(state)
-  expect_true(result$status)
-})
-
-test_that("tidyverse_export_order uses state$functions when available", {
-  state <- list(
-    path = "good_tidyverse",
-    functions = parse_package_functions("good_tidyverse"),
-    namespace = PREPS$namespace(
-      list(path = "good_tidyverse"), quiet = TRUE
-    )$namespace
-  )
-  result <- CHECKS$tidyverse_export_order$check(state)
-  expect_true(result$status)
+  gp_res <- gp(pkg, checks = "tidyverse_no_missing")
+  expect_true(results(gp_res)$passed)
 })

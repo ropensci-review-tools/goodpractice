@@ -1,17 +1,5 @@
 
-#' @include lists.R
-
-uses_missing <- function(expr) {
-  if (is.call(expr)) {
-    fn <- deparse(expr[[1]])
-    if (fn == "missing") return(TRUE)
-    if (fn == "function") return(FALSE)
-    for (i in seq_along(expr)) {
-      if (uses_missing(expr[[i]])) return(TRUE)
-    }
-  }
-  FALSE
-}
+#' @include treesitter.R
 
 get_tidyverse_lintr_position <- function(lint) {
   lint[c("filename", "line_number", "column_number", "ranges", "line")]
@@ -536,7 +524,7 @@ CHECKS$tidyverse_no_missing <- make_check(
 
   description = "Functions do not use missing() to check arguments",
   tags = c("warning", "tidyverse"),
-  preps = "functions",
+  preps = character(),
 
   gp = paste(
     "avoid using missing() to check whether arguments were supplied.",
@@ -546,11 +534,18 @@ CHECKS$tidyverse_no_missing <- make_check(
   ),
 
   check = function(state) {
-    funcs <- state$functions %||% parse_package_functions(state$path)
+    ts <- ts_get(state)
+    if (length(ts$functions) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
+    funcs <- ts$functions
+    missing_q <- treesitter::query(ts$language,
+      "(call function: (identifier) @fn (#eq? @fn \"missing\"))"
+    )
     problems <- list()
 
     for (fn in funcs) {
-      if (uses_missing(fn$body)) {
+      if (ts_body_has_call(fn$fn_node, missing_q)) {
         problems[[length(problems) + 1]] <- list(
           filename = file.path("R", basename(fn$file)),
           line_number = fn$line,
@@ -575,7 +570,7 @@ CHECKS$tidyverse_export_order <- make_check(
 
   description = "Exported functions are defined before internal helpers",
   tags = c("style", "tidyverse"),
-  preps = c("functions", "namespace"),
+  preps = "namespace",
 
   gp = "define exported (user-facing) functions before internal
         helper functions within each R source file.",
@@ -602,7 +597,7 @@ CHECKS$tidyverse_export_order <- make_check(
       FALSE
     }
 
-    funcs <- state$functions %||% parse_package_functions(state$path)
+    funcs <- ts_get(state)$functions
     if (length(funcs) == 0) {
       return(list(status = TRUE, positions = list()))
     }

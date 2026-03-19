@@ -73,6 +73,8 @@ Imports:
     rstudioapi,
     spelling,
     tools,
+    treesitter,
+    treesitter.r,
     urlchecker,
     utils,
     whoami,
@@ -100,6 +102,7 @@ Collate:
     'chk_generic.R'
     'chk_lintr.R'
     'chk_namespace.R'
+    'treesitter.R'
     'chk_print_return.R'
     'chk_rcmdcheck.R'
     'chk_rd.R'
@@ -114,7 +117,6 @@ Collate:
     'prep_cyclocomp.R'
     'prep_description.R'
     'prep_expressions.R'
-    'prep_functions.R'
     'prep_lintr.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'

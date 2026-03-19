@@ -98,21 +98,22 @@ Every check in goodpractice belongs to a _group_ based on the data it needs.
 Before any checks run, goodpractice gathers data in _preparation steps_ ("preps") — running `R CMD check`, computing code coverage, linting source files, and so on.
 Each prep runs once, and every check in that group draws from the same results.
 
-Here are the groups and what they cover:
+Here are the groups, identified by their prep name:
 
-| Group | Prep | What it checks |
-|-------|------|----------------|
-| R CMD check | `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
-| Code coverage | `covr` | Whether all code is covered by tests |
-| Cyclomatic complexity | `cyclocomp` | Whether functions are too complex (default limit: 50) |
-| DESCRIPTION | `description` | Package metadata: URL, BugReports, dependency fields, author roles |
-| Code style (lintr) | `lintr` | Assignment style, line length, semicolons, `sapply()`, `library()` in package code |
-| Namespace | `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
-| .Rd documentation | `rd` | Whether exported functions have `\examples` and `\value` sections |
-| Spelling | `spelling` | Misspelled words in documentation |
-| URL checking | `urlchecker` | Broken or redirecting URLs in documentation |
-| Reverse dependencies | `available_packages` | Whether CRAN reverse dependencies exist (informational) |
-| Prep-free checks | _(none)_ | README exists, NEWS exists, `.R` file extension, `print()` returns invisibly |
+| Prep name | What it checks |
+|-----------|----------------|
+| `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
+| `covr` | Whether all code is covered by tests |
+| `cyclocomp` | Whether functions are too complex (default limit: 50) |
+| `description` | Package metadata: URL, BugReports, dependency fields, author roles |
+| `lintr` | Assignment style, line length, semicolons, `sapply()`, `library()` in package code |
+| `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
+| `rd` | Whether exported functions have `\examples` and `\value` sections |
+| `spelling` | Misspelled words in documentation |
+| `urlchecker` | Broken or redirecting URLs in documentation |
+| `available_packages` | Whether CRAN reverse dependencies exist (informational) |
+| `tidyverse_lintr` | Tidyverse style linting (opt-in via `tidyverse_checks()`) |
+| _(none)_ | README exists, NEWS exists, `.R` file extension, `print()` returns invisibly |
 
 Two functions control which checks run:
 
@@ -156,18 +157,11 @@ tidyverse_checks()
 
 ## Excluding check groups
 
-Running all 230+ checks on a large package can take a while. The checks
-themselves are fast — what takes time is the data gathering that happens
-before them. **goodpractice** calls these _preparation steps_ ("preps").
-The `lintr` prep runs the linter once, `covr` computes code coverage once,
-`rcmdcheck` runs `R CMD check` once, and every check in that group draws
-from the same results.
+The checks themselves are fast — what takes time is data gathering.
+When `covr` alone takes three minutes and all you care about right now is code style, why wait?
 
-So when `covr` alone takes three minutes and all you care about right now is
-code style, why wait? Instead of picking individual checks by name, you can
-exclude an entire prep — and every check that depends on it goes with it.
-The available prep names are: `covr`, `cyclocomp`, `description`,
-`expressions`, `lintr`, `namespace`, and `rcmdcheck`.
+Instead of picking individual checks by name, you can exclude an entire prep — and every check that depends on it goes with it.
+The prep names match the "Prep" column in the table above: `covr`, `cyclocomp`, `description`, `lintr`, `namespace`, `rcmdcheck`, `rd`, `spelling`, `urlchecker`, `available_packages`, and `tidyverse_lintr`.
 
 ### Using an R option
 

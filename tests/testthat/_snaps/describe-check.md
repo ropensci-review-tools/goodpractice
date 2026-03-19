@@ -735,6 +735,9 @@
       $rd_examples_runnable
       [1] "Examples have runnable code outside \\dontrun/\\donttest"
       
+      $reverse_dependencies
+      [1] "Check for reverse dependencies on CRAN"
+      
       $spelling
       [1] "No misspelled words in documentation"
       

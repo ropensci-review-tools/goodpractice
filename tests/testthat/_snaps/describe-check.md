@@ -729,6 +729,9 @@
       $rd_has_return
       [1] "Exported functions have \\value in .Rd"
       
+      $reverse_dependencies
+      [1] "Check for reverse dependencies on CRAN"
+      
       $roxygen2_has_export_or_nord
       [1] "Documented functions have @export or @noRd"
       
@@ -737,9 +740,6 @@
       
       $roxygen2_valid_inherit
       [1] "@inheritParams/@inheritDotParams reference known functions"
-      
-      $reverse_dependencies
-      [1] "Check for reverse dependencies on CRAN"
       
       $spelling
       [1] "No misspelled words in documentation"

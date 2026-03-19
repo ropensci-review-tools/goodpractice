@@ -244,7 +244,27 @@ test_that("treesitter checks pass when no functions are defined", {
   expect_true(results(gp_res)$passed)
 })
 
-test_that("assignment_linter ignores = inside setMethod()", {
+test_that("default lintr_assignment_linter ignores = inside setMethod()", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(
+    c("Package: s4default", "Title: Test", "Version: 1.0.0",
+      "Description: Test.", "License: MIT"),
+    file.path(pkg, "DESCRIPTION")
+  )
+  writeLines(c(
+    'setMethod("t",',
+    '  signature = (x = "dfmSparse"),',
+    '  definition = function(x) x',
+    ')'
+  ), file.path(pkg, "R", "methods.R"))
+
+  gp_res <- gp(pkg, checks = "lintr_assignment_linter")
+  res <- results(gp_res)
+  expect_true(res$passed[res$check == "lintr_assignment_linter"])
+})
+
+test_that("tidyverse assignment_linter ignores = inside setMethod()", {
   pkg <- withr::local_tempdir()
   dir.create(file.path(pkg, "R"))
   writeLines(

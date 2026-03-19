@@ -133,6 +133,38 @@ test_that("ts_get caches treesitter parse result", {
   expect_identical(ts1, ts2)
 })
 
+# -- ts_s4_call_ranges -------------------------------------------------------
+
+test_that("ts_s4_call_ranges finds setMethod call ranges", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    'setMethod("show",',
+    '  signature = (object = "MyClass"),',
+    '  definition = function(object) cat("hi")',
+    ')'
+  ), file.path(pkg, "R", "methods.R"))
+
+  ts <- ts_parse(pkg)
+  ranges <- ts_s4_call_ranges(ts)
+  expect_equal(length(ranges), 1)
+  expect_equal(ranges[[1]]$start, 1L)
+  expect_equal(ranges[[1]]$end, 4L)
+})
+
+test_that("ts_s4_call_ranges returns empty for no S4 calls", {
+  ts <- ts_parse("good")
+  ranges <- ts_s4_call_ranges(ts)
+  expect_equal(length(ranges), 0)
+})
+
+test_that("ts_s4_call_ranges returns empty for no trees", {
+  pkg <- withr::local_tempdir()
+  ts <- ts_parse(pkg)
+  ranges <- ts_s4_call_ranges(ts)
+  expect_equal(ranges, list())
+})
+
 # -- full workflow (like chk_tidyverse.R) ------------------------------------
 
 test_that("treesitter workflow finds missing() calls in functions", {

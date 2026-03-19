@@ -9,11 +9,11 @@ query_reverse_deps <- function(pkg_name, db) {
 revdep_gp_message <- function(revdeps) {
   n <- length(revdeps)
   dep_list <- paste(utils::head(revdeps, 10), collapse = ", ")
-  suffix <- if (n > 10) paste0(", ... and ", n - 10, " more") else ""
+  suffix <- ifelse(n > 10, paste0(", ... and ", n - 10L, " more"), "")
   paste0(
     "run revdepcheck::revdep_check() before CRAN submission. ",
     "This package has ", n, " reverse ",
-    if (n == 1) "dependency" else "dependencies",
+    ifelse(n == 1, "dependency", "dependencies"),
     " on CRAN: ", dep_list, suffix, "."
   )
 }

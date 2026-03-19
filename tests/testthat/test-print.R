@@ -60,6 +60,31 @@ test_that("gp_positions includes column when available", {
   )
 })
 
+test_that("check_type extracts type from result", {
+  expect_equal(check_type(TRUE), "error")
+  expect_equal(check_type(list(status = TRUE)), "error")
+  expect_equal(check_type(list(status = TRUE, type = "info")), "info")
+  expect_equal(check_type(list(status = FALSE, type = "warning")), "warning")
+})
+
+test_that("print shows info messages with praise", {
+  info_check <- make_check(
+    description = "An info check",
+    tags = character(),
+    preps = character(),
+    gp = "consider doing something.",
+    check = function(state) list(status = TRUE, type = "info")
+  )
+  gp_res <- gp(
+    "good",
+    checks = c("info_test", "description_bugreports"),
+    extra_checks = list(info_test = info_check)
+  )
+  out <- capture.output(print(gp_res))
+  expect_true(any(grepl("consider doing something", out)))
+  expect_true(any(grepl("package", out, ignore.case = TRUE)))
+})
+
 test_that("print calls rstudio_source_markers when hasFun is TRUE", {
   bad1 <- system.file("bad1", package = "goodpractice")
   x <- gp(bad1, checks = "r_file_extension")

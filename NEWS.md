@@ -14,6 +14,12 @@
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
 * New `print_return_invisible` check: flags print methods that don't return `invisible(x)` (#49).
+* New `reverse_dependencies` check: queries CRAN for reverse dependencies and advises
+  running `revdepcheck::revdep_check()` before submission.
+* `gp_advice()` gains a `type` parameter (`"error"`, `"info"`, `"warning"`) to
+  control the output symbol and colour. Checks can return
+  `list(status = TRUE, type = "info")` to display informational messages
+  without a failure cross.
 * Prep step error handling refactored into `run_prep_step()` helper. New prep
   functions can use `run_prep_step(state, "name", function() { ... }, quiet)`
   instead of manually wrapping work in `try()` and emitting warnings on failure.

@@ -93,23 +93,24 @@ ts_s4_call_ranges <- function(ts) {
     ")$\"))"
   ))
 
-  ranges <- list()
-  for (file in names(ts$trees)) {
+  ranges <- unlist(lapply(names(ts$trees), function(file) {
     entry <- ts$trees[[file]]
-    if (is.null(entry)) next
+    if (is.null(entry)) return(NULL)
     caps <- treesitter::query_captures(s4_query, entry$root)
-    for (j in which(caps$name == "fn")) {
+    idxs <- which(caps$name == "fn")
+    if (length(idxs) == 0) return(NULL)
+
+    lapply(idxs, function(j) {
       call_node <- treesitter::node_parent(caps$node[[j]])
-      start_line <- treesitter::node_start_point(call_node)$row + 1L
-      end_line <- treesitter::node_end_point(call_node)$row + 1L
-      ranges[[length(ranges) + 1]] <- list(
+      list(
         file = basename(file),
-        start = start_line,
-        end = end_line
+        start = treesitter::node_start_point(call_node)$row + 1L,
+        end = treesitter::node_end_point(call_node)$row + 1L
       )
-    }
-  }
-  ranges
+    })
+  }), recursive = FALSE)
+
+  if (is.null(ranges)) list() else ranges
 }
 
 ts_get <- function(state) {

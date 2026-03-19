@@ -1,4 +1,4 @@
-#' @include lists.R
+#' @include lists.R treesitter.R
 
 extract_param_docs <- function(path) {
   rdir <- file.path(path, "R")
@@ -88,6 +88,69 @@ CHECKS$roxygen2_duplicate_params <- make_check(
           column_number = NA_integer_,
           ranges = list(),
           line = paste0("@param ", matches$param[j])
+        )
+      }
+    }
+
+    list(
+      status = length(problems) == 0,
+      positions = problems
+    )
+  }
+)
+
+## --------------------------------------------------------------------
+
+normalize_body_text <- function(fn_node) {
+  body <- treesitter::node_child_by_field_name(fn_node, "body")
+  if (is.null(body)) return("")
+  txt <- treesitter::node_text(body)
+  gsub("\\s+", " ", trimws(txt))
+}
+
+CHECKS$duplicate_function_bodies <- make_check(
+
+  description = "No functions with identical bodies",
+  tags = c("warning", "best practice"),
+  preps = character(),
+
+  gp = paste(
+    "consolidate functions with identical bodies into a single",
+    "shared helper to reduce code duplication."
+  ),
+
+  check = function(state) {
+    ts <- ts_get(state)
+    if (length(ts$functions) < 2) {
+      return(list(status = TRUE, positions = list()))
+    }
+
+    bodies <- vapply(ts$functions, function(fn) {
+      normalize_body_text(fn$fn_node)
+    }, character(1))
+
+    trivial <- nchar(bodies) < 20
+    bodies[trivial] <- paste0("__trivial__", seq_along(bodies)[trivial])
+
+    duped_bodies <- unique(bodies[duplicated(bodies)])
+    if (length(duped_bodies) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
+
+    problems <- list()
+    for (body_text in duped_bodies) {
+      idxs <- which(bodies == body_text)
+      fns <- ts$functions[idxs]
+      files <- unique(vapply(fns, `[[`, "", "file"))
+      if (length(files) < 2) next
+
+      for (fn in fns) {
+        problems[[length(problems) + 1]] <- list(
+          filename = file.path("R", basename(fn$file)),
+          line_number = fn$line,
+          column_number = NA_integer_,
+          ranges = list(),
+          line = fn$name
         )
       }
     }

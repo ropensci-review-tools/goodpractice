@@ -162,7 +162,7 @@ CHECKS$no_description_duplicate_deps <- make_check(
     if(inherits(state$description, "try-error")) return(NA)
 
     deps <- state$description$get_deps()
-    deps <- deps[deps$package != "R", , drop = FALSE]
+    deps <- deps[deps$package != "R" & deps$type != "LinkingTo", , drop = FALSE]
     !anyDuplicated(deps$package)
   }
 )

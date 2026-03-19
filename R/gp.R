@@ -75,7 +75,8 @@ gp <- function(
     path = path,
     package = pkgname,
     extra_preps = extra_preps,
-    extra_checks = extra_checks
+    extra_checks = extra_checks,
+    .cache = new.env(parent = emptyenv())
   )
 
   for (prep in preps) {

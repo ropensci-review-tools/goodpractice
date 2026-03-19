@@ -1,17 +1,5 @@
 
-#' @include lists.R
-
-uses_missing <- function(expr) {
-  if (is.call(expr)) {
-    fn <- deparse(expr[[1]])
-    if (fn == "missing") return(TRUE)
-    if (fn == "function") return(FALSE)
-    for (i in seq_along(expr)) {
-      if (uses_missing(expr[[i]])) return(TRUE)
-    }
-  }
-  FALSE
-}
+#' @include treesitter.R
 
 get_tidyverse_lintr_position <- function(lint) {
   lint[c("filename", "line_number", "column_number", "ranges", "line")]
@@ -532,55 +520,6 @@ CHECKS$tidyverse_test_file_names <- make_check(
 
 ## --------------------------------------------------------------------
 
-find_top_level_functions <- function(path) {
-  rdir <- file.path(path, "R")
-  if (!dir.exists(rdir)) return(list())
-
-  enc <- tryCatch(
-    desc::desc_get_field("Encoding", default = "UTF-8", file = path),
-    error = function(e) "UTF-8"
-  )
-
-  rfiles <- list.files(rdir, pattern = "\\.[rR]$", full.names = TRUE)
-  result <- list()
-
-  for (f in rfiles) {
-    exprs <- tryCatch(
-      parse(f, keep.source = TRUE, encoding = enc),
-      error = function(e) NULL
-    )
-    if (is.null(exprs) || length(exprs) == 0) next
-
-    srcrefs <- attr(exprs, "srcref")
-
-    for (i in seq_along(exprs)) {
-      e <- exprs[[i]]
-      if (!is.call(e)) next
-
-      op <- deparse(e[[1]])
-      if (!(op %in% c("<-", "=")) || length(e) != 3) next
-      if (!is.call(e[[3]])) next
-      if (!identical(deparse(e[[3]][[1]]), "function")) next
-
-      name <- deparse(e[[2]])
-      line <- if (!is.null(srcrefs) && !is.null(srcrefs[[i]])) {
-        srcrefs[[i]][1]
-      } else {
-        NA_integer_
-      }
-
-      result[[length(result) + 1]] <- list(
-        name = name,
-        file = f,
-        line = line,
-        body = e[[3]][[3]]
-      )
-    }
-  }
-
-  result
-}
-
 CHECKS$tidyverse_no_missing <- make_check(
 
   description = "Functions do not use missing() to check arguments",
@@ -595,11 +534,18 @@ CHECKS$tidyverse_no_missing <- make_check(
   ),
 
   check = function(state) {
-    funcs <- find_top_level_functions(state$path)
+    ts <- ts_get(state)
+    if (length(ts$functions) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
+    funcs <- ts$functions
+    missing_q <- treesitter::query(ts$language,
+      "(call function: (identifier) @fn (#eq? @fn \"missing\"))"
+    )
     problems <- list()
 
     for (fn in funcs) {
-      if (uses_missing(fn$body)) {
+      if (ts_body_has_call(fn$fn_node, missing_q)) {
         problems[[length(problems) + 1]] <- list(
           filename = file.path("R", basename(fn$file)),
           line_number = fn$line,
@@ -651,7 +597,7 @@ CHECKS$tidyverse_export_order <- make_check(
       FALSE
     }
 
-    funcs <- find_top_level_functions(state$path)
+    funcs <- ts_get(state)$functions
     if (length(funcs) == 0) {
       return(list(status = TRUE, positions = list()))
     }

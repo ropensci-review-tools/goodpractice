@@ -5,7 +5,7 @@ uses_roxygen2 <- function(path) {
   desc_path <- file.path(path, "DESCRIPTION")
   if (!file.exists(desc_path)) return(FALSE)
   fields <- names(read.dcf(desc_path)[1, ])
-  any(grepl("^Roxygen", fields))
+  any(grepl("^(\\s*?)Roxygen", fields))
 }
 
 find_function_defs <- function(path) {

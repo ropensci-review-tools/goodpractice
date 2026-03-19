@@ -29,6 +29,7 @@ has_internet <- function() {
   curl::has_internet()
 }
 
+# Used only to parse code chunks in vignettes; all other code is parsed with treesitter.R fns
 safe_parse <- function(file = NULL, text = NULL, keep_source = TRUE,
                        encoding = "UTF-8") {
   args <- if (!is.null(file)) {

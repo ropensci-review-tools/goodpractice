@@ -13,8 +13,6 @@ AVOIDED_PACKAGES <- list(
 )
 
 find_avoided_package_usage <- function(ts, pkg_name) {
-  problems <- list()
-
   library_q <- treesitter::query(ts$language, paste0(
     "(call function: (identifier) @fn ",
     "(#match? @fn \"^(library|require)$\") ",
@@ -27,29 +25,31 @@ find_avoided_package_usage <- function(ts, pkg_name) {
     "(#eq? @ns \"", pkg_name, "\"))"
   ))
 
-  for (i in seq_along(ts$trees)) {
+  matches <- lapply(seq_along(ts$trees), function(i) {
     entry <- ts$trees[[i]]
-    if (is.null(entry)) next
+    if (is.null(entry)) return(NULL)
     f <- names(ts$trees)[i]
 
-    for (q in list(library_q, ns_q)) {
-      caps <- treesitter::query_captures(q, entry$root)
-      for (j in seq_along(caps$name)) {
-        node <- caps$node[[j]]
-        problems[[length(problems) + 1]] <- list(
-          filename = file.path("R", basename(f)),
-          line_number = treesitter::node_start_point(node)$row + 1L,
-          column_number = treesitter::node_start_point(node)$column + 1L,
-          ranges = list(),
-          line = trimws(treesitter::node_text(
-            treesitter::node_parent(treesitter::node_parent(node))
-          ))
-        )
-      }
-    }
-  }
+    nodes <- c(
+      treesitter::query_captures(library_q, entry$root)$node,
+      treesitter::query_captures(ns_q, entry$root)$node
+    )
+    if (length(nodes) == 0) return(NULL)
 
-  problems
+    lapply(nodes, function(node) {
+      list(
+        filename = file.path("R", basename(f)),
+        line_number = treesitter::node_start_point(node)$row + 1L,
+        column_number = treesitter::node_start_point(node)$column + 1L,
+        ranges = list(),
+        line = trimws(treesitter::node_text(
+          treesitter::node_parent(treesitter::node_parent(node))
+        ))
+      )
+    })
+  })
+
+  unlist(matches, recursive = FALSE)
 }
 
 make_avoided_package_check <- function(pkg_name, reason) {

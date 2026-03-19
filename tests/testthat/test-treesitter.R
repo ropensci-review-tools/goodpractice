@@ -61,6 +61,20 @@ test_that("ts_file_functions skips non-identifier LHS", {
   expect_equal(fns[[1]]$name, "real_fn")
 })
 
+test_that("ts_parse skips unreadable files", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines("good_fn <- function() 1", file.path(pkg, "R", "good.R"))
+  bad_path <- file.path(pkg, "R", "bad.R")
+  writeLines("x <- 1", bad_path)
+  Sys.chmod(bad_path, "000")
+  on.exit(Sys.chmod(bad_path, "644"), add = TRUE)
+
+  ts <- suppressWarnings(ts_parse(pkg))
+  names <- vapply(ts$functions, `[[`, "", "name")
+  expect_true("good_fn" %in% names)
+})
+
 # -- ts_body_has_call ---------------------------------------------------------
 
 test_that("ts_body_has_call detects a call in function body", {

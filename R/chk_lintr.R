@@ -1,4 +1,6 @@
 
+#' @include treesitter.R
+
 get_lintr_position <- function(linter) {
   linter[c("filename", "line_number", "column_number", "ranges", "line")]
 }
@@ -32,7 +34,8 @@ CHECKS$lintr_assignment_linter <- make_check(
         you use '<-'.",
 
   check = function(state) {
-    get_lintr_state(state, "assignment_linter")
+    result <- get_lintr_state(state, "assignment_linter")
+    filter_s4_assignment_false_positives(state, result)
   }
 )
 

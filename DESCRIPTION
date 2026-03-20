@@ -104,6 +104,7 @@ Collate:
     'chk_generic.R'
     'chk_lintr.R'
     'chk_namespace.R'
+    'chk_print_return.R'
     'chk_rcmdcheck.R'
     'chk_rd.R'
     'chk_revdep.R'

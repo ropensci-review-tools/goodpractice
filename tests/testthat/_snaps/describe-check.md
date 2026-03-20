@@ -3,6 +3,12 @@
     Code
       describe_check(all_checks())
     Output
+      $print_return_invisible
+      [1] "Print methods return the object invisibly"
+      
+      $on_exit_has_add
+      [1] "on.exit() calls include add = TRUE"
+      
       $covr
       [1] "All code is unit tested"
       
@@ -80,12 +86,6 @@
       
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
-      
-      $on_exit_has_add
-      [1] "on.exit() calls include add = TRUE"
-      
-      $print_return_invisible
-      [1] "Print methods return the object invisibly"
       
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"

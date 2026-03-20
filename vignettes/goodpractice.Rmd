@@ -92,13 +92,38 @@ results(g)[1:5,]
 Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is `NA`. It is also possible to export the results to a JSON file with `export_json()`.
 
 
-## Understanding check groups
+## Controlling which checks run
 
-Every check in goodpractice belongs to a _group_ based on the data it needs.
-Before any checks run, goodpractice gathers data in _preparation steps_ ("preps") — running `R CMD check`, computing code coverage, linting source files, and so on.
+Running all 250+ checks takes a while — not because the checks themselves are slow, but because data gathering is.
+Code coverage needs to install and exercise your package.
+`R CMD check` runs its full suite.
+Linting reads every source file.
+
+These data-gathering steps are called _preparations_ ("preps").
 Each prep runs once, and every check in that group draws from the same results.
+When you want to skip an entire category of checks — say, coverage — you exclude the prep by name and everything that depends on it goes away.
 
-Here are the groups, identified by their prep name:
+```{r, eval = FALSE}
+# skip coverage and R CMD check — just run style and metadata checks
+options(goodpractice.exclude_preps = c("covr", "rcmdcheck"))
+gp(".")
+```
+
+Three functions help you choose what to run:
+
+```{r}
+length(default_checks())
+length(tidyverse_checks())
+length(all_checks())
+```
+
+`default_checks()` is the default.
+`tidyverse_checks()` adds opt-in style checks.
+`all_checks()` combines both.
+
+## Check groups
+
+Here are all the groups, identified by their prep name — the string you pass to `goodpractice.exclude_preps` when you want to skip one:
 
 | Prep name | What it checks |
 |-----------|----------------|
@@ -115,17 +140,8 @@ Here are the groups, identified by their prep name:
 | `tidyverse_lintr` | Tidyverse style linting (opt-in via `tidyverse_checks()`) |
 | _(none)_ | README exists, NEWS exists, `.R` file extension, `print()` returns invisibly |
 
-Two functions control which checks run:
-
-- `default_checks()` returns the full default set (~250 checks across all groups)
-- `tidyverse_checks()` returns the opt-in tidyverse style set (30 checks)
-- `all_checks()` returns both combined
-
-```{r}
-length(default_checks())
-length(tidyverse_checks())
-length(all_checks())
-```
+Checks with no prep listed run without any data gathering and cannot be excluded by prep name.
+Use the `checks` argument to select them individually instead.
 
 ## Tidyverse style checks
 
@@ -157,11 +173,8 @@ tidyverse_checks()
 
 ## Excluding check groups
 
-The checks themselves are fast — what takes time is data gathering.
-When `covr` alone takes three minutes and all you care about right now is code style, why wait?
-
-Instead of picking individual checks by name, you can exclude an entire prep — and every check that depends on it goes with it.
-The prep names match the "Prep" column in the table above: `covr`, `cyclocomp`, `description`, `lintr`, `namespace`, `rcmdcheck`, `rd`, `spelling`, `urlchecker`, `available_packages`, and `tidyverse_lintr`.
+You can exclude preps using an R option or an environment variable.
+Both accept the prep names from the table above.
 
 ### Using an R option
 

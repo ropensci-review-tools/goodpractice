@@ -1,4 +1,4 @@
-#' @include lists.R customization.R treesitter.R
+#' @include lists.R customization.R
 
 AVOIDED_PACKAGES <- list(
   multicore = "Use the 'parallel' package instead.",
@@ -12,69 +12,59 @@ AVOIDED_PACKAGES <- list(
   maptools  = "Use 'sf' instead. 'maptools' was retired in 2023."
 )
 
-find_avoided_package_usage <- function(ts, pkg_name) {
-  library_q <- treesitter::query(ts$language, paste0(
-    "(call function: (identifier) @fn ",
-    "(#match? @fn \"^(library|require)$\") ",
-    "arguments: (arguments (argument value: (identifier) @pkg ",
-    "(#eq? @pkg \"", pkg_name, "\"))))"
-  ))
+desc_has_dep <- function(state, pkg_name) {
+  if (inherits(state$description, "try-error")) return(NA)
+  deps <- tryCatch(
+    state$description$get_deps(),
+    error = function(e) NULL
+  )
+  if (is.null(deps)) return(FALSE)
+  pkg_name %in% deps$package
+}
 
-  ns_q <- treesitter::query(ts$language, paste0(
-    "(namespace_operator lhs: (identifier) @ns ",
-    "(#eq? @ns \"", pkg_name, "\"))"
-  ))
+CHECKS$no_obsolete_deps <- make_check(
 
-  matches <- unlist(lapply(seq_along(ts$trees), function(i) {
-    entry <- ts$trees[[i]]
-    if (is.null(entry)) return(NULL)
-    f <- names(ts$trees)[i]
+  description = "No obsolete or retired package dependencies",
+  tags = c("warning", "best practice"),
+  preps = "description",
 
-    nodes <- c(
-      treesitter::query_captures(library_q, entry$root)$node,
-      treesitter::query_captures(ns_q, entry$root)$node
+  gp = function(state) {
+    if (inherits(state$description, "try-error")) {
+      return("avoid depending on obsolete packages.")
+    }
+    deps <- state$description$get_deps()
+    found <- intersect(deps$package, names(AVOIDED_PACKAGES))
+    reasons <- vapply(found, function(p) {
+      paste0(p, ": ", AVOIDED_PACKAGES[[p]])
+    }, character(1))
+    paste(
+      "avoid depending on obsolete or retired packages.",
+      paste(reasons, collapse = " ")
     )
-    if (length(nodes) == 0) return(NULL)
+  },
 
-    lapply(nodes, function(node) {
+  check = function(state) {
+    if (inherits(state$description, "try-error")) {
+      return(list(status = NA, positions = list()))
+    }
+
+    deps <- tryCatch(state$description$get_deps(), error = function(e) NULL)
+    if (is.null(deps)) return(list(status = TRUE, positions = list()))
+
+    found <- intersect(deps$package, names(AVOIDED_PACKAGES))
+    if (length(found) == 0) return(list(status = TRUE, positions = list()))
+
+    problems <- lapply(found, function(pkg) {
+      dep_row <- deps[deps$package == pkg, ]
       list(
-        filename = file.path("R", basename(f)),
-        line_number = treesitter::node_start_point(node)$row + 1L,
-        column_number = treesitter::node_start_point(node)$column + 1L,
+        filename = "DESCRIPTION",
+        line_number = NA_integer_,
+        column_number = NA_integer_,
         ranges = list(),
-        line = trimws(treesitter::node_text(
-          treesitter::node_parent(treesitter::node_parent(node))
-        ))
+        line = paste0(dep_row$type[1], ": ", pkg)
       )
     })
-  }), recursive = FALSE)
 
-  if (is.null(matches)) list() else matches
-}
-
-check_avoided_package <- function(state, pkg_name) {
-  ts <- ts_get(state)
-  if (length(ts$trees) == 0) {
-    return(list(status = TRUE, positions = list()))
+    list(status = FALSE, positions = problems)
   }
-  problems <- find_avoided_package_usage(ts, pkg_name)
-  list(
-    status = length(problems) == 0,
-    positions = problems
-  )
-}
-
-for (pkg in names(AVOIDED_PACKAGES)) {
-  local({
-    pkg_name <- pkg
-    reason <- AVOIDED_PACKAGES[[pkg]]
-    check_name <- paste0("no_import_", tolower(pkg_name))
-    CHECKS[[check_name]] <<- make_check(
-      description = paste0("Avoid importing the '", pkg_name, "' package"),
-      tags = c("warning", "best practice"),
-      preps = character(),
-      gp = paste0("avoid using the '", pkg_name, "' package. ", reason),
-      check = function(state) check_avoided_package(state, pkg_name)
-    )
-  })
-}
+)

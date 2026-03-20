@@ -164,3 +164,77 @@ CHECKS$roxygen2_valid_inherit <- make_check(
     )
   }
 )
+
+# -- duplicate @param documentation ------------------------------------------
+
+extract_block_params <- function(block) {
+  param_tags <- roxygen2::block_get_tags(block, "param")
+  if (length(param_tags) == 0) return(NULL)
+
+  lapply(param_tags, function(tag) {
+    list(
+      name = tag$val$name,
+      description = trimws(tag$val$description),
+      file = block$file,
+      line = block$line
+    )
+  })
+}
+
+CHECKS$roxygen2_duplicate_params <- make_check(
+
+  description = "Avoid duplicated @param documentation across functions",
+  tags = c("documentation", "roxygen2"),
+  preps = "roxygen2",
+
+  gp = paste(
+    "use @inheritParams to avoid duplicating parameter documentation.",
+    "Identical @param descriptions across files suggest shared docs",
+    "should be inherited from a single source."
+  ),
+
+  check = function(state) {
+    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
+
+    all_params <- unlist(
+      lapply(state$roxygen2$blocks, extract_block_params),
+      recursive = FALSE
+    )
+    if (is.null(all_params) || length(all_params) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
+
+    keys <- vapply(all_params, function(p) {
+      paste(p$name, p$description, sep = "|||")
+    }, character(1))
+    files <- vapply(all_params, function(p) p$file, character(1))
+
+    duped_keys <- unique(keys[duplicated(keys)])
+    if (length(duped_keys) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
+
+    problems <- list()
+    for (key in duped_keys) {
+      idxs <- which(keys == key)
+      dup_files <- unique(basename(files[idxs]))
+      if (length(dup_files) < 2) next
+
+      for (i in idxs) {
+        p <- all_params[[i]]
+        problems[[length(problems) + 1]] <- list(
+          filename = file.path("R", basename(p$file)),
+          line_number = as.integer(p$line),
+          column_number = NA_integer_,
+          ranges = list(),
+          line = paste0("@param ", p$name)
+        )
+      }
+    }
+
+    list(
+      status = length(problems) == 0,
+      positions = problems
+    )
+  }
+)

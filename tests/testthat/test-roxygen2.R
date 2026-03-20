@@ -196,3 +196,72 @@ test_that("parse_roxygen2 extracts S3 methods from NAMESPACE", {
   result <- parse_roxygen2(pkg)
   expect_true("print.myclass" %in% result$namespace_s3methods)
 })
+
+# -- roxygen2_duplicate_params ------------------------------------------------
+
+test_that("roxygen2_duplicate_params fails on identical params across files", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: dupeparam", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT", "RoxygenNote: 7.3.3"
+  ), file.path(pkg, "DESCRIPTION"))
+
+  writeLines(c(
+    "#' Function A",
+    "#' @param x A numeric value.",
+    "#' @export",
+    "func_a <- function(x) x + 1"
+  ), file.path(pkg, "R", "a.R"))
+
+  writeLines(c(
+    "#' Function B",
+    "#' @param x A numeric value.",
+    "#' @export",
+    "func_b <- function(x) x * 2"
+  ), file.path(pkg, "R", "b.R"))
+
+  gp_res <- gp(pkg, checks = "roxygen2_duplicate_params")
+  res <- results(gp_res)
+  expect_false(res$passed[res$check == "roxygen2_duplicate_params"])
+
+  pos <- failed_positions(gp_res)$roxygen2_duplicate_params
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true(all(grepl("@param x", lines)))
+})
+
+test_that("roxygen2_duplicate_params passes with different descriptions", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: nodupe", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT", "RoxygenNote: 7.3.3"
+  ), file.path(pkg, "DESCRIPTION"))
+
+  writeLines(c(
+    "#' Function A",
+    "#' @param x A numeric input.",
+    "#' @export",
+    "func_a <- function(x) x + 1"
+  ), file.path(pkg, "R", "a.R"))
+
+  writeLines(c(
+    "#' Function B",
+    "#' @param x A character string.",
+    "#' @export",
+    "func_b <- function(x) paste(x)"
+  ), file.path(pkg, "R", "b.R"))
+
+  gp_res <- gp(pkg, checks = "roxygen2_duplicate_params")
+  res <- results(gp_res)
+  expect_true(res$passed[res$check == "roxygen2_duplicate_params"])
+})
+
+test_that("roxygen2_duplicate_params passes for non-roxygen2 packages", {
+  expect_warning(
+    gp_res <- gp("no_roxygen", checks = "roxygen2_duplicate_params"),
+    "Prep step for roxygen2 failed"
+  )
+  res <- results(gp_res)
+  expect_true(is.na(res$passed[res$check == "roxygen2_duplicate_params"]))
+})

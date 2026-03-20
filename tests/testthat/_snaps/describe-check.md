@@ -750,6 +750,9 @@
       $roxygen2_valid_inherit
       [1] "@inheritParams/@inheritDotParams reference known functions"
       
+      $roxygen2_duplicate_params
+      [1] "Avoid duplicated @param documentation across functions"
+      
       $spelling
       [1] "No misspelled words in documentation"
       

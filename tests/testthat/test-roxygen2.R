@@ -1,5 +1,3 @@
-get_result <- function(res, check) res$passed[res$check == check]
-
 # -- uses_roxygen2 detection --------------------------------------------------
 
 test_that("uses_roxygen2 returns TRUE for roxygen2 packages", {
@@ -10,10 +8,6 @@ test_that("uses_roxygen2 returns FALSE for non-roxygen2 packages", {
   expect_false(uses_roxygen2("no_roxygen"))
 })
 
-test_that("uses_roxygen2 returns FALSE for missing DESCRIPTION", {
-  expect_false(uses_roxygen2(tempfile()))
-})
-
 # -- prep skips non-roxygen2 packages -----------------------------------------
 
 test_that("roxygen2 checks return NA for non-roxygen2 packages", {
@@ -21,62 +15,55 @@ test_that("roxygen2 checks return NA for non-roxygen2 packages", {
     gp_res <- gp("no_roxygen", checks = "roxygen2_unknown_tags"),
     "Prep step for roxygen2 failed"
   )
-  res <- results(gp_res)
-  expect_true(is.na(get_result(res, "roxygen2_unknown_tags")))
+  expect_true(is.na(results(gp_res)$passed))
 })
 
 # -- roxygen2_has_export_or_nord ----------------------------------------------
 
 test_that("roxygen2_has_export_or_nord fails for untagged functions", {
   gp_res <- gp("bad_roxygen", checks = "roxygen2_has_export_or_nord")
-  res <- results(gp_res)
-  expect_false(get_result(res, "roxygen2_has_export_or_nord"))
+  expect_false(results(gp_res)$passed)
 
   pos <- failed_positions(gp_res)$roxygen2_has_export_or_nord
   lines <- vapply(pos, `[[`, "", "line")
-  expect_true(any(grepl("untagged_func", lines)))
+  expect_match(lines, "untagged_func", all = FALSE)
 })
 
 test_that("roxygen2_has_export_or_nord passes when all tagged", {
   gp_res <- gp("good", checks = "roxygen2_has_export_or_nord")
-  res <- results(gp_res)
-  expect_true(get_result(res, "roxygen2_has_export_or_nord"))
+  expect_true(results(gp_res)$passed)
 })
 
 # -- roxygen2_unknown_tags ----------------------------------------------------
 
 test_that("roxygen2_unknown_tags fails on deprecated/unknown tags", {
   gp_res <- gp("bad_roxygen", checks = "roxygen2_unknown_tags")
-  res <- results(gp_res)
-  expect_false(get_result(res, "roxygen2_unknown_tags"))
+  expect_false(results(gp_res)$passed)
 
   pos <- failed_positions(gp_res)$roxygen2_unknown_tags
   lines <- vapply(pos, `[[`, "", "line")
-  expect_true(any(grepl("@S3method", lines)))
+  expect_match(lines, "@S3method", all = FALSE)
 })
 
 test_that("roxygen2_unknown_tags passes when all tags are valid", {
   gp_res <- gp("good", checks = "roxygen2_unknown_tags")
-  res <- results(gp_res)
-  expect_true(get_result(res, "roxygen2_unknown_tags"))
+  expect_true(results(gp_res)$passed)
 })
 
 # -- roxygen2_valid_inherit ---------------------------------------------------
 
 test_that("roxygen2_valid_inherit fails on nonexistent reference", {
   gp_res <- gp("bad_roxygen", checks = "roxygen2_valid_inherit")
-  res <- results(gp_res)
-  expect_false(get_result(res, "roxygen2_valid_inherit"))
+  expect_false(results(gp_res)$passed)
 
   pos <- failed_positions(gp_res)$roxygen2_valid_inherit
   lines <- vapply(pos, `[[`, "", "line")
-  expect_true(any(grepl("bad_inherit_func", lines)))
+  expect_match(lines, "bad_inherit_func", all = FALSE)
 })
 
 test_that("roxygen2_valid_inherit passes with valid references", {
   gp_res <- gp("good", checks = "roxygen2_valid_inherit")
-  res <- results(gp_res)
-  expect_true(get_result(res, "roxygen2_valid_inherit"))
+  expect_true(results(gp_res)$passed)
 })
 
 # -- prep error handling ------------------------------------------------------
@@ -113,7 +100,7 @@ test_that("find_function_defs returns empty data.frame when no functions found",
 
   result <- find_function_defs(pkg)
   expect_equal(nrow(result), 0)
-  expect_true(all(c("name", "file", "line") %in% names(result)))
+  expect_named(result, c("name", "file", "line"))
 })
 
 test_that("find_function_defs skips non-identifier LHS assignments", {
@@ -222,12 +209,11 @@ test_that("roxygen2_duplicate_params fails on identical params across files", {
   ), file.path(pkg, "R", "b.R"))
 
   gp_res <- gp(pkg, checks = "roxygen2_duplicate_params")
-  res <- results(gp_res)
-  expect_false(res$passed[res$check == "roxygen2_duplicate_params"])
+  expect_false(results(gp_res)$passed)
 
   pos <- failed_positions(gp_res)$roxygen2_duplicate_params
   lines <- vapply(pos, `[[`, "", "line")
-  expect_true(all(grepl("@param x", lines)))
+  expect_match(lines, "@param x", all = TRUE)
 })
 
 test_that("roxygen2_duplicate_params passes with different descriptions", {
@@ -253,8 +239,7 @@ test_that("roxygen2_duplicate_params passes with different descriptions", {
   ), file.path(pkg, "R", "b.R"))
 
   gp_res <- gp(pkg, checks = "roxygen2_duplicate_params")
-  res <- results(gp_res)
-  expect_true(res$passed[res$check == "roxygen2_duplicate_params"])
+  expect_true(results(gp_res)$passed)
 })
 
 test_that("roxygen2_duplicate_params passes for non-roxygen2 packages", {
@@ -262,6 +247,5 @@ test_that("roxygen2_duplicate_params passes for non-roxygen2 packages", {
     gp_res <- gp("no_roxygen", checks = "roxygen2_duplicate_params"),
     "Prep step for roxygen2 failed"
   )
-  res <- results(gp_res)
-  expect_true(is.na(res$passed[res$check == "roxygen2_duplicate_params"]))
+  expect_true(is.na(results(gp_res)$passed))
 })

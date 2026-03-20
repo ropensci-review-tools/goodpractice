@@ -15,15 +15,15 @@ test_that("checks_by_prep returns checks for a single prep", {
 })
 
 test_that("checks_by_prep returns checks for multiple preps", {
-  combined <- checks_by_prep(c("description", "lintr"))
+  combined <- checks_by_prep("description", "lintr")
   desc_only <- checks_by_prep("description")
   lintr_only <- checks_by_prep("lintr")
   expect_true(all(desc_only %in% combined))
   expect_true(all(lintr_only %in% combined))
 })
 
-test_that("checks_by_prep(NULL) returns prep-free checks", {
-  no_prep <- checks_by_prep(NULL)
+test_that("checks_by_prep() returns prep-free checks", {
+  no_prep <- checks_by_prep()
   expect_true(length(no_prep) > 0)
   expect_true("has_readme" %in% no_prep)
   expect_false(any(grepl("^rcmdcheck_", no_prep)))

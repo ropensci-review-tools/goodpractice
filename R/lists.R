@@ -78,30 +78,31 @@ all_preps <- function() {
 #' This makes it easy to run or inspect a specific category of checks
 #' without knowing individual check names.
 #'
-#' Use \code{prep = NULL} or \code{prep = character()} to get checks
-#' that have no prep — these run without any data gathering step.
+#' Call with no arguments to get checks that have no prep — these run
+#' without any data gathering step.
 #'
-#' @param prep Character vector of prep names. Use [all_preps()] to see
+#' @param ... Prep names as character strings. Use [all_preps()] to see
 #'   available names.
 #' @return Character vector of check names
 #' @export
 #' @examples
 #' # run only DESCRIPTION and namespace checks
-#' checks_by_prep(c("description", "namespace"))
+#' checks_by_prep("description", "namespace")
 #'
 #' # see what the lintr prep covers
 #' checks_by_prep("lintr")
 #'
 #' # find checks that need no prep
-#' checks_by_prep(NULL)
+#' checks_by_prep()
 #'
 #' # use directly in gp()
 #' \dontrun{
-#'   gp(".", checks = checks_by_prep(c("description", "lintr")))
+#'   gp(".", checks = checks_by_prep("description", "lintr"))
 #' }
 
-checks_by_prep <- function(prep) {
-  if (is.null(prep) || length(prep) == 0) {
+checks_by_prep <- function(...) {
+  prep <- c(...)
+  if (length(prep) == 0) {
     return(names(Filter(function(ch) length(ch$preps) == 0, CHECKS)))
   }
 

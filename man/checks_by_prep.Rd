@@ -4,10 +4,10 @@
 \alias{checks_by_prep}
 \title{Select checks by prep group}
 \usage{
-checks_by_prep(prep)
+checks_by_prep(...)
 }
 \arguments{
-\item{prep}{Character vector of prep names. Use \code{\link[=all_preps]{all_preps()}} to see
+\item{...}{Prep names as character strings. Use \code{\link[=all_preps]{all_preps()}} to see
 available names.}
 }
 \value{
@@ -19,21 +19,21 @@ This makes it easy to run or inspect a specific category of checks
 without knowing individual check names.
 }
 \details{
-Use \code{prep = NULL} or \code{prep = character()} to get checks
-that have no prep — these run without any data gathering step.
+Call with no arguments to get checks that have no prep — these run
+without any data gathering step.
 }
 \examples{
 # run only DESCRIPTION and namespace checks
-checks_by_prep(c("description", "namespace"))
+checks_by_prep("description", "namespace")
 
 # see what the lintr prep covers
 checks_by_prep("lintr")
 
 # find checks that need no prep
-checks_by_prep(NULL)
+checks_by_prep()
 
 # use directly in gp()
 \dontrun{
-  gp(".", checks = checks_by_prep(c("description", "lintr")))
+  gp(".", checks = checks_by_prep("description", "lintr"))
 }
 }

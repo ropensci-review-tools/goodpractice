@@ -9,6 +9,12 @@
       $on_exit_has_add
       [1] "on.exit() calls include add = TRUE"
       
+      $complexity_function_length
+      [1] "Functions are not too long"
+      
+      $complexity_unused_internal
+      [1] "All internal functions are used"
+      
       $covr
       [1] "All code is unit tested"
       

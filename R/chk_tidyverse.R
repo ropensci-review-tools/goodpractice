@@ -367,7 +367,8 @@ CHECKS$tidyverse_assignment_linter <- make_check(
         standard convention in R and makes code easier to read.",
 
   check = function(state) {
-    get_tidyverse_lintr_state(state, "assignment_linter")
+    result <- get_tidyverse_lintr_state(state, "assignment_linter")
+    filter_s4_assignment_false_positives(state, result)
   }
 )
 

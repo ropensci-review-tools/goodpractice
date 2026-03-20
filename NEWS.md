@@ -14,6 +14,12 @@
 - New `describe_check()` function to print descriptions of all implemented checks (@152)
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
 * New `print_return_invisible` check: flags print methods that don't return `invisible(x)` (#49).
+* New `vignette_no_rm_list` check: flags `rm(list = ls())` in vignettes (#20).
+* New `vignette_no_setwd` check: flags `setwd()` in vignettes (#21).
+* R code inspection now uses treesitter for AST-based parsing instead of
+  regex or `getParseData()`. Checks like `print_return_invisible`,
+  `tidyverse_no_missing`, and `tidyverse_export_order` benefit from more
+  robust and faster code analysis.
 * New `reverse_dependencies` check: queries CRAN for reverse dependencies and advises
   running `revdepcheck::revdep_check()` before submission.
 * `gp_advice()` gains a `type` parameter (`"error"`, `"info"`, `"warning"`) to

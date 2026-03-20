@@ -30,7 +30,7 @@ You can also add [custom checks](custom_checks.html) for your team's own convent
 ## Quick start
 
 The main function is `gp()` (short for `goodpractice()`).
-Point it at a package directory and it runs every check it knows:
+Point it at a package directory and it runs the default set of checks:
 
 ```{r}
 library(goodpractice)

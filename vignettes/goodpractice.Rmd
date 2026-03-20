@@ -141,13 +141,22 @@ GP_EXCLUDE_PREPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
 When both the R option and the environment variable are set, the R option wins.
 Exclusion only applies when you use the default check set — if you explicitly pass check names to the `checks` argument, exclusion settings are ignored and those checks always run.
 
+Note that `checks` takes individual check names (like `"lintr_assignment_linter"`), not prep group names.
+Prep names and check names sometimes overlap — there is a check called `"covr"` and a prep called `"covr"` — but they are different things.
+To find the check names in a particular group, filter `all_checks()`:
+
+```{r}
+# find all checks that start with "description"
+grep("^description", all_checks(), value = TRUE)
+```
+
 ```{r, eval = FALSE}
 options(goodpractice.exclude_preps = "covr")
 
 # covr checks are excluded here (using defaults)
 gp(".")
 
-# but covr checks run here because we asked for them explicitly
+# the "covr" check runs here because we asked for it by name
 gp(".", checks = "covr")
 ```
 

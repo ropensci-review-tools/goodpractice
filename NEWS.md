@@ -1,5 +1,6 @@
 # goodpractice 1.0.5.9000 (dev version)
 
+- Added `makefile` (#203)
 * New optional tidyverse style guide checks: 21 lintr-based checks plus 2
   structural checks (R file naming, test file mirroring).
   Opt in via `checks = c(default_checks(), tidyverse_checks())`.

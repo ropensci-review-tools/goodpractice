@@ -29,11 +29,13 @@ You can also add [custom checks](custom_checks.html) for your team's own convent
 
 ## Quick start
 
-Point `gp()` at a package and it tells you what to fix.
+The main function is `gp()` (short for `goodpractice()`).
+Point it at a package directory and it runs every check it knows:
 
 ```{r}
 library(goodpractice)
 
+# goodpractice ships with an example package that has some issues
 pkg_path <- system.file("bad1", package = "goodpractice")
 ```
 
@@ -44,13 +46,16 @@ g <- gp(pkg_path)
 g <- suppressWarnings(gp(pkg_path))
 ```
 
+Printing the result shows only the checks that failed:
+
 ```{r}
 g
 ```
 
-Each line is one failed check.
-The cross marks a problem, the text explains _what_ to fix and _why_, and the file path shows _where_.
-If everything passes, you get praise instead.
+Each line starting with a cross is one failed check.
+The text after the cross explains what to fix and why.
+The indented file paths below it show exactly where in your code the problem was found — in terminals and IDEs that support it, these paths are clickable.
+If every check passes, you get a short praise message instead.
 
 ## What gp() actually does
 
@@ -58,33 +63,41 @@ When you call `gp()`, two things happen in sequence:
 
 1. **Gather data** — goodpractice runs a set of _preparation steps_ ("preps").
    One prep runs `R CMD check`.
-   Another computes code coverage.
+   Another computes code coverage by installing your package and exercising the tests.
    Another lints your source files.
-   Each prep runs once and stores its results.
+   Each prep runs exactly once and stores its results for the checks to use.
 
-2. **Run checks** — each check reads the stored results and returns pass, fail, or skip.
-   A single prep can feed dozens of checks.
-   The `rcmdcheck` prep alone powers over 200.
+2. **Run checks** — each check reads from the stored prep results and returns pass, fail, or skip.
+   A single prep can feed many checks — the `rcmdcheck` prep alone powers over 200 individual checks, all drawn from a single `R CMD check` run.
 
-This two-step design means you never run `R CMD check` twice, even if 200 checks need its output.
-It also means you can skip an entire category by excluding its prep — more on that below.
+This two-step design is why goodpractice can run 250+ checks without repeating expensive work.
+It also means you can skip an entire category of checks by excluding its prep — more on that in the "Skipping slow preps" section below.
 
 ## Choosing what to run
 
-By default, `gp()` runs `default_checks()` — about 250 checks covering documentation, code style, test coverage, namespace hygiene, and CRAN compliance.
+By default, `gp()` runs everything in `default_checks()` — about 250 checks covering documentation, code style, test coverage, namespace hygiene, and CRAN compliance:
 
 ```{r}
 length(default_checks())
 ```
 
-You can narrow things down by passing specific check names:
+If you only need a specific check, pass its name to the `checks` argument.
+You can find check names with `all_checks()` and filter with `grep()`:
+
+```{r}
+# find checks related to URLs
+grep("url", all_checks(), value = TRUE)
+```
+
+Then run just the ones you care about:
 
 ```{r}
 g_url <- gp(pkg_path, checks = "description_url")
 g_url
 ```
 
-Or widen them by adding the optional tidyverse style checks:
+To go the other direction and run _more_ than the defaults, combine check sets.
+For example, to add the optional tidyverse style checks on top of the defaults:
 
 ```{r, eval = FALSE}
 g <- gp(".", checks = c(default_checks(), tidyverse_checks()))
@@ -92,8 +105,8 @@ g <- gp(".", checks = c(default_checks(), tidyverse_checks()))
 
 Three helper functions give you the available check names:
 
-- `default_checks()` — the standard set
-- `tidyverse_checks()` — opt-in style checks for tidyverse conventions
+- `default_checks()` — the standard set, run by default
+- `tidyverse_checks()` — opt-in style checks following [tidyverse conventions](https://style.tidyverse.org/)
 - `all_checks()` — both combined
 
 ```{r}
@@ -103,31 +116,45 @@ length(all_checks())
 
 ## Skipping slow preps
 
-The checks themselves are fast.
-What takes time is data gathering — `covr` has to install your package and run tests, `rcmdcheck` runs the full `R CMD check` suite.
+The checks themselves run in milliseconds — what takes time is the data gathering.
+Computing code coverage with `covr` requires installing your package and running all your tests.
+Running `R CMD check` via `rcmdcheck` exercises documentation, examples, vignettes, and compilation.
+On a large package, these two preps alone can take several minutes.
 
-If you only care about code style right now, skip the slow preps:
+If you only care about code style or DESCRIPTION metadata right now, you can skip the slow preps entirely.
+Set the `goodpractice.exclude_preps` option to a character vector of prep names you want to skip:
 
 ```{r, eval = FALSE}
+# skip coverage and R CMD check — just run the fast checks
 options(goodpractice.exclude_preps = c("covr", "rcmdcheck"))
 gp(".")
 ```
 
-Every check that depends on a skipped prep gets skipped too.
+Every check that depends on a skipped prep is automatically skipped too — it shows up as `NA` in the results rather than pass or fail.
 
-You can also set this via the `GP_EXCLUDE_PREPS` environment variable, which is useful in CI:
+For CI/CD pipelines, you can set this via the `GP_EXCLUDE_PREPS` environment variable instead of modifying R code:
 
 ```bash
 GP_EXCLUDE_PREPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
 ```
 
-The R option takes precedence when both are set.
-Exclusion only applies to the default check set — if you explicitly pass check names via the `checks` argument, exclusion is ignored.
+When both the R option and the environment variable are set, the R option wins.
+Exclusion only applies when you use the default check set — if you explicitly pass check names to the `checks` argument, exclusion settings are ignored and those checks always run.
+
+```{r, eval = FALSE}
+options(goodpractice.exclude_preps = "covr")
+
+# covr checks are excluded here (using defaults)
+gp(".")
+
+# but covr checks run here because we asked for them explicitly
+gp(".", checks = "covr")
+```
 
 ## Check groups
 
-Every check belongs to a group identified by its prep name.
-This is the string you pass to `goodpractice.exclude_preps`:
+Every check belongs to a group defined by the prep that gathers its data.
+The table below lists every group by its prep name — the exact string you pass to `goodpractice.exclude_preps` when you want to skip it:
 
 | Prep name | What it checks |
 |-----------|----------------|
@@ -144,23 +171,31 @@ This is the string you pass to `goodpractice.exclude_preps`:
 | `tidyverse_lintr` | Tidyverse style linting (opt-in via `tidyverse_checks()`) |
 | _(none)_ | README exists, NEWS exists, `.R` file extension, `print()` returns invisibly |
 
-Checks with no prep run instantly and cannot be excluded by prep name.
-Use the `checks` argument to select or deselect them individually.
+Checks in the last row have no prep — they inspect the package directory directly and run instantly.
+Because they don't belong to a prep, you cannot skip them with `goodpractice.exclude_preps`.
+To exclude them, pass the check names you _do_ want to the `checks` argument instead.
 
 ## Tidyverse style checks
 
-The default checks stay away from style preferences — they focus on things that are objectively good practice regardless of how you format your code.
+The default checks deliberately stay away from style preferences — they focus on things that are good practice regardless of how you format your code.
 
-If your team follows the [tidyverse style guide](https://style.tidyverse.org/), there is an optional set for that:
+If your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of 30 style checks:
 
 ```{r, eval = FALSE}
+# add tidyverse checks to the defaults
 gp(".", checks = c(default_checks(), tidyverse_checks()))
+
+# or run only the tidyverse checks
+gp(".", checks = tidyverse_checks())
 ```
 
-Most of these are powered by [lintr](https://cran.r-project.org/package=lintr) — brace placement, spacing, naming conventions.
-If your package has a `.lintr` configuration file, those settings are respected.
+Most of these are powered by [lintr](https://cran.r-project.org/package=lintr) — brace placement, spacing, naming conventions, and so on.
+They run `lintr::lint_package()` once and share the results across all lintr-based checks.
+If your package has a `.lintr` configuration file, those settings are respected: disabled linters stay disabled, exclusions are honoured.
 
-A few go beyond linting: whether R file names use snake_case, whether test files mirror source files, whether functions use `missing()` where `NULL` defaults would be clearer, and whether exported functions appear before internal helpers.
+A few tidyverse checks go beyond linting and look at package structure directly — whether R file names use snake_case, whether test files mirror source files, whether functions use `missing()` where `NULL` defaults would be clearer, and whether exported functions appear before internal helpers.
+
+To see all available tidyverse check names:
 
 ```{r}
 tidyverse_checks()
@@ -168,22 +203,41 @@ tidyverse_checks()
 
 ## Working with results
 
-The object returned by `gp()` has a few accessor functions beyond printing:
+Beyond printing, the object returned by `gp()` gives you programmatic access to the results.
+
+`checks()` returns the names of all checks that were run:
 
 ```{r}
 checks(g_url)
+```
+
+`failed_checks()` returns only the names of the checks that failed:
+
+```{r}
 failed_checks(g)
+```
+
+`results()` gives you a data frame with one row per check and a `passed` column that is `TRUE`, `FALSE`, or `NA` (skipped):
+
+```{r}
 results(g)[1:5, ]
 ```
 
-`checks()` lists what ran.
-`failed_checks()` lists what failed.
-`results()` gives you a data frame of every check and whether it passed.
+A check shows `NA` when its prep failed or was excluded — it was not evaluated, so it neither passed nor failed.
 
-An `NA` in the results means the check was skipped — usually because its prep failed or was excluded.
+To see all file positions for failed checks (not just the first five that `print()` shows), use `print()` with a higher limit:
 
-You can also export results to JSON with `export_json()`, and control how many file positions are printed with `print(g, positions_limit = Inf)`.
+```{r, eval = FALSE}
+print(g, positions_limit = Inf)
+```
+
+You can also export the full results to JSON for use in other tools:
+
+```{r, eval = FALSE}
+export_json(g, "gp_results.json")
+```
 
 ## Custom checks
 
-You can add your own checks — see `vignette("custom_checks")` for the full guide.
+goodpractice is extensible — you can define your own checks and preparation steps to enforce team-specific conventions.
+See `vignette("custom_checks")` for the full guide.

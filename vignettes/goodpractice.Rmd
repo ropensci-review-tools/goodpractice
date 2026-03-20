@@ -99,7 +99,7 @@ Code coverage needs to install and exercise your package.
 `R CMD check` runs its full suite.
 Linting reads every source file.
 
-These data-gathering steps are called _preparations_ ("preps").
+These data-gathering steps are called _preparations_ ("preps") — such as running `R CMD check`, computing code coverage, and linting source files.
 Each prep runs once, and every check in that group draws from the same results.
 When you want to skip an entire category of checks — say, coverage — you exclude the prep by name and everything that depends on it goes away.
 

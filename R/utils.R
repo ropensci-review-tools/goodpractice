@@ -28,3 +28,25 @@ drop_nulls <- function(l) {
 has_internet <- function() {
   curl::has_internet()
 }
+
+# Used only to parse code chunks in vignettes; all other code is parsed with treesitter.R fns
+safe_parse <- function(file = NULL, text = NULL, keep_source = TRUE,
+                       encoding = "UTF-8") {
+  args <- if (!is.null(file)) {
+    list(file = file, keep.source = keep_source, encoding = encoding)
+  } else {
+    list(text = text, keep.source = keep_source)
+  }
+
+  tryCatch(
+    do.call(base::parse, args),
+    error = function(e) {
+      if (keep_source) {
+        args$keep.source <- FALSE
+        tryCatch(do.call(base::parse, args), error = function(e) NULL)
+      } else {
+        NULL
+      }
+    }
+  )
+}

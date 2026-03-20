@@ -2,7 +2,9 @@
 
 S3method(print,goodPractice)
 export(all_checks)
+export(all_preps)
 export(checks)
+export(checks_by_prep)
 export(default_checks)
 export(describe_check)
 export(export_json)

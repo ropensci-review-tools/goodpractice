@@ -55,4 +55,55 @@ tidyverse_checks <- function() {
 describe_check <- function(check_name = NULL) {
     check_name <- intersect(check_name, names(CHECKS))
     lapply(CHECKS[check_name], function(i) i$description)
-} 
+}
+
+#' List available prep names
+#'
+#' Returns the names of all registered preparation steps.
+#' Use these names with [checks_by_prep()] to select checks by group,
+#' or with \code{options(goodpractice.exclude_preps = ...)} to skip groups.
+#'
+#' @return Character vector of prep names
+#' @export
+#' @examples
+#' all_preps()
+
+all_preps <- function() {
+  names(PREPS)
+}
+
+#' Select checks by prep group
+#'
+#' Returns the names of all checks that depend on the given prep(s).
+#' This makes it easy to run or inspect a specific category of checks
+#' without knowing individual check names.
+#'
+#' Use \code{prep = NULL} or \code{prep = character()} to get checks
+#' that have no prep — these run without any data gathering step.
+#'
+#' @param prep Character vector of prep names. Use [all_preps()] to see
+#'   available names.
+#' @return Character vector of check names
+#' @export
+#' @examples
+#' # run only DESCRIPTION and namespace checks
+#' checks_by_prep(c("description", "namespace"))
+#'
+#' # see what the lintr prep covers
+#' checks_by_prep("lintr")
+#'
+#' # find checks that need no prep
+#' checks_by_prep(NULL)
+#'
+#' # use directly in gp()
+#' \dontrun{
+#'   gp(".", checks = checks_by_prep(c("description", "lintr")))
+#' }
+
+checks_by_prep <- function(prep) {
+  if (is.null(prep) || length(prep) == 0) {
+    return(names(Filter(function(ch) length(ch$preps) == 0, CHECKS)))
+  }
+
+  names(Filter(function(ch) any(ch$preps %in% prep), CHECKS))
+}

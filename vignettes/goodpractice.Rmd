@@ -16,11 +16,16 @@ knitr::opts_chunk$set(
 
 ## Why goodpractice?
 
-`R CMD check` catches missing documentation and undeclared dependencies, but it stops there.
-It won't tell you that your functions are too complex, your tests don't cover much, your code style is inconsistent, or your DESCRIPTION is missing a BugReports field.
+A robust R package needs more than passing `R CMD check`.
+Tests give you confidence that things work.
+A consistent coding style makes your code readable to others.
+Keeping functions short and focused reduces the risk of bugs.
+Good metadata — a BugReports URL, properly declared dependencies, documented return values — helps users and reviewers understand what they're working with.
 
-goodpractice bundles `R CMD check` with code coverage ([covr](https://cran.r-project.org/package=covr)), source linting ([lintr](https://cran.r-project.org/package=lintr)), cyclomatic complexity ([cyclocomp](https://cran.r-project.org/package=cyclocomp)), and its own checks into a single report.
+goodpractice checks all of this in one pass.
+It bundles `R CMD check` with code coverage ([covr](https://cran.r-project.org/package=covr)), source linting ([lintr](https://cran.r-project.org/package=lintr)), cyclomatic complexity ([cyclocomp](https://cran.r-project.org/package=cyclocomp)), and its own checks for documentation, package structure, and common pitfalls.
 Each message tells you _what_ to fix, _why_ it matters, and _where_ in your code to look.
+You can also add [custom checks](custom_checks.html) for your team's own conventions.
 
 ## Quick start
 

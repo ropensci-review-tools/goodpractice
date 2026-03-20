@@ -12,16 +12,6 @@ AVOIDED_PACKAGES <- list(
   maptools  = "Use 'sf' instead. 'maptools' was retired in 2023."
 )
 
-desc_has_dep <- function(state, pkg_name) {
-  if (inherits(state$description, "try-error")) return(NA)
-  deps <- tryCatch(
-    state$description$get_deps(),
-    error = function(e) NULL
-  )
-  if (is.null(deps)) return(FALSE)
-  pkg_name %in% deps$package
-}
-
 CHECKS$no_obsolete_deps <- make_check(
 
   description = "No obsolete or retired package dependencies",

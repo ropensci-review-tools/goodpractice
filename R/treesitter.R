@@ -79,9 +79,62 @@ ts_parse <- function(path) {
   list(trees = trees, functions = functions, language = lang)
 }
 
+S4_CALL_NAMES <- c(
+  "setMethod", "setGeneric", "setClass",
+  "setReplaceMethod", "setValidity", "setIs"
+)
+
+ts_s4_call_ranges <- function(ts) {
+  if (length(ts$trees) == 0) return(list())
+
+  s4_query <- treesitter::query(ts$language, paste0(
+    "(call function: (identifier) @fn (#match? @fn \"^(",
+    paste(S4_CALL_NAMES, collapse = "|"),
+    ")$\"))"
+  ))
+
+  ranges <- unlist(lapply(names(ts$trees), function(file) {
+    entry <- ts$trees[[file]]
+    if (is.null(entry)) return(NULL)
+    caps <- treesitter::query_captures(s4_query, entry$root)
+    idxs <- which(caps$name == "fn")
+    if (length(idxs) == 0) return(NULL)
+
+    lapply(idxs, function(j) {
+      call_node <- treesitter::node_parent(caps$node[[j]])
+      list(
+        file = basename(file),
+        start = treesitter::node_start_point(call_node)$row + 1L,
+        end = treesitter::node_end_point(call_node)$row + 1L
+      )
+    })
+  }), recursive = FALSE)
+
+  if (is.null(ranges)) list() else ranges
+}
+
 ts_get <- function(state) {
   if (is.null(state$.cache$treesitter)) {
     state$.cache$treesitter <- ts_parse(state$path)
   }
   state$.cache$treesitter
+}
+
+filter_s4_assignment_false_positives <- function(state, result) {
+  if (isTRUE(result$status) || is.na(result$status)) return(result)
+
+  ts <- ts_get(state)
+  s4_ranges <- ts_s4_call_ranges(ts)
+  if (length(s4_ranges) == 0) return(result)
+
+  result$positions <- Filter(function(pos) {
+    f <- basename(pos$filename)
+    ln <- pos$line_number
+    !any(vapply(s4_ranges, function(r) {
+      f == r$file && ln >= r$start && ln <= r$end
+    }, logical(1)))
+  }, result$positions)
+
+  result$status <- length(result$positions) == 0
+  result
 }

@@ -6,6 +6,18 @@
       $no_obsolete_deps
       [1] "No obsolete or retired package dependencies"
       
+      $print_return_invisible
+      [1] "Print methods return the object invisibly"
+      
+      $on_exit_has_add
+      [1] "on.exit() calls include add = TRUE"
+      
+      $complexity_function_length
+      [1] "Functions are not too long"
+      
+      $complexity_unused_internal
+      [1] "All internal functions are used"
+      
       $covr
       [1] "All code is unit tested"
       
@@ -83,9 +95,6 @@
       
       $no_export_pattern
       [1] "exportPattern in NAMESPACE file"
-      
-      $print_return_invisible
-      [1] "Print methods return the object invisibly"
       
       $rcmdcheck_package_directory_exists
       [1] "Package directory exists"

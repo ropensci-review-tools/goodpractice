@@ -42,9 +42,6 @@
       $description_bugreports
       [1] "BugReports in DESCRIPTION"
       
-      $roxygen2_duplicate_params
-      [1] "Avoid duplicated @param documentation across functions"
-      
       $duplicate_function_bodies
       [1] "No functions with identical bodies"
       

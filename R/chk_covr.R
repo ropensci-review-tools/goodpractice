@@ -9,6 +9,9 @@ CHECKS$covr <- make_check(
 
   gp = function(state) {
     percent <- state$covr$pct_by_line
+    if (is.nan(percent)) {
+      return("write unit tests. No testable code was found in this package.")
+    }
     paste0(
       "write unit tests for all functions, and all package code in ",
       "general. ", trunc(percent), "% of code lines are covered by ",
@@ -19,7 +22,10 @@ CHECKS$covr <- make_check(
   check = function(state) {
     if(inherits(state$covr, "try-error"))
       return(list(status = NA, positions = list()))
-    
+
+    if (is.nan(state$covr$pct_by_line))
+      return(list(status = TRUE, positions = list()))
+
     zero <- state$covr$zero
     if (NROW(zero) == 0) return(list(status = TRUE, positions = list()))
     

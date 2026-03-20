@@ -1,0 +1,14 @@
+---
+title: "Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup}
+rm(list = ls())
+setwd("/tmp/myproject")
+```
+
+Some text about the package.

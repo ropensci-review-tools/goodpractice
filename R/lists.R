@@ -53,8 +53,8 @@ tidyverse_checks <- function() {
 #' }
 
 describe_check <- function(check_name = NULL) {
-    check_name <- intersect(check_name, names(CHECKS))
-    lapply(CHECKS[check_name], function(i) i$description)
+  check_name <- intersect(check_name, names(CHECKS))
+  lapply(CHECKS[check_name], function(i) i$description)
 }
 
 #' List available prep names

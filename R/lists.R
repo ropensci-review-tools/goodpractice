@@ -103,10 +103,8 @@ all_preps <- function() {
 checks_by_prep <- function(...) {
   prep <- c(...)
   if (length(prep) == 0) {
-    res <- names(Filter(function(ch) length(ch$preps) == 0, CHECKS))
-    return(if (is.null(res)) character(0) else res)
+    return(names(Filter(function(ch) length(ch$preps) == 0, CHECKS)))
   }
 
-  res <- names(Filter(function(ch) any(ch$preps %in% prep), CHECKS))
-  if (is.null(res)) character(0) else res
+  names(Filter(function(ch) any(ch$preps %in% prep), CHECKS))
 }

@@ -29,8 +29,9 @@ test_that("checks_by_prep() returns prep-free checks", {
   expect_false(any(grepl("^rcmdcheck_", no_prep)))
 })
 
-test_that("checks_by_prep returns empty for unknown prep", {
-  expect_equal(length(checks_by_prep("nonexistent_prep")), 0)
+test_that("checks_by_prep returns character(0) for unknown prep", {
+  res <- checks_by_prep("nonexistent_prep")
+  expect_identical(res, character(0))
 })
 
 test_that("checks_by_prep works in gp()", {

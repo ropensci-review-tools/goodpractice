@@ -3,9 +3,9 @@
 
 PREPS$revdep <- function(state, path = state$path, quiet) {
   if (!curl::has_internet()) {
-    state$available_packages <- NA
+    state$revdep <- NA
     if (!quiet) {
-      warning("Prep step for available_packages skipped: no internet connection.")
+      warning("Prep step for revdep skipped: no internet connection.")
     }
     return(state)
   }
@@ -15,12 +15,12 @@ PREPS$revdep <- function(state, path = state$path, quiet) {
     repos <- "https://cloud.r-project.org"
   }
 
-  state$available_packages <- try(
+  state$revdep <- try(
     utils::available.packages(repos = repos),
     silent = quiet
   )
-  if (inherits(state$available_packages, "try-error")) {
-    warning("Prep step for available_packages failed.")
+  if (inherits(state$revdep, "try-error")) {
+    warning("Prep step for revdep failed.")
   }
   state
 }

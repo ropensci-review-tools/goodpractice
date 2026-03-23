@@ -136,6 +136,6 @@ describe("revdep prep", {
     local_mocked_bindings(has_internet = function() FALSE, .package = "curl")
     state <- list(path = ".")
     state <- PREPS$revdep(state, quiet = TRUE)
-    expect_true(identical(state$available_packages, NA))
+    expect_true(identical(state$revdep, NA))
   })
 })

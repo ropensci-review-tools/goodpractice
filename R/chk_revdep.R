@@ -31,14 +31,14 @@ CHECKS$reverse_dependencies <- make_check(
 
   check = function(state) {
     if (inherits(state$description, "try-error")) return(NA)
-    if (identical(state$available_packages, NA) ||
-        inherits(state$available_packages, "try-error")) return(NA)
+    if (identical(state$revdep, NA) ||
+        inherits(state$revdep, "try-error")) return(NA)
 
     pkg_name <- state$description$get_field("Package", default = NA_character_)
     if (is.na(pkg_name)) return(NA)
 
     revdeps <- tryCatch(
-      query_reverse_deps(pkg_name, state$available_packages),
+      query_reverse_deps(pkg_name, state$revdep),
       error = function(e) NA
     )
 

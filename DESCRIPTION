@@ -123,6 +123,7 @@ Collate:
     'prep_namespace.R'
     'prep_rcmdcheck.R'
     'prep_rd.R'
+    'prep_source.R'
     'prep_spelling.R'
     'prep_tidyverse.R'
     'prep_urlchecker.R'

@@ -57,54 +57,45 @@ describe_check <- function(check_name = NULL) {
   lapply(CHECKS[check_name], function(i) i$description)
 }
 
-#' List available prep names
+#' List available check group names
 #'
-#' Returns the names of all registered preparation steps.
-#' Use these names with [checks_by_prep()] to select checks by group,
+#' Returns the names of all registered check groups (preparation steps).
+#' Use these names with [checks_by_group()] to select checks by group,
 #' or with \code{options(goodpractice.exclude_preps = ...)} to skip groups.
 #'
-#' @return Character vector of prep names
+#' @return Character vector of check group names
 #' @export
 #' @examples
-#' all_preps()
+#' all_check_groups()
 
-all_preps <- function() {
+all_check_groups <- function() {
   names(PREPS)
 }
 
-#' Select checks by prep group
+#' Select checks by check group
 #'
-#' Returns the names of all checks that depend on the given prep(s).
+#' Returns the names of all checks that belong to the given group(s).
 #' This makes it easy to run or inspect a specific category of checks
 #' without knowing individual check names.
 #'
-#' Call with no arguments to get checks that have no prep — these run
-#' without any data gathering step.
-#'
-#' @param ... Prep names as character strings. Use [all_preps()] to see
-#'   available names.
+#' @param ... Group names as character strings. Use [all_check_groups()] to
+#'   see available names.
 #' @return Character vector of check names
 #' @export
 #' @examples
 #' # run only DESCRIPTION and namespace checks
-#' checks_by_prep("description", "namespace")
+#' checks_by_group("description", "namespace")
 #'
-#' # see what the lintr prep covers
-#' checks_by_prep("lintr")
-#'
-#' # find checks that need no prep
-#' checks_by_prep()
+#' # see what the lintr group covers
+#' checks_by_group("lintr")
 #'
 #' # use directly in gp()
 #' \dontrun{
-#'   gp(".", checks = checks_by_prep("description", "lintr"))
+#'   gp(".", checks = checks_by_group("description", "lintr"))
 #' }
 
-checks_by_prep <- function(...) {
-  prep <- c(...)
-  if (length(prep) == 0) {
-    return(names(Filter(function(ch) length(ch$preps) == 0, CHECKS)))
-  }
-
-  names(Filter(function(ch) any(ch$preps %in% prep), CHECKS))
+checks_by_group <- function(...) {
+  group <- c(...)
+  if (length(group) == 0) return(character(0))
+  names(Filter(function(ch) any(ch$preps %in% group), CHECKS))
 }

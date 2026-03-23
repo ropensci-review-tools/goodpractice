@@ -1,43 +1,62 @@
-test_that("all_preps returns registered prep names", {
-  preps <- all_preps()
-  expect_true(is.character(preps))
-  expect_true("covr" %in% preps)
-  expect_true("rcmdcheck" %in% preps)
-  expect_true("lintr" %in% preps)
-  expect_true("description" %in% preps)
+test_that("all_check_groups returns registered group names", {
+  groups <- all_check_groups()
+  expect_true(is.character(groups))
+  expect_true("covr" %in% groups)
+  expect_true("rcmdcheck" %in% groups)
+  expect_true("lintr" %in% groups)
+  expect_true("description" %in% groups)
+  expect_true("source" %in% groups)
 })
 
-test_that("checks_by_prep returns checks for a single prep", {
-  desc_checks <- checks_by_prep("description")
+test_that("checks_by_group returns checks for a single group", {
+  desc_checks <- checks_by_group("description")
   expect_true(length(desc_checks) > 0)
   expect_true("description_url" %in% desc_checks)
+  expect_false("lintr_assignment_linter" %in% desc_checks)
   expect_true(all(desc_checks %in% all_checks()))
 })
 
-test_that("checks_by_prep returns checks for multiple preps", {
-  combined <- checks_by_prep("description", "lintr")
-  desc_only <- checks_by_prep("description")
-  lintr_only <- checks_by_prep("lintr")
+test_that("checks_by_group returns checks for multiple groups", {
+  combined <- checks_by_group("description", "lintr")
+  desc_only <- checks_by_group("description")
+  lintr_only <- checks_by_group("lintr")
   expect_true(all(desc_only %in% combined))
   expect_true(all(lintr_only %in% combined))
+  expect_false("covr" %in% combined)
 })
 
-test_that("checks_by_prep() returns prep-free checks", {
-  no_prep <- checks_by_prep()
-  expect_true(length(no_prep) > 0)
-  expect_true("has_readme" %in% no_prep)
-  expect_false(any(grepl("^rcmdcheck_", no_prep)))
+test_that("checks_by_group returns character(0) for no args", {
+  expect_identical(checks_by_group(), character(0))
 })
 
-test_that("checks_by_prep returns character(0) for unknown prep", {
-  res <- checks_by_prep("nonexistent_prep")
+test_that("checks_by_group returns character(0) for unknown group", {
+  res <- checks_by_group("nonexistent_group")
   expect_identical(res, character(0))
 })
 
-test_that("checks_by_prep works in gp()", {
+test_that("every check belongs to at least one group", {
+  lens <- vapply(CHECKS, function(ch) length(ch$preps), integer(1L))
+  expect_true(all(lens > 0))
+})
+
+test_that("all check groups map to registered preps", {
+  groups <- unlist(lapply(CHECKS, function(ch) ch$preps))
+  expect_true(all(groups %in% names(PREPS)))
+})
+
+test_that("checks with multiple groups are known", {
+  lens <- vapply(CHECKS, function(ch) length(ch$preps), integer(1L))
+  multi <- names(lens[lens >= 2])
+  expect_true(length(multi) >= 3)
+  expect_true("rd_has_examples" %in% multi)
+  expect_true("rd_has_return" %in% multi)
+  expect_true("reverse_dependencies" %in% multi)
+})
+
+test_that("checks_by_group works in gp()", {
   pkg_path <- system.file("bad1", package = "goodpractice")
-  g <- gp(pkg_path, checks = checks_by_prep("description"))
+  g <- gp(pkg_path, checks = checks_by_group("description"))
   res <- results(g)
   expect_true(nrow(res) > 0)
-  expect_true(all(res$check %in% checks_by_prep("description")))
+  expect_true(all(res$check %in% checks_by_group("description")))
 })

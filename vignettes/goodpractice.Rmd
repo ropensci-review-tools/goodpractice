@@ -132,16 +132,16 @@ tidyverse_checks()
 
 Running all 230+ checks on a large package can take a while. The checks
 themselves are fast — what takes time is the data gathering that happens
-before them. **goodpractice** calls these _preparation steps_ ("preps").
-The `lintr` prep runs the linter once, `covr` computes code coverage once,
-`rcmdcheck` runs `R CMD check` once, and every check in that group draws
-from the same results.
+before them. Each check belongs to a _check group_ (internally called a
+"prep"). The `lintr` group runs the linter once, `covr` computes code
+coverage once, `rcmdcheck` runs `R CMD check` once, and every check in
+that group draws from the same results.
 
 So when `covr` alone takes three minutes and all you care about right now is
 code style, why wait? Instead of picking individual checks by name, you can
-exclude an entire prep — and every check that depends on it goes with it.
-The available prep names are: `covr`, `cyclocomp`, `description`,
-`expressions`, `lintr`, `namespace`, and `rcmdcheck`.
+exclude an entire check group — and every check that depends on it goes
+with it. Use `all_check_groups()` to see the available group names, and
+`checks_by_group()` to see which checks belong to each group.
 
 ### Using an R option
 

@@ -5,7 +5,7 @@ CHECKS$has_readme <- make_check(
 
   description = "README file exists",
   tags = c("info", "documentation"),
-  preps = character(),
+  preps = "source",
 
   gp = 'add a README.md (or README.Rmd) file to the top-level
         directory. A good README describes what the package does,
@@ -25,7 +25,7 @@ CHECKS$has_news <- make_check(
 
   description = "NEWS file exists",
   tags = c("info", "documentation"),
-  preps = character(),
+  preps = "source",
 
   gp = 'add a NEWS.md file to track user-visible changes between
         releases. See <https://style.tidyverse.org/news.html>
@@ -43,7 +43,7 @@ CHECKS$r_file_extension <- make_check(
 
   description = "R scripts use .R file extension, not .r or .q",
   tags = c("CRAN", "warning"),
-  preps = character(),
+  preps = "source",
 
   gp = paste(
     "use the .R file extension for R scripts, not .r or .q.",

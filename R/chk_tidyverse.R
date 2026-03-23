@@ -445,7 +445,7 @@ CHECKS$tidyverse_r_file_names <- make_check(
 
   description = "R file names use snake_case",
   tags = c("style", "tidyverse"),
-  preps = character(),
+  preps = "source",
 
   gp = 'name R files using snake_case with a .R extension, e.g.
         `my_function.R`. Avoid capital letters, hyphens, and spaces.',
@@ -479,7 +479,7 @@ CHECKS$tidyverse_test_file_names <- make_check(
 
   description = "Test files mirror R source files",
   tags = c("style", "tidyverse"),
-  preps = character(),
+  preps = "source",
 
   gp = 'name test files to mirror the R source file they test,
         e.g. `R/my_function.R` should have `tests/testthat/test-my_function.R`.',
@@ -525,7 +525,7 @@ CHECKS$tidyverse_no_missing <- make_check(
 
   description = "Functions do not use missing() to check arguments",
   tags = c("warning", "tidyverse"),
-  preps = character(),
+  preps = "source",
 
   gp = paste(
     "avoid using missing() to check whether arguments were supplied.",

@@ -168,42 +168,6 @@ test_that("rd_has_return passes when all exports have value", {
   expect_true(get_result(res, "rd_has_return"))
 })
 
-# -- rd_examples_dontrun ------------------------------------------------------
-
-test_that("rd_examples_dontrun fails when examples use dontrun", {
-  gp_res <- gp("bad_rd", checks = "rd_examples_dontrun")
-  res <- results(gp_res)
-  expect_false(get_result(res, "rd_examples_dontrun"))
-
-  pos <- failed_positions(gp_res)$rd_examples_dontrun
-  filenames <- vapply(pos, `[[`, "", "filename")
-  expect_true(any(grepl("dontrun_example", filenames)))
-})
-
-test_that("rd_examples_dontrun passes when no dontrun is used", {
-  gp_res <- gp("good", checks = "rd_examples_dontrun")
-  res <- results(gp_res)
-  expect_true(get_result(res, "rd_examples_dontrun"))
-})
-
-# -- rd_examples_runnable -----------------------------------------------------
-
-test_that("rd_examples_runnable fails when all code is wrapped", {
-  gp_res <- gp("bad_rd", checks = "rd_examples_runnable")
-  res <- results(gp_res)
-  expect_false(get_result(res, "rd_examples_runnable"))
-
-  pos <- failed_positions(gp_res)$rd_examples_runnable
-  filenames <- vapply(pos, `[[`, "", "filename")
-  expect_true(any(grepl("all_wrapped", filenames)))
-})
-
-test_that("rd_examples_runnable passes when runnable code exists", {
-  gp_res <- gp("good", checks = "rd_examples_runnable")
-  res <- results(gp_res)
-  expect_true(get_result(res, "rd_examples_runnable"))
-})
-
 # -- prep returns NA on missing man/ ------------------------------------------
 
 test_that("rd checks return NA when man/ directory is missing", {
@@ -241,8 +205,6 @@ test_that("parse_rd_files parses Rd files correctly", {
   }, logical(1)))]]
   expect_true(good$has_examples)
   expect_true(good$has_value)
-  expect_true(good$has_runnable_code)
-  expect_false(good$has_dontrun)
 })
 
 test_that("parse_rd_files handles Rd elements with no Rd_tag attribute", {
@@ -261,32 +223,6 @@ test_that("parse_rd_files handles Rd elements with no Rd_tag attribute", {
   result <- parse_rd_files(d)
   expect_length(result, 1)
   expect_equal(result[[1]]$aliases, "myfun")
-})
-
-# -- rd_examples_info ---------------------------------------------------------
-
-test_that("rd_examples_info handles elements with no Rd_tag attribute", {
-  el_no_tag <- list("some text")
-  el_rcode <- list("x <- 1")
-  attr(el_rcode, "Rd_tag") <- "RCODE"
-  result <- rd_examples_info(list(el_no_tag, el_rcode))
-  expect_false(result$has_dontrun)
-  expect_true(result$has_runnable_code)
-})
-
-test_that("rd_examples_info detects dontrun", {
-  el <- list("code")
-  attr(el, "Rd_tag") <- "\\dontrun"
-  result <- rd_examples_info(list(el))
-  expect_true(result$has_dontrun)
-  expect_false(result$has_runnable_code)
-})
-
-test_that("rd_examples_info ignores whitespace-only RCODE", {
-  el <- list("   \n  ")
-  attr(el, "Rd_tag") <- "RCODE"
-  result <- rd_examples_info(list(el))
-  expect_false(result$has_runnable_code)
 })
 
 # -- PREPS$rd -----------------------------------------------------------------

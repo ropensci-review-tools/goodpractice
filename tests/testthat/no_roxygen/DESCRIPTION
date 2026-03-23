@@ -1,0 +1,7 @@
+Package: noroxygenspkg
+Title: Test Package Without Roxygen2
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Fixture for testing that roxygen2 checks skip non-roxygen packages.
+License: MIT

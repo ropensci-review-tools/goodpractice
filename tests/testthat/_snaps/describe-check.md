@@ -738,14 +738,20 @@
       $rd_has_return
       [1] "Exported functions have \\value in .Rd"
       
-      $rd_examples_dontrun
-      [1] "Examples do not use \\dontrun"
-      
-      $rd_examples_runnable
-      [1] "Examples have runnable code outside \\dontrun/\\donttest"
-      
       $reverse_dependencies
       [1] "Check for reverse dependencies on CRAN"
+      
+      $roxygen2_has_export_or_nord
+      [1] "Documented functions have @export or @noRd"
+      
+      $roxygen2_unknown_tags
+      [1] "All roxygen2 tags are recognized"
+      
+      $roxygen2_valid_inherit
+      [1] "@inheritParams/@inheritDotParams reference known functions"
+      
+      $roxygen2_duplicate_params
+      [1] "Avoid duplicated @param documentation across functions"
       
       $spelling
       [1] "No misspelled words in documentation"

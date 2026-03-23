@@ -10,9 +10,10 @@ all_check_groups()
 Character vector of check group names
 }
 \description{
-Returns the names of all registered check groups (preparation steps).
+Returns the names of all registered check groups.
 Use these names with \code{\link[=checks_by_group]{checks_by_group()}} to select checks by group,
-or with \code{options(goodpractice.exclude_preps = ...)} to skip groups.
+or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
+groups.
 }
 \examples{
 all_check_groups()

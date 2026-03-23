@@ -59,9 +59,10 @@ describe_check <- function(check_name = NULL) {
 
 #' List available check group names
 #'
-#' Returns the names of all registered check groups (preparation steps).
+#' Returns the names of all registered check groups.
 #' Use these names with [checks_by_group()] to select checks by group,
-#' or with \code{options(goodpractice.exclude_preps = ...)} to skip groups.
+#' or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
+#' groups.
 #'
 #' @return Character vector of check group names
 #' @export
@@ -97,5 +98,12 @@ all_check_groups <- function() {
 checks_by_group <- function(...) {
   group <- c(...)
   if (length(group) == 0) return(character(0))
+  unknown <- setdiff(group, names(PREPS))
+  if (length(unknown) > 0) {
+    cli::cli_warn(c(
+      "Unknown check group{?s}: {.val {unknown}}.",
+      i = "Use {.fn all_check_groups} to see available groups."
+    ))
+  }
   names(Filter(function(ch) any(ch$preps %in% group), CHECKS))
 }

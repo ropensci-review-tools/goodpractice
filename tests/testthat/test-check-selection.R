@@ -5,7 +5,9 @@ test_that("all_check_groups returns registered group names", {
   expect_true("rcmdcheck" %in% groups)
   expect_true("lintr" %in% groups)
   expect_true("description" %in% groups)
-  expect_true("source" %in% groups)
+  expect_true("code_structure" %in% groups)
+  expect_true("package_structure" %in% groups)
+  expect_true("tidyverse" %in% groups)
 })
 
 test_that("checks_by_group returns checks for a single group", {
@@ -29,8 +31,11 @@ test_that("checks_by_group returns character(0) for no args", {
   expect_identical(checks_by_group(), character(0))
 })
 
-test_that("checks_by_group returns character(0) for unknown group", {
-  res <- checks_by_group("nonexistent_group")
+test_that("checks_by_group warns on unknown group", {
+  expect_warning(
+    res <- checks_by_group("nonexistent_group"),
+    "Unknown check group"
+  )
   expect_identical(res, character(0))
 })
 
@@ -51,6 +56,23 @@ test_that("checks with multiple groups are known", {
   expect_true("rd_has_examples" %in% multi)
   expect_true("rd_has_return" %in% multi)
   expect_true("reverse_dependencies" %in% multi)
+  expect_true("tidyverse_export_order" %in% multi)
+})
+
+test_that("all tidyverse checks belong to the tidyverse group", {
+  tv_checks <- grep("^tidyverse_", all_checks(), value = TRUE)
+  tv_group <- checks_by_group("tidyverse")
+  expect_true(all(tv_checks %in% tv_group))
+})
+
+test_that("code_structure and package_structure are distinct", {
+  cs <- checks_by_group("code_structure")
+  ps <- checks_by_group("package_structure")
+  expect_true(length(cs) > 0)
+  expect_true(length(ps) > 0)
+  expect_length(intersect(cs, ps), 0)
+  expect_true("print_return_invisible" %in% cs)
+  expect_true("has_readme" %in% ps)
 })
 
 test_that("checks_by_group works in gp()", {

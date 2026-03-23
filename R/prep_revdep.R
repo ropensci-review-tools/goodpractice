@@ -1,7 +1,7 @@
 
 #' @include lists.R
 
-PREPS$available_packages <- function(state, path = state$path, quiet) {
+PREPS$revdep <- function(state, path = state$path, quiet) {
   if (!curl::has_internet()) {
     state$available_packages <- NA
     if (!quiet) {

@@ -22,7 +22,7 @@ CHECKS$reverse_dependencies <- make_check(
 
   description = "Check for reverse dependencies on CRAN",
   tags = c("info", "CRAN"),
-  preps = c("description", "available_packages"),
+  preps = c("description", "revdep"),
 
   gp = function(state) {
     revdeps <- state$checks$reverse_dependencies$revdeps

@@ -61,17 +61,17 @@ If every check passes, you get a short praise message instead.
 
 When you call `gp()`, two things happen in sequence:
 
-1. **Gather data** — goodpractice runs a set of _preparation steps_ ("preps").
-   One prep runs `R CMD check`.
+1. **Gather data** — goodpractice runs a set of preparation steps, one per check group.
+   One step runs `R CMD check`.
    Another computes code coverage by installing your package and exercising the tests.
    Another lints your source files.
-   Each prep runs exactly once and stores its results for the checks to use.
+   Each step runs exactly once and stores its results for the checks to use.
 
-2. **Run checks** — each check reads from the stored prep results and returns pass, fail, or skip.
-   A single prep can feed many checks — the `rcmdcheck` prep alone powers over 200 individual checks, all drawn from a single `R CMD check` run.
+2. **Run checks** — each check reads from the stored results and returns pass, fail, or skip.
+   A single preparation step can feed many checks — the `rcmdcheck` step alone powers over 200 individual checks, all drawn from a single `R CMD check` run.
 
 This two-step design is why goodpractice can run 250+ checks without repeating expensive work.
-It also means you can skip an entire category of checks by excluding its prep — more on that in the "Skipping slow preps" section below.
+It also means you can skip an entire category of checks by excluding its group — more on that below.
 
 ## Choosing what to run
 
@@ -114,44 +114,78 @@ length(tidyverse_checks())
 length(all_checks())
 ```
 
-## Skipping slow preps
+## Check groups
+
+Every check belongs to at least one _check group_.
+Groups let you work with categories of checks instead of individual names:
+
+```{r}
+all_check_groups()
+```
+
+To see which checks belong to a group, use `checks_by_group()`:
+
+```{r}
+checks_by_group("description")
+```
+
+You can select multiple groups at once:
+
+```{r, eval = FALSE}
+# run only DESCRIPTION and namespace checks
+gp(".", checks = checks_by_group("description", "namespace"))
+```
+
+The table below lists every group and what it covers:
+
+| Group | What it checks |
+|-------|----------------|
+| `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
+| `covr` | Whether all code is covered by tests |
+| `cyclocomp` | Whether functions are too complex (default limit: 50) |
+| `description` | Package metadata: URL, BugReports, dependency fields, author roles |
+| `lintr` | Assignment style, line length, semicolons, `sapply()`, `library()` in package code |
+| `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
+| `rd` | Whether exported functions have `\examples` and `\value` sections |
+| `roxygen2` | Roxygen2 tag validation: export/noRd tagging, unknown tags, inheritParams |
+| `expressions` | Source expression parsing checks |
+| `code_structure` | Code analysis: `print()` returns invisibly, `on.exit(add = TRUE)`, function length, duplicate bodies |
+| `package_structure` | README exists, NEWS exists, `.R` file extension |
+| `spelling` | Misspelled words in documentation |
+| `urlchecker` | Broken or redirecting URLs in documentation |
+| `revdep` | Whether CRAN reverse dependencies exist (informational) |
+| `vignette` | Vignette-related checks |
+| `tidyverse` | Tidyverse style checks (opt-in via `tidyverse_checks()`) |
+
+## Excluding check groups
 
 The checks themselves run in milliseconds — what takes time is the data gathering.
 Computing code coverage with `covr` requires installing your package and running all your tests.
 Running `R CMD check` via `rcmdcheck` exercises documentation, examples, vignettes, and compilation.
-On a large package, these two preps alone can take several minutes.
+On a large package, these two steps alone can take several minutes.
 
-If you only care about code style or DESCRIPTION metadata right now, you can skip the slow preps entirely.
-Set the `goodpractice.exclude_preps` option to a character vector of prep names you want to skip:
+If you only care about code style or DESCRIPTION metadata right now, you can skip the slow groups entirely.
+Set the `goodpractice.exclude_check_groups` option to a character vector of group names:
 
 ```{r, eval = FALSE}
 # skip coverage and R CMD check — just run the fast checks
-options(goodpractice.exclude_preps = c("covr", "rcmdcheck"))
+options(goodpractice.exclude_check_groups = c("covr", "rcmdcheck"))
 gp(".")
 ```
 
-Every check that depends on a skipped prep is automatically skipped too — it shows up as `NA` in the results rather than pass or fail.
+Every check that depends on a skipped group is automatically excluded too.
 
-For CI/CD pipelines, you can set this via the `GP_EXCLUDE_PREPS` environment variable instead of modifying R code:
+For CI/CD pipelines, you can set this via the `GP_EXCLUDE_CHECK_GROUPS` environment variable instead of modifying R code:
 
 ```bash
-GP_EXCLUDE_PREPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
+GP_EXCLUDE_CHECK_GROUPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
 ```
 
 When both the R option and the environment variable are set, the R option wins.
 Exclusion only applies when you use the default check set — if you explicitly pass check names to the `checks` argument, exclusion settings are ignored and those checks always run.
 
-Note that `checks` takes individual check names (like `"lintr_assignment_linter"`), not prep group names.
-Prep names and check names sometimes overlap — there is a check called `"covr"` and a prep called `"covr"` — but they are different things.
-To find the check names in a particular group, filter `all_checks()`:
-
-```{r}
-# find all checks that start with "description"
-grep("^description", all_checks(), value = TRUE)
-```
-
 ```{r, eval = FALSE}
-options(goodpractice.exclude_preps = "covr")
+options(goodpractice.exclude_check_groups = "covr")
 
 # covr checks are excluded here (using defaults)
 gp(".")
@@ -160,35 +194,11 @@ gp(".")
 gp(".", checks = "covr")
 ```
 
-## Check groups
-
-Every check belongs to a group defined by the prep that gathers its data.
-The table below lists every group by its prep name — the exact string you pass to `goodpractice.exclude_preps` when you want to skip it:
-
-| Prep name | What it checks |
-|-----------|----------------|
-| `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
-| `covr` | Whether all code is covered by tests |
-| `cyclocomp` | Whether functions are too complex (default limit: 50) |
-| `description` | Package metadata: URL, BugReports, dependency fields, author roles |
-| `lintr` | Assignment style, line length, semicolons, `sapply()`, `library()` in package code |
-| `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
-| `rd` | Whether exported functions have `\examples` and `\value` sections |
-| `spelling` | Misspelled words in documentation |
-| `urlchecker` | Broken or redirecting URLs in documentation |
-| `available_packages` | Whether CRAN reverse dependencies exist (informational) |
-| `tidyverse_lintr` | Tidyverse style linting (opt-in via `tidyverse_checks()`) |
-| _(none)_ | README exists, NEWS exists, `.R` file extension, `print()` returns invisibly |
-
-Checks in the last row have no prep — they inspect the package directory directly and run instantly.
-Because they don't belong to a prep, you cannot skip them with `goodpractice.exclude_preps`.
-To exclude them, pass the check names you _do_ want to the `checks` argument instead.
-
 ## Tidyverse style checks
 
 The default checks deliberately stay away from style preferences — they focus on things that are good practice regardless of how you format your code.
 
-If your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of 30 style checks:
+If your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of style checks:
 
 ```{r, eval = FALSE}
 # add tidyverse checks to the defaults
@@ -204,10 +214,10 @@ If your package has a `.lintr` configuration file, those settings are respected:
 
 A few tidyverse checks go beyond linting and look at package structure directly — whether R file names use snake_case, whether test files mirror source files, whether functions use `missing()` where `NULL` defaults would be clearer, and whether exported functions appear before internal helpers.
 
-To see all available tidyverse check names:
+All tidyverse checks belong to the `tidyverse` group:
 
 ```{r}
-tidyverse_checks()
+checks_by_group("tidyverse")
 ```
 
 ## Working with results
@@ -232,7 +242,7 @@ failed_checks(g)
 results(g)[1:5, ]
 ```
 
-A check shows `NA` when its prep failed or was excluded — it was not evaluated, so it neither passed nor failed.
+A check shows `NA` when its preparation step failed or was excluded — it was not evaluated, so it neither passed nor failed.
 
 To see all file positions for failed checks (not just the first five that `print()` shows), use `print()` with a higher limit:
 

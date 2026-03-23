@@ -15,6 +15,9 @@
       $complexity_unused_internal
       [1] "All internal functions are used"
       
+      $duplicate_function_bodies
+      [1] "No functions with identical bodies"
+      
       $covr
       [1] "All code is unit tested"
       
@@ -53,9 +56,6 @@
       
       $description_bugreports
       [1] "BugReports in DESCRIPTION"
-      
-      $duplicate_function_bodies
-      [1] "No functions with identical bodies"
       
       $has_readme
       [1] "README file exists"

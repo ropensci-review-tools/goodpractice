@@ -1,0 +1,1 @@
+myfunc <- function() TRUE

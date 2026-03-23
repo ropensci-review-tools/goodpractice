@@ -70,6 +70,7 @@ Imports:
     lintr (>= 3.0.0),
     praise,
     rcmdcheck,
+    roxygen2,
     rstudioapi,
     spelling,
     tools,
@@ -108,6 +109,7 @@ Collate:
     'chk_rcmdcheck.R'
     'chk_rd.R'
     'chk_revdep.R'
+    'chk_roxygen2.R'
     'chk_spelling.R'
     'chk_tidyverse.R'
     'chk_urlchecker.R'
@@ -124,6 +126,7 @@ Collate:
     'prep_namespace.R'
     'prep_rcmdcheck.R'
     'prep_rd.R'
+    'prep_roxygen2.R'
     'prep_spelling.R'
     'prep_tidyverse.R'
     'prep_urlchecker.R'

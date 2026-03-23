@@ -1,26 +1,5 @@
 #' @include lists.R
 
-rd_examples_info <- function(ex_section) {
-  has_dontrun <- FALSE
-  has_runnable_code <- FALSE
-
-  for (el in ex_section) {
-    tag <- attr(el, "Rd_tag")
-    if (is.null(tag)) {
-      next
-    }
-
-    if (tag == "\\dontrun") {
-      has_dontrun <- TRUE
-    } else if (tag == "RCODE") {
-      code <- trimws(paste(unlist(el), collapse = ""))
-      if (nzchar(code)) has_runnable_code <- TRUE
-    }
-  }
-
-  list(has_dontrun = has_dontrun, has_runnable_code = has_runnable_code)
-}
-
 parse_rd_files <- function(mandir) {
   if (!dir.exists(mandir)) {
     return(list())
@@ -48,24 +27,11 @@ parse_rd_files <- function(mandir) {
       ""
     )
 
-    has_examples <- any(tags == "\\examples")
-    has_value <- any(tags == "\\value")
-
-    ex_info <- list(
-      has_dontrun = FALSE,
-      has_runnable_code = FALSE
-    )
-    if (has_examples) {
-      ex_info <- rd_examples_info(parsed[tags == "\\examples"][[1]])
-    }
-
     list(
       file = basename(rd_file),
       aliases = aliases,
-      has_examples = has_examples,
-      has_value = has_value,
-      has_dontrun = ex_info$has_dontrun,
-      has_runnable_code = ex_info$has_runnable_code
+      has_examples = any(tags == "\\examples"),
+      has_value = any(tags == "\\value")
     )
   })
 }

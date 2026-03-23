@@ -1,0 +1,8 @@
+Package: badroxygenspkg
+Title: Test Package for Roxygen2 Checks
+Version: 1.0.0
+Author: Test
+Maintainer: Test <test@test.com>
+Description: Fixture for testing roxygen2-specific checks.
+License: MIT
+RoxygenNote: 7.3.3

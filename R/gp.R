@@ -37,6 +37,18 @@
 #' Exclusion only applies when \code{checks = NULL} (the default).
 #' Explicit \code{checks} arguments are never filtered.
 #'
+#' @section Parallel preparation:
+#' If the \pkg{future.apply} package is installed, preparation steps run
+#' via \code{future.apply::future_lapply()}, respecting whatever
+#' \code{\link[future]{plan}} is active. To run preps in parallel:
+#'
+#' \preformatted{
+#' future::plan("multisession")
+#' gp(".")
+#' }
+#'
+#' Without \pkg{future.apply}, preps run sequentially as before.
+#'
 #' @export
 #' @aliases goodpractice
 #' @importFrom desc desc_get
@@ -80,10 +92,23 @@ gp <- function(
     .cache = new.env(parent = emptyenv())
   )
 
-  for (prep in preps) {
+  use_future <- requireNamespace("future.apply", quietly = TRUE) &&
+    requireNamespace("future", quietly = TRUE) &&
+    !inherits(future::plan(), "sequential")
+
+  apply_fn <- if (use_future) future.apply::future_lapply else lapply
+
+  results <- apply_fn(preps, function(prep) {
     cli::cli_progress_step("Preparing: {prep}")
-    state <- MYPREPS[[prep]](state, quiet = quiet)
+    result <- MYPREPS[[prep]](state, quiet = quiet)
     cli::cli_progress_done()
+    result
+  })
+
+  for (res in results) {
+    for (field in setdiff(names(res), names(state))) {
+      state[[field]] <- res[[field]]
+    }
   }
 
   state$checks <- list()

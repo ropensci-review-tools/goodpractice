@@ -1,7 +1,7 @@
 #' @include lists.R
 #' @importFrom lintr lint_package
 
-PREPS$tidyverse_lintr <- function(state, path = state$path, quiet) {
+PREPS$tidyverse <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
   suppressMessages(
     state$tidyverse_lintr <- try(

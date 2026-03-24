@@ -6,7 +6,7 @@ CHECKS$print_return_invisible <- make_check(
 
   description = "Print methods return the object invisibly",
   tags = c("warning", "best practice"),
-  preps = character(),
+  preps = "code_structure",
 
   gp = paste(
     "print methods should return the input object invisibly,",
@@ -74,7 +74,7 @@ CHECKS$on_exit_has_add <- make_check(
 
   description = "on.exit() calls include add = TRUE",
   tags = c("warning", "best practice"),
-  preps = character(),
+  preps = "code_structure",
 
   gp = paste(
     "always use add = TRUE in on.exit() calls.",
@@ -135,7 +135,7 @@ CHECKS$complexity_function_length <- make_check(
 
   description = "Functions are not too long",
   tags = c("warning", "best practice"),
-  preps = character(),
+  preps = "code_structure",
 
   gp = paste(
     "keep functions short and focused. Long functions are harder to",
@@ -276,7 +276,7 @@ CHECKS$duplicate_function_bodies <- make_check(
 
   description = "No functions with identical bodies",
   tags = c("warning", "best practice"),
-  preps = character(),
+  preps = "code_structure",
 
   gp = paste(
     "consolidate functions with identical bodies into a single",

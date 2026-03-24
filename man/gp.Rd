@@ -20,8 +20,8 @@ gp(
 \code{\link{default_checks}}. Use \code{\link{all_checks}} to list all
 checks, or add optional sets like \code{\link{tidyverse_checks}}.
 When \code{NULL}, all registered checks are run, subject to any
-exclusions from \code{goodpractice.exclude_preps} or
-\code{GP_EXCLUDE_PREPS}.}
+exclusions from \code{goodpractice.exclude_check_groups} or
+\code{GP_EXCLUDE_CHECK_GROUPS}.}
 
 \item{extra_preps}{Custom preparation functions. See
 \code{\link{make_prep}} on creating preparation functions.}
@@ -43,16 +43,17 @@ To see the results, just print it to the screen.
 \section{Excluding check groups}{
 
 When using the default \code{checks = all_checks()}, entire groups of
-checks can be excluded by prep name via the
-\code{goodpractice.exclude_preps} option or the \code{GP_EXCLUDE_PREPS}
-environment variable (comma-separated). The option takes precedence.
+checks can be excluded by group name via the
+\code{goodpractice.exclude_check_groups} option or the
+\code{GP_EXCLUDE_CHECK_GROUPS} environment variable (comma-separated).
+The option takes precedence.
 
 \preformatted{
 # Skip URL and coverage checks:
-options(goodpractice.exclude_preps = c("urlchecker", "covr"))
+options(goodpractice.exclude_check_groups = c("urlchecker", "covr"))
 
 # Or via environment variable:
-Sys.setenv(GP_EXCLUDE_PREPS = "urlchecker,covr")
+Sys.setenv(GP_EXCLUDE_CHECK_GROUPS = "urlchecker,covr")
 }
 
 Exclusion only applies when \code{checks = NULL} (the default).

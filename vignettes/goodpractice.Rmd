@@ -132,49 +132,49 @@ tidyverse_checks()
 
 Running all 230+ checks on a large package can take a while. The checks
 themselves are fast — what takes time is the data gathering that happens
-before them. **goodpractice** calls these _preparation steps_ ("preps").
-The `lintr` prep runs the linter once, `covr` computes code coverage once,
-`rcmdcheck` runs `R CMD check` once, and every check in that group draws
-from the same results.
+before them. Each check belongs to a _check group_ (internally called a
+"prep"). The `lintr` group runs the linter once, `covr` computes code
+coverage once, `rcmdcheck` runs `R CMD check` once, and every check in
+that group draws from the same results.
 
 So when `covr` alone takes three minutes and all you care about right now is
 code style, why wait? Instead of picking individual checks by name, you can
-exclude an entire prep — and every check that depends on it goes with it.
-The available prep names are: `covr`, `cyclocomp`, `description`,
-`expressions`, `lintr`, `namespace`, and `rcmdcheck`.
+exclude an entire check group — and every check that depends on it goes
+with it. Use `all_check_groups()` to see the available group names, and
+`checks_by_group()` to see which checks belong to each group.
 
 ### Using an R option
 
-Set the `goodpractice.exclude_preps` option to a character vector of prep names:
+Set the `goodpractice.exclude_check_groups` option to a character vector of group names:
 
 ```{r, eval = FALSE}
 # skip code coverage and cyclomatic complexity checks
-options(goodpractice.exclude_preps = c("covr", "cyclocomp"))
+options(goodpractice.exclude_check_groups = c("covr", "cyclocomp"))
 gp(".")
 ```
 
 ### Using an environment variable
 
-Set the `GP_EXCLUDE_PREPS` environment variable to a comma-separated list of prep names:
+Set the `GP_EXCLUDE_CHECK_GROUPS` environment variable to a comma-separated list of group names:
 
 ```{r, eval = FALSE}
-Sys.setenv(GP_EXCLUDE_PREPS = "covr,cyclocomp")
+Sys.setenv(GP_EXCLUDE_CHECK_GROUPS = "covr,cyclocomp")
 gp(".")
 ```
 
 This is particularly useful in CI/CD pipelines where you may want to configure behaviour without modifying R code:
 
 ```bash
-GP_EXCLUDE_PREPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
+GP_EXCLUDE_CHECK_GROUPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
 ```
 
 ### Precedence rules
 
-- The R option (`goodpractice.exclude_preps`) takes precedence over the environment variable (`GP_EXCLUDE_PREPS`) when both are set.
+- The R option (`goodpractice.exclude_check_groups`) takes precedence over the environment variable (`GP_EXCLUDE_CHECK_GROUPS`) when both are set.
 - Exclusion only applies when `checks = NULL` (the default). If you explicitly pass check names to the `checks` argument, exclusion settings are ignored.
 
 ```{r, eval = FALSE}
-options(goodpractice.exclude_preps = "covr")
+options(goodpractice.exclude_check_groups = "covr")
 
 # covr checks are excluded
 gp(".")

@@ -130,12 +130,12 @@ describe("query_reverse_deps", {
   })
 })
 
-describe("available_packages prep", {
+describe("revdep prep", {
 
   it("returns NA when no internet", {
     local_mocked_bindings(has_internet = function() FALSE, .package = "curl")
     state <- list(path = ".")
-    state <- PREPS$available_packages(state, quiet = TRUE)
-    expect_true(identical(state$available_packages, NA))
+    state <- PREPS$revdep(state, quiet = TRUE)
+    expect_true(identical(state$revdep, NA))
   })
 })

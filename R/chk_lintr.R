@@ -268,7 +268,7 @@ CHECKS$lintr_redundant_ifelse_linter <- make_lintr_check(
   "redundant_ifelse_linter",
   "No redundant ifelse() calls",
   "avoid ifelse(condition, TRUE, FALSE) or similar. The condition
-        itself is already logical — use it directly."
+        itself is already logical - use it directly."
 )
 
 CHECKS$lintr_regex_subset_linter <- make_lintr_check(

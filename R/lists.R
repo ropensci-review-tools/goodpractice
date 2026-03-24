@@ -68,6 +68,9 @@ describe_check <- function(check_name = NULL) {
 #' @export
 #' @examples
 #' all_check_groups()
+#'
+#' # See all checks by group
+#' lapply(all_check_groups(), checks_by_group)
 
 all_check_groups <- function() {
   names(PREPS)

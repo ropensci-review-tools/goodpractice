@@ -1,6 +1,12 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* Expanded default lintr checks from 9 to ~53, covering correctness
+  (e.g. `anyDuplicated()` vs `any(duplicated())`), performance
+  (e.g. `colSums()` vs `apply()`), readability (e.g. `switch()` vs
+  long if/else chains), and testthat best practices (e.g.
+  `expect_identical()` vs `expect_equal()`). All respect `.lintr`
+  configuration files (#189).
 * New `all_check_groups()` and `checks_by_group()` functions for discovering
   and selecting checks by category instead of individual names (#239).
 * Every check now belongs to a named group. Use `all_check_groups()` to see

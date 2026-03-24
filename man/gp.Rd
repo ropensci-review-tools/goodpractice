@@ -10,7 +10,6 @@ gp(
   checks = default_checks(),
   extra_preps = NULL,
   extra_checks = NULL,
-  exclude_path = character(),
   quiet = TRUE
 )
 }
@@ -29,11 +28,6 @@ exclusions from \code{goodpractice.exclude_check_groups} or
 
 \item{extra_checks}{Custom checks. See \code{\link{make_check}} on
 creating checks.}
-
-\item{exclude_path}{Character vector of file paths to exclude from checks,
-relative to the package root (e.g. \code{"R/RcppExports.R"},
-\code{"R/generated_code.R"}). Excluded files are skipped by lintr,
-treesitter, and expression-based checks.}
 
 \item{quiet}{Whether to suppress output from the preparation
 functions. Note that not all preparation functions produce output,
@@ -64,6 +58,24 @@ Sys.setenv(GP_EXCLUDE_CHECK_GROUPS = "urlchecker,covr")
 
 Exclusion only applies when \code{checks = NULL} (the default).
 Explicit \code{checks} arguments are never filtered.
+}
+
+\section{Excluding files}{
+
+Specific files can be excluded from checks via the
+\code{goodpractice.exclude_path} option or the \code{GP_EXCLUDE_PATH}
+environment variable (comma-separated). Paths are relative to the
+package root.
+
+\preformatted{
+options(goodpractice.exclude_path = c("R/RcppExports.R", "R/generated.R"))
+
+# Or via environment variable:
+Sys.setenv(GP_EXCLUDE_PATH = "R/RcppExports.R,R/generated.R")
+}
+
+Excluded files are skipped by lintr, treesitter, expression, and
+roxygen2 checks.
 }
 
 \examples{

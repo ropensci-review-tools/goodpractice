@@ -24,7 +24,8 @@ checks_by_group("description", "namespace")
 
 # see what the lintr group covers
 checks_by_group("lintr")
-
+# See all checks by group:
+lapply(all_check_groups(), checks_by_group)
 # use directly in gp()
 \dontrun{
   gp(".", checks = checks_by_group("description", "lintr"))

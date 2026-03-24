@@ -17,4 +17,7 @@ groups.
 }
 \examples{
 all_check_groups()
+
+# See all checks by group
+lapply(all_check_groups(), checks_by_group)
 }

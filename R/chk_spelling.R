@@ -24,8 +24,8 @@ CHECKS$spelling <- make_check(
 
   gp = paste(
     "fix spelling errors in package documentation.",
-    "Use spelling::spell_check_package() to review misspelled words",
-    "and add false positives to inst/WORDLIST."
+    "Use {.code spelling::spell_check_package()} to review misspelled words",
+    "and add false positives to {.file inst/WORDLIST}."
   ),
 
   check = function(state) {

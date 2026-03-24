@@ -7,8 +7,8 @@ CHECKS$no_description_depends <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'not use "Depends" in DESCRIPTION, as it can cause name
-        clashes, and poor interaction with other packages. Use "Imports"
+  gp = 'not use {.field Depends} in {.file DESCRIPTION}, as it can cause name
+        clashes, and poor interaction with other packages. Use {.field Imports}
         instead.',
 
   check = function(state) {
@@ -29,9 +29,9 @@ CHECKS$no_description_date <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'omit "Date" in DESCRIPTION. It is not required and it
+  gp = 'omit the {.field Date} field in {.file DESCRIPTION}. It is not required and it
         gets invalid quite often. A build date will be added to
-        the package when you perform `R CMD build` on it.',
+        the package when you perform {.code R CMD build} on it.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -48,9 +48,9 @@ CHECKS$description_url <- make_check(
   tags = c("info", 'DESCRIPTION'),
   preps = 'description',
 
-  gp = 'add a "URL" field to DESCRIPTION. It helps users find information
+  gp = 'add a {.field URL} field to {.file DESCRIPTION}. It helps users find information
         about your package online. If your package does not have a homepage,
-        add an URL to GitHub, or the CRAN package package page.',
+        add an URL to GitHub, or the CRAN package page.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -67,7 +67,7 @@ CHECKS$description_not_start_with_package <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'not start the Description field by referring to the package
+  gp = 'not start the {.field Description} field by referring to the package
         itself, e.g. "This package ...", "This is a package ...",
         or "The FooBar package ...". Describe what the package does
         directly, e.g. "Provides tools for ..." instead of
@@ -92,7 +92,7 @@ CHECKS$description_urls_in_angle_brackets <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'enclose URLs in the Description field in angle brackets,
+  gp = 'enclose URLs in the {.field Description} field in angle brackets,
         e.g. <https://example.com>. CRAN requires angle brackets
         around URLs for auto-linking.',
 
@@ -113,10 +113,10 @@ CHECKS$description_doi_format <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'use the <doi:10.prefix/suffix> format for DOIs in the
-        Description field instead of a full URL like
-        <https://doi.org/10.prefix/suffix>. CRAN requires
-        the <doi:...> notation for auto-linking.',
+  gp = 'use the {.code <doi:10.prefix/suffix>} format for DOIs in the
+        {.field Description} field instead of a full URL like
+        {.code <https://doi.org/10.prefix/suffix>}. CRAN requires
+        the {.code <doi:...>} notation for auto-linking.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -134,9 +134,9 @@ CHECKS$description_urls_not_http <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'consider using https:// instead of http:// for URLs in the
-        Description field. CRAN prefers secure URLs where available.
-        Check if there might be a secure https:// alternative.',
+  gp = 'consider using {.code https://} instead of {.code http://} for URLs in the
+        {.field Description} field. CRAN prefers secure URLs where available.
+        Check if there might be a secure {.code https://} alternative.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -155,7 +155,7 @@ CHECKS$no_description_duplicate_deps <- make_check(
   preps = "description",
 
   gp = 'not list the same package in multiple dependency fields
-        (e.g. both Imports and Suggests). Each dependency should
+        (e.g. both {.field Imports} and {.field Suggests}). Each dependency should
         appear only once.',
 
   check = function(state) {
@@ -175,7 +175,7 @@ CHECKS$description_valid_roles <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'use only standard R author roles in Authors@R. Valid roles are:
+  gp = 'use only standard R author roles in {.field Authors@R}. Valid roles are:
         aut (author), com (compiler), cph (copyright holder),
         cre (maintainer), ctb (contributor), ctr (contractor),
         dtc (data contributor), fnd (funder), rev (reviewer),
@@ -210,8 +210,8 @@ CHECKS$description_pkgname_single_quoted <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'single-quote package names in the Title and Description fields,
-        e.g. \'dplyr\' not dplyr. CRAN requires that software names
+  gp = 'single-quote package names in the {.field Title} and {.field Description} fields,
+        e.g. {.pkg dplyr} not dplyr. CRAN requires that software names
         are single-quoted.',
 
   check = function(state) {
@@ -241,9 +241,9 @@ CHECKS$description_bugreports <- make_check(
   tags = c("info", 'DESCRIPTION'),
   preps = 'description',
 
-  gp = 'add a "BugReports" field to DESCRIPTION, and point it to a bug
+  gp = 'add a {.field BugReports} field to {.file DESCRIPTION}, and point it to a bug
         tracker. Many online code hosting services provide bug trackers
-        for free, https://github.com, https://gitlab.com, etc.',
+        for free, {.url https://github.com}, {.url https://gitlab.com}, etc.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)

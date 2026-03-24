@@ -7,7 +7,7 @@ test_that("print with default and explicit positions.limit", {
 
 test_that("print shows praise when all checks pass", {
   gp_res <- gp("good", checks = "description_bugreports")
-  expect_output(print(gp_res), "package", ignore.case = TRUE)
+  testthat::expect_snapshot(print(gp_res))
 })
 
 test_that("gp_positions truncates when exceeding limit", {
@@ -22,9 +22,8 @@ test_that("gp_positions truncates when exceeding limit", {
   })
 
   tmp <- withr::local_tempdir()
-  expect_output(
-    withr::with_dir(tmp, gp_positions(pos, limit = 3)),
-    "and 5 more"
+  testthat::expect_snapshot(
+    withr::with_dir(tmp, gp_positions(pos, limit = 3))
   )
 })
 
@@ -38,9 +37,8 @@ test_that("gp_positions handles NA line_number", {
   ))
 
   tmp <- withr::local_tempdir()
-  expect_output(
-    withr::with_dir(tmp, gp_positions(pos, limit = 5)),
-    "R/test\\.R"
+  testthat::expect_snapshot(
+    withr::with_dir(tmp, gp_positions(pos, limit = 5))
   )
 })
 
@@ -54,9 +52,8 @@ test_that("gp_positions includes column when available", {
   ))
 
   tmp <- withr::local_tempdir()
-  expect_output(
-    withr::with_dir(tmp, gp_positions(pos, limit = 5)),
-    "10:5"
+  testthat::expect_snapshot(
+    withr::with_dir(tmp, gp_positions(pos, limit = 5))
   )
 })
 
@@ -71,7 +68,7 @@ test_that("print shows info messages with praise", {
   info_check <- make_check(
     description = "An info check",
     tags = character(),
-    preps = character(),
+    preps = "code_structure",
     gp = "consider doing something.",
     check = function(state) list(status = TRUE, type = "info")
   )
@@ -80,9 +77,7 @@ test_that("print shows info messages with praise", {
     checks = c("info_test", "description_bugreports"),
     extra_checks = list(info_test = info_check)
   )
-  out <- capture.output(print(gp_res))
-  expect_true(any(grepl("consider doing something", out)))
-  expect_true(any(grepl("package", out, ignore.case = TRUE)))
+  testthat::expect_snapshot(print(gp_res))
 })
 
 test_that("print calls rstudio_source_markers when hasFun is TRUE", {
@@ -96,6 +91,6 @@ test_that("print calls rstudio_source_markers when hasFun is TRUE", {
       called <<- TRUE
     }
   )
-  expect_output(print(x))
+  testthat::expect_snapshot(print(x))
   expect_true(called)
 })

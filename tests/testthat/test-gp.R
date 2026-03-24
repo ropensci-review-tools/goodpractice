@@ -24,11 +24,11 @@ test_that("check_failed is the inverse of check_passed", {
   expect_false(check_failed(list(status = TRUE)))
 })
 
-# -- exclude_checks_by_prep ----------------------------------------------------
+# -- exclude_checks_by_group ----------------------------------------------------
 
-test_that("option excludes checks by prep name", {
+test_that("option excludes checks by group name", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  withr::local_options(goodpractice.exclude_preps = "covr")
+  withr::local_options(goodpractice.exclude_check_groups = "covr")
   expect_warning(
     gp_res <- gp(bad1, checks = NULL),
     "Excluding checks"
@@ -36,10 +36,10 @@ test_that("option excludes checks by prep name", {
   expect_false("covr" %in% checks(gp_res))
 })
 
-test_that("envvar excludes checks by prep name", {
+test_that("envvar excludes checks by group name", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  withr::local_options(goodpractice.exclude_preps = NULL)
-  withr::local_envvar(GP_EXCLUDE_PREPS = "covr")
+  withr::local_options(goodpractice.exclude_check_groups = NULL)
+  withr::local_envvar(GP_EXCLUDE_CHECK_GROUPS = "covr")
   expect_warning(
     gp_res <- gp(bad1, checks = NULL),
     "Excluding checks"
@@ -49,8 +49,8 @@ test_that("envvar excludes checks by prep name", {
 
 test_that("option takes precedence over envvar", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  withr::local_options(goodpractice.exclude_preps = "covr")
-  withr::local_envvar(GP_EXCLUDE_PREPS = "lintr")
+  withr::local_options(goodpractice.exclude_check_groups = "covr")
+  withr::local_envvar(GP_EXCLUDE_CHECK_GROUPS = "lintr")
   expect_warning(
     gp_res <- gp(bad1, checks = NULL),
     "Excluding checks"
@@ -61,15 +61,15 @@ test_that("option takes precedence over envvar", {
 
 test_that("explicit checks argument overrides exclusion", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  withr::local_options(goodpractice.exclude_preps = "description")
+  withr::local_options(goodpractice.exclude_check_groups = "description")
   gp_res <- gp(bad1, checks = "no_description_depends")
   expect_true("no_description_depends" %in% checks(gp_res))
 })
 
-test_that("multiple preps can be excluded", {
+test_that("multiple groups can be excluded", {
   bad1 <- system.file("bad1", package = "goodpractice")
   withr::local_options(
-    goodpractice.exclude_preps = c("covr", "cyclocomp")
+    goodpractice.exclude_check_groups = c("covr", "cyclocomp")
   )
   expect_warning(
     gp_res <- gp(bad1, checks = NULL),
@@ -80,9 +80,9 @@ test_that("multiple preps can be excluded", {
 })
 
 test_that("empty exclusion returns checks unchanged", {
-  withr::local_options(goodpractice.exclude_preps = NULL)
-  withr::local_envvar(GP_EXCLUDE_PREPS = "")
+  withr::local_options(goodpractice.exclude_check_groups = NULL)
+  withr::local_envvar(GP_EXCLUDE_CHECK_GROUPS = "")
   checks <- c("no_description_depends", "covr")
-  result <- exclude_checks_by_prep(checks, CHECKS)
+  result <- exclude_checks_by_group(checks, CHECKS)
   expect_equal(result, checks)
 })

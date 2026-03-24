@@ -1,6 +1,17 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* New `all_check_groups()` and `checks_by_group()` functions for discovering
+  and selecting checks by category instead of individual names (#239).
+* Every check now belongs to a named group. Use `all_check_groups()` to see
+  the 16 available groups and `checks_by_group("description")` to list checks
+  in a group.
+* Exclude entire check groups via `goodpractice.exclude_check_groups` option
+  or `GP_EXCLUDE_CHECK_GROUPS` environment variable.
+* New roxygen2 checks: export/noRd tagging, unknown tags, and
+  `@inheritParams`/`@inheritDotParams` validation (#197).
+* New `duplicate_function_bodies` check: flags functions with identical bodies
+  across files that should be consolidated into a shared helper (#232).
 * New optional tidyverse style guide checks: 21 lintr-based checks plus 2
   structural checks (R file naming, test file mirroring).
   Opt in via `checks = c(default_checks(), tidyverse_checks())`.

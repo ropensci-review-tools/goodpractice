@@ -7,8 +7,8 @@
 #'   \code{\link{default_checks}}. Use \code{\link{all_checks}} to list all
 #'   checks, or add optional sets like \code{\link{tidyverse_checks}}.
 #'   When \code{NULL}, all registered checks are run, subject to any
-#'   exclusions from \code{goodpractice.exclude_preps} or
-#'   \code{GP_EXCLUDE_PREPS}.
+#'   exclusions from \code{goodpractice.exclude_check_groups} or
+#'   \code{GP_EXCLUDE_CHECK_GROUPS}.
 #' @param extra_preps Custom preparation functions. See
 #'   \code{\link{make_prep}} on creating preparation functions.
 #' @param extra_checks Custom checks. See \code{\link{make_check}} on
@@ -21,16 +21,17 @@
 #'
 #' @section Excluding check groups:
 #' When using the default \code{checks = all_checks()}, entire groups of
-#' checks can be excluded by prep name via the
-#' \code{goodpractice.exclude_preps} option or the \code{GP_EXCLUDE_PREPS}
-#' environment variable (comma-separated). The option takes precedence.
+#' checks can be excluded by group name via the
+#' \code{goodpractice.exclude_check_groups} option or the
+#' \code{GP_EXCLUDE_CHECK_GROUPS} environment variable (comma-separated).
+#' The option takes precedence.
 #'
 #' \preformatted{
 #' # Skip URL and coverage checks:
-#' options(goodpractice.exclude_preps = c("urlchecker", "covr"))
+#' options(goodpractice.exclude_check_groups = c("urlchecker", "covr"))
 #'
 #' # Or via environment variable:
-#' Sys.setenv(GP_EXCLUDE_PREPS = "urlchecker,covr")
+#' Sys.setenv(GP_EXCLUDE_CHECK_GROUPS = "urlchecker,covr")
 #' }
 #'
 #' Exclusion only applies when \code{checks = NULL} (the default).
@@ -57,7 +58,7 @@ gp <- function(
   MYCHECKS <- prepare_checks(CHECKS, extra_checks)
 
   if (is.null(checks)) {
-    checks <- exclude_checks_by_prep(names(MYCHECKS), MYCHECKS)
+    checks <- exclude_checks_by_group(names(MYCHECKS), MYCHECKS)
   }
 
   preps <- unique(unlist(lapply(MYCHECKS[checks], "[[", "preps")))
@@ -95,16 +96,16 @@ gp <- function(
   state
 }
 
-excluded_preps <- function() {
-  opt <- getOption("goodpractice.exclude_preps")
+excluded_check_groups <- function() {
+  opt <- getOption("goodpractice.exclude_check_groups")
   if (!is.null(opt)) return(opt)
-  env <- Sys.getenv("GP_EXCLUDE_PREPS", "")
+  env <- Sys.getenv("GP_EXCLUDE_CHECK_GROUPS", "")
   parts <- strsplit(env, ",\\s*")[[1]]
   parts[nzchar(parts)]
 }
 
-exclude_checks_by_prep <- function(checks, mychecks) {
-  exclude <- excluded_preps()
+exclude_checks_by_group <- function(checks, mychecks) {
+  exclude <- excluded_check_groups()
   if (length(exclude) == 0) return(checks)
 
   dominated <- vapply(checks, function(ch) {

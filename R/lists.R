@@ -53,6 +53,61 @@ tidyverse_checks <- function() {
 #' }
 
 describe_check <- function(check_name = NULL) {
-    check_name <- intersect(check_name, names(CHECKS))
-    lapply(CHECKS[check_name], function(i) i$description)
-} 
+  check_name <- intersect(check_name, names(CHECKS))
+  lapply(CHECKS[check_name], function(i) i$description)
+}
+
+#' List available check group names
+#'
+#' Returns the names of all registered check groups.
+#' Use these names with [checks_by_group()] to select checks by group,
+#' or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
+#' groups.
+#'
+#' @return Character vector of check group names
+#' @export
+#' @examples
+#' all_check_groups()
+#'
+#' # See all checks by group
+#' lapply(all_check_groups(), checks_by_group)
+
+all_check_groups <- function() {
+  names(PREPS)
+}
+
+#' Select checks by check group
+#'
+#' Returns the names of all checks that belong to the given group(s).
+#' This makes it easy to run or inspect a specific category of checks
+#' without knowing individual check names.
+#'
+#' @param ... Group names as character strings. Use [all_check_groups()] to
+#'   see available names.
+#' @return Character vector of check names
+#' @export
+#' @examples
+#' # run only DESCRIPTION and namespace checks
+#' checks_by_group("description", "namespace")
+#'
+#' # see what the lintr group covers
+#' checks_by_group("lintr")
+#' # See all checks by group:
+#' lapply(all_check_groups(), checks_by_group)
+#' # use directly in gp()
+#' \dontrun{
+#'   gp(".", checks = checks_by_group("description", "lintr"))
+#' }
+
+checks_by_group <- function(...) {
+  group <- c(...)
+  if (length(group) == 0) return(character(0))
+  unknown <- setdiff(group, names(PREPS))
+  if (length(unknown) > 0) {
+    cli::cli_warn(c(
+      "Unknown check group{?s}: {.val {unknown}}.",
+      i = "Use {.fn all_check_groups} to see available groups."
+    ))
+  }
+  names(Filter(function(ch) any(ch$preps %in% group), CHECKS))
+}

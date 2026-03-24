@@ -6,7 +6,7 @@ fake_db <- matrix(
 make_desc_state <- function(pkg_name = "testpkg") {
   d <- desc::desc("!new")
   d$set(Package = pkg_name)
-  list(description = d, available_packages = fake_db)
+  list(description = d, revdep = fake_db)
 }
 
 describe("reverse_dependencies check", {
@@ -41,15 +41,15 @@ describe("reverse_dependencies check", {
   it("returns NA when description is a try-error", {
     state <- list(
       description = try(stop("fail"), silent = TRUE),
-      available_packages = fake_db
+      revdep = fake_db
     )
     result <- CHECKS$reverse_dependencies$check(state)
     expect_true(is.na(result))
   })
 
-  it("returns NA when available_packages is NA", {
+  it("returns NA when revdep is NA", {
     state <- make_desc_state()
-    state$available_packages <- NA
+    state$revdep <- NA
     result <- CHECKS$reverse_dependencies$check(state)
     expect_true(is.na(result))
   })
@@ -57,7 +57,7 @@ describe("reverse_dependencies check", {
   it("returns NA when package name is missing", {
     d <- desc::desc("!new")
     d$del("Package")
-    state <- list(description = d, available_packages = fake_db)
+    state <- list(description = d, revdep = fake_db)
     result <- CHECKS$reverse_dependencies$check(state)
     expect_true(is.na(result))
   })

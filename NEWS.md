@@ -12,6 +12,9 @@
   `@inheritParams`/`@inheritDotParams` validation (#197).
 * New `duplicate_function_bodies` check: flags functions with identical bodies
   across files that should be consolidated into a shared helper (#232).
+* Preparation steps can now run in parallel via the `future.apply` package.
+  Set `future::plan("multisession")` before calling `gp()` to enable
+  parallel data gathering (#47).
 * Check advice now uses cli inline markup throughout. All `gp` strings support
   `{.code}`, `{.fn}`, `{.pkg}`, `{.file}`, `{.field}`, and `{.url}` for
   consistent styling. Custom checks can use the same markup in their `gp`

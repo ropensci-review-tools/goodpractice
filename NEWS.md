@@ -1,6 +1,9 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* Exclude specific files from checks via `goodpractice.exclude_path` option
+  or `GP_EXCLUDE_PATH` environment variable. Useful for generated code like
+  `R/RcppExports.R`.
 * New `all_check_groups()` and `checks_by_group()` functions for discovering
   and selecting checks by category instead of individual names (#239).
 * Every check now belongs to a named group. Use `all_check_groups()` to see

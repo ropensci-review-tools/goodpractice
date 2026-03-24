@@ -8,8 +8,8 @@ uses_roxygen2 <- function(path) {
   any(grepl("^(\\s*?)Roxygen", fields))
 }
 
-find_function_defs <- function(path) {
-  rfiles <- r_package_files(path)
+find_function_defs <- function(path, exclude_path = character()) {
+  rfiles <- r_package_files(path, exclude_path)
   empty <- data.frame(
     name = character(), file = character(),
     line = integer(), stringsAsFactors = FALSE
@@ -47,7 +47,7 @@ find_function_defs <- function(path) {
   do.call(rbind, defs)
 }
 
-parse_roxygen2 <- function(path) {
+parse_roxygen2 <- function(path, exclude_path = character()) {
   if (!uses_roxygen2(path)) {
     stop("Package does not use roxygen2.")
   }
@@ -81,17 +81,28 @@ parse_roxygen2 <- function(path) {
     character()
   }
 
+  if (length(exclude_path) > 0) {
+    abs_excluded <- normalizePath(file.path(path, exclude_path),
+                                  mustWork = FALSE)
+    blocks <- Filter(function(b) {
+      !normalizePath(b$file, mustWork = FALSE) %in% abs_excluded
+    }, blocks)
+  }
+
   list(
     blocks = blocks,
     namespace_exports = ns$exports,
     namespace_s3methods = s3methods,
-    function_defs = find_function_defs(path),
+    function_defs = find_function_defs(path, exclude_path),
     parse_messages = parse_messages
   )
 }
 
 PREPS$roxygen2 <- function(state, path = state$path, quiet) {
-  state$roxygen2 <- try(parse_roxygen2(path), silent = quiet)
+  state$roxygen2 <- try(
+    parse_roxygen2(path, state$exclude_path %||% character()),
+    silent = quiet
+  )
 
   if (inherits(state$roxygen2, "try-error")) {
     warning("Prep step for roxygen2 failed.")

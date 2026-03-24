@@ -10,6 +10,7 @@ gp(
   checks = default_checks(),
   extra_preps = NULL,
   extra_checks = NULL,
+  exclude_path = character(),
   quiet = TRUE
 )
 }
@@ -28,6 +29,11 @@ exclusions from \code{goodpractice.exclude_check_groups} or
 
 \item{extra_checks}{Custom checks. See \code{\link{make_check}} on
 creating checks.}
+
+\item{exclude_path}{Character vector of file paths to exclude from checks,
+relative to the package root (e.g. \code{"R/RcppExports.R"},
+\code{"R/generated_code.R"}). Excluded files are skipped by lintr,
+treesitter, and expression-based checks.}
 
 \item{quiet}{Whether to suppress output from the preparation
 functions. Note that not all preparation functions produce output,

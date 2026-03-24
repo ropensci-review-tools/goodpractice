@@ -8,7 +8,7 @@ AVOIDED_PACKAGES <- list(
   XML       = "Use 'xml2' instead.",
   sp        = "Use 'sf' instead. 'sp' is deprecated.",
   rgdal     = "Use 'sf', 'terra', or alternatives described in \url{https://www.hypertidy.org/posts/2026-03-24_check-out-wk/#check-it-out-series} instead. 'rgdal' was retired in 2023.",
-  rgeos     = "Use 'sf' instead. 'rgeos' was retired in 2023.",
+  rgeos     = "Use 'sf', 'terra', or alternatives described in \url{https://www.hypertidy.org/posts/2026-03-24_check-out-wk/#check-it-out-series} instead. 'rgeos' was retired in 2023.",
   maptools  = "Use 'sf' instead. 'maptools' was retired in 2023."
 )
 

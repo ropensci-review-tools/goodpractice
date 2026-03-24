@@ -60,20 +60,6 @@ Exclusion only applies when \code{checks = NULL} (the default).
 Explicit \code{checks} arguments are never filtered.
 }
 
-\section{Parallel preparation}{
-
-If the \pkg{future.apply} package is installed, preparation steps run
-via \code{future.apply::future_lapply()}, respecting whatever
-\code{\link[future]{plan}} is active. To run preps in parallel:
-
-\preformatted{
-future::plan("multisession")
-gp(".")
-}
-
-Without \pkg{future.apply}, preps run sequentially as before.
-}
-
 \examples{
 path <- system.file("bad1", package = "goodpractice")
 # run a subset of all checks available

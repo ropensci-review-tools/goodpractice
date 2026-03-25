@@ -41,6 +41,12 @@ test_that("filter_excluded_paths with empty exclude returns all files", {
   expect_equal(result, files)
 })
 
+test_that("exclude_path filters roxygen2 blocks", {
+  withr::local_options(goodpractice.exclude_path = "R/functions.R")
+  g <- gp("good", checks = "roxygen2_has_export_or_nord")
+  expect_equal(g$exclude_path, "R/functions.R")
+})
+
 test_that("gp passes exclude_path to state", {
   withr::local_options(goodpractice.exclude_path = "R/functions.R")
   pkg <- system.file("bad1", package = "goodpractice")

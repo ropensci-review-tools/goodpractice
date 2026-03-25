@@ -1,0 +1,60 @@
+#' @include lists.R customization.R
+
+AVOIDED_PACKAGES <- list(
+  multicore = "Use the 'parallel' package instead.",
+  RCurl     = "Use 'httr2', 'curl', or 'crul' instead.",
+  rjson     = "Use 'jsonlite' instead.",
+  RJSONIO   = "Use 'jsonlite' instead.",
+  XML       = "Use 'xml2' instead.",
+  sp        = "Use 'sf' instead. 'sp' is deprecated.",
+  rgdal     = "Use 'sf', 'terra', or alternatives described at https://www.hypertidy.org/posts/2026-03-24_check-out-wk/#check-it-out-series. 'rgdal' was retired in 2023.",
+  rgeos     = "Use 'sf', 'terra', or alternatives described at https://www.hypertidy.org/posts/2026-03-24_check-out-wk/#check-it-out-series. 'rgeos' was retired in 2023.",
+  maptools  = "Use 'sf' instead. 'maptools' was retired in 2023."
+)
+
+CHECKS$no_obsolete_deps <- make_check(
+
+  description = "No obsolete or retired package dependencies",
+  tags = c("warning", "best practice"),
+  preps = "description",
+
+  gp = function(state) {
+    if (inherits(state$description, "try-error")) {
+      return("avoid depending on obsolete packages.")
+    }
+    deps <- state$description$get_deps()
+    found <- intersect(deps$package, names(AVOIDED_PACKAGES))
+    reasons <- vapply(found, function(p) {
+      paste0(p, ": ", AVOIDED_PACKAGES[[p]])
+    }, character(1))
+    paste(
+      "avoid depending on obsolete or retired packages.",
+      paste(reasons, collapse = " ")
+    )
+  },
+
+  check = function(state) {
+    if (inherits(state$description, "try-error")) {
+      return(list(status = NA, positions = list()))
+    }
+
+    deps <- tryCatch(state$description$get_deps(), error = function(e) NULL)
+    if (is.null(deps)) return(list(status = TRUE, positions = list()))
+
+    found <- intersect(deps$package, names(AVOIDED_PACKAGES))
+    if (length(found) == 0) return(list(status = TRUE, positions = list()))
+
+    problems <- lapply(found, function(pkg) {
+      dep_row <- deps[deps$package == pkg, ]
+      list(
+        filename = "DESCRIPTION",
+        line_number = NA_integer_,
+        column_number = NA_integer_,
+        ranges = list(),
+        line = paste0(dep_row$type[1], ": ", pkg)
+      )
+    })
+
+    list(status = FALSE, positions = problems)
+  }
+)

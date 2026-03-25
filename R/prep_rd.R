@@ -42,7 +42,7 @@ PREPS$rd <- function(state, path = state$path, quiet) {
   state$rd <- try(parse_rd_files(mandir), silent = quiet)
 
   if (inherits(state$rd, "try-error")) {
-    warning("Prep step for rd failed.")
+    cli::cli_warn("Prep step for {.val rd} failed.")
   }
   state
 }

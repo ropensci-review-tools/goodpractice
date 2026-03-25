@@ -35,7 +35,7 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
   description = "Documented functions have @export or @noRd",
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
-  gp = "Tag every documented function with either @export or @noRd.",
+  gp = "Tag every documented function with either {.code @export} or {.code @noRd}.",
 
   check = function(state) {
     if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
@@ -85,9 +85,9 @@ CHECKS$roxygen2_unknown_tags <- make_check(
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
-    "Fix or remove unknown roxygen2 tags.",
-    "This may indicate a typo, a removed tag like @S3method,",
-    "or a custom tag from an unregistered roxygen2 extension",
+    "Fix or remove unknown {.pkg roxygen2} tags.",
+    "This may indicate a typo, a removed tag like {.code @S3method},",
+    "or a custom tag from an unregistered {.pkg roxygen2} extension",
     "(e.g. a roclet or a package that creates new tags)."
   ),
 
@@ -131,8 +131,8 @@ CHECKS$roxygen2_valid_inherit <- make_check(
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
-    "Ensure functions referenced by @inheritParams and @inheritDotParams",
-    "exist within the package. Use pkg::func syntax for external functions."
+    "Ensure functions referenced by {.code @inheritParams} and {.code @inheritDotParams}",
+    "exist within the package. Use {.code pkg::func} syntax for external functions."
   ),
 
   check = function(state) {
@@ -188,8 +188,8 @@ CHECKS$roxygen2_duplicate_params <- make_check(
   preps = "roxygen2",
 
   gp = paste(
-    "use @inheritParams to avoid duplicating parameter documentation.",
-    "Identical @param descriptions across files suggest shared docs",
+    "use {.code @inheritParams} to avoid duplicating parameter documentation.",
+    "Identical {.code @param} descriptions across files suggest shared docs",
     "should be inherited from a single source."
   ),
 

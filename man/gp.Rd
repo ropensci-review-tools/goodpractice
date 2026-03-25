@@ -62,16 +62,16 @@ Explicit \code{checks} arguments are never filtered.
 
 \section{Parallel preparation}{
 
-If the \pkg{future.apply} package is installed, preparation steps run
-via \code{future.apply::future_lapply()}, respecting whatever
-\code{\link[future]{plan}} is active. To run preps in parallel:
+Preparation steps run sequentially by default. To run them in
+parallel, install \pkg{future.apply} and set a
+\code{\link[future]{plan}}:
 
 \preformatted{
 future::plan("multisession")
 gp(".")
 }
 
-Without \pkg{future.apply}, preps run sequentially as before.
+Preps run in parallel only when a non-sequential plan is active.
 }
 
 \examples{

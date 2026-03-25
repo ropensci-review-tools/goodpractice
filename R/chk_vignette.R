@@ -24,7 +24,7 @@ is_skipped_chunk <- function(lines, start, end) {
 match_chunk_pairs <- function(starts, ends) {
   if (length(starts) == 0) return(matrix(integer(0), ncol = 2))
   if (length(starts) != length(ends)) {
-    message("Chunk start/end indices failed sanity checks in vignette")
+    cli::cli_inform("Chunk start/end indices failed sanity checks in vignette.")
     return(matrix(integer(0), ncol = 2))
   }
 
@@ -39,7 +39,7 @@ match_chunk_pairs <- function(starts, ends) {
   }
 
   if (!ok) {
-    message("Chunk start/end indices failed sanity checks in vignette")
+    cli::cli_inform("Chunk start/end indices failed sanity checks in vignette.")
     return(matrix(integer(0), ncol = 2))
   }
 

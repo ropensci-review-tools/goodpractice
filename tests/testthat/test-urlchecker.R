@@ -340,7 +340,7 @@ test_that("PREPS$urlchecker warns on failure", {
   state <- list(path = "good")
   expect_warning(
     state <- PREPS$urlchecker(state, quiet = TRUE),
-    "Prep step for urlchecker failed"
+    "Prep step for"
   )
   expect_true(inherits(state$urlchecker, "try-error"))
 })
@@ -422,7 +422,7 @@ test_that("urlchecker checks return NA through gp() on prep failure", {
   )
   expect_warning(
     gp_res <- gp("good", checks = c("urlchecker_ok", "urlchecker_no_redirects")),
-    "Prep step for urlchecker failed"
+    "Prep step for"
   )
   res <- results(gp_res)
   expect_true(is.na(res$passed[res$check == "urlchecker_ok"]))

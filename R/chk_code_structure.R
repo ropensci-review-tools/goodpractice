@@ -10,7 +10,7 @@ CHECKS$print_return_invisible <- make_check(
 
   gp = paste(
     "print methods should return the input object invisibly,",
-    "e.g. invisible(x). This allows chaining and consistent behaviour",
+    "e.g. {.code invisible(x)}. This allows chaining and consistent behaviour",
     "with base R print methods."
   ),
 
@@ -77,8 +77,8 @@ CHECKS$on_exit_has_add <- make_check(
   preps = "code_structure",
 
   gp = paste(
-    "always use add = TRUE in on.exit() calls.",
-    "Without it, each on.exit() overwrites previous exit handlers,",
+    "always use {.code add = TRUE} in {.fn on.exit} calls.",
+    "Without it, each {.fn on.exit} overwrites previous exit handlers,",
     "which is a common source of bugs."
   ),
 

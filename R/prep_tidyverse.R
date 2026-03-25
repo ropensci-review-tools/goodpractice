@@ -10,7 +10,7 @@ PREPS$tidyverse <- function(state, path = state$path, quiet) {
     )
   )
   if (inherits(state$tidyverse_lintr, "try-error")) {
-    warning("Prep step for tidyverse_lintr failed.")
+    cli::cli_warn("Prep step for {.val tidyverse_lintr} failed.")
   }
   state
 }

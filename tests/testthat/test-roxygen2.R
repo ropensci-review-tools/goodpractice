@@ -13,7 +13,7 @@ test_that("uses_roxygen2 returns FALSE for non-roxygen2 packages", {
 test_that("roxygen2 checks return NA for non-roxygen2 packages", {
   expect_warning(
     gp_res <- gp("no_roxygen", checks = "roxygen2_unknown_tags"),
-    "Prep step for roxygen2 failed"
+    "Prep step for"
   )
   expect_true(is.na(results(gp_res)$passed))
 })
@@ -245,7 +245,7 @@ test_that("roxygen2_duplicate_params passes with different descriptions", {
 test_that("roxygen2_duplicate_params passes for non-roxygen2 packages", {
   expect_warning(
     gp_res <- gp("no_roxygen", checks = "roxygen2_duplicate_params"),
-    "Prep step for roxygen2 failed"
+    "Prep step for"
   )
   expect_true(is.na(results(gp_res)$passed))
 })

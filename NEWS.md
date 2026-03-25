@@ -15,6 +15,10 @@
   `@inheritParams`/`@inheritDotParams` validation (#197).
 * New `duplicate_function_bodies` check: flags functions with identical bodies
   across files that should be consolidated into a shared helper (#232).
+* Check advice now uses cli inline markup throughout. All `gp` strings support
+  `{.code}`, `{.fn}`, `{.pkg}`, `{.file}`, `{.field}`, and `{.url}` for
+  consistent styling. Custom checks can use the same markup in their `gp`
+  strings.
 * New optional tidyverse style guide checks: 21 lintr-based checks plus 2
   structural checks (R file naming, test file mirroring).
   Opt in via `checks = c(default_checks(), tidyverse_checks())`.

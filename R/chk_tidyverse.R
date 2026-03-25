@@ -30,8 +30,8 @@ CHECKS$tidyverse_brace_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'place the opening brace `{` on the same line as the
-        statement and the closing brace `}` on its own line.',
+  gp = 'place the opening brace `{{` on the same line as the
+        statement and the closing brace `}}` on its own line.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "brace_linter")
@@ -78,8 +78,8 @@ CHECKS$tidyverse_equals_na_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'use `is.na(x)` instead of `x == NA`. Comparing with `==`
-        always returns `NA`, never `TRUE` or `FALSE`.',
+  gp = 'use {.code is.na(x)} instead of {.code x == NA}. Comparing with {.code ==}
+        always returns {.code NA}, never {.code TRUE} or {.code FALSE}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "equals_na_linter")
@@ -95,7 +95,7 @@ CHECKS$tidyverse_function_left_parentheses_linter <- make_check(
   preps = "tidyverse",
 
   gp = 'not put a space before the opening parenthesis in a
-        function call. Write `f(x)` not `f (x)`.',
+        function call. Write {.code f(x)} not {.code f (x)}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "function_left_parentheses_linter")
@@ -125,8 +125,8 @@ CHECKS$tidyverse_infix_spaces_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'put spaces around infix operators like `+`, `-`, `<-`,
-        `==`, etc. Exception: no spaces around `::` and `:::`.',
+  gp = 'put spaces around infix operators like {.code +}, {.code -}, {.code <-},
+        {.code ==}, etc. Exception: no spaces around {.code ::} and {.code :::}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "infix_spaces_linter")
@@ -189,8 +189,8 @@ CHECKS$tidyverse_paren_body_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'not put a space after `(` or before `)`. Write `f(x)`
-        not `f( x )`.',
+  gp = 'not put a space after {.code (} or before {.code )}. Write {.code f(x)}
+        not {.code f( x )}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "paren_body_linter")
@@ -206,7 +206,7 @@ CHECKS$tidyverse_pipe_consistency_linter <- make_check(
   preps = "tidyverse",
 
   gp = 'use one pipe operator consistently throughout the package.
-        Do not mix `%>%` and `|>` in the same codebase.',
+        Do not mix {.code %>%} and {.code |>} in the same codebase.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "pipe_consistency_linter")
@@ -237,7 +237,7 @@ CHECKS$tidyverse_quotes_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'use double quotes `\"` for strings, not single quotes `\'`.
+  gp = 'use double quotes {.code "} for strings, not single quotes {.code \'}.
         The only exception is when the string contains double quotes.',
 
   check = function(state) {
@@ -253,7 +253,7 @@ CHECKS$tidyverse_return_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'rely on implicit return. Only use `return()` for early
+  gp = 'rely on implicit return. Only use {.fn return} for early
         returns. The last expression in a function is automatically
         returned.',
 
@@ -271,7 +271,7 @@ CHECKS$tidyverse_spaces_inside_linter <- make_check(
   preps = "tidyverse",
 
   gp = 'not put spaces inside parentheses or brackets. Write
-        `x[1]` and `f(x)`, not `x[ 1 ]` or `f( x )`.',
+        {.code x[1]} and {.code f(x)}, not {.code x[ 1 ]} or {.code f( x )}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "spaces_inside_linter")
@@ -286,8 +286,8 @@ CHECKS$tidyverse_spaces_left_parentheses_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'place a space before `(` when used with `if`, `for`,
-        `while`, etc. Write `if (x)` not `if(x)`.',
+  gp = 'place a space before {.code (} when used with {.code if}, {.code for},
+        {.code while}, etc. Write {.code if (x)} not {.code if(x)}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "spaces_left_parentheses_linter")
@@ -332,8 +332,8 @@ CHECKS$tidyverse_vector_logic_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'use `&&` and `||` (scalar logical operators) in `if`
-        conditions, not `&` and `|` (vector logical operators).',
+  gp = 'use {.code &&} and {.code ||} (scalar logical operators) in {.code if}
+        conditions, not {.code &} and {.code |} (vector logical operators).',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "vector_logic_linter")
@@ -363,7 +363,7 @@ CHECKS$tidyverse_assignment_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = "use '<-' for assignment instead of '='. This is the
+  gp = "use {.code <-} for assignment instead of {.code =}. This is the
         standard convention in R and makes code easier to read.",
 
   check = function(state) {
@@ -411,9 +411,9 @@ CHECKS$tidyverse_seq_linter <- make_check(
   tags = c("warning", "tidyverse"),
   preps = "tidyverse",
 
-  gp = "avoid 1:length(...), 1:nrow(...), and similar expressions.
+  gp = "avoid {.code 1:length(...)}, {.code 1:nrow(...)}, and similar expressions.
         They are error prone when the right hand side is zero.
-        Use seq_len() or seq_along() instead.",
+        Use {.fn seq_len} or {.fn seq_along} instead.",
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "seq_linter")
@@ -428,7 +428,7 @@ CHECKS$tidyverse_T_and_F_symbol_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = "use TRUE and FALSE instead of T and F. T and F are not
+  gp = "use {.code TRUE} and {.code FALSE} instead of {.code T} and {.code F}. {.code T} and {.code F} are not
         reserved words and can be overwritten, leading to unexpected
         behaviour.",
 
@@ -447,8 +447,8 @@ CHECKS$tidyverse_r_file_names <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'name R files using snake_case with a .R extension, e.g.
-        `my_function.R`. Avoid capital letters, hyphens, and spaces.',
+  gp = 'name R files using snake_case with a {.file .R} extension, e.g.
+        {.file my_function.R}. Avoid capital letters, hyphens, and spaces.',
 
   check = function(state) {
     r_dir <- file.path(state$path, "R")
@@ -482,7 +482,7 @@ CHECKS$tidyverse_test_file_names <- make_check(
   preps = "tidyverse",
 
   gp = 'name test files to mirror the R source file they test,
-        e.g. `R/my_function.R` should have `tests/testthat/test-my_function.R`.',
+        e.g. {.file R/my_function.R} should have {.file tests/testthat/test-my_function.R}.',
 
   check = function(state) {
     r_dir <- file.path(state$path, "R")
@@ -528,9 +528,9 @@ CHECKS$tidyverse_no_missing <- make_check(
   preps = "tidyverse",
 
   gp = paste(
-    "avoid using missing() to check whether arguments were supplied.",
-    "The tidyverse style guide recommends using NULL defaults with",
-    "is.null() instead, as missing() makes functions difficult to",
+    "avoid using {.fn missing} to check whether arguments were supplied.",
+    "The tidyverse style guide recommends using {.code NULL} defaults with",
+    "{.fn is.null} instead, as {.fn missing} makes functions difficult to",
     "call programmatically."
   ),
 

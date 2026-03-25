@@ -28,10 +28,10 @@ CHECKS$lintr_assignment_linter <- make_check(
   tags = c("style", "lintr"),
   preps = "lintr",
 
-  gp = "use '<-' for assignment instead of '='.
-        '<-' is the standard, and R users and developers are
+  gp = "use {.code <-} for assignment instead of {.code =}.
+        {.code <-} is the standard, and R users and developers are
         used it and it is easier to read your code for them if
-        you use '<-'.",
+        you use {.code <-}.",
 
   check = function(state) {
     result <- get_lintr_state(state, "assignment_linter")
@@ -76,7 +76,7 @@ CHECKS$lintr_attach_detach_linter <- make_check(
   tags = c("warning", "lintr"),
   preps = "lintr",
 
-  gp = "avoid the attach() and detach() functions,
+  gp = "avoid the {.fn attach} and {.fn detach} functions,
         they are fragile and code that uses them will
         probably break sooner than later.",
 
@@ -91,8 +91,8 @@ CHECKS$lintr_setwd_linter <- make_check(
   tags = c("warning", "lintr"),
   preps = "lintr",
 
-  gp = "avoid calling setwd(), it changes the global environment.
-        If you need it, consider using on.exit() to restore the
+  gp = "avoid calling {.fn setwd}, it changes the global environment.
+        If you need it, consider using {.fn on.exit} to restore the
         working directory.",
 
   check = function(state) {
@@ -106,9 +106,9 @@ CHECKS$lintr_sapply_linter <- make_check(
   tags = c("warning", "lintr"),
   preps = "lintr",
 
-  gp = "avoid sapply(), it is not type safe.
+  gp = "avoid {.fn sapply}, it is not type safe.
         It might return a vector, or a list, depending on the
-        input data. Consider using vapply() instead.",
+        input data. Consider using {.fn vapply} instead.",
 
   check = function(state) {
     get_lintr_state(state, "sapply_linter")
@@ -121,12 +121,12 @@ CHECKS$lintr_library_require_linter <- make_check(
   tags = c("warning", "lintr"),
   preps = "lintr",
 
-  gp = "avoid the library() and require() functions,
+  gp = "avoid the {.fn library} and {.fn require} functions,
         they change the global search path.
         If you need to use other packages, import them.
         If you need to load them explicitly, then consider
-        loadNamespace() instead, or as a last resort, declare
-        them as 'Depends' dependencies.",
+        {.fn loadNamespace} instead, or as a last resort, declare
+        them as {.field Depends} dependencies.",
 
   check = function(state) {
     if(inherits(state$lintr, "try-error")) {
@@ -151,10 +151,10 @@ CHECKS$lintr_seq_linter <- make_check(
   tags = c("warning", "lintr"),
   preps = "lintr",
 
-  gp = "avoid 1:length(...), 1:nrow(...), 1:ncol(...),
-        1:NROW(...) and 1:NCOL(...) expressions. They are error
-        prone and result 1:0 if the expression on the right hand
-        side is zero. Use seq_len() or seq_along() instead.",
+  gp = "avoid {.code 1:length(...)}, {.code 1:nrow(...)}, {.code 1:ncol(...)},
+        {.code 1:NROW(...)} and {.code 1:NCOL(...)} expressions. They are error
+        prone and result {.code 1:0} if the expression on the right hand
+        side is zero. Use {.fn seq_len} or {.fn seq_along} instead.",
 
   check = function(state) {
     get_lintr_state(state, "seq_linter")

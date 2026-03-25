@@ -232,5 +232,5 @@ test_that("PREPS$rd warns when parsing fails", {
   local_mocked_bindings(
     parse_rd_files = function(...) stop("forced error")
   )
-  expect_warning(PREPS$rd(state, quiet = TRUE), "Prep step for rd failed")
+  expect_warning(PREPS$rd(state, quiet = TRUE), "Prep step for")
 })

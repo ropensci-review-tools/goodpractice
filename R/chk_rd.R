@@ -75,7 +75,7 @@ CHECKS$rd_has_return <- make_rd_check(
   description = "Exported functions have \\value in .Rd",
   gp = paste(
     "Document return values for exported (non-method)",
-    "functions using \\value."
+    "functions using {.code \\\\value}."
   ),
   field = "has_value"
 )

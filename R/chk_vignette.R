@@ -24,7 +24,7 @@ is_skipped_chunk <- function(lines, start, end) {
 match_chunk_pairs <- function(starts, ends) {
   if (length(starts) == 0) return(matrix(integer(0), ncol = 2))
   if (length(starts) != length(ends)) {
-    message("Chunk start/end indices failed sanity checks in vignette")
+    cli::cli_inform("Chunk start/end indices failed sanity checks in vignette.")
     return(matrix(integer(0), ncol = 2))
   }
 
@@ -39,7 +39,7 @@ match_chunk_pairs <- function(starts, ends) {
   }
 
   if (!ok) {
-    message("Chunk start/end indices failed sanity checks in vignette")
+    cli::cli_inform("Chunk start/end indices failed sanity checks in vignette.")
     return(matrix(integer(0), ncol = 2))
   }
 
@@ -156,7 +156,7 @@ CHECKS$vignette_no_rm_list <- make_check(
   preps = "vignette",
 
   gp = paste(
-    "do not use rm(list = ls()) in vignettes.",
+    "do not use {.code rm(list = ls())} in vignettes.",
     "Vignettes run in their own environment;",
     "clearing the workspace is unnecessary and confusing for users."
   ),
@@ -173,7 +173,7 @@ CHECKS$vignette_no_setwd <- make_check(
   preps = "vignette",
 
   gp = paste(
-    "do not use setwd() in vignettes.",
+    "do not use {.fn setwd} in vignettes.",
     "Changing the working directory makes vignettes fragile",
     "and non-reproducible on other machines."
   ),

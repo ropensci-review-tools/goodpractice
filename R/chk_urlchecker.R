@@ -49,7 +49,7 @@ make_urlchecker_check <- function(description, gp, filter, tags = NULL) {
 
 CHECKS$urlchecker_ok <- make_urlchecker_check(
   description = "All URLs are reachable",
-  gp = "Fix or remove broken URLs in documentation and DESCRIPTION.",
+  gp = "Fix or remove broken URLs in documentation and {.file DESCRIPTION}.",
   filter = function(db) db[!db$Status %in% c("200", "301", "302"), ]
 )
 

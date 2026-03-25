@@ -49,7 +49,7 @@ find_function_defs <- function(path, exclude_path = character()) {
 
 parse_roxygen2 <- function(path, exclude_path = character()) {
   if (!uses_roxygen2(path)) {
-    stop("Package does not use roxygen2.")
+    cli::cli_abort("Package does not use {.pkg roxygen2}.")
   }
 
   parse_messages <- character()
@@ -105,7 +105,7 @@ PREPS$roxygen2 <- function(state, path = state$path, quiet) {
   )
 
   if (inherits(state$roxygen2, "try-error")) {
-    warning("Prep step for roxygen2 failed.")
+    cli::cli_warn("Prep step for {.val roxygen2} failed.")
   }
   state
 }

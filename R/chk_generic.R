@@ -7,7 +7,7 @@ CHECKS$has_readme <- make_check(
   tags = c("info", "documentation"),
   preps = "package_structure",
 
-  gp = 'add a README.md (or README.Rmd) file to the top-level
+  gp = 'add a {.file README.md} (or {.file README.Rmd}) file to the top-level
         directory. A good README describes what the package does,
         how to install it, and includes a short example.',
 
@@ -27,8 +27,8 @@ CHECKS$has_news <- make_check(
   tags = c("info", "documentation"),
   preps = "package_structure",
 
-  gp = 'add a NEWS.md file to track user-visible changes between
-        releases. See <https://style.tidyverse.org/news.html>
+  gp = 'add a {.file NEWS.md} file to track user-visible changes between
+        releases. See {.url https://style.tidyverse.org/news.html}
         for formatting guidance.',
 
   check = function(state) {
@@ -46,8 +46,8 @@ CHECKS$r_file_extension <- make_check(
   preps = "package_structure",
 
   gp = paste(
-    "use the .R file extension for R scripts, not .r or .q.",
-    "CRAN requires the uppercase .R extension."
+    "use the {.file .R} file extension for R scripts, not {.file .r} or {.file .q}.",
+    "CRAN requires the uppercase {.file .R} extension."
   ),
 
   check = function(state) {

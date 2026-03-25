@@ -2,12 +2,12 @@ test_that("print with default and explicit positions.limit", {
   bad1 <- system.file("bad1", package = "goodpractice")
   x <- gp(bad1, checks = "r_file_extension")
 
-  testthat::expect_snapshot(print(x))
+  expect_snapshot(print(x))
 })
 
 test_that("print shows praise when all checks pass", {
   gp_res <- gp("good", checks = "description_bugreports")
-  testthat::expect_snapshot(print(gp_res))
+  expect_snapshot(print(gp_res))
 })
 
 test_that("gp_positions truncates when exceeding limit", {
@@ -22,7 +22,7 @@ test_that("gp_positions truncates when exceeding limit", {
   })
 
   tmp <- withr::local_tempdir()
-  testthat::expect_snapshot(
+  expect_snapshot(
     withr::with_dir(tmp, gp_positions(pos, limit = 3))
   )
 })
@@ -37,7 +37,7 @@ test_that("gp_positions handles NA line_number", {
   ))
 
   tmp <- withr::local_tempdir()
-  testthat::expect_snapshot(
+  expect_snapshot(
     withr::with_dir(tmp, gp_positions(pos, limit = 5))
   )
 })
@@ -52,7 +52,7 @@ test_that("gp_positions includes column when available", {
   ))
 
   tmp <- withr::local_tempdir()
-  testthat::expect_snapshot(
+  expect_snapshot(
     withr::with_dir(tmp, gp_positions(pos, limit = 5))
   )
 })
@@ -77,7 +77,7 @@ test_that("print shows info messages with praise", {
     checks = c("info_test", "description_bugreports"),
     extra_checks = list(info_test = info_check)
   )
-  testthat::expect_snapshot(print(gp_res))
+  expect_snapshot(print(gp_res))
 })
 
 test_that("print calls rstudio_source_markers when hasFun is TRUE", {
@@ -91,6 +91,6 @@ test_that("print calls rstudio_source_markers when hasFun is TRUE", {
       called <<- TRUE
     }
   )
-  testthat::expect_snapshot(print(x))
+  expect_snapshot(print(x))
   expect_true(called)
 })

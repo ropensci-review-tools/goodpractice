@@ -3,6 +3,9 @@
     Code
       describe_check(all_checks())
     Output
+      $no_obsolete_deps
+      [1] "No obsolete or retired package dependencies"
+      
       $print_return_invisible
       [1] "Print methods return the object invisibly"
       

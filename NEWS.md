@@ -1,6 +1,9 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* Preparation steps can now run in parallel via the `future.apply` package.
+  Set `future::plan("multisession")` before calling `gp()` to enable
+  parallel data gathering (#47).
 * New `all_check_groups()` and `checks_by_group()` functions for discovering
   and selecting checks by category instead of individual names (#239).
 * Every check now belongs to a named group. Use `all_check_groups()` to see

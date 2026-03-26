@@ -53,7 +53,7 @@ test_that("required_preps deduplicates across checks", {
 
 test_that("init_state creates proper state list", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  state <- init_state(bad1, NULL, NULL)
+  state <- init_state(bad1, "badpackage", NULL, NULL)
   expect_equal(state$path, bad1)
   expect_equal(unname(state$package), "badpackage")
   expect_true(is.environment(state$.cache))
@@ -63,7 +63,7 @@ test_that("init_state creates proper state list", {
 
 test_that("run_preps executes prep and adds field to state", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  state <- init_state(bad1, NULL, NULL)
+  state <- init_state(bad1, "badpackage", NULL, NULL)
   mypreps <- prepare_preps(PREPS, NULL)
   state <- run_preps(state, "description", mypreps, quiet = TRUE)
   expect_false(is.null(state$description))
@@ -73,7 +73,7 @@ test_that("run_preps executes prep and adds field to state", {
 
 test_that("run_checks populates state$checks", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  state <- init_state(bad1, NULL, NULL)
+  state <- init_state(bad1, "badpackage", NULL, NULL)
   mypreps <- prepare_preps(PREPS, NULL)
   mychecks <- prepare_checks(CHECKS, NULL)
   state <- run_preps(

@@ -82,12 +82,17 @@ gp <- function(
   quiet = TRUE
 ) {
   path <- validate_pkg_path(path)
+  pkgname <- desc_get(
+    "Package", file = file.path(path, "DESCRIPTION")
+  )
+  cli::cli_h1("Running goodpractice on {.pkg {pkgname}}")
+
   mychecks <- prepare_checks(CHECKS, extra_checks)
   mypreps <- prepare_preps(PREPS, extra_preps)
   checks <- resolve_checks(checks, mychecks)
   preps <- required_preps(checks, mychecks)
 
-  state <- init_state(path, extra_preps, extra_checks) |>
+  state <- init_state(path, pkgname, extra_preps, extra_checks) |>
     run_preps(preps, mypreps, quiet) |>
     run_checks(checks, mychecks)
 
@@ -117,12 +122,10 @@ required_preps <- function(checks, mychecks) {
   unique(unlist(lapply(mychecks[checks], "[[", "preps")))
 }
 
-init_state <- function(path, extra_preps, extra_checks) {
+init_state <- function(path, pkgname, extra_preps, extra_checks) {
   list(
     path = path,
-    package = desc_get(
-      "Package", file = file.path(path, "DESCRIPTION")
-    ),
+    package = pkgname,
     extra_preps = extra_preps,
     extra_checks = extra_checks,
     exclude_path = excluded_paths(),

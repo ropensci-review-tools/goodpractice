@@ -28,6 +28,16 @@ make_block_position <- function(block) {
   )
 }
 
+has_noRd_tag <- function(file, line_number) {
+  lines <- readLines(file, warn = FALSE)
+  idx <- line_number - 1L
+  while (idx >= 1 && grepl("^#'", lines[idx])) {
+    if (grepl("@noRd", lines[idx])) return(TRUE)
+    idx <- idx - 1L
+  }
+  FALSE
+}
+
 # -- export / noRd tagging ----------------------------------------------------
 
 CHECKS$roxygen2_has_export_or_nord <- make_check(
@@ -61,6 +71,7 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
       if (fn$name %in% documented_names) next
       if (fn$name %in% rox$namespace_exports) next
       if (fn$name %in% rox$namespace_s3methods) next
+      if (has_noRd_tag(fn$file, fn$line)) next
       problems[[length(problems) + 1]] <- list(
         filename = file.path("R", basename(fn$file)),
         line_number = as.integer(fn$line),

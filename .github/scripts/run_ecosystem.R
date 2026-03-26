@@ -5,6 +5,10 @@ tidyverse_pkgs <- strsplit(
   Sys.getenv("TIDYVERSE_PACKAGES", ""), ","
 )[[1]]
 
+options(goodpractice.exclude_check_groups = c(
+  "covr", "rcmdcheck", "cyclocomp"
+))
+
 results <- lapply(pkg_dirs, function(pkg) {
   pkg_name <- basename(pkg)
   checks <- if (pkg_name %in% tidyverse_pkgs) {
@@ -12,8 +16,11 @@ results <- lapply(pkg_dirs, function(pkg) {
   } else {
     goodpractice::default_checks()
   }
+  cat("Running", pkg_name, "...\n")
   tryCatch({
-    g <- goodpractice::gp(pkg, checks = checks, quiet = TRUE)
+    g <- suppressWarnings(
+      goodpractice::gp(pkg, checks = checks, quiet = TRUE)
+    )
     res <- goodpractice::results(g)
     data.frame(
       package = pkg_name,
@@ -22,6 +29,7 @@ results <- lapply(pkg_dirs, function(pkg) {
       stringsAsFactors = FALSE
     )
   }, error = function(e) {
+    cat("  ERROR:", conditionMessage(e), "\n")
     data.frame(
       package = pkg_name,
       check = "ERROR",

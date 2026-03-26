@@ -11,7 +11,7 @@ on:
       - '.github/scripts/**'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 permissions:
@@ -89,7 +89,16 @@ jobs:
         run: |
           Rscript goodpractice-pr/.github/scripts/compare_ecosystem.R
 
+      - name: Upload comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-comparison
+          path: |
+            ecosystem_comparison.md
+            results/
+
       - name: Post comment on PR
+        if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
           file-path: ecosystem_comparison.md

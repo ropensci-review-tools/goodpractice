@@ -23,6 +23,7 @@ env:
     ropensci-review-tools/pkgcheck@12d80c8ad3bc39c94174f0276386869a52568135
     r-lib/cli@ed21869fe9e6af7acba87c9989e6ea80e8dff375
     r-lib/testthat@fe50c22eff15f0b87f4dd39c82fa95e41fe20b45
+  TIDYVERSE_PACKAGES: tidyverse_dplyr,tidyverse_ggplot2
 
 jobs:
   ecosystem-check:

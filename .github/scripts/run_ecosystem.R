@@ -1,14 +1,19 @@
 label <- Sys.getenv("GP_LABEL", "unknown")
 pkg_dirs <- list.dirs("test-repos", recursive = FALSE)
 
+tidyverse_pkgs <- strsplit(
+  Sys.getenv("TIDYVERSE_PACKAGES", ""), ","
+)[[1]]
+
 results <- lapply(pkg_dirs, function(pkg) {
   pkg_name <- basename(pkg)
+  checks <- if (pkg_name %in% tidyverse_pkgs) {
+    goodpractice::all_checks()
+  } else {
+    goodpractice::default_checks()
+  }
   tryCatch({
-    g <- goodpractice::gp(
-      pkg,
-      checks = goodpractice::default_checks(),
-      quiet = TRUE
-    )
+    g <- goodpractice::gp(pkg, checks = checks, quiet = TRUE)
     res <- goodpractice::results(g)
     data.frame(
       package = pkg_name,

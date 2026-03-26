@@ -48,7 +48,7 @@ ts_file_functions <- function(root, file) {
   fns[seq_len(k)]
 }
 
-ts_parse <- function(path) {
+ts_parse <- function(path, exclude_path = character()) {
   rdir <- file.path(path, "R")
   if (!dir.exists(rdir)) {
     return(list(trees = list(), functions = list()))
@@ -57,6 +57,7 @@ ts_parse <- function(path) {
   lang <- treesitter.r::language()
   p <- treesitter::parser(lang)
   rfiles <- list.files(rdir, pattern = "\\.[rR]$", full.names = TRUE)
+  rfiles <- filter_excluded_paths(rfiles, path, exclude_path)
 
   trees <- vector("list", length(rfiles))
   names(trees) <- rfiles
@@ -115,7 +116,9 @@ ts_s4_call_ranges <- function(ts) {
 
 ts_get <- function(state) {
   if (is.null(state$.cache$treesitter)) {
-    state$.cache$treesitter <- ts_parse(state$path)
+    state$.cache$treesitter <- ts_parse(
+      state$path, state$exclude_path %||% character()
+    )
   }
   state$.cache$treesitter
 }

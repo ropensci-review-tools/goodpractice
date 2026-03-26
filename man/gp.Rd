@@ -60,6 +60,24 @@ Exclusion only applies when \code{checks = NULL} (the default).
 Explicit \code{checks} arguments are never filtered.
 }
 
+\section{Excluding files}{
+
+Specific files can be excluded from checks via the
+\code{goodpractice.exclude_path} option or the \code{GP_EXCLUDE_PATH}
+environment variable (comma-separated). Paths are relative to the
+package root.
+
+\preformatted{
+options(goodpractice.exclude_path = c("R/RcppExports.R", "R/generated.R"))
+
+# Or via environment variable:
+Sys.setenv(GP_EXCLUDE_PATH = "R/RcppExports.R,R/generated.R")
+}
+
+Excluded files are skipped by lintr, treesitter, expression, and
+roxygen2 checks.
+}
+
 \section{Parallel preparation}{
 
 Preparation steps run sequentially by default. To run them in

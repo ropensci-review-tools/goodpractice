@@ -87,9 +87,9 @@ gp <- function(
   checks <- resolve_checks(checks, mychecks)
   preps <- required_preps(checks, mychecks)
 
-  state <- init_state(path, extra_preps, extra_checks)
-  state <- run_preps(state, preps, mypreps, quiet)
-  state <- run_checks(state, checks, mychecks)
+  state <- init_state(path, extra_preps, extra_checks) |>
+    run_preps(preps, mypreps, quiet) |>
+    run_checks(checks, mychecks)
 
   class(state) <- "goodPractice"
   state
@@ -136,9 +136,10 @@ run_preps <- function(state, preps, mypreps, quiet) {
     requireNamespace("future", quietly = TRUE) &&
     !inherits(future::plan(), "sequential")
 
+  # nocov start - requires non-sequential future::plan()
   apply_fn <- if (use_future) {
     future.apply::future_lapply
-  } else {
+  } else { # nocov end
     lapply
   }
 

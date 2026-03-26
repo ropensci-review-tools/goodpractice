@@ -3,6 +3,86 @@ test_that("gp errors when DESCRIPTION is missing", {
   expect_error(gp(fake_pkg), "must be a package")
 })
 
+# -- validate_pkg_path --------------------------------------------------------
+
+test_that("validate_pkg_path returns path for valid package", {
+  bad1 <- system.file("bad1", package = "goodpractice")
+  expect_equal(validate_pkg_path(bad1), bad1)
+})
+
+test_that("validate_pkg_path errors for non-package path", {
+  fake <- withr::local_tempdir()
+  expect_error(validate_pkg_path(fake), "must be a package")
+})
+
+# -- resolve_checks -----------------------------------------------------------
+
+test_that("resolve_checks returns checks when provided", {
+  mychecks <- prepare_checks(CHECKS, NULL)
+  result <- resolve_checks("has_readme", mychecks)
+  expect_equal(result, "has_readme")
+})
+
+test_that("resolve_checks applies exclusions when NULL", {
+  mychecks <- prepare_checks(CHECKS, NULL)
+  withr::local_options(
+    goodpractice.exclude_check_groups = "covr"
+  )
+  result <- suppressWarnings(
+    resolve_checks(NULL, mychecks)
+  )
+  expect_false("covr" %in% result)
+})
+
+# -- required_preps -----------------------------------------------------------
+
+test_that("required_preps returns unique prep names", {
+  mychecks <- prepare_checks(CHECKS, NULL)
+  preps <- required_preps("description_url", mychecks)
+  expect_equal(preps, "description")
+})
+
+test_that("required_preps deduplicates across checks", {
+  mychecks <- prepare_checks(CHECKS, NULL)
+  checks <- c("description_url", "no_description_depends")
+  preps <- required_preps(checks, mychecks)
+  expect_equal(preps, "description")
+})
+
+# -- init_state ---------------------------------------------------------------
+
+test_that("init_state creates proper state list", {
+  bad1 <- system.file("bad1", package = "goodpractice")
+  state <- init_state(bad1, NULL, NULL)
+  expect_equal(state$path, bad1)
+  expect_equal(unname(state$package), "badpackage")
+  expect_true(is.environment(state$.cache))
+})
+
+# -- run_preps ----------------------------------------------------------------
+
+test_that("run_preps executes prep and adds field to state", {
+  bad1 <- system.file("bad1", package = "goodpractice")
+  state <- init_state(bad1, NULL, NULL)
+  mypreps <- prepare_preps(PREPS, NULL)
+  state <- run_preps(state, "description", mypreps, quiet = TRUE)
+  expect_false(is.null(state$description))
+})
+
+# -- run_checks ---------------------------------------------------------------
+
+test_that("run_checks populates state$checks", {
+  bad1 <- system.file("bad1", package = "goodpractice")
+  state <- init_state(bad1, NULL, NULL)
+  mypreps <- prepare_preps(PREPS, NULL)
+  mychecks <- prepare_checks(CHECKS, NULL)
+  state <- run_preps(
+    state, "description", mypreps, quiet = TRUE
+  )
+  state <- run_checks(state, "description_url", mychecks)
+  expect_true("description_url" %in% names(state$checks))
+})
+
 test_that("check_passed handles list with status field", {
   expect_true(check_passed(list(status = TRUE)))
   expect_false(check_passed(list(status = FALSE)))

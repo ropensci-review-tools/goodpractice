@@ -144,7 +144,7 @@ The table below lists every group and what it covers:
 | `covr` | Whether all code is covered by tests |
 | `cyclocomp` | Whether functions are too complex (default limit: 50) |
 | `description` | Package metadata: URL, BugReports, dependency fields, author roles |
-| `lintr` | Assignment style, line length, semicolons, `sapply()`, `library()` in package code |
+| `lintr` | ~50 linters covering correctness (`anyDuplicated`, `class_equals`), performance (`matrix_apply`, `fixed_regex`), readability (`redundant_ifelse`, `nested_pipe`), and testthat expectations |
 | `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
 | `rd` | Whether exported functions have `\examples` and `\value` sections |
 | `roxygen2` | Roxygen2 tag validation: export/noRd tagging, unknown tags, inheritParams |
@@ -193,6 +193,37 @@ gp(".")
 # the "covr" check runs here because we asked for it by name
 gp(".", checks = "covr")
 ```
+
+## Excluding files
+
+If your package contains generated code or vendored files that should not be checked, you can exclude specific files.
+Set the `goodpractice.exclude_path` option to a character vector of paths relative to the package root:
+
+```{r, eval = FALSE}
+options(goodpractice.exclude_path = c("R/RcppExports.R", "R/generated_bindings.R"))
+gp(".")
+```
+
+Or via the `GP_EXCLUDE_PATH` environment variable:
+
+```bash
+GP_EXCLUDE_PATH=R/RcppExports.R,R/generated.R Rscript -e 'goodpractice::gp(".")'
+```
+
+Excluded files are skipped by lintr, treesitter, expression, and roxygen2 checks.
+
+## Parallel preparation
+
+Preparation steps run sequentially by default.
+If you have the [future.apply](https://cran.r-project.org/package=future.apply) package installed, you can run them in parallel by setting a `future::plan()`:
+
+```{r, eval = FALSE}
+future::plan("multisession")
+gp(".")
+```
+
+This can significantly speed up runs on large packages where multiple slow preps (covr, rcmdcheck, lintr) would otherwise run one after another.
+Preps run in parallel only when a non-sequential plan is active — the default behaviour is unchanged.
 
 ## Tidyverse style checks
 
@@ -259,4 +290,6 @@ export_json(g, "gp_results.json")
 ## Custom checks
 
 goodpractice is extensible — you can define your own checks and preparation steps to enforce team-specific conventions.
+The `gp` string in each check supports [cli inline markup](https://cli.r-lib.org/reference/inline-markup.html) — use `{.fn func}` for function names, `{.code expression}` for code, `{.file path}` for file paths, `{.field name}` for field names, and `{.url url}` for URLs.
+
 See `vignette("custom_checks")` for the full guide.

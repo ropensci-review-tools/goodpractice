@@ -4,7 +4,7 @@
 \alias{r_package_files}
 \title{Get all source files of a package, in the right order}
 \usage{
-r_package_files(path)
+r_package_files(path, exclude_path = character())
 }
 \arguments{
 \item{path}{Path to the root of the R package.}

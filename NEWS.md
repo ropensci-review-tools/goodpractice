@@ -1,6 +1,9 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* Exclude specific files from checks via `goodpractice.exclude_path` option
+  or `GP_EXCLUDE_PATH` environment variable. Useful for generated code like
+  `R/RcppExports.R`.
 * Preparation steps can now run in parallel via the `future.apply` package.
   Set `future::plan("multisession")` before calling `gp()` to enable
   parallel data gathering (#47).

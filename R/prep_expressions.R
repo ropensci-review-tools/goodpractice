@@ -24,7 +24,7 @@ package_collate <- function(path = ".") {
 #'   names in the current collation order.
 #' @keywords internal
 
-r_package_files <- function(path) {
+r_package_files <- function(path, exclude_path = character()) {
   files <- package_collate(path)
   if (is.null(files)) {
     files <- list.files(
@@ -33,7 +33,8 @@ r_package_files <- function(path) {
     )
   }
 
-  file.path(path, "R", files)
+  result <- file.path(path, "R", files)
+  filter_excluded_paths(result, path, exclude_path)
 }
 
 #' Extract all closures from a package
@@ -54,7 +55,7 @@ r_package_files <- function(path) {
 
 prep_expressions <- function(state, version = NULL, quiet) {
   files <- lapply(
-    r_package_files(state$path),
+    r_package_files(state$path, state$exclude_path %||% character()),
     get_source_expressions
   )
   expr <- lapply(files, "[[", "expressions")

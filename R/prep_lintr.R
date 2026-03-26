@@ -84,7 +84,10 @@ linters_to_lint <- list(
 
 PREPS$lintr <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
+  excl <- as.list(state$exclude_path %||% character())
   run_prep_step(state, "lintr", function(path) {
-    suppressMessages(lint_package(path, linters = linters_to_lint))
+    suppressMessages(lint_package(
+      path, linters = linters_to_lint, exclusions = excl
+    ))
   }, path = path, silent = quiet)
 }

@@ -7,6 +7,9 @@
   long if/else chains), and testthat best practices (e.g.
   `expect_identical()` vs `expect_equal()`). All respect `.lintr`
   configuration files (#189).
+* Exclude specific files from checks via `goodpractice.exclude_path` option
+  or `GP_EXCLUDE_PATH` environment variable. Useful for generated code like
+  `R/RcppExports.R`.
 * Preparation steps can now run in parallel via the `future.apply` package.
   Set `future::plan("multisession")` before calling `gp()` to enable
   parallel data gathering (#47).

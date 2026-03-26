@@ -13,6 +13,14 @@ default_r_file_pattern <- function() {
   "\\.[RrSs]$"
 }
 
+filter_excluded_paths <- function(files, pkg_path, exclude_path) {
+  if (length(exclude_path) == 0) return(files)
+  abs_excluded <- normalizePath(file.path(pkg_path, exclude_path),
+                                mustWork = FALSE)
+  abs_files <- normalizePath(files, mustWork = FALSE)
+  files[!abs_files %in% abs_excluded]
+}
+
 trim_ws <- function(x) {
   sub("\\s+$", "", sub("^\\s+", "", x))
 }

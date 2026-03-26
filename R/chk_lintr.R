@@ -201,7 +201,9 @@ CHECKS$lintr_condition_message_linter <- make_lintr_check(
   "condition_message_linter",
   "Build condition messages correctly",
   "build error and warning messages with the condition function itself,
-        not with {.fn paste} or {.fn sprintf}. Use {.code stop('msg')} not {.code stop(paste('msg'))}."
+        not with {.fn paste} or {.fn sprintf}.
+        Use {.code stop('msg')} not
+        {.code stop(paste('msg'))}."
 )
 
 CHECKS$lintr_duplicate_argument_linter <- make_lintr_check(
@@ -221,8 +223,10 @@ CHECKS$lintr_equals_na_linter <- make_lintr_check(
 CHECKS$lintr_fixed_regex_linter <- make_lintr_check(
   "fixed_regex_linter",
   "Use fixed strings instead of regex where possible",
-  "use {.code fixed = TRUE} in {.fn grep}/{.fn grepl}/{.fn sub}/{.fn gsub} when the pattern is a
-        plain string, not a regular expression. It is faster and clearer."
+  "use {.code fixed = TRUE} in {.fn grep}/{.fn grepl}/
+        {.fn sub}/{.fn gsub} when the pattern is a plain
+        string, not a regular expression.
+        It is faster and clearer."
 )
 
 CHECKS$lintr_for_loop_index_linter <- make_lintr_check(
@@ -235,15 +239,19 @@ CHECKS$lintr_for_loop_index_linter <- make_lintr_check(
 CHECKS$lintr_length_test_linter <- make_lintr_check(
   "length_test_linter",
   "Use length() correctly in conditions",
-  "avoid {.code length(x) == 0} or {.code length(x) > 0} in {.fn if} conditions when
-        a type-stable alternative like {.fn is.null} or {.fn nzchar} exists."
+  "avoid {.code length(x) == 0} or
+        {.code length(x) > 0} in {.fn if} conditions
+        when a type-stable alternative like {.fn is.null}
+        or {.fn nzchar} exists."
 )
 
 CHECKS$lintr_matrix_apply_linter <- make_lintr_check(
   "matrix_apply_linter",
   "Use colSums/rowSums/colMeans/rowMeans instead of apply()",
-  "use {.fn colSums}, {.fn rowSums}, {.fn colMeans}, or {.fn rowMeans} instead of
-        {.fn apply} with {.fn sum} or {.fn mean}. The specialized functions are much faster."
+  "use {.fn colSums}, {.fn rowSums},
+        {.fn colMeans}, or {.fn rowMeans} instead of
+        {.fn apply} with {.fn sum} or {.fn mean}.
+        The specialized functions are much faster."
 )
 
 CHECKS$lintr_missing_argument_linter <- make_lintr_check(
@@ -263,8 +271,9 @@ CHECKS$lintr_nrow_subset_linter <- make_lintr_check(
 CHECKS$lintr_redundant_equals_linter <- make_lintr_check(
   "redundant_equals_linter",
   "No redundant comparisons to TRUE or FALSE",
-  "avoid {.code x == TRUE} or {.code x == FALSE}. Use {.code x} or {.code !x} directly. The
-        comparison is redundant and less readable."
+  "avoid {.code x == TRUE} or {.code x == FALSE}.
+        Use {.code x} or {.code !x} directly.
+        The comparison is redundant and less readable."
 )
 
 CHECKS$lintr_redundant_ifelse_linter <- make_lintr_check(
@@ -284,8 +293,10 @@ CHECKS$lintr_regex_subset_linter <- make_lintr_check(
 CHECKS$lintr_sort_linter <- make_lintr_check(
   "sort_linter",
   "Use sort() or is.unsorted() instead of order()",
-  "use {.code sort(x)} instead of {.code x[order(x)]} and {.fn is.unsorted} instead
-        of checking {.code all(x == sort(x))}. The dedicated functions are clearer."
+  "use {.code sort(x)} instead of
+        {.code x[order(x)]} and {.fn is.unsorted} instead
+        of checking {.code all(x == sort(x))}.
+        The dedicated functions are clearer."
 )
 
 CHECKS$lintr_system_file_linter <- make_lintr_check(
@@ -293,7 +304,8 @@ CHECKS$lintr_system_file_linter <- make_lintr_check(
   "Use system.file() correctly",
   "use {.code system.file('dir', 'file', package = 'pkg')} instead of
         {.code file.path(system.file(package = 'pkg'), 'dir', 'file')}. The
-        single-call form correctly returns {.code ''} when the file does not exist."
+        single-call form correctly returns {.code ''}
+        when the file does not exist."
 )
 
 CHECKS$lintr_terminal_close_linter <- make_lintr_check(
@@ -324,8 +336,10 @@ CHECKS$lintr_boolean_arithmetic_linter <- make_lintr_check(
 CHECKS$lintr_comparison_negation_linter <- make_lintr_check(
   "comparison_negation_linter",
   "Use natural comparison operators instead of negation",
-  "use {.code x != y} instead of {.code !(x == y)}, and {.code x >= y} instead of
-        {.code !(x < y)}. Direct comparisons are clearer."
+  "use {.code x != y} instead of
+        {.code !(x == y)}, and {.code x >= y} instead
+        of {.code !(x < y)}.
+        Direct comparisons are clearer."
 )
 
 CHECKS$lintr_consecutive_assertion_linter <- make_lintr_check(
@@ -338,7 +352,8 @@ CHECKS$lintr_consecutive_assertion_linter <- make_lintr_check(
 CHECKS$lintr_if_not_else_linter <- make_lintr_check(
   "if_not_else_linter",
   "Avoid if (!cond) { a } else { b }",
-  "prefer {.code if (cond) {{b}} else {{a}}} over {.code if (!cond) {{a}} else {{b}}}.
+  "prefer {.code if (cond) {{b}} else {{a}}} over
+        {.code if (!cond) {{a}} else {{b}}}.
         Positive conditions are easier to reason about."
 )
 
@@ -368,7 +383,8 @@ CHECKS$lintr_inner_combine_linter <- make_lintr_check(
   "inner_combine_linter",
   "Combine inside c() not outside",
   "use {.code c(paste0('a', x), paste0('b', x))} instead of
-        {.code paste0(c('a', 'b'), x)}. Combining at the outer level is clearer."
+        {.code paste0(c('a', 'b'), x)}.
+        Combining at the outer level is clearer."
 )
 
 CHECKS$lintr_length_levels_linter <- make_lintr_check(
@@ -381,8 +397,10 @@ CHECKS$lintr_length_levels_linter <- make_lintr_check(
 CHECKS$lintr_literal_coercion_linter <- make_lintr_check(
   "literal_coercion_linter",
   "Use typed literals instead of coercion functions",
-  "use {.code 1L} instead of {.code as.integer(1)}, and {.code 'text'} instead of
-        {.code as.character('text')}. Typed literals are clearer and faster."
+  "use {.code 1L} instead of
+        {.code as.integer(1)}, and {.code 'text'}
+        instead of {.code as.character('text')}.
+        Typed literals are clearer and faster."
 )
 
 CHECKS$lintr_nested_ifelse_linter <- make_lintr_check(
@@ -402,15 +420,18 @@ CHECKS$lintr_nested_pipe_linter <- make_lintr_check(
 CHECKS$lintr_numeric_leading_zero_linter <- make_lintr_check(
   "numeric_leading_zero_linter",
   "Include leading zero in decimal numbers",
-  "write {.code 0.1} instead of {.code .1}. The leading zero makes decimal numbers
-        easier to spot when reading code."
+  "write {.code 0.1} instead of {.code .1}.
+        The leading zero makes decimal numbers easier
+        to spot when reading code."
 )
 
 CHECKS$lintr_outer_negation_linter <- make_lintr_check(
   "outer_negation_linter",
   "Negate at the outer level",
-  "use {.code !any(x)} instead of {.code all(!x)}, and {.code !all(x)} instead of
-        {.code any(!x)}. Outer negation short-circuits and is clearer."
+  "use {.code !any(x)} instead of
+        {.code all(!x)}, and {.code !all(x)} instead of
+        {.code any(!x)}. Outer negation short-circuits
+        and is clearer."
 )
 
 CHECKS$lintr_paste_linter <- make_lintr_check(
@@ -469,8 +490,10 @@ CHECKS$lintr_conjunct_test_linter <- make_lintr_check(
   "conjunct_test_linter",
   "Use separate expect_ calls instead of &&",
   paste(
-    "split {.code expect_true(a && b)} into separate {.code expect_true(a)} and",
-    "{.code expect_true(b)} calls. Separate assertions give clearer failure messages."
+    "split {.code expect_true(a && b)} into separate",
+    "{.code expect_true(a)} and {.code expect_true(b)}",
+    "calls. Separate assertions give clearer failure",
+    "messages."
   ),
   tags = c("lintr", "testing")
 )
@@ -479,7 +502,8 @@ CHECKS$lintr_expect_comparison_linter <- make_lintr_check(
   "expect_comparison_linter",
   "Use expect_gt/lt/gte/lte instead of expect_true with comparison",
   paste(
-    "use {.code expect_gt(x, y)} instead of {.code expect_true(x > y)}. Dedicated",
+    "use {.code expect_gt(x, y)} instead of",
+    "{.code expect_true(x > y)}. Dedicated",
     "comparison expectations give better failure messages."
   ),
   tags = c("lintr", "testing")
@@ -500,7 +524,8 @@ CHECKS$lintr_expect_length_linter <- make_lintr_check(
   "expect_length_linter",
   "Use expect_length() instead of expect_equal(length())",
   paste(
-    "use {.code expect_length(x, n)} instead of {.code expect_equal(length(x), n)}.",
+    "use {.code expect_length(x, n)} instead of",
+    "{.code expect_equal(length(x), n)}.",
     "The dedicated function gives clearer failure messages."
   ),
   tags = c("lintr", "testing")
@@ -565,7 +590,8 @@ CHECKS$lintr_expect_true_false_linter <- make_lintr_check(
   "Use expect_true()/expect_false() instead of expect_equal(x, TRUE)",
   paste(
     "use {.fn expect_true} instead of {.code expect_equal(x, TRUE)} and",
-    "{.fn expect_false} instead of {.code expect_equal(x, FALSE)}. The dedicated",
+    "{.fn expect_false} instead of",
+    "{.code expect_equal(x, FALSE)}. The dedicated",
     "functions give clearer failure messages."
   ),
   tags = c("lintr", "testing")

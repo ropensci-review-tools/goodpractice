@@ -37,7 +37,8 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
   description = "Documented functions have @export or @noRd",
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
-  gp = "Tag every documented function with either {.code @export} or {.code @noRd}.",
+  gp = "Tag every documented function with either
+        {.code @export} or {.code @noRd}.",
 
   check = function(state) {
     if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
@@ -133,8 +134,11 @@ CHECKS$roxygen2_valid_inherit <- make_check(
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
-    "Ensure functions referenced by {.code @inheritParams} and {.code @inheritDotParams}",
-    "exist within the package. Use {.code pkg::func} syntax for external functions."
+    "Ensure functions referenced by",
+    "{.code @inheritParams} and",
+    "{.code @inheritDotParams} exist within the",
+    "package. Use {.code pkg::func} syntax for",
+    "external functions."
   ),
 
   check = function(state) {

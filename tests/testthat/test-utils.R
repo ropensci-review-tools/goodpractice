@@ -26,8 +26,3 @@ test_that("drop_nulls removes NULL elements", {
   expect_equal(drop_nulls(list("a", "b")), list("a", "b"))
 })
 
-test_that("get_package_name parses namespace from path", {
-  bad1 <- system.file("bad1", package = "goodpractice")
-  result <- get_package_name(bad1)
-  expect_type(result, "list")
-})

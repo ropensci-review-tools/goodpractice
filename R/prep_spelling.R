@@ -5,7 +5,11 @@ PREPS$spelling <- function(state, path = state$path, quiet) {
   wordlist <- file.path(path, "inst", "WORDLIST")
   if (!file.exists(wordlist)) {
     state$spelling <- "no_wordlist"
-    if (!quiet) cli::cli_inform("Skipping spelling check: no {.file inst/WORDLIST} found.")
+    if (!quiet) {
+      cli::cli_inform(
+        "Skipping spelling check: no {.file inst/WORDLIST} found."
+      )
+    }
     return(state)
   }
   state$spelling <- try(

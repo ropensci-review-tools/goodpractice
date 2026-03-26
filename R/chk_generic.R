@@ -46,7 +46,8 @@ CHECKS$r_file_extension <- make_check(
   preps = "package_structure",
 
   gp = paste(
-    "use the {.file .R} file extension for R scripts, not {.file .r} or {.file .q}.",
+    "use the {.file .R} file extension for R scripts,",
+    "not {.file .r} or {.file .q}.",
     "CRAN requires the uppercase {.file .R} extension."
   ),
 

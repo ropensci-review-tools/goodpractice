@@ -5,7 +5,9 @@ PREPS$revdep <- function(state, path = state$path, quiet) {
   if (!curl::has_internet()) {
     state$revdep <- NA
     if (!quiet) {
-      cli::cli_warn("Prep step for {.val revdep} skipped: no internet connection.")
+      cli::cli_warn(
+        "Prep step for {.val revdep} skipped: no internet connection."
+      )
     }
     return(state)
   }

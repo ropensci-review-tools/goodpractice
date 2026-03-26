@@ -264,7 +264,8 @@ cross_file_duplicates <- function(df, key_col, file_col) {
 
   candidates <- df[df[[key_col]] %in% duped_keys, , drop = FALSE]
   multi_file <- vapply(duped_keys, function(k) {
-    length(unique(basename(candidates[[file_col]][candidates[[key_col]] == k]))) >= 2
+    matched <- candidates[[file_col]][candidates[[key_col]] == k]
+    length(unique(basename(matched))) >= 2
   }, logical(1))
 
   candidates[candidates[[key_col]] %in% duped_keys[multi_file], , drop = FALSE]

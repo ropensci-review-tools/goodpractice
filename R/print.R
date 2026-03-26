@@ -42,7 +42,9 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   }
 
   if (!failure) {
-    msg <- praise('${Exclamation}! ${Adjective} package! Keep up the ${adjective} work!')
+    msg <- praise(
+      '${Exclamation}! ${Adjective} package! Keep up the ${adjective} work!'
+    )
     cli::cli_text("{cli::col_red(cli::symbol$heart)} {.strong {msg}}")
   }
 
@@ -87,7 +89,9 @@ gp_positions <- function(pos, limit) {
 
   for (p in pos) {
     loc <- if (is.na(p$line_number)) "" else paste0(":", p$line_number)
-    if (nzchar(loc) && !is.na(p$column_number)) loc <- paste0(loc, ":", p$column_number)
+    if (nzchar(loc) && !is.na(p$column_number)) {
+      loc <- paste0(loc, ":", p$column_number)
+    }
     cli::cli_text("{.path {p$filename}{loc}}")
   }
 

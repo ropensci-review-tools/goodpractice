@@ -1,10 +1,5 @@
 
 #' @noRd
-get_package_name <- function(path = ".") {
-  state <- parseNamespaceFile(basename(path), file.path(path, ".."))
-}
-
-#' @noRd
 `%||%` <- function(l, r) { if (is.null(l)) r else l }
 
 #' @noRd
@@ -49,7 +44,8 @@ has_internet <- function() {
   curl::has_internet()
 }
 
-# Used only to parse code chunks in vignettes; all other code is parsed with treesitter.R fns
+# Used only to parse code chunks in vignettes;
+# all other code is parsed with treesitter.R fns
 #' @noRd
 safe_parse <- function(file = NULL, text = NULL, keep_source = TRUE,
                        encoding = "UTF-8") {

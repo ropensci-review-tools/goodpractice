@@ -1,6 +1,7 @@
 name: Ecosystem check
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main]
     paths:

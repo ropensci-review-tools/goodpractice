@@ -1,11 +1,13 @@
 name: Ecosystem check
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [main]
     paths:
       - 'R/**'
       - 'DESCRIPTION'
+      - '.github/workflows/ecosystem-check.yml'
+      - '.github/scripts/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
@@ -33,7 +35,6 @@ jobs:
       - name: Checkout PR
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           path: goodpractice-pr
 
       - name: Checkout main

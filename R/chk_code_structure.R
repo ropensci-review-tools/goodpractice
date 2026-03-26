@@ -293,7 +293,8 @@ CHECKS$duplicate_function_bodies <- make_check(
       normalize_body_text(fn$fn_node)
     }, character(1))
 
-    trivial <- nchar(bodies) < 20
+    min_dup_chars <- 20L
+    trivial <- nchar(bodies) < min_dup_chars
     bodies[trivial] <- paste0("__trivial__", seq_along(bodies)[trivial])
 
     fn_df <- data.frame(

@@ -85,7 +85,10 @@ gp <- function(
   pkgname <- desc_get(
     "Package", file = file.path(path, "DESCRIPTION")
   )
-  cli::cli_h1("Running goodpractice on {.pkg {pkgname}}")
+  cli::cat_rule(
+    "Preparing goodpractice for {pkgname}",
+    col = "cyan"
+  )
 
   mychecks <- prepare_checks(CHECKS, extra_checks)
   mypreps <- prepare_preps(PREPS, extra_preps)

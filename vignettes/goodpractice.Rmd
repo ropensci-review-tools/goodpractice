@@ -229,7 +229,7 @@ Preps run in parallel only when a non-sequential plan is active — the default 
 
 The default checks deliberately stay away from style preferences — they focus on things that are good practice regardless of how you format your code.
 
-If your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of style checks:
+If you or your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of style checks:
 
 ```{r, eval = FALSE}
 # add tidyverse checks to the defaults

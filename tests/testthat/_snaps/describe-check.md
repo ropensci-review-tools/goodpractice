@@ -93,6 +93,159 @@
       $lintr_seq_linter
       [1] "Avoid 1:length(...) and similar expressions"
       
+      $lintr_any_duplicated_linter
+      [1] "Use anyDuplicated() instead of any(duplicated())"
+      
+      $lintr_any_is_na_linter
+      [1] "Use anyNA() instead of any(is.na())"
+      
+      $lintr_class_equals_linter
+      [1] "Use inherits() instead of class() =="
+      
+      $lintr_condition_message_linter
+      [1] "Build condition messages correctly"
+      
+      $lintr_duplicate_argument_linter
+      [1] "No duplicate arguments in function calls"
+      
+      $lintr_equals_na_linter
+      [1] "Use is.na() not == NA"
+      
+      $lintr_fixed_regex_linter
+      [1] "Use fixed strings instead of regex where possible"
+      
+      $lintr_for_loop_index_linter
+      [1] "Do not overwrite existing variables with for loop index"
+      
+      $lintr_length_test_linter
+      [1] "Use length() correctly in conditions"
+      
+      $lintr_matrix_apply_linter
+      [1] "Use colSums/rowSums/colMeans/rowMeans instead of apply()"
+      
+      $lintr_missing_argument_linter
+      [1] "No missing arguments in function calls"
+      
+      $lintr_nrow_subset_linter
+      [1] "Use nrow(subset) instead of nrow() after subsetting"
+      
+      $lintr_redundant_equals_linter
+      [1] "No redundant comparisons to TRUE or FALSE"
+      
+      $lintr_redundant_ifelse_linter
+      [1] "No redundant ifelse() calls"
+      
+      $lintr_regex_subset_linter
+      [1] "Use grep() with value = TRUE instead of subsetting"
+      
+      $lintr_sort_linter
+      [1] "Use sort() or is.unsorted() instead of order()"
+      
+      $lintr_system_file_linter
+      [1] "Use system.file() correctly"
+      
+      $lintr_terminal_close_linter
+      [1] "Do not close connections redundantly"
+      
+      $lintr_which_grepl_linter
+      [1] "Use grep() instead of which(grepl())"
+      
+      $lintr_boolean_arithmetic_linter
+      [1] "Avoid arithmetic on logical vectors"
+      
+      $lintr_comparison_negation_linter
+      [1] "Use natural comparison operators instead of negation"
+      
+      $lintr_consecutive_assertion_linter
+      [1] "Combine consecutive stopifnot() calls"
+      
+      $lintr_if_not_else_linter
+      [1] "Avoid if (!cond) { a } else { b }"
+      
+      $lintr_if_switch_linter
+      [1] "Use switch() instead of long if/else chains"
+      
+      $lintr_ifelse_censor_linter
+      [1] "Use pmin()/pmax() instead of ifelse() for clamping"
+      
+      $lintr_implicit_assignment_linter
+      [1] "Avoid implicit assignments in function calls"
+      
+      $lintr_inner_combine_linter
+      [1] "Combine inside c() not outside"
+      
+      $lintr_length_levels_linter
+      [1] "Use nlevels() instead of length(levels())"
+      
+      $lintr_literal_coercion_linter
+      [1] "Use typed literals instead of coercion functions"
+      
+      $lintr_nested_ifelse_linter
+      [1] "Avoid deeply nested ifelse() calls"
+      
+      $lintr_nested_pipe_linter
+      [1] "Avoid pipes inside other pipes"
+      
+      $lintr_numeric_leading_zero_linter
+      [1] "Include leading zero in decimal numbers"
+      
+      $lintr_outer_negation_linter
+      [1] "Negate at the outer level"
+      
+      $lintr_paste_linter
+      [1] "Use paste0() or file.path() instead of paste() with sep"
+      
+      $lintr_scalar_in_linter
+      [1] "Use == instead of %in% for scalar comparison"
+      
+      $lintr_strings_as_factors_linter
+      [1] "Do not use stringsAsFactors argument"
+      
+      $lintr_undesirable_operator_linter
+      [1] "Avoid undesirable operators"
+      
+      $lintr_unnecessary_concatenation_linter
+      [1] "Avoid unnecessary c() calls"
+      
+      $lintr_unnecessary_lambda_linter
+      [1] "Avoid unnecessary anonymous functions"
+      
+      $lintr_unreachable_code_linter
+      [1] "No unreachable code after return/stop/next"
+      
+      $lintr_conjunct_test_linter
+      [1] "Use separate expect_ calls instead of &&"
+      
+      $lintr_expect_comparison_linter
+      [1] "Use expect_gt/lt/gte/lte instead of expect_true with comparison"
+      
+      $lintr_expect_identical_linter
+      [1] "Use expect_identical() instead of expect_equal() where possible"
+      
+      $lintr_expect_length_linter
+      [1] "Use expect_length() instead of expect_equal(length())"
+      
+      $lintr_expect_named_linter
+      [1] "Use expect_named() instead of expect_equal(names())"
+      
+      $lintr_expect_not_linter
+      [1] "Use expect_false() instead of expect_true(!x)"
+      
+      $lintr_expect_null_linter
+      [1] "Use expect_null() instead of expect_equal(x, NULL)"
+      
+      $lintr_expect_s3_class_linter
+      [1] "Use expect_s3_class() instead of expect_equal(class())"
+      
+      $lintr_expect_s4_class_linter
+      [1] "Use expect_s4_class() instead of expect_true(is())"
+      
+      $lintr_expect_true_false_linter
+      [1] "Use expect_true()/expect_false() instead of expect_equal(x, TRUE)"
+      
+      $lintr_expect_type_linter
+      [1] "Use expect_type() instead of expect_equal(typeof())"
+      
       $no_import_package_as_a_whole
       [1] "Packages are not imported as a whole"
       

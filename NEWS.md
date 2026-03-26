@@ -1,6 +1,12 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* Expanded default lintr checks from 9 to ~53, covering correctness
+  (e.g. `anyDuplicated()` vs `any(duplicated())`), performance
+  (e.g. `colSums()` vs `apply()`), readability (e.g. `switch()` vs
+  long if/else chains), and testthat best practices (e.g.
+  `expect_identical()` vs `expect_equal()`). All respect `.lintr`
+  configuration files (#189).
 * Exclude specific files from checks via `goodpractice.exclude_path` option
   or `GP_EXCLUDE_PATH` environment variable. Useful for generated code like
   `R/RcppExports.R`.

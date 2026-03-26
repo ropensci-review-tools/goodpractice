@@ -70,18 +70,18 @@ test_that("ts_function_length counts lines correctly", {
   expect_equal(ts_function_length(fns[[1]]$fn_node), 4L)
 })
 
-test_that("ts_all_called_functions returns empty for no trees", {
+test_that("ts_all_referenced_functions returns empty for no trees", {
   pkg <- withr::local_tempdir()
   ts <- ts_parse(pkg)
-  expect_equal(ts_all_called_functions(ts), character())
+  expect_equal(ts_all_referenced_functions(ts), character())
 })
 
-test_that("ts_all_called_functions extracts call names", {
+test_that("ts_all_referenced_functions extracts call names", {
   pkg <- withr::local_tempdir()
   dir.create(file.path(pkg, "R"))
   writeLines("f <- function() { mean(1:10) }", file.path(pkg, "R", "code.R"))
   ts <- ts_parse(pkg)
-  calls <- ts_all_called_functions(ts)
+  calls <- ts_all_referenced_functions(ts)
   expect_true("mean" %in% calls)
 })
 
@@ -153,4 +153,49 @@ test_that("complexity_unused_internal passes when all exported", {
   gp_res <- gp(pkg, checks = "complexity_unused_internal")
   res <- results(gp_res)
   expect_true(res$passed[res$check == "complexity_unused_internal"])
+})
+
+test_that("unused_internal detects functions passed as arguments", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: hoftest", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT"
+  ), file.path(pkg, "DESCRIPTION"))
+  writeLines("export(public_fn)", file.path(pkg, "NAMESPACE"))
+
+  writeLines(c(
+    "public_fn <- function(x) lapply(x, helper)",
+    "helper <- function(i) i + 1",
+    "dead_fn <- function() 99"
+  ), file.path(pkg, "R", "code.R"))
+
+  gp_res <- gp(pkg, checks = "complexity_unused_internal")
+  pos <- failed_positions(gp_res)$complexity_unused_internal
+  names <- vapply(pos, `[[`, "", "line")
+  expect_false("helper" %in% names)
+  expect_true("dead_fn" %in% names)
+})
+
+test_that("unused_internal detects functions assigned to lists", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: listtest", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT"
+  ), file.path(pkg, "DESCRIPTION"))
+  writeLines("export(public_fn)", file.path(pkg, "NAMESPACE"))
+
+  writeLines(c(
+    "MY_LIST <- list()",
+    "public_fn <- function() MY_LIST[[1]](42)",
+    "prep_fn <- function(x) x * 2",
+    "MY_LIST$prep <- prep_fn"
+  ), file.path(pkg, "R", "code.R"))
+
+  gp_res <- gp(pkg, checks = "complexity_unused_internal")
+  pos <- failed_positions(gp_res)$complexity_unused_internal
+  if (is.null(pos)) pos <- list()
+  names <- vapply(pos, `[[`, "", "line")
+  expect_false("prep_fn" %in% names)
 })

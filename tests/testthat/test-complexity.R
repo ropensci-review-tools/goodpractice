@@ -85,6 +85,32 @@ test_that("ts_all_referenced_functions extracts call names", {
   expect_true("mean" %in% calls)
 })
 
+test_that("ts_all_referenced_functions finds identifiers in bodies", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "outer <- function(x) lapply(x, inner)",
+    "inner <- function(i) i + 1"
+  ), file.path(pkg, "R", "code.R"))
+  ts <- ts_parse(pkg)
+  refs <- ts_all_referenced_functions(ts)
+  expect_true("inner" %in% refs)
+  expect_true("lapply" %in% refs)
+})
+
+test_that("ts_all_referenced_functions finds RHS assignments", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "MY_LIST <- list()",
+    "helper <- function() 42",
+    "MY_LIST$fn <- helper"
+  ), file.path(pkg, "R", "code.R"))
+  ts <- ts_parse(pkg)
+  refs <- ts_all_referenced_functions(ts)
+  expect_true("helper" %in% refs)
+})
+
 # -- complexity_unused_internal ------------------------------------------------
 
 test_that("complexity_unused_internal fails on dead code", {

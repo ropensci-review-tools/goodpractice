@@ -1,10 +1,12 @@
 
 #' @include treesitter.R
 
+#' @noRd
 get_lintr_position <- function(linter) {
   linter[c("filename", "line_number", "column_number", "ranges", "line")]
 }
 
+#' @noRd
 get_lintr_state <- function(state, linter) {
   if(inherits(state$lintr, "try-error")) {
     return(list(status = NA, position = list()))
@@ -20,6 +22,7 @@ get_lintr_state <- function(state, linter) {
   )
 }
 
+#' @noRd
 make_lintr_check <- function(linter_name, description, gp, tags = "lintr") {
   make_check(
     description = description,

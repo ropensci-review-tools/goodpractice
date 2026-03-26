@@ -138,6 +138,7 @@ gp <- function(
   state
 }
 
+#' @noRd
 excluded_paths <- function() {
   opt <- getOption("goodpractice.exclude_path")
   if (!is.null(opt)) return(opt)
@@ -146,6 +147,7 @@ excluded_paths <- function() {
   parts[nzchar(parts)]
 }
 
+#' @noRd
 excluded_check_groups <- function() {
   opt <- getOption("goodpractice.exclude_check_groups")
   if (!is.null(opt)) return(opt)
@@ -154,6 +156,7 @@ excluded_check_groups <- function() {
   parts[nzchar(parts)]
 }
 
+#' @noRd
 exclude_checks_by_group <- function(checks, mychecks) {
   exclude <- excluded_check_groups()
   if (length(exclude) == 0) return(checks)
@@ -168,6 +171,7 @@ exclude_checks_by_group <- function(checks, mychecks) {
   checks[!dominated]
 }
 
+#' @noRd
 check_passed <- function(chk, na_as_passed = FALSE) {
   status <- if ("status" %in% names(chk)) {
     chk$status
@@ -184,10 +188,12 @@ check_passed <- function(chk, na_as_passed = FALSE) {
   }
 }
 
+#' @noRd
 check_failed <- function(chk, na_as_passed = FALSE) {
   !check_passed(chk, na_as_passed = na_as_passed)
 }
 
+#' @noRd
 check_type <- function(chk) {
   if (is.list(chk) && "type" %in% names(chk)) chk$type else "error"
 }

@@ -6,6 +6,7 @@
 #'
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
+#' @importFrom stats setNames
 #'
 #' @export
 
@@ -48,6 +49,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   invisible(x)
 }
 
+#' @noRd
 gp_header <- function(x) {
   cli::cat_rule(left = paste("GP", x$package), col = "yellow")
   cli::cli_text()
@@ -55,6 +57,7 @@ gp_header <- function(x) {
   cli::cli_text()
 }
 
+#' @noRd
 gp_advice <- function(state, fail, limit, type = "error") {
   MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
   chk <- MYCHECKS[[fail]]
@@ -75,6 +78,7 @@ gp_advice <- function(state, fail, limit, type = "error") {
   cli::cli_text()
 }
 
+#' @noRd
 gp_positions <- function(pos, limit) {
   num <- length(pos)
   if (num > limit) pos <- pos[seq_len(limit)]

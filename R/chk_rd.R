@@ -1,9 +1,9 @@
 #' @include lists.R
 
-rd_na_result <- function() {
-  list(status = NA, positions = list())
-}
+#' @noRd
+rd_na_result <- function() na_result()
 
+#' @noRd
 rd_find_topic <- function(rd_data, alias) {
   for (topic in rd_data) {
     if (alias %in% topic$aliases) return(topic)
@@ -11,6 +11,7 @@ rd_find_topic <- function(rd_data, alias) {
   NULL
 }
 
+#' @noRd
 rd_exported_aliases <- function(state) {
   ns <- state$namespace
   if (inherits(ns, "try-error")) return(character())
@@ -25,6 +26,7 @@ rd_exported_aliases <- function(state) {
   setdiff(exports, s3methods)
 }
 
+#' @noRd
 rd_check_field <- function(state, field) {
   if (inherits(state$rd, "try-error")) return(rd_na_result())
 
@@ -55,6 +57,7 @@ rd_check_field <- function(state, field) {
   )
 }
 
+#' @noRd
 make_rd_check <- function(description, gp, field, tags = NULL) {
   make_check(
     description = description,

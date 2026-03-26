@@ -1,10 +1,12 @@
 
 #' @include treesitter.R
 
+#' @noRd
 get_tidyverse_lintr_position <- function(lint) {
   lint[c("filename", "line_number", "column_number", "ranges", "line")]
 }
 
+#' @noRd
 get_tidyverse_lintr_state <- function(state, linter) {
   if (inherits(state$tidyverse_lintr, "try-error")) {
     return(list(status = NA, positions = list()))

@@ -12,3 +12,6 @@ Character vector of checks
 \description{
 List the names of all checks
 }
+\examples{
+all_checks()
+}

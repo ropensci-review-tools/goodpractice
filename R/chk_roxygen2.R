@@ -1,9 +1,9 @@
 #' @include lists.R
 
-roxygen2_na_result <- function() {
-  list(status = NA, positions = list())
-}
+#' @noRd
+roxygen2_na_result <- function() na_result()
 
+#' @noRd
 block_is_function <- function(block) {
   cl <- block$call
   if (is.null(cl) || !is.call(cl) || length(cl) < 3) return(FALSE)
@@ -14,10 +14,12 @@ block_is_function <- function(block) {
   is.call(rhs) && identical(rhs[[1]], quote(`function`))
 }
 
+#' @noRd
 block_function_name <- function(block) {
   as.character(block$call[[2]])
 }
 
+#' @noRd
 make_block_position <- function(block) {
   list(
     filename = file.path("R", basename(block$file)),
@@ -167,6 +169,7 @@ CHECKS$roxygen2_valid_inherit <- make_check(
 
 # -- duplicate @param documentation ------------------------------------------
 
+#' @noRd
 extract_block_params <- function(block) {
   param_tags <- roxygen2::block_get_tags(block, "param")
   if (length(param_tags) == 0) return(NULL)

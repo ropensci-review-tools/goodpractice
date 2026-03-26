@@ -1,5 +1,6 @@
 #' @include lists.R
 
+#' @noRd
 spelling_positions <- function(word, locations) {
   unlist(lapply(locations, function(loc) {
     parts <- strsplit(loc, ":")[[1]]

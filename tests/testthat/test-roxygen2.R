@@ -57,6 +57,18 @@ test_that("roxygen2_has_export_or_nord skips @noRd operator functions", {
   expect_true(results(gp_res)$passed)
 })
 
+test_that("has_noRd_tag detects @noRd above function", {
+  tmp <- withr::local_tempfile(fileext = ".R")
+  writeLines(c(
+    "#' @noRd",
+    "my_fn <- function() 1",
+    "",
+    "bare_fn <- function() 2"
+  ), tmp)
+  expect_true(has_noRd_tag(tmp, 2L))
+  expect_false(has_noRd_tag(tmp, 4L))
+})
+
 # -- roxygen2_unknown_tags ----------------------------------------------------
 
 test_that("roxygen2_unknown_tags fails on deprecated/unknown tags", {

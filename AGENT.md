@@ -20,6 +20,7 @@ A list that accumulates prep results and check outcomes as it flows through `gp(
 state <- list(
   path = ".",
   package = "mypkg",
+  exclude_path = character(),
   rcmdcheck = <prep result>,
   lintr = <prep result>,
   ...
@@ -41,27 +42,29 @@ CHECKS <- list()
 
 Every `prep_*.R` file appends to `PREPS`, every `chk_*.R` file appends to `CHECKS`. Collate order in DESCRIPTION ensures `lists.R` loads first.
 
+### Check groups
+
+Every check belongs to at least one group (matching its prep name). Users discover groups via `all_check_groups()` and select checks by group via `checks_by_group()`. Groups can be excluded via `goodpractice.exclude_check_groups` option or `GP_EXCLUDE_CHECK_GROUPS` envvar.
+
 ## Adding a new prep
 
-Create `R/prep_<name>.R`. The file must start with `#' @include lists.R` for collate ordering.
+Create `R/prep_<name>.R`. The file must start with `#' @include lists.R` for collate ordering. Use `run_prep_step()` for consistent error handling:
 
 ```r
-#' @include lists.R
+#' @include lists.R prep_utils.R
 
 PREPS$<name> <- function(state, path = state$path, quiet) {
-  state$<name> <- try(<compute_result>(path), silent = quiet)
-  if (inherits(state$<name>, "try-error")) {
-    warning("Prep step for <name> failed.")
-  }
-  state
+  run_prep_step(state, "<name>", function(path) {
+    <compute_result>(path)
+  }, path = path, silent = quiet)
 }
 ```
 
 Key rules:
-- Wrap the computation in `try(..., silent = quiet)` so failures don't crash the run
-- Never use `return()` inside `try()` — it escapes the enclosing function. Extract a helper function if you need early returns
+- Use `run_prep_step()` — it wraps in `try()`, stores result in `state$<name>`, and emits a `cli::cli_warn()` on failure
+- Never use `return()` inside `try()` — extract a helper function if you need early returns
+- If `state$exclude_path` matters, pass it through to file-listing functions
 - Always return `state`
-- Store results under `state$<name>` matching the prep name
 
 ## Adding new checks
 
@@ -74,16 +77,27 @@ CHECKS$<check_name> <- make_check(
   description = "Short present-tense description",
   tags = c("category", "subcategory"),
   preps = "<prep_name>",
-  gp = "Advice text shown on failure.",
+  gp = "Advice text with {.code cli} {.fn markup}.",
   check = function(state) {
-    if (inherits(state$<prep_name>, "try-error")) {
-      return(list(status = NA, positions = list()))
-    }
+    if (inherits(state$<prep_name>, "try-error"))
+      return(na_result())
     # ... evaluate rule ...
     list(status = <logical>, positions = <list of position objects>)
   }
 )
 ```
+
+### cli markup in gp strings
+
+All `gp` message strings support cli inline markup. Use:
+- `{.fn func}` for function names
+- `{.code expression}` for code
+- `{.file path}` for file paths
+- `{.field name}` for DESCRIPTION fields
+- `{.pkg name}` for package names
+- `{.url url}` for URLs
+
+Literal braces must be escaped as `{{` and `}}`.
 
 ### Check return values
 
@@ -95,6 +109,8 @@ list(
   positions = list()
 )
 ```
+
+Use `na_result()` for the common NA/skip case.
 
 ### Position objects
 
@@ -115,36 +131,33 @@ Filenames are relative to the package root. `line` is a short string shown to th
 When a prep produces structured data and multiple checks extract from it the same way, create a factory:
 
 ```r
-make_<name>_check <- function(description, gp, <field_or_filter>, tags = NULL) {
+make_<name>_check <- function(description, gp, ..., tags = NULL) {
   make_check(
     description = description,
     tags = c("category", tags),
     preps = "<prep_name>",
     gp = gp,
-    check = function(state) {
-      # shared extraction logic using <field_or_filter>
-    }
+    check = function(state) { ... }
   )
 }
 ```
 
-See `make_rcmd_check()` in `R/chk_rcmdcheck.R` for the canonical example.
+Examples: `make_rcmd_check()`, `make_lintr_check()`, `make_rd_check()`, `make_urlchecker_check()`.
 
 ### Handling prep failures in checks
 
 Always guard against prep failure at the top of every check function:
 
 ```r
-if (inherits(state$<prep_name>, "try-error")) {
-  return(list(status = NA, positions = list()))
-}
+if (inherits(state$<prep_name>, "try-error"))
+  return(na_result())
 ```
 
 Returning `NA` status means the check is skipped, not failed.
 
 ### Tags
 
-First tag indicates severity and maps to RStudio marker type: `"error"`, `"warning"`, `"info"`, `"style"`, `"usage"`. Additional tags categorise the check: `"documentation"`, `"DESCRIPTION"`, `"NAMESPACE"`, etc.
+First tag indicates severity: `"error"`, `"warning"`, `"info"`, `"style"`. Additional tags categorise the check: `"documentation"`, `"DESCRIPTION"`, `"NAMESPACE"`, `"lintr"`, `"testing"`, etc.
 
 ### Naming conventions
 
@@ -153,11 +166,31 @@ First tag indicates severity and maps to RStudio marker type: `"error"`, `"warni
 - `no_` prefix for checks that flag things that shouldn't exist: `no_description_depends`
 - File names: `R/prep_<name>.R`, `R/chk_<name>.R`
 
+### Internal functions
+
+All internal (non-exported) functions must have `#' @noRd` above them. Functions without roxygen2 blocks still need a bare `#' @noRd` tag.
+
+## Signalling conditions
+
+Use cli throughout — never use `message()`, `warning()`, or `stop()`:
+- `cli::cli_abort()` instead of `stop()`
+- `cli::cli_warn()` instead of `warning()`
+- `cli::cli_inform()` instead of `message()`
+
+## Configuration options
+
+| Option | Envvar | Default | Purpose |
+|--------|--------|---------|---------|
+| `goodpractice.exclude_check_groups` | `GP_EXCLUDE_CHECK_GROUPS` | `NULL` | Skip entire check groups |
+| `goodpractice.exclude_path` | `GP_EXCLUDE_PATH` | `NULL` | Skip specific files from checks |
+| `goodpractice.cyclocomp_limit` | — | `15` | Max cyclomatic complexity |
+| `goodpractice.function_length_limit` | — | `50` | Max function body lines |
+
 ## DESCRIPTION updates
 
 When adding new preps or checks:
 - Add any new package dependencies to `Imports` (not `Suggests`)
-- Run `roxygen2::roxygenise()` to update the `Collate` field — the `@include lists.R` directive ensures correct load order
+- Run `devtools::document()` to update the `Collate` field and NAMESPACE
 - Add `@importFrom` directives for external functions
 
 ## Testing
@@ -179,13 +212,13 @@ Each fixture needs at minimum: `DESCRIPTION`, `NAMESPACE`, `R/` with at least on
 test_that("check_name fails when <condition>", {
   gp_res <- gp("bad_fixture", checks = "check_name")
   res <- results(gp_res)
-  expect_false(res$result[res$check == "check_name"])
+  expect_false(res$passed[res$check == "check_name"])
 })
 
 test_that("check_name passes when <condition>", {
   gp_res <- gp("good", checks = "check_name")
   res <- results(gp_res)
-  expect_true(res$result[res$check == "check_name"])
+  expect_true(res$passed[res$check == "check_name"])
 })
 ```
 
@@ -208,7 +241,8 @@ Users can extend goodpractice at runtime without modifying package source:
 ```r
 my_prep <- make_prep("mydata", function(path, quiet) { ... })
 my_check <- make_check(
-  description = "...", preps = "mydata", gp = "...",
+  description = "...", preps = "mydata",
+  gp = "advice with {.code cli} markup.",
   check = function(state) { ... }
 )
 gp(".",
@@ -220,10 +254,12 @@ gp(".",
 
 | File | Purpose |
 |---|---|
-| `R/lists.R` | Global `PREPS` and `CHECKS` registries, `all_checks()`, `describe_check()` |
-| `R/gp.R` | Main `gp()` entry point — orchestrates prep and check execution |
-| `R/customization.R` | `make_prep()`, `make_check()`, `prepare_preps()`, `prepare_checks()` |
+| `R/lists.R` | Global `PREPS`/`CHECKS` registries, `all_checks()`, `all_check_groups()`, `checks_by_group()` |
+| `R/gp.R` | `gp()` entry point, `validate_pkg_path()`, `run_preps()`, `run_checks()`, exclusion logic |
+| `R/customization.R` | `make_prep()`, `make_check()` |
 | `R/api.R` | `results()`, `checks()`, `failed_checks()`, `failed_positions()`, `export_json()` |
-| `R/print.R` | `print.goodPractice()` — console output with positions |
+| `R/print.R` | `print.goodPractice()` — cli-based console output with `cli_bullets()` |
+| `R/prep_utils.R` | `run_prep_step()` — shared try/warn boilerplate for preps |
+| `R/utils.R` | `na_result()`, `filter_excluded_paths()`, `safe_parse()`, etc. |
+| `R/treesitter.R` | `ts_parse()`, `ts_get()` — treesitter-based R code analysis |
 | `R/rstudio_markers.R` | RStudio source marker integration |
-| `R/utils.R` | Helpers: `get_package_name()`, `%||%`, `r_package_files()`, etc. |

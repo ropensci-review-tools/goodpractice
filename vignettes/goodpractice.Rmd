@@ -1,7 +1,5 @@
 ---
 title: "goodpractice"
-author: "Hannah Frick"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{goodpractice}
@@ -16,169 +14,282 @@ knitr::opts_chunk$set(
 )
 ```
 
-## What's it for?
+## Why goodpractice?
 
-Building an R package is a great way of encapsulating code, documentation and data in a single testable and easily distributable unit.
+A robust R package needs more than passing `R CMD check`.
+Tests give you confidence that things work.
+A consistent coding style makes your code readable to others.
+Keeping functions short and focused reduces the risk of bugs.
+Good metadata — a BugReports URL, properly declared dependencies, documented return values — helps users and reviewers understand what they're working with.
 
-For a package to be distributed via CRAN, it needs to pass a set of checks implemented in `R CMD check`, such as: Is there minimal documentation, e.g., are all arguments of exported functions documented? Are all dependencies declared?
+goodpractice checks all of this in one pass.
+It bundles `R CMD check` with code coverage ([covr](https://cran.r-project.org/package=covr)), source linting ([lintr](https://cran.r-project.org/package=lintr)), cyclomatic complexity ([cyclocomp](https://cran.r-project.org/package=cyclocomp)), and its own checks for documentation, package structure, and common pitfalls.
+Each message tells you _what_ to fix, _why_ it matters, and _where_ in your code to look.
+You can also add [custom checks](custom_checks.html) for your team's own conventions.
 
-These checks are helpful in developing a solid R package but they don't check for several other good practices. For example, a package does not need to contain any tests but is it good practice to include such. Following a coding standard helps readability. Avoiding overly complex functions reduces the risk of bugs. Including an URL for bug reports lets people more easily report bugs if they find any. 
+## Quick start
 
-Tools for automatically checking several of these aspects already exist and the **goodpractice** package bundles the checks from [**rcmdcheck**](https://cran.r-project.org/package=rcmdcheck) with code coverage through the [**covr**](https://cran.r-project.org/package=covr) package, source code linting via the [**lintr**](https://cran.r-project.org/package=lintr) package and cyclomatic complexity via the [**cyclocomp**](https://cran.r-project.org/package=cyclocomp) package and augments it with some further checks on good practice for R package development such as avoiding `T` and `F` in favour of `TRUE` and `FALSE`. It provides advice on which practices to follow and which to avoid.
-
-You can use **goodpractice** checks as a reminder for you and your colleagues - and if you have custom checks to run, you can make **goodpractice** run those as well! Please see the vignette "Custom Checks" for more details.
-
-
-## Good practice out of the box
-
-### Main function
-
-The main function is `goodpractice()` and has an alias `gp()` which takes the path to the source code of a package as its first argument. The **goodpractice** package contains the source for a simple package which violates some good practices. We'll use this for the examples.
+The main function is `gp()` (short for `goodpractice()`).
+Point it at a package directory and it runs the default set of checks:
 
 ```{r}
 library(goodpractice)
 
-# get path to example package
+# goodpractice ships with an example package that has some issues
 pkg_path <- system.file("bad1", package = "goodpractice")
 ```
 
 ```{r, echo = TRUE, eval = FALSE}
-# run gp() on it
 g <- gp(pkg_path)
 ```
 ```{r, echo = FALSE, eval = TRUE}
 g <- suppressWarnings(gp(pkg_path))
 ```
 
+Printing the result shows only the checks that failed:
+
 ```{r}
-# show the result
 g
 ```
 
-So with this package, we've done a few things in the DESCRIPTION file for which there are reasons not to do them, have unnecessary trailing semicolons in the code and used `T` and `F` for `TRUE` and `FALSE`. The output of `gp()` tells you what you did that isn't considered good practice and if it's in the R code, it points you the location of your faux-pas. In general, the messages are supposed to not only point out to you _what_ you might want to avoid but also _why_.
+Each line starting with a cross is one failed check.
+The text after the cross explains what to fix and why.
+The indented file paths below it show exactly where in your code the problem was found — in terminals and IDEs that support it, these paths are clickable.
+If every check passes, you get a short praise message instead.
 
+## What gp() actually does
 
-The above example tries to run all 230 checks available, to see the full list use `all_checks()`. If you only want to run a subset of the checks, e.g., the one on the URL field in the DESCRIPTION, you can specify the checks by name:
+When you call `gp()`, two things happen in sequence:
+
+1. **Gather data** — goodpractice runs a set of preparation steps, one per check group.
+   One step runs `R CMD check`.
+   Another computes code coverage by installing your package and exercising the tests.
+   Another lints your source files.
+   Each step runs exactly once and stores its results for the checks to use.
+
+2. **Run checks** — each check reads from the stored results and returns pass, fail, or skip.
+   A single preparation step can feed many checks — the `rcmdcheck` step alone powers over 200 individual checks, all drawn from a single `R CMD check` run.
+
+This two-step design is why goodpractice can run 250+ checks without repeating expensive work.
+It also means you can skip an entire category of checks by excluding its group — more on that below.
+
+## Choosing what to run
+
+By default, `gp()` runs everything in `default_checks()` — about 250 checks covering documentation, code style, test coverage, namespace hygiene, and CRAN compliance:
 
 ```{r}
-# what is the name of the check?
+length(default_checks())
+```
+
+If you only need a specific check, pass its name to the `checks` argument.
+You can find check names with `all_checks()` and filter with `grep()`:
+
+```{r}
+# find checks related to URLs
 grep("url", all_checks(), value = TRUE)
+```
 
-# run only this check
+Then run just the ones you care about:
+
+```{r}
 g_url <- gp(pkg_path, checks = "description_url")
-
 g_url
 ```
 
-### Doing more than just printing
-
-Apart from printing a `goodPractice` object as returned by `gp()` to access the advice, you can also access which checks were carried out and which of those failed:
-
-```{r}
-# which checks were carried out?
-checks(g_url)
-
-# which checks failed?
-failed_checks(g)
-```
-
-To access all the checks carried out with their results in a data frame, use `results()` on your `goodPractice` object.
-
-```{r}
-# show the first 5 checks carried out and their results
-results(g)[1:5,]
-```
-
-Note that the code coverage could not be calculated. The corresponding check does not show up in the failed checks (because it was not carried out) and the result is `NA`. It is also possible to export the results to a JSON file with `export_json()`.
-
-
-## Tidyverse style checks
-
-The default set of checks focuses on universal good practices — things every
-R package benefits from regardless of coding style. But if your team follows
-the [tidyverse style guide](https://style.tidyverse.org/), there is an
-optional set of checks for that too.
-
-These checks are not included in `default_checks()`. You opt in explicitly:
+To go the other direction and run _more_ than the defaults, combine check sets.
+For example, to add the optional tidyverse style checks on top of the defaults:
 
 ```{r, eval = FALSE}
-# run default checks plus tidyverse style checks
 g <- gp(".", checks = c(default_checks(), tidyverse_checks()))
-
-# or run only the tidyverse checks
-g <- gp(".", checks = tidyverse_checks())
 ```
 
-Most tidyverse checks are powered by [**lintr**](https://cran.r-project.org/package=lintr)
-under the hood — brace placement, spacing, naming conventions, and so on.
-They run `lintr::lint_package()` once and share the results across all
-lintr-based checks. If your package already has a `.lintr` configuration
-file, those settings are respected: disabled linters stay disabled,
-exclusions are honoured.
+Three helper functions give you the available check names:
 
-A handful of tidyverse checks go beyond what lintr covers. These look at
-package structure directly — whether R file names use snake_case, whether
-test files mirror source files, whether functions rely on `missing()` instead
-of `NULL` defaults, and whether exported functions appear before internal
-helpers in each file.
+- `default_checks()` — the standard set, run by default
+- `tidyverse_checks()` — opt-in style checks following [tidyverse conventions](https://style.tidyverse.org/)
+- `all_checks()` — both combined
 
 ```{r}
-# see all available tidyverse checks
-tidyverse_checks()
+length(tidyverse_checks())
+length(all_checks())
 ```
 
+## Check groups
+
+Every check belongs to at least one _check group_.
+Groups let you work with categories of checks instead of individual names:
+
+```{r}
+all_check_groups()
+```
+
+To see which checks belong to a group, use `checks_by_group()`:
+
+```{r}
+checks_by_group("description")
+```
+
+You can select multiple groups at once:
+
+```{r, eval = FALSE}
+# run only DESCRIPTION and namespace checks
+gp(".", checks = checks_by_group("description", "namespace"))
+```
+
+The table below lists every group and what it covers:
+
+| Group | What it checks |
+|-------|----------------|
+| `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
+| `covr` | Whether all code is covered by tests |
+| `cyclocomp` | Whether functions are too complex (default limit: 50) |
+| `description` | Package metadata: URL, BugReports, dependency fields, author roles |
+| `lintr` | ~50 linters covering correctness (`anyDuplicated`, `class_equals`), performance (`matrix_apply`, `fixed_regex`), readability (`redundant_ifelse`, `nested_pipe`), and testthat expectations |
+| `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
+| `rd` | Whether exported functions have `\examples` and `\value` sections |
+| `roxygen2` | Roxygen2 tag validation: export/noRd tagging, unknown tags, inheritParams |
+| `expressions` | Source expression parsing checks |
+| `code_structure` | Code analysis: `print()` returns invisibly, `on.exit(add = TRUE)`, function length, duplicate bodies |
+| `package_structure` | README exists, NEWS exists, `.R` file extension |
+| `spelling` | Misspelled words in documentation |
+| `urlchecker` | Broken or redirecting URLs in documentation |
+| `revdep` | Whether CRAN reverse dependencies exist (informational) |
+| `vignette` | Vignette-related checks |
+| `tidyverse` | Tidyverse style checks (opt-in via `tidyverse_checks()`) |
 
 ## Excluding check groups
 
-Running all 230+ checks on a large package can take a while. The checks
-themselves are fast — what takes time is the data gathering that happens
-before them. Each check belongs to a _check group_ (internally called a
-"prep"). The `lintr` group runs the linter once, `covr` computes code
-coverage once, `rcmdcheck` runs `R CMD check` once, and every check in
-that group draws from the same results.
+The checks themselves run in milliseconds — what takes time is the data gathering.
+Computing code coverage with `covr` requires installing your package and running all your tests.
+Running `R CMD check` via `rcmdcheck` exercises documentation, examples, vignettes, and compilation.
+On a large package, these two steps alone can take several minutes.
 
-So when `covr` alone takes three minutes and all you care about right now is
-code style, why wait? Instead of picking individual checks by name, you can
-exclude an entire check group — and every check that depends on it goes
-with it. Use `all_check_groups()` to see the available group names, and
-`checks_by_group()` to see which checks belong to each group.
-
-### Using an R option
-
+If you only care about code style or DESCRIPTION metadata right now, you can skip the slow groups entirely.
 Set the `goodpractice.exclude_check_groups` option to a character vector of group names:
 
 ```{r, eval = FALSE}
-# skip code coverage and cyclomatic complexity checks
-options(goodpractice.exclude_check_groups = c("covr", "cyclocomp"))
+# skip coverage and R CMD check — just run the fast checks
+options(goodpractice.exclude_check_groups = c("covr", "rcmdcheck"))
 gp(".")
 ```
 
-### Using an environment variable
+Every check that depends on a skipped group is automatically excluded too.
 
-Set the `GP_EXCLUDE_CHECK_GROUPS` environment variable to a comma-separated list of group names:
-
-```{r, eval = FALSE}
-Sys.setenv(GP_EXCLUDE_CHECK_GROUPS = "covr,cyclocomp")
-gp(".")
-```
-
-This is particularly useful in CI/CD pipelines where you may want to configure behaviour without modifying R code:
+For CI/CD pipelines, you can set this via the `GP_EXCLUDE_CHECK_GROUPS` environment variable instead of modifying R code:
 
 ```bash
 GP_EXCLUDE_CHECK_GROUPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
 ```
 
-### Precedence rules
-
-- The R option (`goodpractice.exclude_check_groups`) takes precedence over the environment variable (`GP_EXCLUDE_CHECK_GROUPS`) when both are set.
-- Exclusion only applies when `checks = NULL` (the default). If you explicitly pass check names to the `checks` argument, exclusion settings are ignored.
+When both the R option and the environment variable are set, the R option wins.
+Exclusion only applies when you use the default check set — if you explicitly pass check names to the `checks` argument, exclusion settings are ignored and those checks always run.
 
 ```{r, eval = FALSE}
 options(goodpractice.exclude_check_groups = "covr")
 
-# covr checks are excluded
+# covr checks are excluded here (using defaults)
 gp(".")
 
-# covr checks still run because checks are explicitly specified
+# the "covr" check runs here because we asked for it by name
 gp(".", checks = "covr")
 ```
+
+## Excluding files
+
+If your package contains generated code or vendored files that should not be checked, you can exclude specific files.
+Set the `goodpractice.exclude_path` option to a character vector of paths relative to the package root:
+
+```{r, eval = FALSE}
+options(goodpractice.exclude_path = c("R/RcppExports.R", "R/generated_bindings.R"))
+gp(".")
+```
+
+Or via the `GP_EXCLUDE_PATH` environment variable:
+
+```bash
+GP_EXCLUDE_PATH=R/RcppExports.R,R/generated.R Rscript -e 'goodpractice::gp(".")'
+```
+
+Excluded files are skipped by lintr, treesitter, expression, and roxygen2 checks.
+
+## Parallel preparation
+
+Preparation steps run sequentially by default.
+If you have the [future.apply](https://cran.r-project.org/package=future.apply) package installed, you can run them in parallel by setting a `future::plan()`:
+
+```{r, eval = FALSE}
+future::plan("multisession")
+gp(".")
+```
+
+This can significantly speed up runs on large packages where multiple slow preps (covr, rcmdcheck, lintr) would otherwise run one after another.
+Preps run in parallel only when a non-sequential plan is active — the default behaviour is unchanged.
+
+## Tidyverse style checks
+
+The default checks deliberately stay away from style preferences — they focus on things that are good practice regardless of how you format your code.
+
+If you or your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of style checks:
+
+```{r, eval = FALSE}
+# add tidyverse checks to the defaults
+gp(".", checks = c(default_checks(), tidyverse_checks()))
+
+# or run only the tidyverse checks
+gp(".", checks = tidyverse_checks())
+```
+
+Most of these are powered by [lintr](https://cran.r-project.org/package=lintr) — brace placement, spacing, naming conventions, and so on.
+They run `lintr::lint_package()` once and share the results across all lintr-based checks.
+If your package has a `.lintr` configuration file, those settings are respected: disabled linters stay disabled, exclusions are honoured.
+
+A few tidyverse checks go beyond linting and look at package structure directly — whether R file names use snake_case, whether test files mirror source files, whether functions use `missing()` where `NULL` defaults would be clearer, and whether exported functions appear before internal helpers.
+
+All tidyverse checks belong to the `tidyverse` group:
+
+```{r}
+checks_by_group("tidyverse")
+```
+
+## Working with results
+
+Beyond printing, the object returned by `gp()` gives you programmatic access to the results.
+
+`checks()` returns the names of all checks that were run:
+
+```{r}
+checks(g_url)
+```
+
+`failed_checks()` returns only the names of the checks that failed:
+
+```{r}
+failed_checks(g)
+```
+
+`results()` gives you a data frame with one row per check and a `passed` column that is `TRUE`, `FALSE`, or `NA` (skipped):
+
+```{r}
+results(g)[1:5, ]
+```
+
+A check shows `NA` when its preparation step failed or was excluded — it was not evaluated, so it neither passed nor failed.
+
+To see all file positions for failed checks (not just the first five that `print()` shows), use `print()` with a higher limit:
+
+```{r, eval = FALSE}
+print(g, positions_limit = Inf)
+```
+
+You can also export the full results to JSON for use in other tools:
+
+```{r, eval = FALSE}
+export_json(g, "gp_results.json")
+```
+
+## Custom checks
+
+goodpractice is extensible — you can define your own checks and preparation steps to enforce team-specific conventions.
+The `gp` string in each check supports [cli inline markup](https://cli.r-lib.org/reference/inline-markup.html) — use `{.fn func}` for function names, `{.code expression}` for code, `{.file path}` for file paths, `{.field name}` for field names, and `{.url url}` for URLs.
+
+See `vignette("custom_checks")` for the full guide.

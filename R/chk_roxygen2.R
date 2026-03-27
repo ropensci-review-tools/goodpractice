@@ -28,25 +28,6 @@ make_block_position <- function(block) {
   )
 }
 
-has_noRd_tag <- function(file, fn_line) {
-  lines <- readLines(file, warn = FALSE)
-  start <- fn_line
-  while (start > 1 && grepl("^#'", lines[start - 1L])) {
-    start <- start - 1L
-  }
-  if (start == fn_line) return(FALSE)
-  chunk <- lines[start:fn_line]
-  blocks <- tryCatch(
-    roxygen2::parse_text(
-      paste(chunk, collapse = "\n"), env = NULL
-    ),
-    error = function(e) list()
-  )
-  any(vapply(blocks, function(b) {
-    roxygen2::block_has_tags(b, "noRd")
-  }, logical(1)))
-}
-
 # -- export / noRd tagging ----------------------------------------------------
 
 CHECKS$roxygen2_has_export_or_nord <- make_check(
@@ -79,10 +60,10 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
 
     for (i in seq_len(nrow(rox$function_defs))) {
       fn <- rox$function_defs[i, ]
-      if (fn$name %in% documented_names) next
-      if (fn$name %in% rox$namespace_exports) next
-      if (fn$name %in% rox$namespace_s3methods) next
-      if (has_noRd_tag(fn$file, fn$line)) next
+      bare_name <- gsub("^`|`$", "", fn$name)
+      if (bare_name %in% documented_names) next
+      if (bare_name %in% rox$namespace_exports) next
+      if (bare_name %in% rox$namespace_s3methods) next
       problems[[length(problems) + 1]] <- list(
         filename = file.path("R", basename(fn$file)),
         line_number = as.integer(fn$line),

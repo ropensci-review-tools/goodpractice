@@ -85,7 +85,7 @@ jobs:
         if: steps.cache-main.outcome == 'failure'
         run: |
           Rscript -e '
-            install.packages("goodpractice-main", repos = NULL, type = "source", quiet = TRUE)
+            pak::local_install("goodpractice-main", ask = FALSE)
             source("goodpractice-pr/.github/scripts/run_ecosystem.R")
           '
         env:
@@ -102,7 +102,7 @@ jobs:
       - name: Run goodpractice (PR)
         run: |
           Rscript -e '
-            install.packages("goodpractice-pr", repos = NULL, type = "source", quiet = TRUE)
+            pak::local_install("goodpractice-pr", ask = FALSE)
             source("goodpractice-pr/.github/scripts/run_ecosystem.R")
           '
         env:

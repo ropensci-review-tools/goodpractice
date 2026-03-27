@@ -6,7 +6,7 @@ tidyverse_pkgs <- strsplit(
 )[[1]]
 
 options(goodpractice.exclude_check_groups = c(
-  "covr", "rcmdcheck", "cyclocomp"
+  "covr", "rcmdcheck", "cyclocomp", "revdep"
 ))
 
 results <- lapply(pkg_dirs, function(pkg) {

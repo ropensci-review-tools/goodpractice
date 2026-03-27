@@ -5,9 +5,11 @@ test_that("gp errors when DESCRIPTION is missing", {
 
 # -- validate_pkg_path --------------------------------------------------------
 
-test_that("validate_pkg_path returns path for valid package", {
+test_that("validate_pkg_path returns package name", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  expect_equal(validate_pkg_path(bad1), bad1)
+  expect_equal(
+    unname(validate_pkg_path(bad1)), "badpackage"
+  )
 })
 
 test_that("validate_pkg_path errors for non-package path", {

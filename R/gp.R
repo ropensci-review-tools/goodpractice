@@ -81,23 +81,20 @@ gp <- function(
   extra_checks = NULL,
   quiet = TRUE
 ) {
-  path <- validate_pkg_path(path)
-  pkgname <- desc_get(
-    "Package", file = file.path(path, "DESCRIPTION")
-  )
+  pkgname <- validate_pkg_path(path)
   cli::cat_rule(
-    "Preparing goodpractice for {pkgname}",
+    paste("Preparing goodpractice for", pkgname),
     col = "cyan"
   )
 
-  mychecks <- prepare_checks(CHECKS, extra_checks)
-  mypreps <- prepare_preps(PREPS, extra_preps)
-  checks <- resolve_checks(checks, mychecks)
-  preps <- required_preps(checks, mychecks)
+  MYCHECKS <- prepare_checks(CHECKS, extra_checks)
+  MYPREPS <- prepare_preps(PREPS, extra_preps)
+  checks <- resolve_checks(checks, MYCHECKS)
+  preps <- required_preps(checks, MYCHECKS)
 
   state <- init_state(path, pkgname, extra_preps, extra_checks) |>
-    run_preps(preps, mypreps, quiet) |>
-    run_checks(checks, mychecks)
+    run_preps(preps, MYPREPS, quiet) |>
+    run_checks(checks, MYCHECKS)
 
   class(state) <- "goodPractice"
   state
@@ -110,7 +107,7 @@ validate_pkg_path <- function(path) {
       i = "Can't find {.file DESCRIPTION}."
     ))
   }
-  path
+  desc_get("Package", file = file.path(path, "DESCRIPTION"))
 }
 
 resolve_checks <- function(checks, mychecks) {

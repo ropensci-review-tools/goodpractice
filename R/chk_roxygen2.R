@@ -48,7 +48,9 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
       name <- block_function_name(block)
       documented_names <- c(documented_names, name)
 
-      has_tag <- roxygen2::block_has_tags(block, c("export", "noRd", "rdname"))
+      has_tag <- roxygen2::block_has_tags(
+        block, c("export", "noRd", "rdname")
+      )
       in_ns <- name %in% rox$namespace_exports ||
         name %in% rox$namespace_s3methods
       if (!has_tag && !in_ns) {
@@ -58,9 +60,10 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
 
     for (i in seq_len(nrow(rox$function_defs))) {
       fn <- rox$function_defs[i, ]
-      if (fn$name %in% documented_names) next
-      if (fn$name %in% rox$namespace_exports) next
-      if (fn$name %in% rox$namespace_s3methods) next
+      bare_name <- gsub("^`|`$", "", fn$name)
+      if (bare_name %in% documented_names) next
+      if (bare_name %in% rox$namespace_exports) next
+      if (bare_name %in% rox$namespace_s3methods) next
       problems[[length(problems) + 1]] <- list(
         filename = file.path("R", basename(fn$file)),
         line_number = as.integer(fn$line),

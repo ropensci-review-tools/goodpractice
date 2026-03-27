@@ -28,14 +28,23 @@ make_block_position <- function(block) {
   )
 }
 
-has_noRd_tag <- function(file, line_number) {
+has_noRd_tag <- function(file, fn_line) {
   lines <- readLines(file, warn = FALSE)
-  idx <- line_number - 1L
-  while (idx >= 1 && grepl("^#'", lines[idx])) {
-    if (grepl("@noRd", lines[idx])) return(TRUE)
-    idx <- idx - 1L
+  start <- fn_line
+  while (start > 1 && grepl("^#'", lines[start - 1L])) {
+    start <- start - 1L
   }
-  FALSE
+  if (start == fn_line) return(FALSE)
+  chunk <- lines[start:fn_line]
+  blocks <- tryCatch(
+    roxygen2::parse_text(
+      paste(chunk, collapse = "\n"), env = NULL
+    ),
+    error = function(e) list()
+  )
+  any(vapply(blocks, function(b) {
+    roxygen2::block_has_tags(b, "noRd")
+  }, logical(1)))
 }
 
 # -- export / noRd tagging ----------------------------------------------------
@@ -58,7 +67,9 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
       name <- block_function_name(block)
       documented_names <- c(documented_names, name)
 
-      has_tag <- roxygen2::block_has_tags(block, c("export", "noRd", "rdname"))
+      has_tag <- roxygen2::block_has_tags(
+        block, c("export", "noRd", "rdname")
+      )
       in_ns <- name %in% rox$namespace_exports ||
         name %in% rox$namespace_s3methods
       if (!has_tag && !in_ns) {

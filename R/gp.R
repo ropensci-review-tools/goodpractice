@@ -81,26 +81,49 @@ gp <- function(
   extra_checks = NULL,
   quiet = TRUE
 ) {
+  pkgname <- validate_pkg_path(path)
+  cli::cat_rule(
+    paste("Preparing goodpractice for", pkgname),
+    col = "cyan"
+  )
 
-  MYPREPS <- prepare_preps(PREPS, extra_preps)
   MYCHECKS <- prepare_checks(CHECKS, extra_checks)
+  MYPREPS <- prepare_preps(PREPS, extra_preps)
+  checks <- resolve_checks(checks, MYCHECKS)
+  preps <- required_preps(checks, MYCHECKS)
 
-  if (is.null(checks)) {
-    checks <- exclude_checks_by_group(names(MYCHECKS), MYCHECKS)
-  }
+  state <- init_state(path, pkgname, extra_preps, extra_checks) |>
+    run_preps(preps, MYPREPS, quiet) |>
+    run_checks(checks, MYCHECKS)
 
-  preps <- unique(unlist(lapply(MYCHECKS[checks], "[[", "preps")))
+  class(state) <- "goodPractice"
+  state
+}
 
-  if (file.exists(file.path(path, "DESCRIPTION"))) {
-    pkgname <- desc_get("Package", file = file.path(path, "DESCRIPTION"))
-  } else {
+validate_pkg_path <- function(path) {
+  if (!file.exists(file.path(path, "DESCRIPTION"))) {
     cli::cli_abort(c(
-      "{.path path} must be a package.",
-      i = "Can't find DESCRIPTION."
+      "{.path {path}} must be a package.",
+      i = "Can't find {.file DESCRIPTION}."
     ))
   }
+  desc_get("Package", file = file.path(path, "DESCRIPTION"))
+}
 
-  state <- list(
+resolve_checks <- function(checks, mychecks) {
+  if (is.null(checks)) {
+    exclude_checks_by_group(names(mychecks), mychecks)
+  } else {
+    checks
+  }
+}
+
+required_preps <- function(checks, mychecks) {
+  unique(unlist(lapply(mychecks[checks], "[[", "preps")))
+}
+
+init_state <- function(path, pkgname, extra_preps, extra_checks) {
+  list(
     path = path,
     package = pkgname,
     extra_preps = extra_preps,
@@ -108,16 +131,24 @@ gp <- function(
     exclude_path = excluded_paths(),
     .cache = new.env(parent = emptyenv())
   )
+}
 
-  use_future <- requireNamespace("future.apply", quietly = TRUE) &&
+run_preps <- function(state, preps, mypreps, quiet) {
+  use_future <-
+    requireNamespace("future.apply", quietly = TRUE) &&
     requireNamespace("future", quietly = TRUE) &&
     !inherits(future::plan(), "sequential")
 
-  apply_fn <- if (use_future) future.apply::future_lapply else lapply
+  # nocov start - requires non-sequential future::plan()
+  apply_fn <- if (use_future) {
+    future.apply::future_lapply
+  } else { # nocov end
+    lapply
+  }
 
   results <- apply_fn(preps, function(prep) {
     cli::cli_progress_step("Preparing: {prep}")
-    result <- MYPREPS[[prep]](state, quiet = quiet)
+    result <- mypreps[[prep]](state, quiet = quiet)
     cli::cli_progress_done()
     result
   })
@@ -128,13 +159,14 @@ gp <- function(
     }
   }
 
+  state
+}
+
+run_checks <- function(state, checks, mychecks) {
   state$checks <- list()
-
   for (check in checks) {
-    state$checks[[check]] <- MYCHECKS[[check]]$check(state)
+    state$checks[[check]] <- mychecks[[check]]$check(state)
   }
-
-  class(state) <- "goodPractice"
   state
 }
 

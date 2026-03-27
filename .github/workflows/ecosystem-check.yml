@@ -17,6 +17,7 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
+  actions: read
 
 env:
   TEST_PACKAGES: |
@@ -44,6 +45,20 @@ jobs:
           ref: main
           path: goodpractice-main
 
+      - name: Get main SHA
+        id: main-sha
+        run: |
+          cd goodpractice-main
+          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Try downloading cached main results
+        id: cache-main
+        uses: actions/download-artifact@v5
+        with:
+          name: ecosystem-main-${{ steps.main-sha.outputs.sha }}
+          path: results
+        continue-on-error: true
+
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
@@ -68,6 +83,7 @@ jobs:
           done <<< "$TEST_PACKAGES"
 
       - name: Run goodpractice (main)
+        if: steps.cache-main.outcome == 'failure'
         run: |
           Rscript -e '
             install.packages("goodpractice-main", repos = NULL, type = "source", quiet = TRUE)
@@ -75,6 +91,14 @@ jobs:
           '
         env:
           GP_LABEL: main
+
+      - name: Upload main results (keyed by SHA)
+        if: steps.cache-main.outcome == 'failure'
+        uses: actions/upload-artifact@v5
+        with:
+          name: ecosystem-main-${{ steps.main-sha.outputs.sha }}
+          path: results/main.csv
+          retention-days: 30
 
       - name: Run goodpractice (PR)
         run: |

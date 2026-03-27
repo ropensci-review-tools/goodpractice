@@ -97,7 +97,6 @@ test_that("ts_all_referenced_functions finds identifiers in bodies", {
   expect_true("inner" %in% refs)
   expect_true("lapply" %in% refs)
   expect_false("outer" %in% refs)
-  expect_false("outer" %in% refs)
 })
 
 test_that("ts_all_referenced_functions finds RHS assignments", {

@@ -89,13 +89,14 @@ test_that("ts_all_referenced_functions finds identifiers in bodies", {
   pkg <- withr::local_tempdir()
   dir.create(file.path(pkg, "R"))
   writeLines(c(
-    "outer <- function(x) lapply(x, inner)",
-    "inner <- function(i) i + 1"
+    "inner <- function(i) i + 1",
+    "outer <- function(x) lapply(x, inner)"
   ), file.path(pkg, "R", "code.R"))
   ts <- ts_parse(pkg)
   refs <- ts_all_referenced_functions(ts)
   expect_true("inner" %in% refs)
   expect_true("lapply" %in% refs)
+  expect_false("outer" %in% refs)
 })
 
 test_that("ts_all_referenced_functions finds RHS assignments", {

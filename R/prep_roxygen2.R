@@ -55,9 +55,14 @@ parse_roxygen2 <- function(path, exclude_path = character()) {
     cli::cli_abort("Package does not use {.pkg roxygen2}.")
   }
 
+  rfiles <- r_package_files(path, exclude_path)
+
   parse_messages <- character()
   blocks <- withCallingHandlers(
-    roxygen2::parse_package(path, env = NULL),
+    {
+      bl <- lapply(rfiles, function(f) roxygen2::parse_file(f))
+      do.call(c, bl)
+    },
     message = function(m) {
       msg <- conditionMessage(m)
       if (grepl("is not a known tag", msg)) {
@@ -82,14 +87,6 @@ parse_roxygen2 <- function(path, exclude_path = character()) {
     paste0(s3m[, 1], ".", s3m[, 2])
   } else {
     character()
-  }
-
-  if (length(exclude_path) > 0) {
-    abs_excluded <- normalizePath(file.path(path, exclude_path),
-                                  mustWork = FALSE)
-    blocks <- Filter(function(b) {
-      !normalizePath(b$file, mustWork = FALSE) %in% abs_excluded
-    }, blocks)
   }
 
   list(

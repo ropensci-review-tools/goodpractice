@@ -34,6 +34,30 @@ test_that("roxygen2_has_export_or_nord passes when all tagged", {
   expect_true(results(gp_res)$passed)
 })
 
+test_that("roxygen2_has_export_or_nord skips @noRd operator functions", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: optest", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT",
+    "Roxygen: list(markdown = TRUE)",
+    "RoxygenNote: 7.3.3"
+  ), file.path(pkg, "DESCRIPTION"))
+  writeLines("export(my_fn)", file.path(pkg, "NAMESPACE"))
+
+  writeLines(c(
+    "#' @export",
+    "my_fn <- function() 1",
+    "",
+    "#' @noRd",
+    "`%op%` <- function(a, b) a + b"
+  ), file.path(pkg, "R", "code.R"))
+
+  gp_res <- gp(pkg, checks = "roxygen2_has_export_or_nord")
+  expect_true(results(gp_res)$passed)
+})
+
+
 # -- roxygen2_unknown_tags ----------------------------------------------------
 
 test_that("roxygen2_unknown_tags fails on deprecated/unknown tags", {

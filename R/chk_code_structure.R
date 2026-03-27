@@ -174,21 +174,60 @@ CHECKS$complexity_function_length <- make_check(
 
 ## -- unused internal functions ----------------------------------------------
 
+<<<<<<< feature/dogfood
 #' @noRd
 ts_all_called_functions <- function(ts) {
+=======
+ts_all_referenced_functions <- function(ts) {
+>>>>>>> main
   if (length(ts$trees) == 0) return(character())
 
   call_q <- treesitter::query(ts$language,
     "(call function: (identifier) @fn)"
   )
 
-  calls <- unlist(lapply(ts$trees, function(entry) {
+  refs <- unlist(lapply(ts$trees, function(entry) {
     if (is.null(entry)) return(NULL)
-    caps <- treesitter::query_captures(call_q, entry$root)
-    vapply(caps$node[caps$name == "fn"], treesitter::node_text, character(1))
+    root <- entry$root
+    caps <- treesitter::query_captures(call_q, root)
+    called <- vapply(
+      caps$node[caps$name == "fn"],
+      treesitter::node_text, character(1)
+    )
+    body_refs <- ts_body_identifiers(ts$language, entry)
+    toplevel_refs <- ts_rhs_identifiers(ts$language, entry)
+    c(called, body_refs, toplevel_refs)
   }))
 
-  unique(calls)
+  unique(refs)
+}
+
+ts_rhs_identifiers <- function(language, entry) {
+  assign_q <- treesitter::query(language,
+    "(binary_operator rhs: (identifier) @rhs)"
+  )
+  caps <- treesitter::query_captures(assign_q, entry$root)
+  if (length(caps$name) == 0) return(character())
+  vapply(
+    caps$node[caps$name == "rhs"],
+    treesitter::node_text, character(1)
+  )
+}
+
+ts_body_identifiers <- function(language, entry) {
+  id_q <- treesitter::query(language, "(identifier) @id")
+  fns <- ts_file_functions(entry$root, "")
+  unlist(lapply(fns, function(fn) {
+    body <- treesitter::node_child_by_field_name(
+      fn$fn_node, "body"
+    )
+    if (is.null(body)) return(NULL)
+    caps <- treesitter::query_captures(id_q, body)
+    vapply(
+      caps$node[caps$name == "id"],
+      treesitter::node_text, character(1)
+    )
+  }))
 }
 
 CHECKS$complexity_unused_internal <- make_check(
@@ -228,7 +267,7 @@ CHECKS$complexity_unused_internal <- make_check(
       return(list(status = TRUE, positions = list()))
     }
 
-    called <- ts_all_called_functions(ts)
+    called <- ts_all_referenced_functions(ts)
     unused <- setdiff(internal, called)
     if (length(unused) == 0) {
       return(list(status = TRUE, positions = list()))
@@ -299,7 +338,8 @@ CHECKS$duplicate_function_bodies <- make_check(
       normalize_body_text(fn$fn_node)
     }, character(1))
 
-    trivial <- nchar(bodies) < 20
+    min_dup_chars <- 20L
+    trivial <- nchar(bodies) < min_dup_chars
     bodies[trivial] <- paste0("__trivial__", seq_along(bodies)[trivial])
 
     fn_df <- data.frame(

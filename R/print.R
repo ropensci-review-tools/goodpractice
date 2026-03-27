@@ -33,7 +33,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   }
 
   if (failure || has_info) {
-    cli::cat_rule(col = "yellow")
+    cli::cat_rule()
     if (failure &&
         getOption("goodpractice.rstudio_source_markers", TRUE) &&
         hasFun("sourceMarkers")) {
@@ -53,9 +53,7 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
 
 #' @noRd
 gp_header <- function(x) {
-  cli::cat_rule(left = paste("GP", x$package), col = "yellow")
-  cli::cli_text()
-  cli::cli_text("{.strong It is good practice to}")
+  cli::cat_rule("It is good practice to", col = "cyan")
   cli::cli_text()
 }
 

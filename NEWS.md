@@ -1,6 +1,9 @@
 # goodpractice 1.0.5.9000 (dev version)
 
 - Added `makefile` (#203)
+* Lowered default cyclomatic complexity limit from 50 to 15, aligning
+  with lintr and pkgcheck defaults. Configurable via
+  `goodpractice.cyclocomp_limit` option (#150).
 * Expanded default lintr checks from 9 to ~53, covering correctness
   (e.g. `anyDuplicated()` vs `any(duplicated())`), performance
   (e.g. `colSums()` vs `apply()`), readability (e.g. `switch()` vs

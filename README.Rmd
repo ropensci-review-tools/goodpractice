@@ -31,28 +31,41 @@ formatting, etc.
 
 ## Installation
 
-You can install the release version from CRAN
+You can install the release version from CRAN:
 
-```{r eval = FALSE}
+```{r install, eval = FALSE}
 install.packages("goodpractice")
 ```
 
-and the development version from GitHub
+The development version can be installed from R-universe by enabling the
+[ropensci-review-tools
+`r-universe`](https://ropensci-review-tools.r-universe.dev/ui#builds) and
+installing the usual way:
 
-```{r eval = FALSE}
+```{r r-univ, eval = FALSE}
+options(repos = c(
+    ropenscireviewtools = "https://ropensci-review-tools.r-universe.dev",
+    CRAN = "https://cloud.r-project.org"
+))
+install.packages("goodpractice")
+```
+
+Or the development version can be installed directly from GitHub with:
+
+```{r pak-install, eval = FALSE}
 pak::pak("ropensci-review-tools/goodpractice")
 ```
 
 ## Usage
 
-```r
+```{r library, eval = FALSE}
 library(goodpractice)
 gp("<my-package>")
 ```
 
 ## Example
 
-```{r, message = FALSE, warning = FALSE}
+```{r bad1-example, message = FALSE, warning = FALSE}
 library(goodpractice)
 # use example package contained in the goodpractice package
 pkg_path <- system.file("bad1", package = "goodpractice")

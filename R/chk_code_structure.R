@@ -51,6 +51,7 @@ CHECKS$print_return_invisible <- make_check(
 
 ## -- on.exit() should have add = TRUE ---------------------------------------
 
+#' @noRd
 on_exit_call_missing_add <- function(call_node) {
   args_node <- treesitter::node_child_by_field_name(call_node, "arguments")
   if (is.null(args_node)) return(FALSE)
@@ -123,6 +124,7 @@ CHECKS$on_exit_has_add <- make_check(
 
 ## -- function length --------------------------------------------------------
 
+#' @noRd
 ts_function_length <- function(fn_node) {
   body <- treesitter::node_child_by_field_name(fn_node, "body")
   if (is.null(body)) return(0L)
@@ -172,6 +174,7 @@ CHECKS$complexity_function_length <- make_check(
 
 ## -- unused internal functions ----------------------------------------------
 
+#' @noRd
 ts_all_referenced_functions <- function(ts) {
   if (length(ts$trees) == 0) return(character())
 
@@ -195,6 +198,7 @@ ts_all_referenced_functions <- function(ts) {
   unique(refs)
 }
 
+#' @noRd
 ts_rhs_identifiers <- function(language, entry) {
   assign_q <- treesitter::query(language,
     "(binary_operator rhs: (identifier) @rhs)"
@@ -207,6 +211,7 @@ ts_rhs_identifiers <- function(language, entry) {
   )
 }
 
+#' @noRd
 ts_body_identifiers <- function(language, entry) {
   id_q <- treesitter::query(language, "(identifier) @id")
   fns <- ts_file_functions(entry$root, "")
@@ -289,18 +294,21 @@ CHECKS$complexity_unused_internal <- make_check(
 
 ## -- duplicate function bodies ------------------------------------------------
 
+#' @noRd
 cross_file_duplicates <- function(df, key_col, file_col) {
   duped_keys <- unique(df[[key_col]][duplicated(df[[key_col]])])
   if (length(duped_keys) == 0) return(df[0, , drop = FALSE])
 
   candidates <- df[df[[key_col]] %in% duped_keys, , drop = FALSE]
   multi_file <- vapply(duped_keys, function(k) {
-    length(unique(basename(candidates[[file_col]][candidates[[key_col]] == k]))) >= 2
+    matched <- candidates[[file_col]][candidates[[key_col]] == k]
+    length(unique(basename(matched))) >= 2
   }, logical(1))
 
   candidates[candidates[[key_col]] %in% duped_keys[multi_file], , drop = FALSE]
 }
 
+#' @noRd
 normalize_body_text <- function(fn_node) {
   body <- treesitter::node_child_by_field_name(fn_node, "body")
   if (is.null(body)) return("")

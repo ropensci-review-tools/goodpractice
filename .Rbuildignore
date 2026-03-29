@@ -11,3 +11,6 @@
 ^pkgdown
 ^goodpractice\.Rproj$
 ^AGENT\.md$
+^\.git$
+^\.Rprofile$
+^makefile$

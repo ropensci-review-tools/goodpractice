@@ -6,6 +6,7 @@
 #'
 #' @importFrom rstudioapi hasFun
 #' @importFrom praise praise
+#' @importFrom stats setNames
 #'
 #' @export
 
@@ -41,18 +42,22 @@ print.goodPractice <- function(x, positions_limit = 5, ...) {
   }
 
   if (!failure) {
-    msg <- praise('${Exclamation}! ${Adjective} package! Keep up the ${adjective} work!')
+    msg <- praise(
+      '${Exclamation}! ${Adjective} package! Keep up the ${adjective} work!'
+    )
     cli::cli_text("{cli::col_red(cli::symbol$heart)} {.strong {msg}}")
   }
 
   invisible(x)
 }
 
+#' @noRd
 gp_header <- function(x) {
   cli::cat_rule("It is good practice to", col = "cyan")
   cli::cli_text()
 }
 
+#' @noRd
 gp_advice <- function(state, fail, limit, type = "error") {
   MYCHECKS <- prepare_checks(CHECKS, state$extra_checks)
   chk <- MYCHECKS[[fail]]
@@ -73,6 +78,7 @@ gp_advice <- function(state, fail, limit, type = "error") {
   cli::cli_text()
 }
 
+#' @noRd
 gp_positions <- function(pos, limit) {
   num <- length(pos)
   if (num > limit) pos <- pos[seq_len(limit)]
@@ -81,7 +87,9 @@ gp_positions <- function(pos, limit) {
 
   for (p in pos) {
     loc <- if (is.na(p$line_number)) "" else paste0(":", p$line_number)
-    if (nzchar(loc) && !is.na(p$column_number)) loc <- paste0(loc, ":", p$column_number)
+    if (nzchar(loc) && !is.na(p$column_number)) {
+      loc <- paste0(loc, ":", p$column_number)
+    }
     cli::cli_text("{.path {p$filename}{loc}}")
   }
 

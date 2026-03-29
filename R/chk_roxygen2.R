@@ -1,9 +1,9 @@
 #' @include lists.R
 
-roxygen2_na_result <- function() {
-  list(status = NA, positions = list())
-}
+#' @noRd
+roxygen2_na_result <- function() na_result()
 
+#' @noRd
 block_is_function <- function(block) {
   cl <- block$call
   if (is.null(cl) || !is.call(cl) || length(cl) < 3) return(FALSE)
@@ -14,10 +14,12 @@ block_is_function <- function(block) {
   is.call(rhs) && identical(rhs[[1]], quote(`function`))
 }
 
+#' @noRd
 block_function_name <- function(block) {
   as.character(block$call[[2]])
 }
 
+#' @noRd
 make_block_position <- function(block) {
   list(
     filename = file.path("R", basename(block$file)),
@@ -35,7 +37,8 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
   description = "Documented functions have @export or @noRd",
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
-  gp = "Tag every documented function with either {.code @export} or {.code @noRd}.",
+  gp = "Tag every documented function with either
+        {.code @export} or {.code @noRd}.",
 
   check = function(state) {
     if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
@@ -134,8 +137,11 @@ CHECKS$roxygen2_valid_inherit <- make_check(
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
-    "Ensure functions referenced by {.code @inheritParams} and {.code @inheritDotParams}",
-    "exist within the package. Use {.code pkg::func} syntax for external functions."
+    "Ensure functions referenced by",
+    "{.code @inheritParams} and",
+    "{.code @inheritDotParams} exist within the",
+    "package. Use {.code pkg::func} syntax for",
+    "external functions."
   ),
 
   check = function(state) {
@@ -170,6 +176,7 @@ CHECKS$roxygen2_valid_inherit <- make_check(
 
 # -- duplicate @param documentation ------------------------------------------
 
+#' @noRd
 extract_block_params <- function(block) {
   param_tags <- roxygen2::block_get_tags(block, "param")
   if (length(param_tags) == 0) return(NULL)

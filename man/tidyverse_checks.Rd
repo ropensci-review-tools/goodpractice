@@ -16,3 +16,6 @@ default linter set and respect any \code{.lintr} configuration file
 in the package root (e.g. to disable specific linters or add exclusions).
 Add them via \code{checks = c(default_checks(), tidyverse_checks())}.
 }
+\examples{
+tidyverse_checks()
+}

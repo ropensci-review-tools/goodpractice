@@ -1,6 +1,7 @@
 
 #' @include lists.R
 
+#' @noRd
 cyclocomp_limit <- function() {
   getOption("goodpractice.cyclocomp_limit", 15)
 }

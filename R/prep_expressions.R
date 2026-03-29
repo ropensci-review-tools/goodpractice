@@ -9,6 +9,7 @@
 #'
 #' @importFrom desc desc_get_collate
 
+#' @noRd
 package_collate <- function(path = ".") {
   col <- desc_get_collate(file = file.path(path, "DESCRIPTION"))
   if (length(col)) col else NULL
@@ -24,6 +25,7 @@ package_collate <- function(path = ".") {
 #'   names in the current collation order.
 #' @keywords internal
 
+#' @noRd
 r_package_files <- function(path, exclude_path = character()) {
   files <- package_collate(path)
   if (is.null(files)) {
@@ -53,6 +55,7 @@ r_package_files <- function(path, exclude_path = character()) {
 #'
 #' @importFrom lintr get_source_expressions
 
+#' @noRd
 prep_expressions <- function(state, version = NULL, quiet) {
   files <- lapply(
     r_package_files(state$path, state$exclude_path %||% character()),

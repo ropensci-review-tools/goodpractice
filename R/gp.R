@@ -100,6 +100,7 @@ gp <- function(
   state
 }
 
+#' @noRd
 validate_pkg_path <- function(path) {
   if (!file.exists(file.path(path, "DESCRIPTION"))) {
     cli::cli_abort(c(
@@ -110,6 +111,7 @@ validate_pkg_path <- function(path) {
   desc_get("Package", file = file.path(path, "DESCRIPTION"))
 }
 
+#' @noRd
 resolve_checks <- function(checks, mychecks) {
   if (is.null(checks)) {
     exclude_checks_by_group(names(mychecks), mychecks)
@@ -118,10 +120,12 @@ resolve_checks <- function(checks, mychecks) {
   }
 }
 
+#' @noRd
 required_preps <- function(checks, mychecks) {
   unique(unlist(lapply(mychecks[checks], "[[", "preps")))
 }
 
+#' @noRd
 init_state <- function(path, pkgname, extra_preps, extra_checks) {
   list(
     path = path,
@@ -133,6 +137,7 @@ init_state <- function(path, pkgname, extra_preps, extra_checks) {
   )
 }
 
+#' @noRd
 run_preps <- function(state, preps, mypreps, quiet) {
   use_future <-
     requireNamespace("future.apply", quietly = TRUE) &&
@@ -162,6 +167,7 @@ run_preps <- function(state, preps, mypreps, quiet) {
   state
 }
 
+#' @noRd
 run_checks <- function(state, checks, mychecks) {
   state$checks <- list()
   for (check in checks) {

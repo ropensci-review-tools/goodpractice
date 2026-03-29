@@ -174,12 +174,8 @@ CHECKS$complexity_function_length <- make_check(
 
 ## -- unused internal functions ----------------------------------------------
 
-<<<<<<< feature/dogfood
 #' @noRd
-ts_all_called_functions <- function(ts) {
-=======
 ts_all_referenced_functions <- function(ts) {
->>>>>>> main
   if (length(ts$trees) == 0) return(character())
 
   call_q <- treesitter::query(ts$language,
@@ -202,6 +198,7 @@ ts_all_referenced_functions <- function(ts) {
   unique(refs)
 }
 
+#' @noRd
 ts_rhs_identifiers <- function(language, entry) {
   assign_q <- treesitter::query(language,
     "(binary_operator rhs: (identifier) @rhs)"
@@ -214,6 +211,7 @@ ts_rhs_identifiers <- function(language, entry) {
   )
 }
 
+#' @noRd
 ts_body_identifiers <- function(language, entry) {
   id_q <- treesitter::query(language, "(identifier) @id")
   fns <- ts_file_functions(entry$root, "")

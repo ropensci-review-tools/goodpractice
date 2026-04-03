@@ -20,13 +20,35 @@ test_that("roxygen2 checks return NA for non-roxygen2 packages", {
 
 # -- roxygen2_has_export_or_nord ----------------------------------------------
 
-test_that("roxygen2_has_export_or_nord fails for untagged functions", {
+test_that("roxygen2_has_export_or_nord flags documented functions missing tags", {
   gp_res <- gp("bad_roxygen", checks = "roxygen2_has_export_or_nord")
   expect_false(results(gp_res)$passed)
 
   pos <- failed_positions(gp_res)$roxygen2_has_export_or_nord
   lines <- vapply(pos, `[[`, "", "line")
-  expect_match(lines, "untagged_func", all = FALSE)
+  expect_match(lines, "documented_no_tag", all = FALSE)
+})
+
+test_that("roxygen2_has_export_or_nord ignores undocumented functions", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: undoctest", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT",
+    "Roxygen: list(markdown = TRUE)",
+    "RoxygenNote: 7.3.3"
+  ), file.path(pkg, "DESCRIPTION"))
+  writeLines("export(public_fn)", file.path(pkg, "NAMESPACE"))
+
+  writeLines(c(
+    "#' @export",
+    "public_fn <- function() 1",
+    "",
+    "internal_fn <- function() 2"
+  ), file.path(pkg, "R", "code.R"))
+
+  gp_res <- gp(pkg, checks = "roxygen2_has_export_or_nord")
+  expect_true(results(gp_res)$passed)
 })
 
 test_that("roxygen2_has_export_or_nord passes when all tagged", {

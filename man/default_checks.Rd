@@ -12,3 +12,6 @@ Character vector of default check names
 \description{
 List the names of default checks (excludes optional check sets)
 }
+\examples{
+default_checks()
+}

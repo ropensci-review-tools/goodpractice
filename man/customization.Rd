@@ -29,6 +29,10 @@ the  \code{check}-functions (see example).}
 \item{...}{Further arguments. Most important: A \code{preps} argument that
 contains the names of all the preparation functions required for the check.}
 }
+\value{
+For \code{make_prep}: a preparation function. For
+\code{make_check}: a check object of class \code{"check"}.
+}
 \description{
 Defining custom preparations and checks
 }

@@ -29,9 +29,10 @@ CHECKS$no_description_date <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'omit the {.field Date} field in {.file DESCRIPTION}. It is not required and it
-        gets invalid quite often. A build date will be added to
-        the package when you perform {.code R CMD build} on it.',
+  gp = 'omit the {.field Date} field in {.file DESCRIPTION}.
+        It is not required and it gets invalid quite often.
+        A build date will be added to the package when you
+        perform {.code R CMD build} on it.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -48,8 +49,9 @@ CHECKS$description_url <- make_check(
   tags = c("info", 'DESCRIPTION'),
   preps = 'description',
 
-  gp = 'add a {.field URL} field to {.file DESCRIPTION}. It helps users find information
-        about your package online. If your package does not have a homepage,
+  gp = 'add a {.field URL} field to {.file DESCRIPTION}.
+        It helps users find information about your package
+        online. If your package does not have a homepage,
         add an URL to GitHub, or the CRAN package page.',
 
   check = function(state) {
@@ -78,8 +80,14 @@ CHECKS$description_not_start_with_package <- make_check(
 
     desc_text <- state$description$get_field("Description")
     pkg_name <- state$description$get_field("Package")
-    starts_this_pkg <- grepl("^This\\s+(is\\s+a\\s+)?package\\b", desc_text, ignore.case = TRUE)
-    starts_the_pkg <- grepl(paste0("^The\\s+", pkg_name, "\\s+package\\b"), desc_text, ignore.case = TRUE)
+    starts_this_pkg <- grepl(
+      "^This\\s+(is\\s+a\\s+)?package\\b",
+      desc_text, ignore.case = TRUE
+    )
+    starts_the_pkg <- grepl(
+      paste0("^The\\s+", pkg_name, "\\s+package\\b"),
+      desc_text, ignore.case = TRUE
+    )
     !(starts_this_pkg || starts_the_pkg)
   }
 )
@@ -134,9 +142,11 @@ CHECKS$description_urls_not_http <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'consider using {.code https://} instead of {.code http://} for URLs in the
-        {.field Description} field. CRAN prefers secure URLs where available.
-        Check if there might be a secure {.code https://} alternative.',
+  gp = 'consider using {.code https://} instead of
+        {.code http://} for URLs in the {.field Description}
+        field. CRAN prefers secure URLs where available.
+        Check if there might be a secure
+        {.code https://} alternative.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -155,8 +165,9 @@ CHECKS$no_description_duplicate_deps <- make_check(
   preps = "description",
 
   gp = 'not list the same package in multiple dependency fields
-        (e.g. both {.field Imports} and {.field Suggests}). Each dependency should
-        appear only once.',
+        (e.g. both {.field Imports} and
+        {.field Suggests}). Each dependency should appear
+        only once.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -210,9 +221,10 @@ CHECKS$description_pkgname_single_quoted <- make_check(
   tags = c("info", "DESCRIPTION"),
   preps = "description",
 
-  gp = 'single-quote package names in the {.field Title} and {.field Description} fields,
-        e.g. {.pkg dplyr} not dplyr. CRAN requires that software names
-        are single-quoted.',
+  gp = 'single-quote package names in the
+        {.field Title} and {.field Description} fields,
+        e.g. {.pkg dplyr} not dplyr. CRAN requires that
+        software names are single-quoted.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)
@@ -241,9 +253,11 @@ CHECKS$description_bugreports <- make_check(
   tags = c("info", 'DESCRIPTION'),
   preps = 'description',
 
-  gp = 'add a {.field BugReports} field to {.file DESCRIPTION}, and point it to a bug
-        tracker. Many online code hosting services provide bug trackers
-        for free, {.url https://github.com}, {.url https://gitlab.com}, etc.',
+  gp = 'add a {.field BugReports} field to
+        {.file DESCRIPTION}, and point it to a bug tracker.
+        Many online code hosting services provide bug
+        trackers for free, {.url https://github.com},
+        {.url https://gitlab.com}, etc.',
 
   check = function(state) {
     if(inherits(state$description, "try-error")) return(NA)

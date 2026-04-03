@@ -14,7 +14,9 @@ PREPS$covr <- function(state, path = state$path, quiet) {
       state$covr$zero <- zero_coverage(state$covr$coverage)
     )
     state$covr$pct_by_line <- percent_coverage(state$covr$coverage, by = "line")
-    state$covr$pct_by_expr <- percent_coverage(state$covr$coverage, by = "expression")
+    state$covr$pct_by_expr <- percent_coverage(
+      state$covr$coverage, by = "expression"
+    )
   }
 
   state

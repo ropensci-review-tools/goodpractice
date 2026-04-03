@@ -1,14 +1,15 @@
 
-get_package_name <- function(path = ".") {
-  state <- parseNamespaceFile(basename(path), file.path(path, ".."))
-}
-
+#' @noRd
 `%||%` <- function(l, r) { if (is.null(l)) r else l }
+
+na_result <- function() {
+  list(status = NA, positions = list())
+}
 
 #' Default pattern for R files
 #' @return Regular expression.
 #' @keywords internal
-
+#' @noRd
 default_r_file_pattern <- function() {
   "\\.[RrSs]$"
 }
@@ -37,7 +38,8 @@ has_internet <- function() {
   curl::has_internet()
 }
 
-# Used only to parse code chunks in vignettes; all other code is parsed with treesitter.R fns
+# Used only to parse code chunks in vignettes;
+# all other code is parsed with treesitter.R fns
 safe_parse <- function(file = NULL, text = NULL, keep_source = TRUE,
                        encoding = "UTF-8") {
   args <- if (!is.null(file)) {

@@ -1,6 +1,7 @@
 
 #' @include lists.R
 
+#' @noRd
 query_reverse_deps <- function(pkg_name, db) {
   deps <- tools::package_dependencies(pkg_name, db = db, reverse = TRUE)
   deps[[pkg_name]]

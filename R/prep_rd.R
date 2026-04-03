@@ -1,5 +1,6 @@
 #' @include lists.R
 
+#' @noRd
 parse_rd_files <- function(mandir) {
   if (!dir.exists(mandir)) {
     return(list())

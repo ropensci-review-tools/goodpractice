@@ -24,3 +24,8 @@ is a list with entries: \code{filename}, \code{line_number},
 pairs of start and end positions for each line involved in the
 check.
 }
+\examples{
+path <- system.file("bad1", package = "goodpractice")
+g <- gp(path, checks = "description_url")
+failed_positions(g)
+}

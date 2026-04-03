@@ -12,6 +12,8 @@ NULL
 #'   saved as the " \code{name}" entry of \code{state}, i.e. of the input for
 #'   the  \code{check}-functions (see example).
 #'   
+#' @return For \code{make_prep}: a preparation function. For
+#'   \code{make_check}: a check object of class \code{"check"}.
 #' @describeIn customization Create a preparation function
 #' @export
 #' @examples 

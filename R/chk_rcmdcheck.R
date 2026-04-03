@@ -5,7 +5,7 @@
 
 #' Wrapper on make_check, specific to R CMD check
 #'
-#' @param description A description of the check.
+#' @inheritParams make_check
 #' @param type Type of notification, one of "warnings", "notes" or "errors".
 #' @param pattern The text pattern identifying the check.
 #' @param tags Tags to be passed on to make_check.
@@ -15,6 +15,7 @@
 #' @keywords internal
 #' @include lists.R
 
+#' @noRd
 make_rcmd_check <- function(
   description, pattern, gp = NULL, type = c("warnings", "notes", "errors"),
   tags = NULL, preps = NULL, ...) {

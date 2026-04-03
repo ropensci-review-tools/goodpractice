@@ -1,0 +1,128 @@
+name: Ecosystem check
+
+on:
+  workflow_dispatch:
+  pull_request_target:
+    branches: [main]
+    paths:
+      - 'R/**'
+      - 'DESCRIPTION'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+env:
+  TEST_PACKAGES: |
+    tidyverse/dplyr@384ff2c4af79a9bd9142d8bdab23efbcd52f275b
+    tidyverse/ggplot2@bed8e32d45c7dc98afb783b409edac98854d41a7
+    ropensci/targets@d45243e1a239da467c6e96e0069ecb7368f78021
+    ropensci-review-tools/pkgcheck@12d80c8ad3bc39c94174f0276386869a52568135
+    r-lib/cli@ed21869fe9e6af7acba87c9989e6ea80e8dff375
+    r-lib/testthat@fe50c22eff15f0b87f4dd39c82fa95e41fe20b45
+  TIDYVERSE_PACKAGES: tidyverse_dplyr
+
+jobs:
+  ecosystem-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: goodpractice-pr
+
+      - name: Checkout main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          path: goodpractice-main
+
+      - name: Get main SHA
+        id: main-sha
+        run: |
+          cd goodpractice-main
+          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Try downloading cached main results
+        id: cache-main
+        uses: actions/download-artifact@v5
+        with:
+          name: ecosystem-main-${{ steps.main-sha.outputs.sha }}
+          path: results
+        continue-on-error: true
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install system dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: goodpractice-pr
+          extra-packages: any::jsonlite
+
+      - name: Clone test packages
+        run: |
+          mkdir -p test-repos
+          while IFS= read -r repo; do
+            [ -z "$repo" ] && continue
+            repo_name=$(echo "$repo" | cut -d'@' -f1)
+            commit_sha=$(echo "$repo" | cut -d'@' -f2)
+            repo_dir=$(echo "$repo_name" | tr '/' '_')
+            git clone --depth 1 "https://github.com/$repo_name.git" "test-repos/$repo_dir"
+            (cd "test-repos/$repo_dir" && git checkout "$commit_sha" 2>/dev/null || true)
+          done <<< "$TEST_PACKAGES"
+
+      - name: Run goodpractice (main)
+        if: steps.cache-main.outcome == 'failure'
+        run: |
+          Rscript -e '
+            pak::local_install("goodpractice-main", ask = FALSE)
+            source("goodpractice-pr/.github/scripts/run_ecosystem.R")
+          '
+        env:
+          GP_LABEL: main
+
+      - name: Upload main results (keyed by SHA)
+        if: steps.cache-main.outcome == 'failure'
+        uses: actions/upload-artifact@v5
+        with:
+          name: ecosystem-main-${{ steps.main-sha.outputs.sha }}
+          path: results/main.csv
+          retention-days: 30
+
+      - name: Run goodpractice (PR)
+        run: |
+          Rscript -e '
+            pak::local_install("goodpractice-pr", ask = FALSE)
+            source("goodpractice-pr/.github/scripts/run_ecosystem.R")
+          '
+        env:
+          GP_LABEL: pr
+
+      - name: Compare results
+        run: |
+          Rscript goodpractice-pr/.github/scripts/compare_ecosystem.R
+
+      - name: Upload comparison
+        uses: actions/upload-artifact@v5
+        with:
+          name: ecosystem-comparison
+          path: |
+            ecosystem_comparison.md
+            results/
+
+      - name: Post comment on PR
+        if: github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          file-path: ecosystem_comparison.md
+          comment-tag: ecosystem-check

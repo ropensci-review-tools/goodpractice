@@ -13,6 +13,16 @@ export_json(gp, file, pretty = FALSE)
 
 \item{pretty}{Whether to pretty-print the JSON.}
 }
+\value{
+Invisibly returns the path to the output file.
+}
 \description{
 Export failed checks to JSON
+}
+\examples{
+path <- system.file("bad1", package = "goodpractice")
+g <- gp(path, checks = "description_url")
+tmp <- tempfile(fileext = ".json")
+export_json(g, tmp)
+unlink(tmp)
 }

@@ -1,6 +1,7 @@
 #' @include lists.R
 #' @importFrom utils getParseData
 
+#' @noRd
 vignette_files <- function(path) {
   vigdir <- file.path(path, "vignettes")
   if (!dir.exists(vigdir)) return(character())

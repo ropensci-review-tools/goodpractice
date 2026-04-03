@@ -1,8 +1,7 @@
 #' @include lists.R
 
-rd_na_result <- function() {
-  list(status = NA, positions = list())
-}
+#' @noRd
+rd_na_result <- function() na_result()
 
 rd_find_topic <- function(rd_data, alias) {
   for (topic in rd_data) {

@@ -1,6 +1,7 @@
 
 #' @importFrom rstudioapi callFun
 
+#' @noRd
 rstudio_source_markers <- function(gp) {
 
   markers <- get_markers(gp)
@@ -30,6 +31,7 @@ get_markers <- function(gp) {
 #' @keywords internal
 #' @importFrom utils head
 
+#' @noRd
 get_marker <- function(gp, check) {
 
   chk <- CHECKS[[check]]

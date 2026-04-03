@@ -1,6 +1,7 @@
 #' @include lists.R
 #' @importFrom urlchecker url_check
 
+#' @noRd
 run_url_check <- function(path, quiet) {
   urlchecker::url_check(path, progress = !quiet)
 }

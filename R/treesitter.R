@@ -1,5 +1,6 @@
 #' @include lists.R
 
+#' @noRd
 ts_nodes_equal <- function(a, b) {
   identical(treesitter::node_start_point(a),
             treesitter::node_start_point(b)) &&

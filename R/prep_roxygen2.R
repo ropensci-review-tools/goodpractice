@@ -1,6 +1,7 @@
 #' @include lists.R
 #' @importFrom roxygen2 parse_package
 
+#' @noRd
 uses_roxygen2 <- function(path) {
   desc_path <- file.path(path, "DESCRIPTION")
   if (!file.exists(desc_path)) return(FALSE)

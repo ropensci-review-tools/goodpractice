@@ -1,0 +1,20 @@
+options(goodpractice.exclude_path = c(
+  "inst/bad1",
+  "tests/testthat/bad2",
+  "tests/testthat/bad3",
+  "tests/testthat/bad_data_load",
+  "tests/testthat/bad_export_order",
+  "tests/testthat/bad_missing",
+  "tests/testthat/bad_print",
+  "tests/testthat/bad_r_ext",
+  "tests/testthat/bad_rd",
+  "tests/testthat/bad_roxygen",
+  "tests/testthat/bad_spelling",
+  "tests/testthat/bad_tidyverse",
+  "tests/testthat/bad_vignettes",
+  "tests/testthat/baddoc",
+  "tests/testthat/good",
+  "tests/testthat/good_print",
+  "tests/testthat/good_tidyverse",
+  "tests/testthat/no_roxygen"
+))

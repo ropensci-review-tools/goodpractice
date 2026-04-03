@@ -1,6 +1,7 @@
 
 #' @include treesitter.R
 
+#' @noRd
 get_tidyverse_lintr_position <- function(lint) {
   lint[c("filename", "line_number", "column_number", "ranges", "line")]
 }
@@ -78,8 +79,10 @@ CHECKS$tidyverse_equals_na_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'use {.code is.na(x)} instead of {.code x == NA}. Comparing with {.code ==}
-        always returns {.code NA}, never {.code TRUE} or {.code FALSE}.',
+  gp = 'use {.code is.na(x)} instead of
+        {.code x == NA}. Comparing with {.code ==}
+        always returns {.code NA}, never {.code TRUE}
+        or {.code FALSE}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "equals_na_linter")
@@ -126,7 +129,8 @@ CHECKS$tidyverse_infix_spaces_linter <- make_check(
   preps = "tidyverse",
 
   gp = 'put spaces around infix operators like {.code +}, {.code -}, {.code <-},
-        {.code ==}, etc. Exception: no spaces around {.code ::} and {.code :::}.',
+        {.code ==}, etc. Exception: no spaces around
+        {.code ::} and {.code :::}.',
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "infix_spaces_linter")
@@ -411,9 +415,11 @@ CHECKS$tidyverse_seq_linter <- make_check(
   tags = c("warning", "tidyverse"),
   preps = "tidyverse",
 
-  gp = "avoid {.code 1:length(...)}, {.code 1:nrow(...)}, and similar expressions.
-        They are error prone when the right hand side is zero.
-        Use {.fn seq_len} or {.fn seq_along} instead.",
+  gp = "avoid {.code 1:length(...)},
+        {.code 1:nrow(...)}, and similar expressions.
+        They are error prone when the right hand side
+        is zero. Use {.fn seq_len} or {.fn seq_along}
+        instead.",
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "seq_linter")
@@ -428,9 +434,10 @@ CHECKS$tidyverse_T_and_F_symbol_linter <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = "use {.code TRUE} and {.code FALSE} instead of {.code T} and {.code F}. {.code T} and {.code F} are not
-        reserved words and can be overwritten, leading to unexpected
-        behaviour.",
+  gp = "use {.code TRUE} and {.code FALSE} instead
+        of {.code T} and {.code F}. {.code T} and
+        {.code F} are not reserved words and can be
+        overwritten, leading to unexpected behaviour.",
 
   check = function(state) {
     get_tidyverse_lintr_state(state, "T_and_F_symbol_linter")
@@ -482,7 +489,8 @@ CHECKS$tidyverse_test_file_names <- make_check(
   preps = "tidyverse",
 
   gp = 'name test files to mirror the R source file they test,
-        e.g. {.file R/my_function.R} should have {.file tests/testthat/test-my_function.R}.',
+        e.g. {.file R/my_function.R} should have
+        {.file tests/testthat/test-my_function.R}.',
 
   check = function(state) {
     r_dir <- file.path(state$path, "R")
@@ -609,7 +617,11 @@ CHECKS$tidyverse_export_order <- make_check(
     for (file_funcs in by_file) {
       if (length(file_funcs) < 2) next
 
-      is_exp <- vapply(file_funcs, function(fn) is_exported(fn$name), logical(1))
+      is_exp <- vapply(
+        file_funcs,
+        function(fn) is_exported(fn$name),
+        logical(1)
+      )
       if (!any(is_exp) || all(is_exp)) next
 
       last_export <- max(which(is_exp))

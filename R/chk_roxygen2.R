@@ -1,8 +1,7 @@
 #' @include lists.R
 
-roxygen2_na_result <- function() {
-  list(status = NA, positions = list())
-}
+#' @noRd
+roxygen2_na_result <- function() na_result()
 
 block_is_function <- function(block) {
   cl <- block$call
@@ -124,8 +123,11 @@ CHECKS$roxygen2_valid_inherit <- make_check(
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
-    "Ensure functions referenced by {.code @inheritParams} and {.code @inheritDotParams}",
-    "exist within the package. Use {.code pkg::func} syntax for external functions."
+    "Ensure functions referenced by",
+    "{.code @inheritParams} and",
+    "{.code @inheritDotParams} exist within the",
+    "package. Use {.code pkg::func} syntax for",
+    "external functions."
   ),
 
   check = function(state) {

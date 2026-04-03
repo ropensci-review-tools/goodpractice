@@ -6,6 +6,8 @@ CHECKS <- list()
 #'
 #' @return Character vector of checks
 #' @export
+#' @examples
+#' all_checks()
 
 all_checks <- function() {
   names(CHECKS)
@@ -15,6 +17,8 @@ all_checks <- function() {
 #'
 #' @return Character vector of default check names
 #' @export
+#' @examples
+#' default_checks()
 
 default_checks <- function() {
   setdiff(all_checks(), tidyverse_checks())
@@ -30,6 +34,8 @@ default_checks <- function() {
 #'
 #' @return Character vector of tidyverse check names
 #' @export
+#' @examples
+#' tidyverse_checks()
 
 tidyverse_checks <- function() {
   grep("^tidyverse_", all_checks(), value = TRUE)

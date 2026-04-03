@@ -9,7 +9,6 @@ uses_roxygen2 <- function(path) {
   any(grepl("^(\\s*?)Roxygen", fields))
 }
 
-#' @noRd
 find_function_defs <- function(path, exclude_path = character()) {
   rfiles <- r_package_files(path, exclude_path)
   empty <- data.frame(
@@ -49,7 +48,6 @@ find_function_defs <- function(path, exclude_path = character()) {
   do.call(rbind, defs)
 }
 
-#' @noRd
 parse_roxygen2 <- function(path, exclude_path = character()) {
   if (!uses_roxygen2(path)) {
     cli::cli_abort("Package does not use {.pkg roxygen2}.")

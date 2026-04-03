@@ -8,7 +8,6 @@ ts_nodes_equal <- function(a, b) {
               treesitter::node_end_point(b))
 }
 
-#' @noRd
 ts_inside_nested_function <- function(node, fn_body) {
   parent <- treesitter::node_parent(node)
   while (!is.null(parent) && !ts_nodes_equal(parent, fn_body)) {
@@ -18,7 +17,6 @@ ts_inside_nested_function <- function(node, fn_body) {
   FALSE
 }
 
-#' @noRd
 ts_body_has_call <- function(fn_node, call_query) {
   body <- treesitter::node_child_by_field_name(fn_node, "body")
   caps <- treesitter::query_captures(call_query, body)
@@ -28,7 +26,6 @@ ts_body_has_call <- function(fn_node, call_query) {
   FALSE
 }
 
-#' @noRd
 ts_file_functions <- function(root, file) {
   n_children <- treesitter::node_child_count(root)
   fns <- vector("list", n_children)
@@ -52,7 +49,6 @@ ts_file_functions <- function(root, file) {
   fns[seq_len(k)]
 }
 
-#' @noRd
 ts_parse <- function(path, exclude_path = character()) {
   rdir <- file.path(path, "R")
   if (!dir.exists(rdir)) {
@@ -90,7 +86,6 @@ S4_CALL_NAMES <- c(
   "setReplaceMethod", "setValidity", "setIs"
 )
 
-#' @noRd
 ts_s4_call_ranges <- function(ts) {
   if (length(ts$trees) == 0) return(list())
 
@@ -120,7 +115,6 @@ ts_s4_call_ranges <- function(ts) {
   if (is.null(ranges)) list() else ranges
 }
 
-#' @noRd
 ts_get <- function(state) {
   if (is.null(state$.cache$treesitter)) {
     state$.cache$treesitter <- ts_parse(
@@ -130,7 +124,6 @@ ts_get <- function(state) {
   state$.cache$treesitter
 }
 
-#' @noRd
 filter_s4_assignment_false_positives <- function(state, result) {
   if (isTRUE(result$status) || is.na(result$status)) return(result)
 

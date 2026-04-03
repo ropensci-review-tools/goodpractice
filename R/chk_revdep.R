@@ -7,7 +7,6 @@ query_reverse_deps <- function(pkg_name, db) {
   deps[[pkg_name]]
 }
 
-#' @noRd
 revdep_gp_message <- function(revdeps) {
   n <- length(revdeps)
   dep_list <- paste(utils::head(revdeps, 10), collapse = ", ")

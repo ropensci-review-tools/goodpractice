@@ -9,7 +9,6 @@ vignette_files <- function(path) {
              full.names = TRUE, recursive = TRUE)
 }
 
-#' @noRd
 is_skipped_chunk <- function(lines, start, end) {
   header <- lines[start]
   if (grepl("eval\\s*=\\s*(FALSE|F)\\b", header) ||
@@ -23,7 +22,6 @@ is_skipped_chunk <- function(lines, start, end) {
     any(grepl("purl\\s*:\\s*(false|FALSE|F)\\b", hashpipe))
 }
 
-#' @noRd
 match_chunk_pairs <- function(starts, ends) {
   if (length(starts) == 0) return(matrix(integer(0), ncol = 2))
   if (length(starts) != length(ends)) {
@@ -49,7 +47,6 @@ match_chunk_pairs <- function(starts, ends) {
   chunks
 }
 
-#' @noRd
 extract_vignette_code <- function(f) {
   lines <- tryCatch(readLines(f, warn = FALSE), error = function(e) NULL)
   if (is.null(lines)) return(NULL)
@@ -86,7 +83,6 @@ extract_vignette_code <- function(f) {
   output
 }
 
-#' @noRd
 vignette_parse_data <- function(f) {
   code_lines <- extract_vignette_code(f)
   if (is.null(code_lines)) return(NULL)
@@ -97,7 +93,6 @@ vignette_parse_data <- function(f) {
   getParseData(parsed)
 }
 
-#' @noRd
 call_descendants <- function(pd, fn_call_id) {
   name_expr <- pd$parent[pd$id == fn_call_id]
   call_expr <- pd$parent[pd$id == name_expr]
@@ -113,7 +108,6 @@ call_descendants <- function(pd, fn_call_id) {
   ids
 }
 
-#' @noRd
 check_vignette_calls <- function(state, fn_name, nested_fn = NULL) {
   problems <- list()
 

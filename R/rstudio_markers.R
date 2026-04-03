@@ -17,7 +17,6 @@ rstudio_source_markers <- function(gp) {
   )
 }
 
-#' @noRd
 get_markers <- function(gp) {
   m <- lapply(names(gp$checks), get_marker, gp = gp)
   m <- drop_nulls(m)

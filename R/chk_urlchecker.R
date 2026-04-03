@@ -3,7 +3,6 @@
 #' @noRd
 urlchecker_na_result <- function() na_result()
 
-#' @noRd
 urlchecker_make_positions <- function(db) {
   lapply(seq_len(nrow(db)), function(i) {
     from <- db$From[[i]]
@@ -17,7 +16,6 @@ urlchecker_make_positions <- function(db) {
   })
 }
 
-#' @noRd
 make_urlchecker_check <- function(description, gp, filter, tags = NULL) {
   make_check(
     description = description,

@@ -22,6 +22,12 @@ untagged_func <- function() {
   1
 }
 
+#' Documented but missing export/noRd tag
+#' @return A number.
+documented_no_tag <- function() {
+  42
+}
+
 #' Contradictory tags
 #' @export
 #' @keywords internal

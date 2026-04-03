@@ -83,7 +83,6 @@ failed_positions <- function(gp) {
   lapply(failed, get_position)
 }
 
-#' @noRd
 get_position <- function(chk) {
   if (! "positions" %in% names(chk)) NULL else chk$positions
 }

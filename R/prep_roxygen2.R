@@ -26,19 +26,10 @@ find_function_defs <- function(path, exclude_path = character()) {
     tree <- treesitter::parser_parse(p, code)
     root <- treesitter::tree_root_node(tree)
 
-    n_children <- treesitter::node_child_count(root)
-    for (i in seq_len(n_children)) {
-      child <- treesitter::node_child(root, i)
-      if (treesitter::node_type(child) != "binary_operator") next
-      lhs <- treesitter::node_child_by_field_name(child, "lhs")
-      rhs <- treesitter::node_child_by_field_name(child, "rhs")
-      if (is.null(rhs)) next
-      if (treesitter::node_type(rhs) != "function_definition") next
-      if (treesitter::node_type(lhs) != "identifier") next
+    fns <- ts_file_functions(root, f)
+    for (fn in fns) {
       defs[[length(defs) + 1]] <- data.frame(
-        name = treesitter::node_text(lhs),
-        file = f,
-        line = treesitter::node_start_point(lhs)$row + 1L,
+        name = fn$name, file = fn$file, line = fn$line,
         stringsAsFactors = FALSE
       )
     }

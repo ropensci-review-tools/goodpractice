@@ -24,7 +24,7 @@ rd_exported_aliases <- function(state) {
   setdiff(exports, s3methods)
 }
 
-rd_check_field <- function(state, field) {
+rd_check_field <- function(state, field, skip_internal = FALSE) {
   if (inherits(state$rd, "try-error")) return(rd_na_result())
 
   rd_data <- state$rd
@@ -36,6 +36,7 @@ rd_check_field <- function(state, field) {
   for (alias in exports) {
     topic <- rd_find_topic(rd_data, alias)
     if (is.null(topic)) next
+    if (skip_internal && isTRUE(topic$has_keyword_internal)) next
 
     if (!isTRUE(topic[[field]])) {
       problems[[length(problems) + 1]] <- list(
@@ -54,13 +55,14 @@ rd_check_field <- function(state, field) {
   )
 }
 
-make_rd_check <- function(description, gp, field, tags = NULL) {
+make_rd_check <- function(description, gp, field, tags = NULL,
+                          skip_internal = FALSE) {
   make_check(
     description = description,
     tags = c("documentation", tags),
     preps = c("rd", "namespace"),
     gp = gp,
-    check = function(state) rd_check_field(state, field)
+    check = function(state) rd_check_field(state, field, skip_internal)
   )
 }
 
@@ -76,6 +78,7 @@ CHECKS$rd_has_return <- make_rd_check(
     "Document return values for exported (non-method)",
     "functions using {.code \\\\value}."
   ),
-  field = "has_value"
+  field = "has_value",
+  skip_internal = TRUE
 )
 

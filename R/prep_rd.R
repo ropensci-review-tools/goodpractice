@@ -28,11 +28,18 @@ parse_rd_files <- function(mandir) {
       ""
     )
 
+    keywords <- vapply(
+      parsed[tags == "\\keyword"],
+      function(x) trimws(paste(unlist(x), collapse = "")),
+      ""
+    )
+
     list(
       file = basename(rd_file),
       aliases = aliases,
       has_examples = any(tags == "\\examples"),
-      has_value = any(tags == "\\value")
+      has_value = any(tags == "\\value"),
+      has_keyword_internal = "internal" %in% keywords
     )
   })
 }

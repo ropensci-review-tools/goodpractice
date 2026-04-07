@@ -168,6 +168,59 @@ test_that("rd_has_return passes when all exports have value", {
   expect_true(get_result(res, "rd_has_return"))
 })
 
+test_that("rd_has_return skips keyword internal functions", {
+  state <- list(
+    rd = list(
+      list(
+        aliases = "internal_fn", file = "internal_fn.Rd",
+        has_value = FALSE, has_keyword_internal = TRUE
+      ),
+      list(
+        aliases = "public_fn", file = "public_fn.Rd",
+        has_value = TRUE, has_keyword_internal = FALSE
+      )
+    ),
+    namespace = list(
+      exports = c("internal_fn", "public_fn"),
+      S3methods = matrix(character(0), ncol = 3)
+    )
+  )
+  result <- CHECKS$rd_has_return$check(state)
+  expect_true(result$status)
+  expect_length(result$positions, 0)
+})
+
+test_that("rd_has_return still flags exported non-internal without value", {
+  state <- list(
+    rd = list(
+      list(
+        aliases = "internal_fn", file = "internal_fn.Rd",
+        has_value = FALSE, has_keyword_internal = TRUE
+      ),
+      list(
+        aliases = "public_fn", file = "public_fn.Rd",
+        has_value = FALSE, has_keyword_internal = FALSE
+      )
+    ),
+    namespace = list(
+      exports = c("internal_fn", "public_fn"),
+      S3methods = matrix(character(0), ncol = 3)
+    )
+  )
+  result <- CHECKS$rd_has_return$check(state)
+  expect_false(result$status)
+  expect_length(result$positions, 1)
+  expect_equal(result$positions[[1]]$line, "public_fn")
+})
+
+test_that("rd_has_return does not flag keyword internal in bad_rd fixture", {
+  gp_res <- gp("bad_rd", checks = "rd_has_return")
+  pos <- failed_positions(gp_res)$rd_has_return
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_true("no_value" %in% lines)
+  expect_false("internal_func" %in% lines)
+})
+
 # -- prep returns NA on missing man/ ------------------------------------------
 
 test_that("rd checks return NA when man/ directory is missing", {
@@ -205,6 +258,19 @@ test_that("parse_rd_files parses Rd files correctly", {
   }, logical(1)))]]
   expect_true(good$has_examples)
   expect_true(good$has_value)
+})
+
+test_that("parse_rd_files detects keyword internal", {
+  result <- parse_rd_files("bad_rd/man")
+  internal <- result[[which(vapply(result, function(x) {
+    "internal_func" %in% x$aliases
+  }, logical(1)))]]
+  expect_true(internal$has_keyword_internal)
+
+  good <- result[[which(vapply(result, function(x) {
+    "good_func" %in% x$aliases
+  }, logical(1)))]]
+  expect_false(good$has_keyword_internal)
 })
 
 test_that("parse_rd_files handles Rd elements with no Rd_tag attribute", {

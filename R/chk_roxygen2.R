@@ -31,7 +31,7 @@ make_block_position <- function(block) {
 
 CHECKS$roxygen2_has_export_or_nord <- make_check(
 
-  description = "Documented functions have @export or @noRd",
+  description = "Documented functions have @export, @noRd, or @rdname",
   tags = c("documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(

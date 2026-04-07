@@ -60,6 +60,8 @@ Description: Give advice about good practices when building R packages.
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/goodpractice/, https://github.com/ropensci-review-tools/goodpractice
 BugReports: https://github.com/ropensci-review-tools/goodpractice/issues
+Depends:
+    R (>= 4.0.0)
 Imports:
     cli,
     covr,

@@ -15,7 +15,7 @@ CHECKS$has_readme <- make_check(
     readme_patterns <- c(
       "README.md", "README.Rmd", "README.qmd", "README"
     )
-    any(file.exists(file.path(state$path, readme_patterns)))
+    list(status = any(file.exists(file.path(state$path, readme_patterns))), positions = list())
   }
 )
 
@@ -33,7 +33,7 @@ CHECKS$has_news <- make_check(
 
   check = function(state) {
     news_patterns <- c("NEWS.md", "NEWS", "NEWS.Rd", "inst/NEWS.Rd")
-    any(file.exists(file.path(state$path, news_patterns)))
+    list(status = any(file.exists(file.path(state$path, news_patterns))), positions = list())
   }
 )
 

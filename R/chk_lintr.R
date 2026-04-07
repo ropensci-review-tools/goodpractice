@@ -355,12 +355,6 @@ CHECKS$lintr_if_not_else_linter <- make_lintr_check(
         Positive conditions are easier to reason about."
 )
 
-CHECKS$lintr_if_switch_linter <- make_lintr_check(
-  "if_switch_linter",
-  "Use switch() instead of long if/else chains",
-  "consider using {.fn switch} instead of long if/else if chains that
-        compare the same variable to different values."
-)
 
 CHECKS$lintr_ifelse_censor_linter <- make_lintr_check(
   "ifelse_censor_linter",

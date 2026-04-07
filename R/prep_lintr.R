@@ -45,9 +45,6 @@ linters_to_lint <- list(
   comparison_negation_linter = lintr::comparison_negation_linter(),
   consecutive_assertion_linter = lintr::consecutive_assertion_linter(),
   if_not_else_linter = lintr::if_not_else_linter(),
-  if_switch_linter = lintr::if_switch_linter(
-    max_branch_lines = 2L, max_branch_expressions = 2L
-  ),
   ifelse_censor_linter = lintr::ifelse_censor_linter(),
   implicit_assignment_linter = lintr::implicit_assignment_linter(),
   inner_combine_linter = lintr::inner_combine_linter(),

@@ -279,9 +279,9 @@ test_that("Valid author roles", {
   )
 
   state <- list(description = desc::description$new(text = D_bad_authors_at_r))
-  expect_identical(
-    CHECKS$description_valid_roles$check(state)$status, NA
-  )
+  result <- CHECKS$description_valid_roles$check(state)
+  expect_identical(result$status, NA)
+  expect_identical(result$positions, list())
 })
 
 test_that("Package names single-quoted in Title/Description", {

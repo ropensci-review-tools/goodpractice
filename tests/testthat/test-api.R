@@ -30,9 +30,9 @@ test_that("failed_positions returns positions for failed checks", {
   expect_true("description_bugreports" %in% names(fp))
 })
 
-test_that("failed_positions returns NULL when check has no positions", {
+test_that("failed_positions returns empty list when check has no positions", {
   fp <- failed_positions(x)
-  expect_null(fp$description_bugreports)
+  expect_equal(fp$description_bugreports, list())
 })
 
 test_that("failed_positions returns positions when check has them", {

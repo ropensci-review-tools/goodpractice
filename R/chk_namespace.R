@@ -13,9 +13,9 @@ CHECKS$no_import_package_as_a_whole <- make_check(
         Instead, import only the specific functions you need.',
 
   check = function(state) {
-    if(inherits(state$namespace, "try-error")) return(NA)
+    if(inherits(state$namespace, "try-error")) return(na_result())
     imports <- state$namespace$imports
-    all(vapply(imports, length, 1L) > 1)
+    list(status = all(vapply(imports, length, 1L) > 1), positions = list())
   }
 )
 
@@ -31,7 +31,7 @@ CHECKS$no_export_pattern <- make_check(
         package.',
 
   check = function(state) {
-    if(inherits(state$namespace, "try-error")) return(NA)
-    length(state$namespace$exportPatterns) == 0
+    if(inherits(state$namespace, "try-error")) return(na_result())
+    list(status = length(state$namespace$exportPatterns) == 0, positions = list())
   }
 )

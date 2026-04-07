@@ -1,6 +1,6 @@
 # goodpractice 1.0.5.9000 (dev version)
 
-- Added `makefile` (#203)
+* Added `makefile` (#203)
 * Lowered default cyclomatic complexity limit from 50 to 15, aligning
   with lintr and pkgcheck defaults. Configurable via
   `goodpractice.cyclocomp_limit` option (#150).
@@ -38,11 +38,12 @@
   `gp()` now defaults to `default_checks()` instead of `all_checks()`,
   keeping optional check sets out of the default run.
 * New `has_readme` and `has_news` checks for package documentation
-  completeness (#45).* `gp()` now fails if the path provided to it is not a package (does not contain a
+  completeness (#45).
+* `gp()` now fails if the path provided to it is not a package (does not contain a
   DESCRIPTION file) (#190, @maelle)
 * goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
 * If your editor supports it, goodpractice now prints clickable hyperlinks to console.
-- New `describe_check()` function to print descriptions of all implemented checks (@152)
+* New `describe_check()` function to print descriptions of all implemented checks (@152)
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
 * New `print_return_invisible` check: flags print methods that don't return `invisible(x)` (#49).
 * New `vignette_no_rm_list` check: flags `rm(list = ls())` in vignettes (#20).

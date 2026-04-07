@@ -33,7 +33,7 @@ CHECKS$cyclocomp <- make_check(
   },
 
   check = function(state) {
-    if (inherits(state$cyclocomp, "try-error")) return(NA)
-    all(state$cyclocomp$cyclocomp <= cyclocomp_limit())
+    if (inherits(state$cyclocomp, "try-error")) return(na_result())
+    list(status = all(state$cyclocomp$cyclocomp <= cyclocomp_limit()), positions = list())
   }
 )

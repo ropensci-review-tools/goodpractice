@@ -71,6 +71,25 @@ test_that("get_lintr_state returns NA on try-error", {
   state <- list(lintr = structure("error", class = "try-error"))
   result <- get_lintr_state(state, "assignment_linter")
   expect_true(is.na(result$status))
+  expect_identical(result$positions, list())
+  expect_true("positions" %in% names(result))
+  expect_false("position" %in% names(result))
+})
+
+test_that("lintr check functions return positions (not position) on try-error", {
+  state <- list(lintr = structure("error", class = "try-error"))
+
+  res_assignment <- CHECKS$lintr_assignment_linter$check(state)
+  expect_true(is.na(res_assignment$status))
+  expect_identical(res_assignment$positions, list())
+  expect_true("positions" %in% names(res_assignment))
+  expect_false("position" %in% names(res_assignment))
+
+  res_library <- CHECKS$lintr_library_require_linter$check(state)
+  expect_true(is.na(res_library$status))
+  expect_identical(res_library$positions, list())
+  expect_true("positions" %in% names(res_library))
+  expect_false("position" %in% names(res_library))
 })
 
 test_that("all new lintr checks run and return results", {

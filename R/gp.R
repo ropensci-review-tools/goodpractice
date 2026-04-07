@@ -64,6 +64,10 @@
 #' }
 #'
 #' Preps run in parallel only when a non-sequential plan is active.
+#' Prep functions must be independent: in parallel mode each prep
+#' receives the initial state snapshot, so a prep cannot read another
+#' prep's output. Only new state fields are merged back; if two preps
+#' write the same field, the second is silently dropped.
 #'
 #' @export
 #' @aliases goodpractice
@@ -153,6 +157,10 @@ run_preps <- function(state, preps, mypreps, quiet) {
     result
   })
 
+  # Preps must be independent: each receives the original state snapshot,
+
+  # and only NEW fields (not already in state) are merged back. If two
+  # preps write the same field, the second is silently dropped.
   for (res in results) {
     for (field in setdiff(names(res), names(state))) {
       state[[field]] <- res[[field]]

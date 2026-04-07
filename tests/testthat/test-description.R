@@ -146,10 +146,9 @@ test_that("all checks return NA on try-error state", {
   )
 
   for (nm in check_names) {
-    expect_identical(
-      CHECKS[[nm]]$check(state), NA,
-      label = paste(nm, "on try-error")
-    )
+    result <- CHECKS[[nm]]$check(state)
+    expect_identical(result$status, NA, label = paste(nm, "on try-error"))
+    expect_identical(result$positions, list(), label = paste(nm, "positions on try-error"))
   }
 })
 
@@ -157,12 +156,12 @@ test_that("Depends: R is OK", {
 
   state <- list(description = desc::description$new(text = D1))
   expect_true(
-    CHECKS$no_description_depends$check(state)
+    CHECKS$no_description_depends$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D2))
   expect_false(
-    CHECKS$no_description_depends$check(state)
+    CHECKS$no_description_depends$check(state)$status
   )
 })
 
@@ -170,12 +169,12 @@ test_that("Date", {
 
   state <- list(description = desc::description$new(text = D1))
   expect_true(
-    CHECKS$no_description_date$check(state)
+    CHECKS$no_description_date$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D2))
   expect_false(
-    CHECKS$no_description_date$check(state)
+    CHECKS$no_description_date$check(state)$status
   )
 })
 
@@ -183,12 +182,12 @@ test_that("URL", {
 
   state <- list(description = desc::description$new(text = D1))
   expect_true(
-    CHECKS$description_url$check(state)
+    CHECKS$description_url$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D2))
   expect_false(
-    CHECKS$description_url$check(state)
+    CHECKS$description_url$check(state)$status
   )
 })
 
@@ -196,22 +195,22 @@ test_that("Description not starting with package name reference", {
 
   state <- list(description = desc::description$new(text = D1))
   expect_true(
-    CHECKS$description_not_start_with_package$check(state)
+    CHECKS$description_not_start_with_package$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D3))
   expect_false(
-    CHECKS$description_not_start_with_package$check(state)
+    CHECKS$description_not_start_with_package$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D3_this_is_a))
   expect_false(
-    CHECKS$description_not_start_with_package$check(state)
+    CHECKS$description_not_start_with_package$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D3_the_pkg))
   expect_false(
-    CHECKS$description_not_start_with_package$check(state)
+    CHECKS$description_not_start_with_package$check(state)$status
   )
 })
 
@@ -219,12 +218,12 @@ test_that("URLs in Description enclosed in angle brackets", {
 
   state <- list(description = desc::description$new(text = D_url_good))
   expect_true(
-    CHECKS$description_urls_in_angle_brackets$check(state)
+    CHECKS$description_urls_in_angle_brackets$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_url_bare))
   expect_false(
-    CHECKS$description_urls_in_angle_brackets$check(state)
+    CHECKS$description_urls_in_angle_brackets$check(state)$status
   )
 })
 
@@ -232,12 +231,12 @@ test_that("DOIs use <doi:...> format", {
 
   state <- list(description = desc::description$new(text = D_url_good))
   expect_true(
-    CHECKS$description_doi_format$check(state)
+    CHECKS$description_doi_format$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_doi_as_url))
   expect_false(
-    CHECKS$description_doi_format$check(state)
+    CHECKS$description_doi_format$check(state)$status
   )
 })
 
@@ -245,12 +244,12 @@ test_that("URLs use https not http", {
 
   state <- list(description = desc::description$new(text = D_url_good))
   expect_true(
-    CHECKS$description_urls_not_http$check(state)
+    CHECKS$description_urls_not_http$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_http))
   expect_false(
-    CHECKS$description_urls_not_http$check(state)
+    CHECKS$description_urls_not_http$check(state)$status
   )
 })
 
@@ -258,12 +257,12 @@ test_that("No duplicate dependencies", {
 
   state <- list(description = desc::description$new(text = D_no_dup_deps))
   expect_true(
-    CHECKS$no_description_duplicate_deps$check(state)
+    CHECKS$no_description_duplicate_deps$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_dup_deps))
   expect_false(
-    CHECKS$no_description_duplicate_deps$check(state)
+    CHECKS$no_description_duplicate_deps$check(state)$status
   )
 })
 
@@ -271,35 +270,35 @@ test_that("Valid author roles", {
 
   state <- list(description = desc::description$new(text = D_valid_roles))
   expect_true(
-    CHECKS$description_valid_roles$check(state)
+    CHECKS$description_valid_roles$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_invalid_roles))
   expect_false(
-    CHECKS$description_valid_roles$check(state)
+    CHECKS$description_valid_roles$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_bad_authors_at_r))
-  expect_identical(
-    CHECKS$description_valid_roles$check(state), NA
-  )
+  result <- CHECKS$description_valid_roles$check(state)
+  expect_identical(result$status, NA)
+  expect_identical(result$positions, list())
 })
 
 test_that("Package names single-quoted in Title/Description", {
 
   state <- list(description = desc::description$new(text = D_pkg_quoted))
   expect_true(
-    CHECKS$description_pkgname_single_quoted$check(state)
+    CHECKS$description_pkgname_single_quoted$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_pkg_unquoted))
   expect_false(
-    CHECKS$description_pkgname_single_quoted$check(state)
+    CHECKS$description_pkgname_single_quoted$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D_no_deps))
   expect_true(
-    CHECKS$description_pkgname_single_quoted$check(state)
+    CHECKS$description_pkgname_single_quoted$check(state)$status
   )
 })
 
@@ -307,11 +306,11 @@ test_that("BugReports", {
 
   state <- list(description = desc::description$new(text = D1))
   expect_true(
-    CHECKS$description_bugreports$check(state)
+    CHECKS$description_bugreports$check(state)$status
   )
 
   state <- list(description = desc::description$new(text = D2))
   expect_false(
-    CHECKS$description_bugreports$check(state)
+    CHECKS$description_bugreports$check(state)$status
   )
 })

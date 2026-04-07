@@ -61,6 +61,16 @@ test_that("ts_file_functions skips non-identifier LHS", {
   expect_equal(fns[[1]]$name, "real_fn")
 })
 
+test_that("ts_parse finds functions in .S files", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines("myfun <- function(x) x + 1", file.path(pkg, "R", "legacy.S"))
+
+  ts <- ts_parse(pkg)
+  names <- vapply(ts$functions, `[[`, "", "name")
+  expect_true("myfun" %in% names)
+})
+
 test_that("ts_parse skips unreadable files", {
   pkg <- withr::local_tempdir()
   dir.create(file.path(pkg, "R"))

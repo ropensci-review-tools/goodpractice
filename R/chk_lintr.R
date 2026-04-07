@@ -8,9 +8,9 @@ get_lintr_position <- function(linter) {
 
 get_lintr_state <- function(state, linter) {
   if(inherits(state$lintr, "try-error")) {
-    return(list(status = NA, position = list()))
+    return(list(status = NA, positions = list()))
   }
-  
+
   linters <- vapply(state$lintr, "[[", "", "linter")
   list(
     status = ! linter %in% linters,
@@ -141,9 +141,9 @@ CHECKS$lintr_library_require_linter <- make_check(
 
   check = function(state) {
     if(inherits(state$lintr, "try-error")) {
-      return(list(status = NA, position = list()))
+      return(list(status = NA, positions = list()))
     }
-    
+
     res <- get_lintr_state(state, "library_require_linter")
 
     ## library() and require() are OK in tests and vignettes

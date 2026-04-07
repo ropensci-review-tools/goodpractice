@@ -57,7 +57,7 @@ ts_parse <- function(path, exclude_path = character()) {
 
   lang <- treesitter.r::language()
   p <- treesitter::parser(lang)
-  rfiles <- list.files(rdir, pattern = "\\.[rR]$", full.names = TRUE)
+  rfiles <- list.files(rdir, pattern = default_r_file_pattern(), full.names = TRUE)
   rfiles <- filter_excluded_paths(rfiles, path, exclude_path)
 
   trees <- vector("list", length(rfiles))

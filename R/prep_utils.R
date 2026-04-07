@@ -19,6 +19,9 @@
 #' 3. If you need post-processing on success, capture the returned
 #'    state and check `!inherits(state$myprep, "try-error")` before
 #'    doing additional work (see `prep_covr.R` for an example).
+#' 4. Preps must be independent: when parallel execution is active,
+#'    each prep receives the initial state snapshot and cannot read
+#'    another prep's output.
 #'
 #' @param state The goodpractice state list, passed through the prep
 #'   pipeline.

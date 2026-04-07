@@ -1,8 +1,5 @@
 #' @include lists.R
 
-#' @noRd
-roxygen2_na_result <- function() na_result()
-
 block_is_function <- function(block) {
   cl <- block$call
   if (is.null(cl) || !is.call(cl) || length(cl) < 3) return(FALSE)
@@ -42,7 +39,7 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
   ),
 
   check = function(state) {
-    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
+    if (inherits(state$roxygen2, "try-error")) return(na_result())
     rox <- state$roxygen2
     problems <- list()
 
@@ -84,7 +81,7 @@ CHECKS$roxygen2_unknown_tags <- make_check(
   ),
 
   check = function(state) {
-    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
+    if (inherits(state$roxygen2, "try-error")) return(na_result())
     rox <- state$roxygen2
     msgs <- if (is.null(rox$parse_messages)) character() else
       rox$parse_messages
@@ -131,7 +128,7 @@ CHECKS$roxygen2_valid_inherit <- make_check(
   ),
 
   check = function(state) {
-    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
+    if (inherits(state$roxygen2, "try-error")) return(na_result())
     rox <- state$roxygen2
     pkg_fns <- rox$function_defs$name
     problems <- list()
@@ -189,7 +186,7 @@ CHECKS$roxygen2_duplicate_params <- make_check(
   ),
 
   check = function(state) {
-    if (inherits(state$roxygen2, "try-error")) return(roxygen2_na_result())
+    if (inherits(state$roxygen2, "try-error")) return(na_result())
 
     all_params <- unlist(
       lapply(state$roxygen2$blocks, extract_block_params),

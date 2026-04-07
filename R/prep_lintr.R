@@ -1,5 +1,5 @@
 
-linters_to_lint <- list(
+linters_to_lint <- function() list(
   # -- existing checks --
   assignment_linter = lintr::assignment_linter(),
   line_length_linter = lintr::line_length_linter(80),
@@ -84,7 +84,7 @@ PREPS$lintr <- function(state, path = state$path, quiet) {
   excl <- as.list(state$exclude_path %||% character())
   run_prep_step(state, "lintr", function(path) {
     suppressMessages(lint_package(
-      path, linters = linters_to_lint, exclusions = excl
+      path, linters = linters_to_lint(), exclusions = excl
     ))
   }, path = path, silent = quiet)
 }

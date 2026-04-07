@@ -88,8 +88,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-Remotes:
-    gaborcsardi/cyclocomp
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
@@ -124,7 +122,6 @@ Collate:
     'prep_covr.R'
     'prep_cyclocomp.R'
     'prep_description.R'
-    'prep_expressions.R'
     'prep_lintr.R'
     'prep_namespace.R'
     'prep_rcmdcheck.R'

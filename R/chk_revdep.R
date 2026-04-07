@@ -44,7 +44,9 @@ CHECKS$reverse_dependencies <- make_check(
     )
 
     if (identical(revdeps, NA)) return(na_result())
-    if (is.null(revdeps) || length(revdeps) == 0) return(list(status = TRUE, positions = list()))
+    if (is.null(revdeps) || length(revdeps) == 0) {
+      return(list(status = TRUE, positions = list()))
+    }
 
     list(status = TRUE, type = "info", revdeps = revdeps)
   }

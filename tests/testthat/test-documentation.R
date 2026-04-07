@@ -8,7 +8,9 @@ test_that("has_readme passes when README.md exists", {
   file.create(file.path(pkg, "README.md"))
 
   state <- list(path = pkg)
-  expect_true(CHECKS$has_readme$check(state))
+  result <- CHECKS$has_readme$check(state)
+  expect_true(result$status)
+  expect_type(result$positions, "list")
 })
 
 test_that("has_readme passes when README.Rmd exists", {
@@ -20,12 +22,16 @@ test_that("has_readme passes when README.Rmd exists", {
   file.create(file.path(pkg, "README.Rmd"))
 
   state <- list(path = pkg)
-  expect_true(CHECKS$has_readme$check(state))
+  result <- CHECKS$has_readme$check(state)
+  expect_true(result$status)
+  expect_type(result$positions, "list")
 })
 
 test_that("has_readme fails when no README", {
   state <- list(path = "good")
-  expect_false(CHECKS$has_readme$check(state))
+  result <- CHECKS$has_readme$check(state)
+  expect_false(result$status)
+  expect_type(result$positions, "list")
 })
 
 test_that("has_news passes when NEWS.md exists", {
@@ -37,7 +43,9 @@ test_that("has_news passes when NEWS.md exists", {
   file.create(file.path(pkg, "NEWS.md"))
 
   state <- list(path = pkg)
-  expect_true(CHECKS$has_news$check(state))
+  result <- CHECKS$has_news$check(state)
+  expect_true(result$status)
+  expect_type(result$positions, "list")
 })
 
 test_that("has_news passes when inst/NEWS.Rd exists", {
@@ -50,10 +58,15 @@ test_that("has_news passes when inst/NEWS.Rd exists", {
   file.create(file.path(pkg, "inst", "NEWS.Rd"))
 
   state <- list(path = pkg)
-  expect_true(CHECKS$has_news$check(state))
+  result <- CHECKS$has_news$check(state)
+  expect_true(result$status)
+  expect_type(result$positions, "list")
 })
 
 test_that("has_news fails when no NEWS", {
   state <- list(path = "good")
-  expect_false(CHECKS$has_news$check(state))
+  result <- CHECKS$has_news$check(state)
+  expect_false(result$status)
+  expect_type(result$positions, "list")
 })
+

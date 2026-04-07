@@ -15,7 +15,8 @@ describe("reverse_dependencies check", {
     local_mocked_bindings(query_reverse_deps = function(pkg_name, db) NULL)
     state <- make_desc_state()
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(result)
+    expect_true(result$status)
+    expect_type(result$positions, "list")
   })
 
   it("returns info result when package has reverse deps", {
@@ -29,51 +30,57 @@ describe("reverse_dependencies check", {
     expect_equal(result$revdeps, c("pkgA", "pkgB"))
   })
 
-  it("returns NA on query error", {
+  it("returns na_result on query error", {
     local_mocked_bindings(
       query_reverse_deps = function(pkg_name, db) stop("no internet")
     )
     state <- make_desc_state()
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(is.na(result))
+    expect_true(is.na(result$status))
+    expect_type(result$positions, "list")
   })
 
-  it("returns NA when description is a try-error", {
+  it("returns na_result when description is a try-error", {
     state <- list(
       description = try(stop("fail"), silent = TRUE),
       revdep = fake_db
     )
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(is.na(result))
+    expect_true(is.na(result$status))
+    expect_type(result$positions, "list")
   })
 
-  it("returns NA when revdep is NA", {
+  it("returns na_result when revdep is NA", {
     state <- make_desc_state()
     state$revdep <- NA
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(is.na(result))
+    expect_true(is.na(result$status))
+    expect_type(result$positions, "list")
   })
 
-  it("returns NA when package name is missing", {
+  it("returns na_result when package name is missing", {
     d <- desc::desc("!new")
     d$del("Package")
     state <- list(description = d, revdep = fake_db)
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(is.na(result))
+    expect_true(is.na(result$status))
+    expect_type(result$positions, "list")
   })
 
   it("passes when package has zero reverse deps (empty character)", {
     local_mocked_bindings(query_reverse_deps = function(pkg_name, db) character(0))
     state <- make_desc_state()
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(result)
+    expect_true(result$status)
+    expect_type(result$positions, "list")
   })
 
-  it("returns NA when query_reverse_deps returns NA (no internet)", {
+  it("returns na_result when query_reverse_deps returns NA (no internet)", {
     local_mocked_bindings(query_reverse_deps = function(pkg_name, db) NA)
     state <- make_desc_state()
     result <- CHECKS$reverse_dependencies$check(state)
-    expect_true(is.na(result))
+    expect_true(is.na(result$status))
+    expect_type(result$positions, "list")
   })
 })
 
@@ -139,3 +146,4 @@ describe("revdep prep", {
     expect_true(identical(state$revdep, NA))
   })
 })
+

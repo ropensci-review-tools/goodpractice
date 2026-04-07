@@ -1,16 +1,10 @@
-#' @include lists.R
+#' @include lists.R prep_utils.R
 #' @importFrom lintr lint_package
 
 PREPS$tidyverse <- function(state, path = state$path, quiet) {
   path <- normalizePath(path)
-  suppressMessages(
-    state$tidyverse_lintr <- try(
-      lint_package(path),
-      silent = TRUE
-    )
-  )
-  if (inherits(state$tidyverse_lintr, "try-error")) {
-    cli::cli_warn("Prep step for {.val tidyverse_lintr} failed.")
-  }
-  state
+  excl <- as.list(state$exclude_path %||% character())
+  run_prep_step(state, "tidyverse_lintr", function(path) {
+    suppressMessages(lint_package(path, exclusions = excl))
+  }, path = path, silent = quiet)
 }

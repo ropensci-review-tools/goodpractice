@@ -283,3 +283,30 @@ test_that("tidyverse assignment_linter ignores = inside setMethod()", {
   res <- results(gp_res)
   expect_true(res$passed[res$check == "tidyverse_assignment_linter"])
 })
+
+test_that("tidyverse prep passes exclude_path as exclusions", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(
+    c("Package: excltest", "Title: Test", "Version: 1.0.0",
+      "Description: Test.", "License: MIT"),
+    file.path(pkg, "DESCRIPTION")
+  )
+  writeLines("x<-1", file.path(pkg, "R", "bad.R"))
+  writeLines("x <- 1", file.path(pkg, "R", "good.R"))
+
+  withr::local_options(goodpractice.exclude_path = "R/bad.R")
+  gp_res <- gp(pkg, checks = "tidyverse_assignment_linter")
+  res <- results(gp_res)
+  expect_true(res$passed[res$check == "tidyverse_assignment_linter"])
+})
+
+test_that("tidyverse prep returns try-error with warning on lint_package failure", {
+  state <- list(path = withr::local_tempdir(), exclude_path = character())
+  local_mocked_bindings(lint_package = function(...) stop("lint failure"))
+  expect_warning(
+    result <- PREPS$tidyverse(state, quiet = FALSE),
+    "tidyverse_lintr"
+  )
+  expect_true(inherits(result$tidyverse_lintr, "try-error"))
+})

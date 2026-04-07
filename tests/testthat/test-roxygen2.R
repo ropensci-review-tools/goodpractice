@@ -132,6 +132,48 @@ test_that("block_is_function returns FALSE when LHS is not a name", {
   expect_false(block_is_function(block))
 })
 
+# -- find_function_defs -------------------------------------------------------
+
+test_that("find_function_defs returns data.frame with correct columns", {
+  pkg <- withr::local_tempdir("has_fns")
+  dir.create(file.path(pkg, "R"))
+  writeLines(
+    c("alpha <- function(x) x + 1",
+      "beta <- function(y) y * 2"),
+    file.path(pkg, "R", "fns.R")
+  )
+  writeLines(
+    c("Package: hasfnspkg", "Title: Test", "Version: 1.0.0",
+      "Description: Test.", "License: MIT"),
+    file.path(pkg, "DESCRIPTION")
+  )
+
+  result <- find_function_defs(pkg)
+  expect_s3_class(result, "data.frame")
+  expect_named(result, c("name", "file", "line"))
+  expect_equal(nrow(result), 2)
+  expect_true(all(c("alpha", "beta") %in% result$name))
+  expect_true(all(grepl("fns\\.R$", result$file)))
+  expect_true(is.numeric(result$line))
+  expect_equal(result$line[result$name == "alpha"], 1L)
+  expect_equal(result$line[result$name == "beta"], 2L)
+})
+
+test_that("find_function_defs returns empty data.frame when no R files exist", {
+  pkg <- withr::local_tempdir("no_r_files")
+  dir.create(file.path(pkg, "R"))
+  writeLines(
+    c("Package: norfpkg", "Title: Test", "Version: 1.0.0",
+      "Description: Test.", "License: MIT"),
+    file.path(pkg, "DESCRIPTION")
+  )
+
+  result <- find_function_defs(pkg)
+  expect_s3_class(result, "data.frame")
+  expect_equal(nrow(result), 0)
+  expect_named(result, c("name", "file", "line"))
+})
+
 # -- find_function_defs edge cases --------------------------------------------
 
 test_that("find_function_defs returns empty data.frame when no functions found", {

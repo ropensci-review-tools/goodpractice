@@ -23,8 +23,8 @@ add_from <- function(db, from) {
 
 # -- helpers -------------------------------------------------------------------
 
-test_that("urlchecker_na_result returns NA status with empty positions", {
-  res <- urlchecker_na_result()
+test_that("na_result returns NA status with empty positions", {
+  res <- na_result()
   expect_true(is.na(res$status))
   expect_length(res$positions, 0)
 })

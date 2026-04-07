@@ -13,7 +13,7 @@ find_function_defs <- function(path, exclude_path = character()) {
   rfiles <- r_package_files(path, exclude_path)
   empty <- data.frame(
     name = character(), file = character(),
-    line = integer(), stringsAsFactors = FALSE
+    line = integer()
   )
 
   lang <- treesitter.r::language()
@@ -29,8 +29,7 @@ find_function_defs <- function(path, exclude_path = character()) {
     fns <- ts_file_functions(root, f)
     for (fn in fns) {
       defs[[length(defs) + 1]] <- data.frame(
-        name = fn$name, file = fn$file, line = fn$line,
-        stringsAsFactors = FALSE
+        name = fn$name, file = fn$file, line = fn$line
       )
     }
   }

@@ -33,7 +33,6 @@ checks <- function(gp) {
 
 results <- function(gp) {
   data.frame(
-    stringsAsFactors = FALSE,
     row.names = NULL,
     check = names(gp$checks),
     passed = vapply(gp$checks, check_passed, TRUE)

@@ -337,8 +337,7 @@ CHECKS$duplicate_function_bodies <- make_check(
       body = bodies,
       name = vapply(ts$functions, `[[`, "", "name"),
       file = vapply(ts$functions, `[[`, "", "file"),
-      line = vapply(ts$functions, function(fn) fn$line, numeric(1)),
-      stringsAsFactors = FALSE
+      line = vapply(ts$functions, function(fn) fn$line, numeric(1))
     )
 
     dupes <- cross_file_duplicates(fn_df, "body", "file")

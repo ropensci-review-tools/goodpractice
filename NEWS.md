@@ -74,6 +74,8 @@
   - `description_valid_roles`: Authors@R roles must be valid MARC relator codes
   - `description_pkgname_single_quoted`: Package names in Title/Description
     must be single-quoted
+* Removed `stringsAsFactors = FALSE` arguments throughout, relying on the
+  R 4.0 default. Package now requires R >= 4.0.0.
 
 # goodpractice 1.0.5
 

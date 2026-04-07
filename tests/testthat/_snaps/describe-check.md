@@ -901,7 +901,7 @@
       [1] "Check for reverse dependencies on CRAN"
       
       $roxygen2_has_export_or_nord
-      [1] "Documented functions have @export or @noRd"
+      [1] "Documented functions have @export, @noRd, or @rdname"
       
       $roxygen2_unknown_tags
       [1] "All roxygen2 tags are recognized"

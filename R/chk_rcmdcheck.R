@@ -42,7 +42,7 @@ make_rcmd_check <- function(
     check = function(state) {
       if (inherits(state$rcmdcheck, "try-error")) return(na_result())
       matched <- any(grep(pattern, state$rcmdcheck[[type]]))
-      list(status = !matched, positions = list())
+      check_result(!matched)
     }
   )
 }

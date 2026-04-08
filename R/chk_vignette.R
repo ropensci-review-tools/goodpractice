@@ -144,9 +144,9 @@ check_vignette_calls <- function(state, fn_name, nested_fn = NULL) {
   }
 
   if (length(problems) == 0) {
-    list(status = TRUE, positions = list())
+    check_result(TRUE)
   } else {
-    list(status = FALSE, positions = problems)
+    check_result(FALSE, problems)
   }
 }
 

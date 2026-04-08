@@ -16,7 +16,7 @@ CHECKS$has_readme <- make_check(
       "README.md", "README.Rmd", "README.qmd", "README"
     )
     found <- any(file.exists(file.path(state$path, readme_patterns)))
-    list(status = found, positions = list())
+    check_result(found)
   }
 )
 
@@ -35,7 +35,7 @@ CHECKS$has_news <- make_check(
   check = function(state) {
     news_patterns <- c("NEWS.md", "NEWS", "NEWS.Rd", "inst/NEWS.Rd")
     found <- any(file.exists(file.path(state$path, news_patterns)))
-    list(status = found, positions = list())
+    check_result(found)
   }
 )
 
@@ -58,13 +58,13 @@ CHECKS$r_file_extension <- make_check(
     rdir <- file.path(path, "R")
 
     if (!dir.exists(rdir)) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     files <- list.files(rdir, pattern = "\\.(r|q)$", ignore.case = FALSE)
 
     if (length(files) == 0) {
-      list(status = TRUE, positions = list())
+      check_result(TRUE)
     } else {
       problems <- lapply(files, function(f) {
         list(
@@ -75,7 +75,7 @@ CHECKS$r_file_extension <- make_check(
           line = f
         )
       })
-      list(status = FALSE, positions = problems)
+      check_result(FALSE, problems)
     }
   }
 )

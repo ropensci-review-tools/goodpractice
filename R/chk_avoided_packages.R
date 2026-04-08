@@ -45,14 +45,14 @@ CHECKS$no_obsolete_deps <- make_check(
 
   check = function(state) {
     if (inherits(state$description, "try-error")) {
-      return(list(status = NA, positions = list()))
+      return(na_result())
     }
 
     deps <- tryCatch(state$description$get_deps(), error = function(e) NULL)
-    if (is.null(deps)) return(list(status = TRUE, positions = list()))
+    if (is.null(deps)) return(check_result(TRUE))
 
     found <- intersect(deps$package, names(AVOIDED_PACKAGES))
-    if (length(found) == 0) return(list(status = TRUE, positions = list()))
+    if (length(found) == 0) return(check_result(TRUE))
 
     problems <- lapply(found, function(pkg) {
       dep_row <- deps[deps$package == pkg, ]
@@ -65,6 +65,6 @@ CHECKS$no_obsolete_deps <- make_check(
       )
     })
 
-    list(status = FALSE, positions = problems)
+    check_result(FALSE, problems)
   }
 )

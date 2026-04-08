@@ -21,13 +21,13 @@ CHECKS$covr <- make_check(
 
   check = function(state) {
     if(inherits(state$covr, "try-error"))
-      return(list(status = NA, positions = list()))
+      return(na_result())
 
     if (is.nan(state$covr$pct_by_line))
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
 
     zero <- state$covr$zero
-    if (NROW(zero) == 0) return(list(status = TRUE, positions = list()))
+    if (NROW(zero) == 0) return(check_result(TRUE))
     
     positions <- lapply(seq_len(NROW(zero)), function(i) {
       list(
@@ -39,6 +39,6 @@ CHECKS$covr <- make_check(
       )
     })
     
-    list(status = FALSE, positions = positions)
+    check_result(FALSE, positions)
   }
 )

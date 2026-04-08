@@ -2,8 +2,17 @@
 #' @noRd
 `%||%` <- function(l, r) { if (is.null(l)) r else l }
 
+#' @noRd
+check_result <- function(status = NULL, positions = NULL, ...) {
+  list(
+    status = status %||% NA,
+    positions = positions %||% list(),
+    ...
+  )
+}
+
 na_result <- function() {
-  list(status = NA, positions = list())
+  check_result()
 }
 
 #' Default pattern for R files

@@ -133,11 +133,10 @@ check_vignette_calls <- function(state, fn_name, nested_fn = NULL) {
       ln <- fn_rows$line1[i]
       line_text <- if (ln <= length(orig_lines)) orig_lines[ln] else ""
 
-      problems[[length(problems) + 1]] <- list(
-        filename = file.path("vignettes", basename(f)),
-        line_number = ln,
-        column_number = fn_rows$col1[i],
-        ranges = list(),
+      problems[[length(problems) + 1]] <- check_position(
+        file.path("vignettes", basename(f)),
+        ln,
+        fn_rows$col1[i],
         line = trimws(line_text)
       )
     }

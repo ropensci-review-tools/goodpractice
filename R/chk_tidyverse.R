@@ -463,14 +463,8 @@ CHECKS$tidyverse_r_file_names <- make_check(
     bad_files <- r_files[grepl(bad_pattern, tools::file_path_sans_ext(r_files))]
 
     check_result(length(bad_files) == 0, lapply(bad_files, function(f) {
-        list(
-          filename = file.path("R", f),
-          line_number = NA_integer_,
-          column_number = NA_integer_,
-          ranges = list(),
-          line = f)
-      })
-    )
+        check_position(file.path("R", f), line = f)
+      }))
   }
 )
 
@@ -507,14 +501,11 @@ CHECKS$tidyverse_test_file_names <- make_check(
     untested <- untested[!grepl("^(zzz|RcppExports|reexport)", untested)]
 
     check_result(length(untested) == 0, lapply(untested, function(f) {
-        list(
-          filename = file.path("R", paste0(f, ".R")),
-          line_number = NA_integer_,
-          column_number = NA_integer_,
-          ranges = list(),
-          line = paste0("missing tests/testthat/test-", f, ".R"))
-      })
-    )
+        check_position(
+          file.path("R", paste0(f, ".R")),
+          line = paste0("missing tests/testthat/test-", f, ".R")
+          )
+      }))
   }
 )
 
@@ -546,11 +537,9 @@ CHECKS$tidyverse_no_missing <- make_check(
 
     for (fn in funcs) {
       if (ts_body_has_call(fn$fn_node, missing_q)) {
-        problems[[length(problems) + 1]] <- list(
-          filename = file.path("R", basename(fn$file)),
-          line_number = fn$line,
-          column_number = NA_integer_,
-          ranges = list(),
+        problems[[length(problems) + 1]] <- check_position(
+          file.path("R", basename(fn$file)),
+          fn$line,
           line = fn$name
         )
       }
@@ -620,11 +609,9 @@ CHECKS$tidyverse_export_order <- make_check(
       for (j in seq_len(last_export - 1)) {
         if (!is_exp[j]) {
           fn <- file_funcs[[j]]
-          problems[[length(problems) + 1]] <- list(
-            filename = file.path("R", basename(fn$file)),
-            line_number = fn$line,
-            column_number = NA_integer_,
-            ranges = list(),
+          problems[[length(problems) + 1]] <- check_position(
+            file.path("R", basename(fn$file)),
+            fn$line,
             line = fn$name
           )
         }

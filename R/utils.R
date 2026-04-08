@@ -15,6 +15,19 @@ na_result <- function() {
   check_result()
 }
 
+#' @noRd
+check_position <- function(filename, line_number = NA_integer_,
+                           column_number = NA_integer_,
+                           ranges = list(), line = "") {
+  list(
+    filename = filename,
+    line_number = line_number,
+    column_number = column_number,
+    ranges = ranges,
+    line = line
+  )
+}
+
 #' Default pattern for R files
 #' @return Regular expression.
 #' @keywords internal

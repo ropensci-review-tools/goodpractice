@@ -67,13 +67,7 @@ CHECKS$r_file_extension <- make_check(
       check_result(TRUE)
     } else {
       problems <- lapply(files, function(f) {
-        list(
-          filename = file.path("R", f),
-          line_number = NA_integer_,
-          column_number = NA_integer_,
-          ranges = list(),
-          line = f
-        )
+        check_position(file.path("R", f), line = f)
       })
       check_result(FALSE, problems)
     }

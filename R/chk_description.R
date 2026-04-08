@@ -231,10 +231,14 @@ CHECKS$description_pkgname_single_quoted <- make_check(
 
     deps <- state$description$get_deps()
     pkg_names <- deps$package[deps$package != "R"]
+    # Base packages shipped with R; these are common English words
+    # that would cause false positives in prose.
+    # https://github.com/wch/r-source/tree/trunk/src/library
     base_pkgs <- c(
-      "tools", "utils", "methods", "stats", "parallel",
-      "grDevices", "graphics", "grid", "compiler",
-      "datasets", "base"
+      "base", "compiler", "datasets", "grDevices",
+      "graphics", "grid", "methods", "parallel",
+      "splines", "stats", "stats4", "tcltk",
+      "tools", "utils"
     )
     pkg_names <- setdiff(pkg_names, base_pkgs)
     if (length(pkg_names) == 0) return(check_result(TRUE))

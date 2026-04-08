@@ -162,9 +162,6 @@
       $lintr_if_not_else_linter
       [1] "Avoid if (!cond) { a } else { b }"
       
-      $lintr_if_switch_linter
-      [1] "Use switch() instead of long if/else chains"
-      
       $lintr_ifelse_censor_linter
       [1] "Use pmin()/pmax() instead of ifelse() for clamping"
       

@@ -82,7 +82,7 @@ CHECKS$<check_name> <- make_check(
     if (inherits(state$<prep_name>, "try-error"))
       return(na_result())
     # ... evaluate rule ...
-    list(status = <logical>, positions = <list of position objects>)
+    check_result(<logical>, <list of check_position() objects>)
   }
 )
 ```
@@ -101,30 +101,34 @@ Literal braces must be escaped as `{{` and `}}`.
 
 ### Check return values
 
-Either a bare logical (`TRUE`/`FALSE`/`NA`) or a list:
+Always use `check_result()` (defined in `R/utils.R`) to construct return values:
 
 ```r
-list(
-  status = TRUE,
-  positions = list()
-)
+check_result(TRUE)                        # passed, no positions
+check_result(FALSE, problems)             # failed with positions
+check_result(!grepl(...))                 # dynamic status, no positions
+check_result(TRUE, type = "info", ...)    # extra fields via ...
 ```
 
-Use `na_result()` for the common NA/skip case.
+`na_result()` is shorthand for `check_result()` (status = NA, positions = empty).
+
+Do **not** construct `list(status = ..., positions = ...)` manually.
 
 ### Position objects
 
+Always use `check_position()` (defined in `R/utils.R`) to construct positions:
+
 ```r
-list(
-  filename = "R/file.R",
-  line_number = 42L,
-  column_number = NA_integer_,
-  ranges = list(),
-  line = "the_offending_code_line"
-)
+check_position("R/file.R", 42L, line = "the_offending_line")
 ```
 
+Signature: `check_position(filename, line_number, column_number, ranges, line)`.
+Defaults: `line_number = NA_integer_`, `column_number = NA_integer_`,
+`ranges = list()`, `line = ""`.
+
 Filenames are relative to the package root. `line` is a short string shown to the user identifying the problem.
+
+Do **not** construct position lists manually.
 
 ### Factory functions
 

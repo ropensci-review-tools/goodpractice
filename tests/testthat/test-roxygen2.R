@@ -114,10 +114,19 @@ test_that("roxygen2_valid_inherit passes with valid references", {
 
 # -- prep error handling ------------------------------------------------------
 
-test_that("roxygen2 checks return NA on prep failure", {
+test_that("all roxygen2 checks return na_result on prep failure", {
   state <- list(roxygen2 = structure("error", class = "try-error"))
-  result <- CHECKS$roxygen2_unknown_tags$check(state)
-  expect_true(is.na(result$status))
+
+  for (check_name in c(
+    "roxygen2_has_export_or_nord",
+    "roxygen2_unknown_tags",
+    "roxygen2_valid_inherit",
+    "roxygen2_duplicate_params"
+  )) {
+    result <- CHECKS[[check_name]]$check(state)
+    expect_true(is.na(result$status), label = paste(check_name, "status"))
+    expect_type(result$positions, "list")
+  }
 })
 
 # -- block_is_function edge cases ---------------------------------------------

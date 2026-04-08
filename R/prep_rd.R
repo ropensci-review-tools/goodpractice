@@ -1,4 +1,4 @@
-#' @include lists.R
+#' @include lists.R prep_utils.R
 
 #' @noRd
 parse_rd_files <- function(mandir) {
@@ -45,12 +45,7 @@ parse_rd_files <- function(mandir) {
 }
 
 PREPS$rd <- function(state, path = state$path, quiet) {
-  mandir <- file.path(path, "man")
-
-  state$rd <- try(parse_rd_files(mandir), silent = quiet)
-
-  if (inherits(state$rd, "try-error")) {
-    cli::cli_warn("Prep step for {.val rd} failed.")
-  }
-  state
+  run_prep_step(state, "rd", function(path) {
+    parse_rd_files(file.path(path, "man"))
+  }, path = path, silent = quiet)
 }

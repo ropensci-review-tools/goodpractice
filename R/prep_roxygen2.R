@@ -1,4 +1,4 @@
-#' @include lists.R
+#' @include lists.R prep_utils.R treesitter.R
 #' @importFrom roxygen2 parse_package
 
 #' @noRd
@@ -10,32 +10,15 @@ uses_roxygen2 <- function(path) {
 }
 
 find_function_defs <- function(path, exclude_path = character()) {
-  rfiles <- r_package_files(path, exclude_path)
-  empty <- data.frame(
-    name = character(), file = character(),
-    line = integer()
-  )
-
-  lang <- treesitter.r::language()
-  p <- treesitter::parser(lang)
-
-  defs <- list()
-  for (f in rfiles) {
-    if (!file.exists(f)) next
-    code <- paste(readLines(f, warn = FALSE), collapse = "\n")
-    tree <- treesitter::parser_parse(p, code)
-    root <- treesitter::tree_root_node(tree)
-
-    fns <- ts_file_functions(root, f)
-    for (fn in fns) {
-      defs[[length(defs) + 1]] <- data.frame(
-        name = fn$name, file = fn$file, line = fn$line
-      )
-    }
+  ts <- ts_parse(path, exclude_path)
+  if (length(ts$functions) == 0) {
+    return(data.frame(name = character(), file = character(), line = integer()))
   }
-
-  if (length(defs) == 0) return(empty)
-  do.call(rbind, defs)
+  data.frame(
+    name = vapply(ts$functions, `[[`, "", "name"),
+    file = vapply(ts$functions, `[[`, "", "file"),
+    line = vapply(ts$functions, function(fn) fn$line, numeric(1))
+  )
 }
 
 parse_roxygen2 <- function(path, exclude_path = character()) {
@@ -87,13 +70,7 @@ parse_roxygen2 <- function(path, exclude_path = character()) {
 }
 
 PREPS$roxygen2 <- function(state, path = state$path, quiet) {
-  state$roxygen2 <- try(
-    parse_roxygen2(path, state$exclude_path %||% character()),
-    silent = quiet
-  )
-
-  if (inherits(state$roxygen2, "try-error")) {
-    cli::cli_warn("Prep step for {.val roxygen2} failed.")
-  }
-  state
+  run_prep_step(state, "roxygen2", function(path) {
+    parse_roxygen2(path, state$exclude_path %||% character())
+  }, path = path, silent = quiet)
 }

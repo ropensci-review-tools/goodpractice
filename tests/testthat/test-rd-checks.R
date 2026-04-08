@@ -231,10 +231,14 @@ test_that("rd checks return NA when man/ directory is missing", {
 
 # -- prep error handling ------------------------------------------------------
 
-test_that("rd checks return NA when prep failed", {
+test_that("all rd checks return na_result when prep failed", {
   state <- list(rd = structure("error", class = "try-error"))
-  result <- CHECKS$rd_has_examples$check(state)
-  expect_true(is.na(result$status))
+
+  for (check_name in c("rd_has_examples", "rd_has_return")) {
+    result <- CHECKS[[check_name]]$check(state)
+    expect_true(is.na(result$status), label = paste(check_name, "status"))
+    expect_type(result$positions, "list")
+  }
 })
 
 # -- parse_rd_files -----------------------------------------------------------

@@ -30,13 +30,7 @@ CHECKS$covr <- make_check(
     if (NROW(zero) == 0) return(check_result(TRUE))
     
     positions <- lapply(seq_len(NROW(zero)), function(i) {
-      list(
-        filename = zero$filename[i],
-        line_number = zero$line[i],
-        column_number = NA_integer_,
-        ranges = list(),
-        line = NA_character_
-      )
+      check_position(zero$filename[i], zero$line[i], line = NA_character_)
     })
     
     check_result(FALSE, positions)

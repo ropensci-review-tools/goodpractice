@@ -56,13 +56,7 @@ CHECKS$no_obsolete_deps <- make_check(
 
     problems <- lapply(found, function(pkg) {
       dep_row <- deps[deps$package == pkg, ]
-      list(
-        filename = "DESCRIPTION",
-        line_number = NA_integer_,
-        column_number = NA_integer_,
-        ranges = list(),
-        line = paste0(dep_row$type[1], ": ", pkg)
-      )
+      check_position("DESCRIPTION", line = paste0(dep_row$type[1], ": ", pkg))
     })
 
     check_result(FALSE, problems)

@@ -15,11 +15,9 @@ block_function_name <- function(block) {
 }
 
 make_block_position <- function(block) {
-  list(
-    filename = file.path("R", basename(block$file)),
-    line_number = as.integer(block$line),
-    column_number = NA_integer_,
-    ranges = list(),
+  check_position(
+    file.path("R", basename(block$file)),
+    as.integer(block$line),
     line = deparse(block$call, nlines = 1)
   )
 }
@@ -93,11 +91,9 @@ CHECKS$roxygen2_unknown_tags <- make_check(
       raw_file <- m[2]
       fname <- if (startsWith(raw_file, "R/")) raw_file else
         file.path("R", raw_file)
-      problems[[length(problems) + 1]] <- list(
-        filename = fname,
-        line_number = as.integer(m[3]),
-        column_number = NA_integer_,
-        ranges = list(),
+      problems[[length(problems) + 1]] <- check_position(
+        fname,
+        as.integer(m[3]),
         line = paste0("@", m[4])
       )
     }
@@ -205,11 +201,9 @@ CHECKS$roxygen2_duplicate_params <- make_check(
 
       for (i in idxs) {
         p <- all_params[[i]]
-        problems[[length(problems) + 1]] <- list(
-          filename = file.path("R", basename(p$file)),
-          line_number = as.integer(p$line),
-          column_number = NA_integer_,
-          ranges = list(),
+        problems[[length(problems) + 1]] <- check_position(
+          file.path("R", basename(p$file)),
+          as.integer(p$line),
           line = paste0("@param ", p$name)
         )
       }

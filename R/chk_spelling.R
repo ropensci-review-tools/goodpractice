@@ -6,13 +6,7 @@ spelling_positions <- function(word, locations) {
     parts <- strsplit(loc, ":")[[1]]
     line_nums <- as.integer(strsplit(parts[2], ",")[[1]])
     lapply(line_nums, function(ln) {
-      list(
-        filename = parts[1],
-        line_number = ln,
-        column_number = NA_integer_,
-        ranges = list(),
-        line = word
-      )
+      check_position(parts[1], ln, line = word)
     })
   }), recursive = FALSE)
 }

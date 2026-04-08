@@ -36,11 +36,8 @@ rd_check_field <- function(state, field, skip_internal = FALSE) {
     if (skip_internal && isTRUE(topic$has_keyword_internal)) next
 
     if (!isTRUE(topic[[field]])) {
-      problems[[length(problems) + 1]] <- list(
-        filename = file.path("man", topic$file),
-        line_number = NA_integer_,
-        column_number = NA_integer_,
-        ranges = list(),
+      problems[[length(problems) + 1]] <- check_position(
+        file.path("man", topic$file),
         line = alias
       )
     }

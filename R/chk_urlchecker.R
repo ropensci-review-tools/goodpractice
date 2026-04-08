@@ -3,13 +3,10 @@
 urlchecker_make_positions <- function(db) {
   lapply(seq_len(nrow(db)), function(i) {
     from <- db$From[[i]]
-    list(
-      filename = if (length(from) > 0) from[[1]] else "unknown",
-      line_number = NA_integer_,
-      column_number = NA_integer_,
-      ranges = list(),
+    check_position(
+      if (length(from) > 0) from[[1]] else "unknown",
       line = db$URL[i]
-    )
+      )
   })
 }
 

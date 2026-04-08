@@ -32,11 +32,9 @@ CHECKS$print_return_invisible <- make_check(
       caps <- treesitter::query_captures(invisible_q, body)
       if (length(caps$name) > 0) next
 
-      problems[[length(problems) + 1]] <- list(
-        filename = file.path("R", basename(fn$file)),
-        line_number = fn$line,
-        column_number = NA_integer_,
-        ranges = list(),
+      problems[[length(problems) + 1]] <- check_position(
+        file.path("R", basename(fn$file)),
+        fn$line,
         line = fn$name
       )
     }
@@ -102,11 +100,9 @@ CHECKS$on_exit_has_add <- make_check(
         if (ts_inside_nested_function(caps$node[[j]], body)) next
         call_node <- treesitter::node_parent(caps$node[[j]])
         if (on_exit_call_missing_add(call_node)) {
-          problems[[length(problems) + 1]] <- list(
-            filename = file.path("R", basename(fn$file)),
-            line_number = treesitter::node_start_point(call_node)$row + 1L,
-            column_number = NA_integer_,
-            ranges = list(),
+          problems[[length(problems) + 1]] <- check_position(
+            file.path("R", basename(fn$file)),
+            treesitter::node_start_point(call_node)$row + 1L,
             line = fn$name
           )
         }
@@ -153,13 +149,11 @@ CHECKS$complexity_function_length <- make_check(
     problems <- lapply(ts$functions, function(fn) {
       len <- ts_function_length(fn$fn_node)
       if (len <= limit) return(NULL)
-      list(
-        filename = file.path("R", basename(fn$file)),
-        line_number = fn$line,
-        column_number = NA_integer_,
-        ranges = list(),
+      check_position(
+        file.path("R", basename(fn$file)),
+        fn$line,
         line = paste0(fn$name, " (", len, " lines)")
-      )
+        )
     })
     problems <- Filter(Negate(is.null), problems)
 
@@ -268,13 +262,7 @@ CHECKS$complexity_unused_internal <- make_check(
 
     problems <- lapply(unused, function(name) {
       fn <- fn_lookup[[name]]
-      list(
-        filename = file.path("R", basename(fn$file)),
-        line_number = fn$line,
-        column_number = NA_integer_,
-        ranges = list(),
-        line = name
-      )
+      check_position(file.path("R", basename(fn$file)), fn$line, line = name)
     })
 
     check_result(FALSE, problems)
@@ -338,13 +326,11 @@ CHECKS$duplicate_function_bodies <- make_check(
     if (nrow(dupes) == 0) return(check_result(TRUE))
 
     problems <- lapply(seq_len(nrow(dupes)), function(i) {
-      list(
-        filename = file.path("R", basename(dupes$file[i])),
-        line_number = dupes$line[i],
-        column_number = NA_integer_,
-        ranges = list(),
+      check_position(
+        file.path("R", basename(dupes$file[i])),
+        dupes$line[i],
         line = dupes$name[i]
-      )
+        )
     })
 
     check_result(FALSE, problems)

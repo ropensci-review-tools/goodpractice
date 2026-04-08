@@ -231,8 +231,11 @@ CHECKS$description_pkgname_single_quoted <- make_check(
 
     deps <- state$description$get_deps()
     pkg_names <- deps$package[deps$package != "R"]
-    base_pkgs <- c("tools", "utils", "methods", "stats", "parallel", "grDevices",
-                   "graphics", "grid", "compiler", "datasets", "base")
+    base_pkgs <- c(
+      "tools", "utils", "methods", "stats", "parallel",
+      "grDevices", "graphics", "grid", "compiler",
+      "datasets", "base"
+    )
     pkg_names <- setdiff(pkg_names, base_pkgs)
     if (length(pkg_names) == 0) return(check_result(TRUE))
 

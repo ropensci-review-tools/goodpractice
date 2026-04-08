@@ -165,11 +165,16 @@ run_preps <- function(state, preps, mypreps, quiet) {
   for (res in results) {
     new_fields <- setdiff(names(res), names(state))
     conflict_fields <- intersect(names(res), names(state))
-    conflict_fields <- setdiff(conflict_fields, c("path", "package", "extra_preps",
-                                                    "extra_checks", "exclude_path",
-                                                    ".cache"))
+    init_fields <- c(
+      "path", "package", "extra_preps",
+      "extra_checks", "exclude_path", ".cache"
+    )
+    conflict_fields <- setdiff(conflict_fields, init_fields)
     if (length(conflict_fields) > 0) {
-      cli::cli_warn("Parallel prep conflict: field{?s} {.val {conflict_fields}} already set, skipping.")
+      cli::cli_warn(
+        "Parallel prep conflict: field{?s} \\
+        {.val {conflict_fields}} already set, skipping."
+      )
     }
     for (field in new_fields) {
       state[[field]] <- res[[field]]

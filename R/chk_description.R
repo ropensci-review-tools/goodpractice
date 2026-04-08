@@ -17,7 +17,7 @@ CHECKS$no_description_depends <- make_check(
     deps <- state$description$get_deps()
     ## Remove 'methods' and R, these are OK
     deps <- deps[! deps$package %in% c("methods", "R"), , drop = FALSE]
-    list(status = ! 'Depends' %in% deps$type, positions = list())
+    check_result(! 'Depends' %in% deps$type)
   }
 )
 
@@ -37,7 +37,7 @@ CHECKS$no_description_date <- make_check(
   check = function(state) {
     if(inherits(state$description, "try-error")) return(na_result())
 
-    list(status = ! state$description$has_fields('Date'), positions = list())
+    check_result(! state$description$has_fields('Date'))
   }
 )
 
@@ -57,7 +57,7 @@ CHECKS$description_url <- make_check(
   check = function(state) {
     if(inherits(state$description, "try-error")) return(na_result())
 
-    list(status = state$description$has_fields("URL"), positions = list())
+    check_result(state$description$has_fields("URL"))
   }
 )
 
@@ -88,7 +88,7 @@ CHECKS$description_not_start_with_package <- make_check(
       paste0("^The\\s+", pkg_name, "\\s+package\\b"),
       desc_text, ignore.case = TRUE
     )
-    list(status = !(starts_this_pkg || starts_the_pkg), positions = list())
+    check_result(!(starts_this_pkg || starts_the_pkg))
   }
 )
 
@@ -109,7 +109,7 @@ CHECKS$description_urls_in_angle_brackets <- make_check(
 
     desc_text <- state$description$get_field("Description")
     bare_url <- "(?<!<)(https?://[^\\s,)>]+)"
-    list(status = !grepl(bare_url, desc_text, perl = TRUE), positions = list())
+    check_result(!grepl(bare_url, desc_text, perl = TRUE))
   }
 )
 
@@ -130,7 +130,7 @@ CHECKS$description_doi_format <- make_check(
     if(inherits(state$description, "try-error")) return(na_result())
 
     desc_text <- state$description$get_field("Description")
-    list(status = !grepl("https?://doi\\.org/", desc_text), positions = list())
+    check_result(!grepl("https?://doi\\.org/", desc_text))
   }
 )
 
@@ -152,7 +152,7 @@ CHECKS$description_urls_not_http <- make_check(
     if(inherits(state$description, "try-error")) return(na_result())
 
     desc_text <- state$description$get_field("Description")
-    list(status = !grepl("http://", desc_text, fixed = TRUE), positions = list())
+    check_result(!grepl("http://", desc_text, fixed = TRUE))
   }
 )
 
@@ -174,7 +174,7 @@ CHECKS$no_description_duplicate_deps <- make_check(
 
     deps <- state$description$get_deps()
     deps <- deps[deps$package != "R" & deps$type != "LinkingTo", , drop = FALSE]
-    list(status = !anyDuplicated(deps$package), positions = list())
+    check_result(!anyDuplicated(deps$package))
   }
 )
 
@@ -209,7 +209,7 @@ CHECKS$description_valid_roles <- make_check(
       error = function(e) NULL
     )
     if (is.null(authors)) return(na_result())
-    list(status = !warned, positions = list())
+    check_result(!warned)
   }
 )
 
@@ -231,7 +231,7 @@ CHECKS$description_pkgname_single_quoted <- make_check(
 
     deps <- state$description$get_deps()
     pkg_names <- deps$package[deps$package != "R"]
-    if (length(pkg_names) == 0) return(list(status = TRUE, positions = list()))
+    if (length(pkg_names) == 0) return(check_result(TRUE))
 
     title <- state$description$get_field("Title")
     desc_text <- state$description$get_field("Description")
@@ -239,9 +239,9 @@ CHECKS$description_pkgname_single_quoted <- make_check(
 
     for (pkg in pkg_names) {
       unquoted <- paste0("(?<!')\\b", pkg, "\\b(?!')")
-      if (grepl(unquoted, text, perl = TRUE)) return(list(status = FALSE, positions = list()))
+      if (grepl(unquoted, text, perl = TRUE)) return(check_result(FALSE))
     }
-    list(status = TRUE, positions = list())
+    check_result(TRUE)
   }
 )
 
@@ -262,7 +262,7 @@ CHECKS$description_bugreports <- make_check(
   check = function(state) {
     if(inherits(state$description, "try-error")) return(na_result())
 
-    list(status = state$description$has_fields('BugReports'), positions = list())
+    check_result(state$description$has_fields('BugReports'))
   }
 )
 

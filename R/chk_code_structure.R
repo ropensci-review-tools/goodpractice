@@ -17,7 +17,7 @@ CHECKS$print_return_invisible <- make_check(
   check = function(state) {
     ts <- ts_get(state)
     if (length(ts$functions) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     invisible_q <- treesitter::query(ts$language,
@@ -42,9 +42,9 @@ CHECKS$print_return_invisible <- make_check(
     }
 
     if (length(problems) == 0) {
-      list(status = TRUE, positions = list())
+      check_result(TRUE)
     } else {
-      list(status = FALSE, positions = problems)
+      check_result(FALSE, problems)
     }
   }
 )
@@ -85,7 +85,7 @@ CHECKS$on_exit_has_add <- make_check(
   check = function(state) {
     ts <- ts_get(state)
     if (length(ts$functions) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     on_exit_q <- treesitter::query(ts$language,
@@ -114,9 +114,9 @@ CHECKS$on_exit_has_add <- make_check(
     }
 
     if (length(problems) == 0) {
-      list(status = TRUE, positions = list())
+      check_result(TRUE)
     } else {
-      list(status = FALSE, positions = problems)
+      check_result(FALSE, problems)
     }
   }
 )
@@ -145,7 +145,7 @@ CHECKS$complexity_function_length <- make_check(
   check = function(state) {
     ts <- ts_get(state)
     if (length(ts$functions) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     limit <- getOption("goodpractice.function_length_limit", 50L)
@@ -163,10 +163,7 @@ CHECKS$complexity_function_length <- make_check(
     })
     problems <- Filter(Negate(is.null), problems)
 
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
+    check_result(length(problems) == 0, problems)
   }
 )
 
@@ -237,11 +234,11 @@ CHECKS$complexity_unused_internal <- make_check(
   check = function(state) {
     ts <- ts_get(state)
     if (length(ts$functions) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     if (inherits(state$namespace, "try-error")) {
-      return(list(status = NA, positions = list()))
+      return(na_result())
     }
 
     ns <- state$namespace
@@ -257,13 +254,13 @@ CHECKS$complexity_unused_internal <- make_check(
     all_defined <- vapply(ts$functions, `[[`, "", "name")
     internal <- setdiff(all_defined, exported)
     if (length(internal) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     called <- ts_all_referenced_functions(ts)
     unused <- setdiff(internal, called)
     if (length(unused) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     fn_lookup <- ts$functions
@@ -280,10 +277,7 @@ CHECKS$complexity_unused_internal <- make_check(
       )
     })
 
-    list(
-      status = FALSE,
-      positions = problems
-    )
+    check_result(FALSE, problems)
   }
 )
 
@@ -322,7 +316,7 @@ CHECKS$duplicate_function_bodies <- make_check(
   check = function(state) {
     ts <- ts_get(state)
     if (length(ts$functions) < 2) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     bodies <- vapply(ts$functions, function(fn) {
@@ -341,7 +335,7 @@ CHECKS$duplicate_function_bodies <- make_check(
     )
 
     dupes <- cross_file_duplicates(fn_df, "body", "file")
-    if (nrow(dupes) == 0) return(list(status = TRUE, positions = list()))
+    if (nrow(dupes) == 0) return(check_result(TRUE))
 
     problems <- lapply(seq_len(nrow(dupes)), function(i) {
       list(
@@ -353,6 +347,6 @@ CHECKS$duplicate_function_bodies <- make_check(
       )
     })
 
-    list(status = FALSE, positions = problems)
+    check_result(FALSE, problems)
   }
 )

@@ -59,10 +59,7 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
       }
     }
 
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
+    check_result(length(problems) == 0, problems)
   }
 )
 
@@ -105,10 +102,7 @@ CHECKS$roxygen2_unknown_tags <- make_check(
       )
     }
 
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
+    check_result(length(problems) == 0, problems)
   }
 )
 
@@ -150,10 +144,7 @@ CHECKS$roxygen2_valid_inherit <- make_check(
       }
     }
 
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
+    check_result(length(problems) == 0, problems)
   }
 )
 
@@ -193,7 +184,7 @@ CHECKS$roxygen2_duplicate_params <- make_check(
       recursive = FALSE
     )
     if (is.null(all_params) || length(all_params) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     keys <- vapply(all_params, function(p) {
@@ -203,7 +194,7 @@ CHECKS$roxygen2_duplicate_params <- make_check(
 
     duped_keys <- unique(keys[duplicated(keys)])
     if (length(duped_keys) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     problems <- list()
@@ -224,9 +215,6 @@ CHECKS$roxygen2_duplicate_params <- make_check(
       }
     }
 
-    list(
-      status = length(problems) == 0,
-      positions = problems
-    )
+    check_result(length(problems) == 0, problems)
   }
 )

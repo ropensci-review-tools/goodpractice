@@ -46,10 +46,7 @@ rd_check_field <- function(state, field, skip_internal = FALSE) {
     }
   }
 
-  list(
-    status = length(problems) == 0,
-    positions = problems
-  )
+  check_result(length(problems) == 0, problems)
 }
 
 make_rd_check <- function(description, gp, field, tags = NULL,

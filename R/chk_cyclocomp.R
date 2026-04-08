@@ -34,6 +34,6 @@ CHECKS$cyclocomp <- make_check(
 
   check = function(state) {
     if (inherits(state$cyclocomp, "try-error")) return(na_result())
-    list(status = all(state$cyclocomp$cyclocomp <= cyclocomp_limit()), positions = list())
+    check_result(all(state$cyclocomp$cyclocomp <= cyclocomp_limit()))
   }
 )

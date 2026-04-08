@@ -31,21 +31,23 @@ CHECKS$reverse_dependencies <- make_check(
   },
 
   check = function(state) {
-    if (inherits(state$description, "try-error")) return(NA)
+    if (inherits(state$description, "try-error")) return(na_result())
     if (identical(state$revdep, NA) ||
-        inherits(state$revdep, "try-error")) return(NA)
+        inherits(state$revdep, "try-error")) return(na_result())
 
     pkg_name <- state$description$get_field("Package", default = NA_character_)
-    if (is.na(pkg_name)) return(NA)
+    if (is.na(pkg_name)) return(na_result())
 
     revdeps <- tryCatch(
       query_reverse_deps(pkg_name, state$revdep),
       error = function(e) NA
     )
 
-    if (identical(revdeps, NA)) return(NA)
-    if (is.null(revdeps) || length(revdeps) == 0) return(TRUE)
+    if (identical(revdeps, NA)) return(na_result())
+    if (is.null(revdeps) || length(revdeps) == 0) {
+      return(check_result(TRUE))
+    }
 
-    list(status = TRUE, type = "info", revdeps = revdeps)
+    check_result(TRUE, type = "info", revdeps = revdeps)
   }
 )

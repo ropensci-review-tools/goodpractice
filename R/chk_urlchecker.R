@@ -27,18 +27,15 @@ make_urlchecker_check <- function(description, gp, filter, tags = NULL) {
 
       db <- state$urlchecker
       if (is.null(db) || nrow(db) == 0) {
-        return(list(status = TRUE, positions = list()))
+        return(check_result(TRUE))
       }
 
       problems <- filter(db)
       if (nrow(problems) == 0) {
-        return(list(status = TRUE, positions = list()))
+        return(check_result(TRUE))
       }
 
-      list(
-        status = FALSE,
-        positions = urlchecker_make_positions(problems)
-      )
+      check_result(FALSE, urlchecker_make_positions(problems))
     }
   )
 }

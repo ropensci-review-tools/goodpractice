@@ -8,16 +8,13 @@ get_lintr_position <- function(linter) {
 
 get_lintr_state <- function(state, linter) {
   if(inherits(state$lintr, "try-error")) {
-    return(list(status = NA, positions = list()))
+    return(na_result())
   }
 
   linters <- vapply(state$lintr, "[[", "", "linter")
-  list(
-    status = ! linter %in% linters,
-    positions = lapply(
+  check_result(! linter %in% linters, lapply(
       state$lintr[linters == linter],
-      get_lintr_position
-    )
+      get_lintr_position)
   )
 }
 
@@ -141,7 +138,7 @@ CHECKS$lintr_library_require_linter <- make_check(
 
   check = function(state) {
     if(inherits(state$lintr, "try-error")) {
-      return(list(status = NA, positions = list()))
+      return(na_result())
     }
 
     res <- get_lintr_state(state, "library_require_linter")

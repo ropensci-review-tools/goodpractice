@@ -32,18 +32,18 @@ CHECKS$spelling <- make_check(
   check = function(state) {
     if (identical(state$spelling, "no_wordlist") ||
         inherits(state$spelling, "try-error")) {
-      return(list(status = NA, positions = list()))
+      return(na_result())
     }
 
     res <- state$spelling
     if (nrow(res) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     positions <- unlist(
       Map(spelling_positions, res$word, res$found),
       recursive = FALSE
     )
-    list(status = FALSE, positions = positions)
+    check_result(FALSE, positions)
   }
 )

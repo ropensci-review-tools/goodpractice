@@ -31,7 +31,9 @@ test_that("make_rcmd_check check passes when no match", {
     type = "notes"
   )
   state <- make_rcmd_state(notes = "Everything is fine")
-  expect_true(chk$check(state))
+  result <- chk$check(state)
+  expect_true(result$status)
+  expect_type(result$positions, "list")
 })
 
 test_that("make_rcmd_check check fails when pattern matches", {
@@ -41,17 +43,21 @@ test_that("make_rcmd_check check fails when pattern matches", {
     type = "notes"
   )
   state <- make_rcmd_state(notes = "found bad stuff in code")
-  expect_false(chk$check(state))
+  result <- chk$check(state)
+  expect_false(result$status)
+  expect_type(result$positions, "list")
 })
 
-test_that("make_rcmd_check check returns NA on try-error", {
+test_that("make_rcmd_check check returns na_result on try-error", {
   chk <- make_rcmd_check(
     description = "Test",
     pattern = "anything",
     type = "warnings"
   )
   state <- list(rcmdcheck = structure("error", class = "try-error"))
-  expect_true(is.na(chk$check(state)))
+  result <- chk$check(state)
+  expect_true(is.na(result$status))
+  expect_type(result$positions, "list")
 })
 
 test_that("make_rcmd_check gp returns advice", {
@@ -77,7 +83,8 @@ test_that("make_rcmd_check handles warning type", {
   expect_true("warning" %in% chk$tags)
 
   state <- make_rcmd_state(warnings = "checking ... WARNING oops")
-  expect_false(chk$check(state))
+  result <- chk$check(state)
+  expect_false(result$status)
   expect_true(grepl("WARNING", chk$gp(state)))
 })
 
@@ -90,6 +97,8 @@ test_that("make_rcmd_check handles error type", {
   expect_true("error" %in% chk$tags)
 
   state <- make_rcmd_state(errors = "checking ... ERROR fatal crash")
-  expect_false(chk$check(state))
+  result <- chk$check(state)
+  expect_false(result$status)
   expect_true(grepl("ERROR", chk$gp(state)))
 })
+

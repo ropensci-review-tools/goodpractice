@@ -15,7 +15,7 @@ CHECKS$no_import_package_as_a_whole <- make_check(
   check = function(state) {
     if(inherits(state$namespace, "try-error")) return(na_result())
     imports <- state$namespace$imports
-    list(status = all(vapply(imports, length, 1L) > 1), positions = list())
+    check_result(all(vapply(imports, length, 1L) > 1))
   }
 )
 
@@ -32,6 +32,6 @@ CHECKS$no_export_pattern <- make_check(
 
   check = function(state) {
     if(inherits(state$namespace, "try-error")) return(na_result())
-    list(status = length(state$namespace$exportPatterns) == 0, positions = list())
+    check_result(length(state$namespace$exportPatterns) == 0)
   }
 )

@@ -8,16 +8,13 @@ get_tidyverse_lintr_position <- function(lint) {
 
 get_tidyverse_lintr_state <- function(state, linter) {
   if (inherits(state$tidyverse_lintr, "try-error")) {
-    return(list(status = NA, positions = list()))
+    return(na_result())
   }
 
   linters <- vapply(state$tidyverse_lintr, "[[", "", "linter")
-  list(
-    status = !linter %in% linters,
-    positions = lapply(
+  check_result(!linter %in% linters, lapply(
       state$tidyverse_lintr[linters == linter],
-      get_tidyverse_lintr_position
-    )
+      get_tidyverse_lintr_position)
   )
 }
 
@@ -465,16 +462,13 @@ CHECKS$tidyverse_r_file_names <- make_check(
     bad_pattern <- "[A-Z]|[- ]"
     bad_files <- r_files[grepl(bad_pattern, tools::file_path_sans_ext(r_files))]
 
-    list(
-      status = length(bad_files) == 0,
-      positions = lapply(bad_files, function(f) {
+    check_result(length(bad_files) == 0, lapply(bad_files, function(f) {
         list(
           filename = file.path("R", f),
           line_number = NA_integer_,
           column_number = NA_integer_,
           ranges = list(),
-          line = f
-        )
+          line = f)
       })
     )
   }
@@ -512,16 +506,13 @@ CHECKS$tidyverse_test_file_names <- make_check(
     untested <- setdiff(r_files, tested)
     untested <- untested[!grepl("^(zzz|RcppExports|reexport)", untested)]
 
-    list(
-      status = length(untested) == 0,
-      positions = lapply(untested, function(f) {
+    check_result(length(untested) == 0, lapply(untested, function(f) {
         list(
           filename = file.path("R", paste0(f, ".R")),
           line_number = NA_integer_,
           column_number = NA_integer_,
           ranges = list(),
-          line = paste0("missing tests/testthat/test-", f, ".R")
-        )
+          line = paste0("missing tests/testthat/test-", f, ".R"))
       })
     )
   }
@@ -545,7 +536,7 @@ CHECKS$tidyverse_no_missing <- make_check(
   check = function(state) {
     ts <- ts_get(state)
     if (length(ts$functions) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
     funcs <- ts$functions
     missing_q <- treesitter::query(ts$language,
@@ -566,9 +557,9 @@ CHECKS$tidyverse_no_missing <- make_check(
     }
 
     if (length(problems) == 0) {
-      list(status = TRUE, positions = list())
+      check_result(TRUE)
     } else {
-      list(status = FALSE, positions = problems)
+      check_result(FALSE, problems)
     }
   }
 )
@@ -586,7 +577,7 @@ CHECKS$tidyverse_export_order <- make_check(
 
   check = function(state) {
     if (inherits(state$namespace, "try-error")) {
-      return(list(status = NA, positions = list()))
+      return(na_result())
     }
 
     ns <- state$namespace
@@ -608,7 +599,7 @@ CHECKS$tidyverse_export_order <- make_check(
 
     funcs <- ts_get(state)$functions
     if (length(funcs) == 0) {
-      return(list(status = TRUE, positions = list()))
+      return(check_result(TRUE))
     }
 
     by_file <- split(funcs, vapply(funcs, `[[`, "", "file"))
@@ -641,9 +632,9 @@ CHECKS$tidyverse_export_order <- make_check(
     }
 
     if (length(problems) == 0) {
-      list(status = TRUE, positions = list())
+      check_result(TRUE)
     } else {
-      list(status = FALSE, positions = problems)
+      check_result(FALSE, problems)
     }
   }
 )

@@ -231,8 +231,8 @@ CHECKS$description_pkgname_single_quoted <- make_check(
 
     deps <- state$description$get_deps()
     pkg_names <- deps$package[deps$package != "R"]
-    # Base packages shipped with R; these are common English words
-    # that would cause false positives in prose.
+    # Base packages shipped with R (alphabetical, matching r-source).
+    # Excluded: "translations" (not a loadable package).
     # https://github.com/wch/r-source/tree/trunk/src/library
     base_pkgs <- c(
       "base", "compiler", "datasets", "grDevices",

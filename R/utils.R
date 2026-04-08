@@ -15,6 +15,20 @@ na_result <- function() {
   check_result()
 }
 
+#' Construct a source position object
+#'
+#' General constructor for the position objects returned by check
+#' functions. Each position identifies a location in the source code
+#' where a check found an issue. Use this instead of building
+#' `list(filename, line_number, ...)` by hand.
+#'
+#' @param filename Path relative to the package root, e.g. `"R/foo.R"`.
+#' @param line_number Line number (1-based), or `NA_integer_` if unknown.
+#' @param column_number Column number, or `NA_integer_` if unknown.
+#' @param ranges List of start/end pairs for multi-line issues.
+#' @param line Short display string identifying the problem to the user.
+#' @return A named list with the five position fields.
+#' @keywords internal
 #' @noRd
 check_position <- function(filename, line_number = NA_integer_,
                            column_number = NA_integer_,

@@ -1,8 +1,5 @@
 #' @include lists.R
 
-#' @noRd
-rd_na_result <- function() na_result()
-
 rd_find_topic <- function(rd_data, alias) {
   for (topic in rd_data) {
     if (alias %in% topic$aliases) return(topic)
@@ -25,10 +22,10 @@ rd_exported_aliases <- function(state) {
 }
 
 rd_check_field <- function(state, field, skip_internal = FALSE) {
-  if (inherits(state$rd, "try-error")) return(rd_na_result())
+  if (inherits(state$rd, "try-error")) return(na_result())
 
   rd_data <- state$rd
-  if (length(rd_data) == 0) return(rd_na_result())
+  if (length(rd_data) == 0) return(na_result())
 
   exports <- rd_exported_aliases(state)
   problems <- list()

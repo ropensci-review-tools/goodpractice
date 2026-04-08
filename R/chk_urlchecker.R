@@ -1,8 +1,5 @@
 #' @include lists.R
 
-#' @noRd
-urlchecker_na_result <- function() na_result()
-
 urlchecker_make_positions <- function(db) {
   lapply(seq_len(nrow(db)), function(i) {
     from <- db$From[[i]]
@@ -25,7 +22,7 @@ make_urlchecker_check <- function(description, gp, filter, tags = NULL) {
 
     check = function(state) {
       if (inherits(state$urlchecker, "try-error")) {
-        return(urlchecker_na_result())
+        return(na_result())
       }
 
       db <- state$urlchecker

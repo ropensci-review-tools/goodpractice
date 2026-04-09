@@ -1,0 +1,57 @@
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+name: Detect R CMD check drift
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch and hash R source check.R
+        run: |
+          curl -sL https://raw.githubusercontent.com/wch/r-source/trunk/src/library/tools/R/check.R -o /tmp/check.R
+          sha256sum /tmp/check.R | awk '{print $1}' > /tmp/new-hash.txt
+          echo "NEW_HASH=$(cat /tmp/new-hash.txt)" >> "$GITHUB_ENV"
+          echo "OLD_HASH=$(cat .github/r-check-hash.txt)" >> "$GITHUB_ENV"
+
+      - name: Compare hashes
+        if: env.NEW_HASH != env.OLD_HASH
+        run: |
+          echo "Hash changed: $OLD_HASH -> $NEW_HASH"
+          echo "DRIFT_DETECTED=true" >> "$GITHUB_ENV"
+
+      - name: Check for existing issue
+        if: env.DRIFT_DETECTED == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING=$(gh issue list --search "R CMD check source has changed" --state open --json number --jq length)
+          echo "EXISTING_ISSUES=$EXISTING" >> "$GITHUB_ENV"
+
+      - name: Open issue
+        if: env.DRIFT_DETECTED == 'true' && env.EXISTING_ISSUES == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "R CMD check source has changed -- review rcmdcheck patterns" \
+            --body "$(cat <<'BODY'
+          The upstream R source file \`src/library/tools/R/check.R\` has changed since we last reviewed our rcmdcheck patterns.
+
+          **What to do:**
+          1. Review the [R source check.R history](https://github.com/wch/r-source/commits/trunk/src/library/tools/R/check.R) for wording changes
+          2. Update any regex patterns in \`R/chk_rcmdcheck.R\` that no longer match
+          3. Update the stored hash in \`.github/r-check-hash.txt\`:
+             \`\`\`bash
+             curl -sL https://raw.githubusercontent.com/wch/r-source/trunk/src/library/tools/R/check.R | sha256sum | awk '{print $1}' > .github/r-check-hash.txt
+             \`\`\`
+
+          This issue was automatically created by the [check-r-source-drift](.github/workflows/check-r-source-drift.yml) workflow.
+          BODY
+          )"

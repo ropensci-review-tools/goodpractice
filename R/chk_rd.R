@@ -11,14 +11,7 @@ rd_exported_aliases <- function(state) {
   ns <- state$namespace
   if (inherits(ns, "try-error")) return(character())
 
-  exports <- ns$exports
-  s3m <- ns$S3methods
-  s3methods <- if (nrow(s3m) > 0) {
-    paste0(s3m[, 1], ".", s3m[, 2])
-  } else {
-    character()
-  }
-  setdiff(exports, s3methods)
+  setdiff(ns$exports, ns_s3_method_names(ns))
 }
 
 rd_check_field <- function(state, field, skip_internal = FALSE) {

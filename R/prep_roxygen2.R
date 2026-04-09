@@ -53,12 +53,7 @@ parse_roxygen2 <- function(path, exclude_path = character()) {
     }
   )
 
-  s3m <- ns$S3methods
-  s3methods <- if (nrow(s3m) > 0) {
-    paste0(s3m[, 1], ".", s3m[, 2])
-  } else {
-    character()
-  }
+  s3methods <- ns_s3_method_names(ns)
 
   list(
     blocks = blocks,

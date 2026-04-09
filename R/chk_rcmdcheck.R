@@ -1,8 +1,4 @@
 
-## Last updated: 2016-03-16
-## To be peroidically updated, according to changes in check.R:
-## https://github.com/wch/r-source/commits/trunk/src/library/tools/R/check.R
-
 #' Wrapper on make_check, specific to R CMD check
 #'
 #' @inheritParams make_check

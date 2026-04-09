@@ -4,3 +4,4 @@
 goodpractice.Rproj
 inst/doc
 Meta
+*.tar.gz

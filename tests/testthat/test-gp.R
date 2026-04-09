@@ -168,3 +168,29 @@ test_that("empty exclusion returns checks unchanged", {
   result <- exclude_checks_by_group(checks, CHECKS)
   expect_equal(result, checks)
 })
+
+test_that(".cache is removed from gp result", {
+  gp_res <- gp("good", checks = "has_news")
+  expect_null(gp_res$.cache)
+})
+
+test_that("parallel merge warns on conflicting fields", {
+  state <- list(path = "good", package = "goodpackage",
+                extra_preps = NULL, extra_checks = NULL,
+                exclude_path = character(), .cache = NULL)
+
+  prep_a <- function(state, quiet) {
+    state$my_field <- "from_a"
+    state
+  }
+  prep_b <- function(state, quiet) {
+    state$my_field <- "from_b"
+    state
+  }
+
+  preps <- list(a = prep_a, b = prep_b)
+  expect_warning(
+    run_preps(state, c("a", "b"), preps, quiet = TRUE),
+    "Parallel prep conflict"
+  )
+})

@@ -231,6 +231,16 @@ CHECKS$description_pkgname_single_quoted <- make_check(
 
     deps <- state$description$get_deps()
     pkg_names <- deps$package[deps$package != "R"]
+    # Base packages shipped with R (alphabetical, matching r-source).
+    # Excluded: "translations" (not a loadable package).
+    # https://github.com/wch/r-source/tree/trunk/src/library
+    base_pkgs <- c(
+      "base", "compiler", "datasets", "grDevices",
+      "graphics", "grid", "methods", "parallel",
+      "splines", "stats", "stats4", "tcltk",
+      "tools", "utils"
+    )
+    pkg_names <- setdiff(pkg_names, base_pkgs)
     if (length(pkg_names) == 0) return(check_result(TRUE))
 
     title <- state$description$get_field("Title")

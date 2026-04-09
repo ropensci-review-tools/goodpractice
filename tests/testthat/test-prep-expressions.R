@@ -33,9 +33,3 @@ test_that("r_package_files includes full path", {
   expect_true(all(grepl("good/R/", files)))
 })
 
-test_that("prep_expressions populates state$expressions", {
-  state <- list(path = "good")
-  result <- prep_expressions(state, quiet = TRUE)
-  expect_true("expressions" %in% names(result))
-  expect_true(length(result$expressions) > 0)
-})

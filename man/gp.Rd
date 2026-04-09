@@ -93,7 +93,7 @@ Preps run in parallel only when a non-sequential plan is active.
 Prep functions must be independent: in parallel mode each prep
 receives the initial state snapshot, so a prep cannot read another
 prep's output. Only new state fields are merged back; if two preps
-write the same field, the second is silently dropped.
+write the same field, the second is dropped with a warning.
 }
 
 \examples{

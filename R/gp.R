@@ -67,7 +67,7 @@
 #' Prep functions must be independent: in parallel mode each prep
 #' receives the initial state snapshot, so a prep cannot read another
 #' prep's output. Only new state fields are merged back; if two preps
-#' write the same field, the second is silently dropped.
+#' write the same field, the second is dropped with a warning.
 #'
 #' @export
 #' @aliases goodpractice
@@ -100,6 +100,7 @@ gp <- function(
     run_preps(preps, MYPREPS, quiet) |>
     run_checks(checks, MYCHECKS)
 
+  state$.cache <- NULL
   class(state) <- "goodPractice"
   state
 }
@@ -160,9 +161,22 @@ run_preps <- function(state, preps, mypreps, quiet) {
   # Preps must be independent: each receives the original state snapshot,
 
   # and only NEW fields (not already in state) are merged back. If two
-  # preps write the same field, the second is silently dropped.
+  # preps write the same field, the second is dropped with a warning.
   for (res in results) {
-    for (field in setdiff(names(res), names(state))) {
+    new_fields <- setdiff(names(res), names(state))
+    conflict_fields <- intersect(names(res), names(state))
+    init_fields <- c(
+      "path", "package", "extra_preps",
+      "extra_checks", "exclude_path", ".cache"
+    )
+    conflict_fields <- setdiff(conflict_fields, init_fields)
+    if (length(conflict_fields) > 0) {
+      cli::cli_warn(
+        "Parallel prep conflict: field{?s} \\
+        {.val {conflict_fields}} already set, skipping."
+      )
+    }
+    for (field in new_fields) {
       state[[field]] <- res[[field]]
     }
   }

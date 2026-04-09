@@ -46,3 +46,43 @@ run_prep_step <- function(state, prep_name, fn, ..., silent = FALSE) {
   }
   state
 }
+
+#' `Collate` field from `DESCRIPTION`
+#'
+#' `NULL` is returned if there is no such field.
+#'
+#' @param path Path to the package root.
+#' @return Character scalar or `NULL`.
+#' @keywords internal
+#'
+#' @importFrom desc desc_get_collate
+
+#' @noRd
+package_collate <- function(path = ".") {
+  col <- desc_get_collate(file = file.path(path, "DESCRIPTION"))
+  if (length(col)) col else NULL
+}
+
+#' Get all source files of a package, in the right order
+#'
+#' It uses the `Collate` entry in the `DESCRIPTION` file,
+#' if there is one. Otherwise the order is alphabetical.
+#'
+#' @param path Path to the root of the R package.
+#' @return A character vector of (relative) file
+#'   names in the current collation order.
+#' @keywords internal
+
+#' @noRd
+r_package_files <- function(path, exclude_path = character()) {
+  files <- package_collate(path)
+  if (is.null(files)) {
+    files <- list.files(
+      file.path(path, "R"),
+      pattern = default_r_file_pattern()
+    )
+  }
+
+  result <- file.path(path, "R", files)
+  filter_excluded_paths(result, path, exclude_path)
+}

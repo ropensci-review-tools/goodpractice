@@ -1,6 +1,7 @@
 
-linters_to_lint <- list(
-  # -- existing checks --
+linters_to_lint <- function() {
+  list(
+    # -- existing checks --
   assignment_linter = lintr::assignment_linter(),
   line_length_linter = lintr::line_length_linter(80),
   package_hooks_linter = lintr::package_hooks_linter(),
@@ -19,7 +20,7 @@ linters_to_lint <- list(
   ),
   seq_linter = lintr::seq_linter(),
 
-  # -- correctness / performance --
+    # -- correctness / performance --
   any_duplicated_linter = lintr::any_duplicated_linter(),
   any_is_na_linter = lintr::any_is_na_linter(),
   class_equals_linter = lintr::class_equals_linter(),
@@ -40,7 +41,7 @@ linters_to_lint <- list(
   terminal_close_linter = lintr::terminal_close_linter(),
   which_grepl_linter = lintr::which_grepl_linter(),
 
-  # -- readability / idiom --
+    # -- readability / idiom --
   boolean_arithmetic_linter = lintr::boolean_arithmetic_linter(),
   comparison_negation_linter = lintr::comparison_negation_linter(),
   consecutive_assertion_linter = lintr::consecutive_assertion_linter(),
@@ -62,7 +63,7 @@ linters_to_lint <- list(
   unnecessary_lambda_linter = lintr::unnecessary_lambda_linter(),
   unreachable_code_linter = lintr::unreachable_code_linter(),
 
-  # -- testthat expectations --
+    # -- testthat expectations --
   conjunct_test_linter = lintr::conjunct_test_linter(),
   expect_comparison_linter = lintr::expect_comparison_linter(),
   expect_identical_linter = lintr::expect_identical_linter(),
@@ -74,7 +75,8 @@ linters_to_lint <- list(
   expect_s4_class_linter = lintr::expect_s4_class_linter(),
   expect_true_false_linter = lintr::expect_true_false_linter(),
   expect_type_linter = lintr::expect_type_linter()
-)
+  )
+}
 
 #' @include lists.R prep_utils.R
 #' @importFrom lintr lint_package
@@ -84,7 +86,7 @@ PREPS$lintr <- function(state, path = state$path, quiet) {
   excl <- as.list(state$exclude_path %||% character())
   run_prep_step(state, "lintr", function(path) {
     suppressMessages(lint_package(
-      path, linters = linters_to_lint, exclusions = excl
+      path, linters = linters_to_lint(), exclusions = excl
     ))
   }, path = path, silent = quiet)
 }

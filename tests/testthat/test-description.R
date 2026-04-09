@@ -118,6 +118,13 @@ Description: Extends dplyr with more verbs.
 Imports: dplyr
 "
 
+D_base_pkg_unquoted <-
+"Package: foo
+Title: Foo with tools
+Description: Uses tools for stuff.
+Imports: tools
+"
+
 D_no_deps <-
 "Package: foo
 Title: Foo Package
@@ -297,6 +304,13 @@ test_that("Package names single-quoted in Title/Description", {
   )
 
   state <- list(description = desc::description$new(text = D_no_deps))
+  expect_true(
+    CHECKS$description_pkgname_single_quoted$check(state)$status
+  )
+})
+
+test_that("Base R packages are excluded from single-quote check", {
+  state <- list(description = desc::description$new(text = D_base_pkg_unquoted))
   expect_true(
     CHECKS$description_pkgname_single_quoted$check(state)$status
   )

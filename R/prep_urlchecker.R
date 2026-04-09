@@ -13,9 +13,7 @@ PREPS$urlchecker <- function(state, path = state$path, quiet) {
     return(state)
   }
 
-  state$urlchecker <- try(run_url_check(path, quiet), silent = quiet)
-  if (inherits(state$urlchecker, "try-error")) {
-    cli::cli_warn("Prep step for {.val urlchecker} failed.")
-  }
-  state
+  run_prep_step(state, "urlchecker", function(path, quiet) {
+    run_url_check(path, quiet)
+  }, path = path, quiet = quiet, silent = quiet)
 }

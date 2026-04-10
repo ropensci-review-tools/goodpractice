@@ -6,7 +6,7 @@ urlchecker_make_positions <- function(db) {
     check_position(
       if (length(from) > 0) from[[1]] else "unknown",
       line = db$URL[i]
-      )
+    )
   })
 }
 

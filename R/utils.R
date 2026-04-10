@@ -44,7 +44,7 @@ check_position <- function(filename, line_number = NA_integer_,
 
 ns_s3_method_names <- function(ns) {
   s3m <- ns$S3methods
-  if (nrow(s3m) > 0) paste0(s3m[, 1], ".", s3m[, 2]) else character()
+  if (is.null(s3m) || nrow(s3m) == 0) character() else paste0(s3m[, 1], ".", s3m[, 2])
 }
 
 #' Default pattern for R files

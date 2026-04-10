@@ -10,7 +10,7 @@ query_reverse_deps <- function(pkg_name, db) {
 revdep_gp_message <- function(revdeps) {
   n <- length(revdeps)
   dep_list <- paste(utils::head(revdeps, 10), collapse = ", ")
-  suffix <- ifelse(n > 10, paste0(", ... and ", n - 10L, " more"), "")
+  suffix <- if (n > 10) paste0(", ... and ", n - 10L, " more") else ""
   paste0(
     "run revdepcheck::revdep_check() before CRAN submission. ",
     "This package has ", n, " reverse ",

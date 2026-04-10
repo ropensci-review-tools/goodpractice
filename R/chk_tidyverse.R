@@ -456,7 +456,7 @@ CHECKS$tidyverse_r_file_names <- make_check(
 
   check = function(state) {
     r_dir <- file.path(state$path, "R")
-    if (!dir.exists(r_dir)) return(TRUE)
+    if (!dir.exists(r_dir)) return(check_result(TRUE))
 
     r_files <- basename(list.files(r_dir, pattern = "\\.[Rr]$"))
     bad_pattern <- "[A-Z]|[- ]"
@@ -487,7 +487,7 @@ CHECKS$tidyverse_test_file_names <- make_check(
     r_files <- tools::file_path_sans_ext(
       basename(list.files(r_dir, pattern = "\\.[Rr]$"))
     )
-    if (length(r_files) == 0) return(TRUE)
+    if (length(r_files) == 0) return(check_result(TRUE))
 
     test_dir <- file.path(state$path, "tests", "testthat")
     test_files <- if (dir.exists(test_dir)) {

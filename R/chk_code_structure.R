@@ -237,13 +237,7 @@ CHECKS$complexity_unused_internal <- make_check(
 
     ns <- state$namespace
     exports <- ns$exports
-    s3m <- ns$S3methods
-    s3methods <- if (nrow(s3m) > 0) {
-      paste0(s3m[, 1], ".", s3m[, 2])
-    } else {
-      character()
-    }
-    exported <- c(exports, s3methods)
+    exported <- c(exports, ns_s3_method_names(ns))
 
     all_defined <- vapply(ts$functions, `[[`, "", "name")
     internal <- setdiff(all_defined, exported)

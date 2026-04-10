@@ -159,7 +159,6 @@ run_preps <- function(state, preps, mypreps, quiet) {
   })
 
   # Preps must be independent: each receives the original state snapshot,
-
   # and only NEW fields (not already in state) are merged back. If two
   # preps write the same field, the second is dropped with a warning.
   for (res in results) {

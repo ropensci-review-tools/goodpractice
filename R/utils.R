@@ -42,6 +42,11 @@ check_position <- function(filename, line_number = NA_integer_,
   )
 }
 
+ns_s3_method_names <- function(ns) {
+  s3m <- ns$S3methods
+  if (nrow(s3m) > 0) paste0(s3m[, 1], ".", s3m[, 2]) else character()
+}
+
 #' Default pattern for R files
 #' @return Regular expression.
 #' @keywords internal

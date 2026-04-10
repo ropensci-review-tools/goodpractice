@@ -570,11 +570,7 @@ CHECKS$tidyverse_export_order <- make_check(
     }
 
     ns <- state$namespace
-    exported <- ns$exports
-
-    if (nrow(ns$S3methods) > 0) {
-      exported <- c(exported, paste0(ns$S3methods[, 1], ".", ns$S3methods[, 2]))
-    }
+    exported <- c(ns$exports, ns_s3_method_names(ns))
 
     patterns <- ns$exportPatterns
 

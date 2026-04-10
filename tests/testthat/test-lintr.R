@@ -76,7 +76,7 @@ test_that("get_lintr_state returns NA on try-error", {
   expect_false("position" %in% names(result))
 })
 
-test_that("lintr check functions return positions (not position) on try-error", {
+test_that("lintr check fns return positions (not position) on try-error", {
   state <- list(lintr = structure("error", class = "try-error"))
 
   res_assignment <- CHECKS$lintr_assignment_linter$check(state)
@@ -98,7 +98,9 @@ test_that("all new lintr checks run and return results", {
   res <- results(g)
   expect_true(nrow(res) > 0)
   expect_true(all(all_lintr %in% res$check))
-  expect_true(all(vapply(res$passed, function(x) is.logical(x) || is.na(x), logical(1))))
+  expect_true(all(vapply(
+    res$passed, function(x) is.logical(x) || is.na(x), logical(1)
+  )))
 })
 
 test_that("make_lintr_check creates valid check", {

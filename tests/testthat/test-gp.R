@@ -106,7 +106,7 @@ test_that("check_failed is the inverse of check_passed", {
   expect_false(check_failed(list(status = TRUE)))
 })
 
-# -- exclude_checks_by_group ----------------------------------------------------
+# -- exclude_checks_by_group -------------------------------------------------
 
 test_that("option excludes checks by group name", {
   bad1 <- system.file("bad1", package = "goodpractice")

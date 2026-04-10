@@ -1,4 +1,4 @@
-test_that("duplicate_function_bodies fails on identical functions across files", {
+test_that("duplicate_function_bodies fails on identical fns across files", {
   pkg <- withr::local_tempdir()
   dir.create(file.path(pkg, "R"))
   writeLines(c(

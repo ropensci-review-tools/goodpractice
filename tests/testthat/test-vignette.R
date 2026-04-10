@@ -197,7 +197,9 @@ test_that("is_skipped_chunk detects quarto #| eval: false", {
   expect_true(skip_fn(c("```{r}", "#| purl: false", "x <- 1", "```"), 1, 4))
   expect_true(skip_fn(c("```{r}", "#| purl: FALSE", "x <- 1", "```"), 1, 4))
   expect_false(skip_fn(c("```{r}", "#| label: setup", "x <- 1", "```"), 1, 4))
-  expect_true(skip_fn(c("```{r}", "#| label: skip", "#| eval: false", "```"), 1, 4))
+  expect_true(skip_fn(
+    c("```{r}", "#| label: skip", "#| eval: false", "```"), 1, 4
+  ))
 })
 
 test_that("is_skipped_chunk handles empty chunk body", {

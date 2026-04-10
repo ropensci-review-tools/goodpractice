@@ -20,7 +20,7 @@ test_that("roxygen2 checks return NA for non-roxygen2 packages", {
 
 # -- roxygen2_has_export_or_nord ----------------------------------------------
 
-test_that("roxygen2_has_export_or_nord flags documented functions missing tags", {
+test_that("roxygen2_has_export_or_nord flags documented fns missing tags", {
   gp_res <- gp("bad_roxygen", checks = "roxygen2_has_export_or_nord")
   expect_false(results(gp_res)$passed)
 
@@ -185,7 +185,7 @@ test_that("find_function_defs returns empty data.frame when no R files exist", {
 
 # -- find_function_defs edge cases --------------------------------------------
 
-test_that("find_function_defs returns empty data.frame when no functions found", {
+test_that("find_function_defs returns empty data.frame when no fns found", {
   pkg <- withr::local_tempdir("no_fns")
   dir.create(file.path(pkg, "R"))
   writeLines("x <- 1", file.path(pkg, "R", "data.R"))
@@ -250,7 +250,10 @@ test_that("parse_roxygen2 handles broken NAMESPACE gracefully", {
       "Description: Test.", "License: MIT", "RoxygenNote: 7.3.3"),
     file.path(pkg, "DESCRIPTION")
   )
-  writeLines("this is not valid namespace content!!!", file.path(pkg, "NAMESPACE"))
+  writeLines(
+    "this is not valid namespace content!!!",
+    file.path(pkg, "NAMESPACE")
+  )
 
   result <- parse_roxygen2(pkg)
   expect_equal(result$namespace_exports, character())

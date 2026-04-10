@@ -47,7 +47,9 @@ test_that("tidyverse equals_na_linter fails on bad fixture", {
 })
 
 test_that("tidyverse function_left_parentheses_linter fails on bad fixture", {
-  expect_false(get_result(res_bad, "tidyverse_function_left_parentheses_linter"))
+  expect_false(
+    get_result(res_bad, "tidyverse_function_left_parentheses_linter")
+  )
 })
 
 test_that("tidyverse indentation_linter fails on bad fixture", {
@@ -301,7 +303,7 @@ test_that("tidyverse prep passes exclude_path as exclusions", {
   expect_true(res$passed[res$check == "tidyverse_assignment_linter"])
 })
 
-test_that("tidyverse prep returns try-error with warning on lint_package failure", {
+test_that("tidyverse prep returns try-error with warning on lint failure", {
   state <- list(path = withr::local_tempdir(), exclude_path = character())
   local_mocked_bindings(lint_package = function(...) stop("lint failure"))
   expect_warning(

@@ -421,7 +421,9 @@ test_that("urlchecker checks return NA through gp() on prep failure", {
     .package = "urlchecker"
   )
   expect_warning(
-    gp_res <- gp("good", checks = c("urlchecker_ok", "urlchecker_no_redirects")),
+    gp_res <- gp(
+      "good", checks = c("urlchecker_ok", "urlchecker_no_redirects")
+    ),
     "Prep step for"
   )
   res <- results(gp_res)

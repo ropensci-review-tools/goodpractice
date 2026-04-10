@@ -1,4 +1,4 @@
-# -- complexity_function_length ----------------------------------------------------------
+# -- complexity_function_length -----------------------------------------------
 
 test_that("complexity_function_length fails on long functions", {
   pkg <- withr::local_tempdir()
@@ -8,7 +8,9 @@ test_that("complexity_function_length fails on long functions", {
     "Description: Test.", "License: MIT"
   ), file.path(pkg, "DESCRIPTION"))
 
-  body <- paste(paste0("  x", seq_len(60), " <- ", seq_len(60)), collapse = "\n")
+  body <- paste(
+    paste0("  x", seq_len(60), " <- ", seq_len(60)), collapse = "\n"
+  )
   writeLines(
     paste0("big_fn <- function() {\n", body, "\n}"),
     file.path(pkg, "R", "big.R")
@@ -36,7 +38,9 @@ test_that("complexity_function_length respects custom limit option", {
     "Description: Test.", "License: MIT"
   ), file.path(pkg, "DESCRIPTION"))
 
-  body <- paste(paste0("  x", seq_len(10), " <- ", seq_len(10)), collapse = "\n")
+  body <- paste(
+    paste0("  x", seq_len(10), " <- ", seq_len(10)), collapse = "\n"
+  )
   writeLines(
     paste0("medium_fn <- function() {\n", body, "\n}"),
     file.path(pkg, "R", "medium.R")

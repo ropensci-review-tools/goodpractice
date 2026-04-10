@@ -17,12 +17,7 @@ PREPS$revdep <- function(state, path = state$path, quiet) {
     repos <- "https://cloud.r-project.org"
   }
 
-  state$revdep <- try(
-    utils::available.packages(repos = repos),
-    silent = quiet
-  )
-  if (inherits(state$revdep, "try-error")) {
-    cli::cli_warn("Prep step for {.val revdep} failed.")
-  }
-  state
+  run_prep_step(state, "revdep", function(repos) {
+    utils::available.packages(repos = repos)
+  }, repos = repos, silent = quiet)
 }

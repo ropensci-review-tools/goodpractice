@@ -12,12 +12,7 @@ PREPS$spelling <- function(state, path = state$path, quiet) {
     }
     return(state)
   }
-  state$spelling <- try(
-    suppressMessages(spell_check_package(path)),
-    silent = quiet
-  )
-  if (inherits(state$spelling, "try-error")) {
-    cli::cli_warn("Prep step for {.val spelling} failed.")
-  }
-  state
+  run_prep_step(state, "spelling", function(path) {
+    suppressMessages(spell_check_package(path))
+  }, path = path, silent = quiet)
 }

@@ -190,11 +190,8 @@ test_that("parallel merge warns on conflicting fields", {
 
   preps <- list(a = prep_a, b = prep_b)
   expect_warning(
-    run_preps(state, c("a", "b"), preps, quiet = TRUE),
+    result <- run_preps(state, c("a", "b"), preps, quiet = TRUE),
     "Parallel prep conflict"
-  )
-  result <- suppressWarnings(
-    run_preps(state, c("a", "b"), preps, quiet = TRUE)
   )
   expect_equal(result$my_field, "from_a")
 })

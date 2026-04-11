@@ -9,9 +9,9 @@ PREPS$covr <- function(state, path = state$path, quiet) {
   }, path = path, quiet = quiet, silent = quiet)
 
   if (!inherits(state$covr, "try-error")) {
-    with_options(
+    state$covr$zero <- with_options(
       list(covr.rstudio_source_markers = FALSE),
-      state$covr$zero <- zero_coverage(state$covr$coverage)
+      zero_coverage(state$covr$coverage)
     )
     state$covr$pct_by_line <- percent_coverage(state$covr$coverage, by = "line")
     state$covr$pct_by_expr <- percent_coverage(

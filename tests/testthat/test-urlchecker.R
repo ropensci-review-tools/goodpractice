@@ -39,10 +39,10 @@ test_that("urlchecker_make_positions extracts first From entry as filename", {
   db <- add_from(db, list(c("DESCRIPTION", "R/foo.R"), "man/bar.Rd"))
   pos <- urlchecker_make_positions(db)
   expect_length(pos, 2)
-  expect_equal(pos[[1]]$filename, "DESCRIPTION")
-  expect_equal(pos[[2]]$filename, "man/bar.Rd")
-  expect_equal(pos[[1]]$line, "https://a.com")
-  expect_equal(pos[[2]]$line, "https://b.com")
+  expect_identical(pos[[1]]$filename, "DESCRIPTION")
+  expect_identical(pos[[2]]$filename, "man/bar.Rd")
+  expect_identical(pos[[1]]$line, "https://a.com")
+  expect_identical(pos[[2]]$line, "https://b.com")
   expect_true(is.na(pos[[1]]$line_number))
   expect_true(is.na(pos[[1]]$column_number))
 })
@@ -56,7 +56,7 @@ test_that("urlchecker_make_positions handles empty From with 'unknown'", {
   )
   db <- add_from(db, list(character()))
   pos <- urlchecker_make_positions(db)
-  expect_equal(pos[[1]]$filename, "unknown")
+  expect_identical(pos[[1]]$filename, "unknown")
 })
 
 # -- factory structure ---------------------------------------------------------
@@ -64,7 +64,7 @@ test_that("urlchecker_make_positions handles empty From with 'unknown'", {
 test_that("make_urlchecker_check produces a valid check object", {
   chk <- CHECKS$urlchecker_ok
   expect_s3_class(chk, "check")
-  expect_equal(chk$description, "All URLs are reachable")
+  expect_identical(chk$description, "All URLs are reachable")
   expect_true("urlchecker" %in% chk$preps)
   expect_true("url" %in% chk$tags)
   expect_true(is.function(chk$check))
@@ -83,7 +83,7 @@ test_that("make_urlchecker_check factory produces working checks", {
     tags = "test"
   )
   expect_s3_class(custom, "check")
-  expect_equal(custom$description, "test check")
+  expect_identical(custom$description, "test check")
   expect_true("test" %in% custom$tags)
   expect_true("urlchecker" %in% custom$preps)
 
@@ -98,7 +98,7 @@ test_that("make_urlchecker_check factory produces working checks", {
   result <- custom$check(list(urlchecker = db))
   expect_false(result$status)
   expect_length(result$positions, 1)
-  expect_equal(result$positions[[1]]$line, "https://a.com")
+  expect_identical(result$positions[[1]]$line, "https://a.com")
 
   result_pass <- custom$check(list(urlchecker = make_urlchecker_db()))
   expect_true(result_pass$status)
@@ -163,7 +163,7 @@ test_that("urlchecker_ok fails on 404", {
   result <- CHECKS$urlchecker_ok$check(state)
   expect_false(result$status)
   expect_length(result$positions, 1)
-  expect_equal(result$positions[[1]]$line, "https://example.com/gone")
+  expect_identical(result$positions[[1]]$line, "https://example.com/gone")
 })
 
 test_that("urlchecker_ok passes when all URLs return 200 or redirect", {
@@ -206,7 +206,7 @@ test_that("urlchecker_no_redirects fails when URLs redirect", {
   result <- CHECKS$urlchecker_no_redirects$check(state)
   expect_false(result$status)
   expect_length(result$positions, 1)
-  expect_equal(result$positions[[1]]$line, "https://old.com")
+  expect_identical(result$positions[[1]]$line, "https://old.com")
 })
 
 test_that("urlchecker_no_redirects passes when no redirects", {
@@ -247,7 +247,7 @@ test_that("positions report filename from From column", {
   db <- add_from(db, list(c("man/foo.Rd", "R/bar.R")))
   state <- list(urlchecker = db)
   result <- CHECKS$urlchecker_ok$check(state)
-  expect_equal(result$positions[[1]]$filename, "man/foo.Rd")
+  expect_identical(result$positions[[1]]$filename, "man/foo.Rd")
 })
 
 # -- multiple failures ---------------------------------------------------------
@@ -381,7 +381,7 @@ test_that("urlchecker_ok fails through gp() with broken URLs", {
   expect_false(res$passed[res$check == "urlchecker_ok"])
   pos <- failed_positions(gp_res)$urlchecker_ok
   expect_length(pos, 1)
-  expect_equal(pos[[1]]$line, "https://broken.com")
+  expect_identical(pos[[1]]$line, "https://broken.com")
 })
 
 test_that("urlchecker_no_redirects fails through gp() with redirects", {

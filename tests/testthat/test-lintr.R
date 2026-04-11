@@ -96,7 +96,7 @@ test_that("all new lintr checks run and return results", {
   all_lintr <- grep("^lintr_", all_checks(), value = TRUE)
   g <- gp("good", checks = all_lintr)
   res <- results(g)
-  expect_true(nrow(res) > 0)
+  expect_gt(nrow(res), 0)
   expect_true(all(all_lintr %in% res$check))
   expect_true(all(vapply(
     res$passed, function(x) is.logical(x) || is.na(x), logical(1)
@@ -107,7 +107,7 @@ test_that("make_lintr_check creates valid check", {
   chk <- make_lintr_check(
     "seq_linter", "test desc", "test gp message"
   )
-  expect_equal(chk$description, "test desc")
-  expect_equal(chk$preps, "lintr")
+  expect_identical(chk$description, "test desc")
+  expect_identical(chk$preps, "lintr")
   expect_true(is.function(chk$check))
 })

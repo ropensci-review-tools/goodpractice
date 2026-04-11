@@ -71,13 +71,13 @@ test_that("ts_function_length counts lines correctly", {
   tree <- treesitter::parser_parse(p, code)
   root <- treesitter::tree_root_node(tree)
   fns <- ts_file_functions(root, "test.R")
-  expect_equal(ts_function_length(fns[[1]]$fn_node), 4L)
+  expect_identical(ts_function_length(fns[[1]]$fn_node), 4L)
 })
 
 test_that("ts_all_referenced_functions returns empty for no trees", {
   pkg <- withr::local_tempdir()
   ts <- ts_parse(pkg)
-  expect_equal(ts_all_referenced_functions(ts), character())
+  expect_identical(ts_all_referenced_functions(ts), character())
 })
 
 test_that("ts_all_referenced_functions extracts call names", {

@@ -12,7 +12,7 @@ test_that("all_check_groups returns registered group names", {
 
 test_that("checks_by_group returns checks for a single group", {
   desc_checks <- checks_by_group("description")
-  expect_true(length(desc_checks) > 0)
+  expect_gt(length(desc_checks), 0)
   expect_true("description_url" %in% desc_checks)
   expect_false("lintr_assignment_linter" %in% desc_checks)
   expect_true(all(desc_checks %in% all_checks()))
@@ -52,7 +52,7 @@ test_that("all check groups map to registered preps", {
 test_that("checks with multiple groups are known", {
   lens <- vapply(CHECKS, function(ch) length(ch$preps), integer(1L))
   multi <- names(lens[lens >= 2])
-  expect_true(length(multi) >= 3)
+  expect_gte(length(multi), 3)
   expect_true("rd_has_examples" %in% multi)
   expect_true("rd_has_return" %in% multi)
   expect_true("reverse_dependencies" %in% multi)
@@ -68,8 +68,8 @@ test_that("all tidyverse checks belong to the tidyverse group", {
 test_that("code_structure and package_structure are distinct", {
   cs <- checks_by_group("code_structure")
   ps <- checks_by_group("package_structure")
-  expect_true(length(cs) > 0)
-  expect_true(length(ps) > 0)
+  expect_gt(length(cs), 0)
+  expect_gt(length(ps), 0)
   expect_length(intersect(cs, ps), 0)
   expect_true("print_return_invisible" %in% cs)
   expect_true("has_readme" %in% ps)
@@ -79,6 +79,6 @@ test_that("checks_by_group works in gp()", {
   pkg_path <- system.file("bad1", package = "goodpractice")
   g <- gp(pkg_path, checks = checks_by_group("description"))
   res <- results(g)
-  expect_true(nrow(res) > 0)
+  expect_gt(nrow(res), 0)
   expect_true(all(res$check %in% checks_by_group("description")))
 })

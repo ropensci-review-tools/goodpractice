@@ -19,12 +19,12 @@ test_that("package_collate returns file list when Collate exists", {
   )
 
   result <- package_collate(pkg)
-  expect_equal(result, "f.R")
+  expect_identical(result, "f.R")
 })
 
 test_that("r_package_files returns R files for fixture package", {
   files <- r_package_files("good")
-  expect_true(length(files) > 0)
+  expect_gt(length(files), 0)
   expect_true(all(grepl("\\.R$", files, ignore.case = TRUE)))
 })
 
@@ -32,4 +32,3 @@ test_that("r_package_files includes full path", {
   files <- r_package_files("good")
   expect_true(all(grepl("good/R/", files)))
 })
-

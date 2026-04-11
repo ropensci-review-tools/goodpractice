@@ -6,7 +6,7 @@ x <- suppressWarnings(
 )
 
 test_that("checks", {
-  expect_equal(checks(x), c("covr", "description_bugreports"))
+  expect_identical(checks(x), c("covr", "description_bugreports"))
 })
 
 test_that("results", {
@@ -15,7 +15,7 @@ test_that("results", {
     passed = c(NA, FALSE),
     stringsAsFactors = FALSE
   )
-  expect_equal(results(x), res)
+  expect_identical(results(x), res)
 })
 
 test_that("failed_checks returns names of failed checks", {
@@ -32,14 +32,14 @@ test_that("failed_positions returns positions for failed checks", {
 
 test_that("failed_positions returns empty list when check has no positions", {
   fp <- failed_positions(x)
-  expect_equal(fp$description_bugreports, list())
+  expect_identical(fp$description_bugreports, list())
 })
 
 test_that("failed_positions returns positions when check has them", {
   y <- gp(bad1, checks = "r_file_extension")
   fp <- failed_positions(y)
   expect_type(fp$r_file_extension, "list")
-  expect_true(length(fp$r_file_extension) > 0)
+  expect_gt(length(fp$r_file_extension), 0)
 })
 
 test_that("export_json writes valid JSON", {
@@ -47,7 +47,7 @@ test_that("export_json writes valid JSON", {
   export_json(x, file = tmp)
   expect_true(file.exists(tmp))
   obj <- jsonlite::fromJSON(tmp)
-  expect_equal(obj$package, "badpackage")
+  expect_identical(obj$package, "badpackage")
   expect_true("failures" %in% names(obj))
   expect_true("gp_version" %in% names(obj))
 })
@@ -59,5 +59,5 @@ test_that("export_json pretty-prints when requested", {
     readLines(tmp),
     "incomplete final line"
   )
-  expect_true(length(content) > 1)
+  expect_gt(length(content), 1)
 })

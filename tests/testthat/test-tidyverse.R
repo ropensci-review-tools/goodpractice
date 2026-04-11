@@ -11,14 +11,14 @@ gp_good <- gp("good_tidyverse", checks = tv_checks)
 res_good <- results(gp_good)
 
 test_that("tidyverse_checks() returns only tidyverse_ prefixed checks", {
-  expect_true(length(tv_checks) > 0)
+  expect_gt(length(tv_checks), 0)
   expect_true(all(grepl("^tidyverse_", tv_checks)))
 })
 
 test_that("default_checks() excludes tidyverse checks", {
   dc <- default_checks()
   expect_false(any(grepl("^tidyverse_", dc)))
-  expect_equal(sort(c(dc, tv_checks)), sort(all_checks()))
+  expect_identical(sort(c(dc, tv_checks)), sort(all_checks()))
 })
 
 test_that("tidyverse lintr checks pass on good fixture", {
@@ -190,7 +190,7 @@ test_that("get_tidyverse_lintr_state returns NA on try-error", {
   state <- list(tidyverse_lintr = structure("error", class = "try-error"))
   result <- get_tidyverse_lintr_state(state, "brace_linter")
   expect_true(is.na(result$status))
-  expect_equal(result$positions, list())
+  expect_identical(result$positions, list())
 })
 
 test_that("tidyverse_no_missing ignores missing() inside nested functions", {

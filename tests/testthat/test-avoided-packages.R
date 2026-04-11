@@ -50,7 +50,7 @@ test_that("no_obsolete_deps catches multiple obsolete packages", {
   expect_false(res$passed[res$check == "no_obsolete_deps"])
 
   pos <- failed_positions(gp_res)$no_obsolete_deps
-  expect_equal(length(pos), 2)
+  expect_length(pos, 2)
 })
 
 test_that("no_obsolete_deps returns NA on description error", {

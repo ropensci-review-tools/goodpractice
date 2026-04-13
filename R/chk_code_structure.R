@@ -153,7 +153,7 @@ CHECKS$complexity_function_length <- make_check(
         file.path("R", basename(fn$file)),
         fn$line,
         line = paste0(fn$name, " (", len, " lines)")
-        )
+      )
     })
     problems <- Filter(Negate(is.null), problems)
 
@@ -335,7 +335,7 @@ CHECKS$duplicate_function_bodies <- make_check(
         file.path("R", basename(dupes$file[i])),
         dupes$line[i],
         line = dupes$name[i]
-        )
+      )
     })
 
     check_result(FALSE, problems)

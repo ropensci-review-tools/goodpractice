@@ -83,7 +83,7 @@ failed_positions <- function(gp) {
 }
 
 get_position <- function(chk) {
-  if (! "positions" %in% names(chk)) NULL else chk$positions
+  if ("positions" %in% names(chk)) chk$positions else NULL
 }
 
 #' Export failed checks to JSON

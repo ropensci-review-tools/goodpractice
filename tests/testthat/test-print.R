@@ -58,10 +58,10 @@ test_that("gp_positions includes column when available", {
 })
 
 test_that("check_type extracts type from result", {
-  expect_equal(check_type(TRUE), "error")
-  expect_equal(check_type(list(status = TRUE)), "error")
-  expect_equal(check_type(list(status = TRUE, type = "info")), "info")
-  expect_equal(check_type(list(status = FALSE, type = "warning")), "warning")
+  expect_identical(check_type(TRUE), "error")
+  expect_identical(check_type(list(status = TRUE)), "error")
+  expect_identical(check_type(list(status = TRUE, type = "info")), "info")
+  expect_identical(check_type(list(status = FALSE, type = "warning")), "warning")
 })
 
 test_that("print shows info messages with praise", {

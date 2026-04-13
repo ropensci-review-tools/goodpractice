@@ -7,20 +7,20 @@ test_that("excluded_paths returns empty by default", {
 test_that("excluded_paths reads from option", {
   withr::local_options(goodpractice.exclude_path = c("R/a.R", "R/b.R"))
   result <- excluded_paths()
-  expect_equal(result, c("R/a.R", "R/b.R"))
+  expect_identical(result, c("R/a.R", "R/b.R"))
 })
 
 test_that("excluded_paths reads from envvar", {
   withr::local_options(goodpractice.exclude_path = NULL)
   withr::local_envvar(GP_EXCLUDE_PATH = "R/a.R,R/b.R")
   result <- excluded_paths()
-  expect_equal(result, c("R/a.R", "R/b.R"))
+  expect_identical(result, c("R/a.R", "R/b.R"))
 })
 
 test_that("excluded_paths option takes precedence over envvar", {
   withr::local_options(goodpractice.exclude_path = "R/from_option.R")
   withr::local_envvar(GP_EXCLUDE_PATH = "R/from_envvar.R")
-  expect_equal(excluded_paths(), "R/from_option.R")
+  expect_identical(excluded_paths(), "R/from_option.R")
 })
 
 test_that("filter_excluded_paths removes matching files", {
@@ -32,19 +32,19 @@ test_that("filter_excluded_paths removes matching files", {
 
   files <- file.path(tmp, "R", c("a.R", "b.R", "c.R"))
   result <- filter_excluded_paths(files, tmp, "R/a.R")
-  expect_equal(basename(result), c("b.R", "c.R"))
+  expect_identical(basename(result), c("b.R", "c.R"))
 })
 
 test_that("filter_excluded_paths with empty exclude returns all files", {
   files <- c("/tmp/R/a.R", "/tmp/R/b.R")
   result <- filter_excluded_paths(files, "/tmp", character())
-  expect_equal(result, files)
+  expect_identical(result, files)
 })
 
 test_that("exclude_path filters roxygen2 blocks", {
   withr::local_options(goodpractice.exclude_path = "R/functions.R")
   g <- gp("good", checks = "roxygen2_has_export_or_nord")
-  expect_equal(g$exclude_path, "R/functions.R")
+  expect_identical(g$exclude_path, "R/functions.R")
 })
 
 test_that("gp passes exclude_path to state", {
@@ -53,5 +53,5 @@ test_that("gp passes exclude_path to state", {
   g <- gp(pkg, checks = "print_return_invisible")
   res <- results(g)
   expect_true("print_return_invisible" %in% res$check)
-  expect_equal(g$exclude_path, "R/functions.R")
+  expect_identical(g$exclude_path, "R/functions.R")
 })

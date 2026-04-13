@@ -17,7 +17,7 @@ test_that("get_marker returns NULL when no positions field", {
 test_that("get_marker returns position list for failing check", {
   result <- get_marker(gp_obj, "r_file_extension")
   expect_type(result, "list")
-  expect_true(length(result) > 0)
+  expect_gt(length(result), 0)
   expect_true(all(
     c("type", "file", "line", "column", "message") %in%
       names(result[[1]])
@@ -29,14 +29,14 @@ test_that("get_marker handles NA line_number and column_number", {
   state$checks$r_file_extension$positions[[1]]$line_number <- NA
   state$checks$r_file_extension$positions[[1]]$column_number <- NA
   result <- get_marker(state, "r_file_extension")
-  expect_equal(result[[1]]$line, 1L)
-  expect_equal(result[[1]]$column, 1L)
+  expect_identical(result[[1]]$line, 1L)
+  expect_identical(result[[1]]$column, 1L)
 })
 
 test_that("get_markers collects markers from all failing checks", {
   markers <- get_markers(gp_obj)
   expect_type(markers, "list")
-  expect_true(length(markers) > 0)
+  expect_gt(length(markers), 0)
 })
 
 test_that("get_markers returns empty for all-pass results", {

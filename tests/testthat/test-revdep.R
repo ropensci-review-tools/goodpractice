@@ -26,8 +26,8 @@ describe("reverse_dependencies check", {
     state <- make_desc_state()
     result <- CHECKS$reverse_dependencies$check(state)
     expect_true(result$status)
-    expect_equal(result$type, "info")
-    expect_equal(result$revdeps, c("pkgA", "pkgB"))
+    expect_identical(result$type, "info")
+    expect_identical(result$revdeps, c("pkgA", "pkgB"))
   })
 
   it("returns na_result on query error", {
@@ -68,7 +68,9 @@ describe("reverse_dependencies check", {
   })
 
   it("passes when package has zero reverse deps (empty character)", {
-    local_mocked_bindings(query_reverse_deps = function(pkg_name, db) character(0))
+    local_mocked_bindings(
+      query_reverse_deps = function(pkg_name, db) character(0)
+    )
     state <- make_desc_state()
     result <- CHECKS$reverse_dependencies$check(state)
     expect_true(result$status)
@@ -116,11 +118,13 @@ describe("query_reverse_deps", {
       dimnames = list("pkgA", c("Package", "Version", "Depends"))
     )
     local_mocked_bindings(
-      package_dependencies = function(pkg, db, reverse) list(testpkg = c("pkgA")),
+      package_dependencies = function(pkg, db, reverse) {
+        list(testpkg = "pkgA")
+      },
       .package = "tools"
     )
     result <- query_reverse_deps("testpkg", fake_db)
-    expect_equal(result, "pkgA")
+    expect_identical(result, "pkgA")
   })
 
   it("returns NULL when no reverse deps", {
@@ -146,4 +150,3 @@ describe("revdep prep", {
     expect_true(identical(state$revdep, NA))
   })
 })
-

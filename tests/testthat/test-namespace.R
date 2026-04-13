@@ -5,12 +5,17 @@ test_that("namespace checks return NA on try-error state", {
 
   for (nm in c("no_import_package_as_a_whole", "no_export_pattern")) {
     result <- CHECKS[[nm]]$check(state)
-    expect_identical(result$status, NA, label = paste(nm, "status on try-error"))
-    expect_identical(result$positions, list(), label = paste(nm, "positions on try-error"))
+    expect_identical(
+      result$status, NA, label = paste(nm, "status on try-error")
+    )
+    expect_identical(
+      result$positions, list(),
+      label = paste(nm, "positions on try-error")
+    )
   }
 })
 
-test_that("no_import_package_as_a_whole returns list with status and positions", {
+test_that("no_import_package_as_a_whole returns status and positions", {
   state <- list(namespace = list(
     imports = list(c("pkg1", "fun1"), c("pkg2", "fun2", "fun3"))
   ))

@@ -13,4 +13,5 @@
 ^AGENT\.md$
 ^\.git$
 ^\.Rprofile$
+^\.claude$
 ^makefile$

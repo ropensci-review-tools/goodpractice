@@ -7,17 +7,17 @@ test_that("ts_parse extracts functions from a package", {
   expect_true("functions" %in% names(ts))
   expect_true("language" %in% names(ts))
 
-  expect_true(length(ts$functions) > 0)
+  expect_gt(length(ts$functions), 0)
   fn <- ts$functions[[1]]
   expect_true(all(c("name", "file", "line", "fn_node") %in% names(fn)))
-  expect_equal(fn$name, "func1")
+  expect_identical(fn$name, "func1")
 })
 
 test_that("ts_parse returns empty lists when no R directory", {
   pkg <- withr::local_tempdir()
   ts <- ts_parse(pkg)
-  expect_equal(ts$trees, list())
-  expect_equal(ts$functions, list())
+  expect_identical(ts$trees, list())
+  expect_identical(ts$functions, list())
 })
 
 # -- ts_file_functions --------------------------------------------------------
@@ -30,12 +30,12 @@ test_that("ts_file_functions finds top-level function definitions", {
   root <- treesitter::tree_root_node(tree)
 
   fns <- ts_file_functions(root, "test.R")
-  expect_equal(length(fns), 2)
-  expect_equal(fns[[1]]$name, "foo")
-  expect_equal(fns[[2]]$name, "bar")
-  expect_equal(fns[[1]]$file, "test.R")
-  expect_equal(fns[[1]]$line, 1L)
-  expect_equal(fns[[2]]$line, 2L)
+  expect_length(fns, 2)
+  expect_identical(fns[[1]]$name, "foo")
+  expect_identical(fns[[2]]$name, "bar")
+  expect_identical(fns[[1]]$file, "test.R")
+  expect_identical(fns[[1]]$line, 1)
+  expect_identical(fns[[2]]$line, 2)
 })
 
 test_that("ts_file_functions skips non-function assignments", {
@@ -46,7 +46,7 @@ test_that("ts_file_functions skips non-function assignments", {
   root <- treesitter::tree_root_node(tree)
 
   fns <- ts_file_functions(root, "test.R")
-  expect_equal(length(fns), 0)
+  expect_length(fns, 0)
 })
 
 test_that("ts_file_functions skips non-identifier LHS", {
@@ -57,8 +57,8 @@ test_that("ts_file_functions skips non-identifier LHS", {
   root <- treesitter::tree_root_node(tree)
 
   fns <- ts_file_functions(root, "test.R")
-  expect_equal(length(fns), 1)
-  expect_equal(fns[[1]]$name, "real_fn")
+  expect_length(fns, 1)
+  expect_identical(fns[[1]]$name, "real_fn")
 })
 
 test_that("ts_parse finds functions in .S files", {
@@ -136,7 +136,7 @@ test_that("ts_body_has_call ignores calls inside nested functions", {
 test_that("ts_get caches treesitter parse result", {
   state <- list(path = "good", .cache = list())
   ts1 <- ts_get(state)
-  expect_true(length(ts1$functions) > 0)
+  expect_gt(length(ts1$functions), 0)
 
   state$.cache$treesitter <- ts1
   ts2 <- ts_get(state)
@@ -157,22 +157,22 @@ test_that("ts_s4_call_ranges finds setMethod call ranges", {
 
   ts <- ts_parse(pkg)
   ranges <- ts_s4_call_ranges(ts)
-  expect_equal(length(ranges), 1)
-  expect_equal(ranges[[1]]$start, 1L)
-  expect_equal(ranges[[1]]$end, 4L)
+  expect_length(ranges, 1)
+  expect_identical(ranges[[1]]$start, 1)
+  expect_identical(ranges[[1]]$end, 4)
 })
 
 test_that("ts_s4_call_ranges returns empty for no S4 calls", {
   ts <- ts_parse("good")
   ranges <- ts_s4_call_ranges(ts)
-  expect_equal(length(ranges), 0)
+  expect_length(ranges, 0)
 })
 
 test_that("ts_s4_call_ranges returns empty for no trees", {
   pkg <- withr::local_tempdir()
   ts <- ts_parse(pkg)
   ranges <- ts_s4_call_ranges(ts)
-  expect_equal(ranges, list())
+  expect_identical(ranges, list())
 })
 
 # -- full workflow (like chk_tidyverse.R) ------------------------------------
@@ -186,8 +186,8 @@ test_that("treesitter workflow finds missing() calls in functions", {
   )
 
   ts <- ts_parse(pkg)
-  expect_equal(length(ts$functions), 1)
-  expect_equal(ts$functions[[1]]$name, "check_arg")
+  expect_length(ts$functions, 1)
+  expect_identical(ts$functions[[1]]$name, "check_arg")
 
   missing_q <- treesitter::query(ts$language,
     "(call function: (identifier) @fn (#eq? @fn \"missing\"))"

@@ -1,6 +1,4 @@
-
 test_that("checks are not overwritten", {
-
   skip_on_cran()
 
   pkgdir <- file.path("..", "..", "R")
@@ -8,5 +6,5 @@ test_that("checks are not overwritten", {
   rlines <- as.character(unlist(lapply(rfiles, readLines)))
   rwords <- unlist(strsplit(rlines, "\\s+"))
   checks <- grep("CHECKS$", rwords, fixed = TRUE, value = TRUE)
-  expect_false(any(duplicated(checks)))
+  expect_identical(anyDuplicated(checks), 0L)
 })

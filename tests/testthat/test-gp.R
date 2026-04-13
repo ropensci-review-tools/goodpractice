@@ -7,7 +7,7 @@ test_that("gp errors when DESCRIPTION is missing", {
 
 test_that("validate_pkg_path returns package name", {
   bad1 <- system.file("bad1", package = "goodpractice")
-  expect_equal(
+  expect_identical(
     unname(validate_pkg_path(bad1)), "badpackage"
   )
 })
@@ -22,7 +22,7 @@ test_that("validate_pkg_path errors for non-package path", {
 test_that("resolve_checks returns checks when provided", {
   mychecks <- prepare_checks(CHECKS, NULL)
   result <- resolve_checks("has_readme", mychecks)
-  expect_equal(result, "has_readme")
+  expect_identical(result, "has_readme")
 })
 
 test_that("resolve_checks applies exclusions when NULL", {
@@ -41,14 +41,14 @@ test_that("resolve_checks applies exclusions when NULL", {
 test_that("required_preps returns unique prep names", {
   mychecks <- prepare_checks(CHECKS, NULL)
   preps <- required_preps("description_url", mychecks)
-  expect_equal(preps, "description")
+  expect_identical(preps, "description")
 })
 
 test_that("required_preps deduplicates across checks", {
   mychecks <- prepare_checks(CHECKS, NULL)
   checks <- c("description_url", "no_description_depends")
   preps <- required_preps(checks, mychecks)
-  expect_equal(preps, "description")
+  expect_identical(preps, "description")
 })
 
 # -- init_state ---------------------------------------------------------------
@@ -56,8 +56,8 @@ test_that("required_preps deduplicates across checks", {
 test_that("init_state creates proper state list", {
   bad1 <- system.file("bad1", package = "goodpractice")
   state <- init_state(bad1, "badpackage", NULL, NULL)
-  expect_equal(state$path, bad1)
-  expect_equal(unname(state$package), "badpackage")
+  expect_identical(state$path, bad1)
+  expect_identical(unname(state$package), "badpackage")
   expect_true(is.environment(state$.cache))
 })
 
@@ -106,7 +106,7 @@ test_that("check_failed is the inverse of check_passed", {
   expect_false(check_failed(list(status = TRUE)))
 })
 
-# -- exclude_checks_by_group ----------------------------------------------------
+# -- exclude_checks_by_group -------------------------------------------------
 
 test_that("option excludes checks by group name", {
   bad1 <- system.file("bad1", package = "goodpractice")
@@ -166,7 +166,7 @@ test_that("empty exclusion returns checks unchanged", {
   withr::local_envvar(GP_EXCLUDE_CHECK_GROUPS = "")
   checks <- c("no_description_depends", "covr")
   result <- exclude_checks_by_group(checks, CHECKS)
-  expect_equal(result, checks)
+  expect_identical(result, checks)
 })
 
 test_that(".cache is removed from gp result", {

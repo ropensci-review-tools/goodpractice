@@ -31,7 +31,7 @@ parse_roxygen2 <- function(path, exclude_path = character()) {
   parse_messages <- character()
   blocks <- withCallingHandlers(
     {
-      bl <- lapply(rfiles, function(f) roxygen2::parse_file(f))
+      bl <- lapply(rfiles, roxygen2::parse_file)
       do.call(c, bl)
     },
     message = function(m) {

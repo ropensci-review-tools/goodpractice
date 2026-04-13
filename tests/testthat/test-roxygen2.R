@@ -20,7 +20,7 @@ test_that("roxygen2 checks return NA for non-roxygen2 packages", {
 
 # -- roxygen2_has_export_or_nord ----------------------------------------------
 
-test_that("roxygen2_has_export_or_nord flags documented functions missing tags", {
+test_that("roxygen2_has_export_or_nord flags documented fns missing tags", {
   gp_res <- gp("bad_roxygen", checks = "roxygen2_has_export_or_nord")
   expect_false(results(gp_res)$passed)
 
@@ -160,12 +160,12 @@ test_that("find_function_defs returns data.frame with correct columns", {
   result <- find_function_defs(pkg)
   expect_s3_class(result, "data.frame")
   expect_named(result, c("name", "file", "line"))
-  expect_equal(nrow(result), 2)
+  expect_identical(nrow(result), 2L)
   expect_true(all(c("alpha", "beta") %in% result$name))
   expect_true(all(grepl("fns\\.R$", result$file)))
   expect_true(is.numeric(result$line))
-  expect_equal(result$line[result$name == "alpha"], 1L)
-  expect_equal(result$line[result$name == "beta"], 2L)
+  expect_identical(result$line[result$name == "alpha"], 1)
+  expect_identical(result$line[result$name == "beta"], 2)
 })
 
 test_that("find_function_defs returns empty data.frame when no R files exist", {
@@ -179,13 +179,13 @@ test_that("find_function_defs returns empty data.frame when no R files exist", {
 
   result <- find_function_defs(pkg)
   expect_s3_class(result, "data.frame")
-  expect_equal(nrow(result), 0)
+  expect_identical(nrow(result), 0L)
   expect_named(result, c("name", "file", "line"))
 })
 
 # -- find_function_defs edge cases --------------------------------------------
 
-test_that("find_function_defs returns empty data.frame when no functions found", {
+test_that("find_function_defs returns empty data.frame when no fns found", {
   pkg <- withr::local_tempdir("no_fns")
   dir.create(file.path(pkg, "R"))
   writeLines("x <- 1", file.path(pkg, "R", "data.R"))
@@ -196,7 +196,7 @@ test_that("find_function_defs returns empty data.frame when no functions found",
   )
 
   result <- find_function_defs(pkg)
-  expect_equal(nrow(result), 0)
+  expect_identical(nrow(result), 0L)
   expect_named(result, c("name", "file", "line"))
 })
 
@@ -216,8 +216,8 @@ test_that("find_function_defs skips non-identifier LHS assignments", {
   )
 
   result <- find_function_defs(pkg)
-  expect_equal(nrow(result), 1)
-  expect_equal(result$name, "real_fn")
+  expect_identical(nrow(result), 1L)
+  expect_identical(result$name, "real_fn")
 })
 
 test_that("find_function_defs skips non-existent files", {
@@ -232,8 +232,8 @@ test_that("find_function_defs skips non-existent files", {
   )
 
   result <- find_function_defs(pkg)
-  expect_equal(nrow(result), 1)
-  expect_equal(result$name, "my_fn")
+  expect_identical(nrow(result), 1L)
+  expect_identical(result$name, "my_fn")
 })
 
 # -- parse_roxygen2 NAMESPACE error fallback ----------------------------------
@@ -250,11 +250,14 @@ test_that("parse_roxygen2 handles broken NAMESPACE gracefully", {
       "Description: Test.", "License: MIT", "RoxygenNote: 7.3.3"),
     file.path(pkg, "DESCRIPTION")
   )
-  writeLines("this is not valid namespace content!!!", file.path(pkg, "NAMESPACE"))
+  writeLines(
+    "this is not valid namespace content!!!",
+    file.path(pkg, "NAMESPACE")
+  )
 
   result <- parse_roxygen2(pkg)
-  expect_equal(result$namespace_exports, character())
-  expect_equal(result$namespace_s3methods, character())
+  expect_identical(result$namespace_exports, character())
+  expect_identical(result$namespace_s3methods, character())
 })
 
 # -- parse_roxygen2 S3 methods ------------------------------------------------

@@ -8,7 +8,7 @@ test_that("rd_find_topic returns topic when alias matches", {
     list(aliases = "baz", file = "baz.Rd")
   )
   result <- rd_find_topic(rd_data, "baz")
-  expect_equal(result$file, "baz.Rd")
+  expect_identical(result$file, "baz.Rd")
 })
 
 test_that("rd_find_topic returns NULL when no alias matches", {
@@ -26,12 +26,12 @@ test_that("rd_exported_aliases returns exports minus S3 methods", {
     S3methods = matrix(c("print", "myclass", "print.myclass"), ncol = 3)
   ))
   result <- rd_exported_aliases(state)
-  expect_equal(result, "foo")
+  expect_identical(result, "foo")
 })
 
 test_that("rd_exported_aliases returns empty on try-error namespace", {
   state <- list(namespace = structure("error", class = "try-error"))
-  expect_equal(rd_exported_aliases(state), character())
+  expect_identical(rd_exported_aliases(state), character())
 })
 
 test_that("rd_exported_aliases handles empty S3methods matrix", {
@@ -40,7 +40,7 @@ test_that("rd_exported_aliases handles empty S3methods matrix", {
     S3methods = matrix(character(0), ncol = 3)
   ))
   result <- rd_exported_aliases(state)
-  expect_equal(result, c("foo", "bar"))
+  expect_identical(result, c("foo", "bar"))
 })
 
 # -- make_rd_check: direct unit tests ----------------------------------------
@@ -73,8 +73,8 @@ test_that("make_rd_check fails when exported topic lacks field", {
   result <- CHECKS$rd_has_examples$check(state)
   expect_false(result$status)
   expect_length(result$positions, 1)
-  expect_equal(result$positions[[1]]$filename, "man/myfun.Rd")
-  expect_equal(result$positions[[1]]$line, "myfun")
+  expect_identical(result$positions[[1]]$filename, "man/myfun.Rd")
+  expect_identical(result$positions[[1]]$line, "myfun")
 })
 
 test_that("make_rd_check returns NA on empty rd_data", {
@@ -112,7 +112,7 @@ test_that("make_rd_check creates a working check", {
     gp = "test advice",
     field = "has_examples"
   )
-  expect_equal(chk$description, "test check")
+  expect_identical(chk$description, "test check")
   expect_true("documentation" %in% chk$tags)
 
   state <- list(
@@ -210,7 +210,7 @@ test_that("rd_has_return still flags exported non-internal without value", {
   result <- CHECKS$rd_has_return$check(state)
   expect_false(result$status)
   expect_length(result$positions, 1)
-  expect_equal(result$positions[[1]]$line, "public_fn")
+  expect_identical(result$positions[[1]]$line, "public_fn")
 })
 
 test_that("rd_has_return does not flag keyword internal in bad_rd fixture", {
@@ -244,12 +244,12 @@ test_that("all rd checks return na_result when prep failed", {
 # -- parse_rd_files -----------------------------------------------------------
 
 test_that("parse_rd_files returns empty list when mandir does not exist", {
-  expect_equal(parse_rd_files(tempfile()), list())
+  expect_identical(parse_rd_files(tempfile()), list())
 })
 
 test_that("parse_rd_files returns empty list when mandir has no .Rd files", {
   d <- withr::local_tempdir()
-  expect_equal(parse_rd_files(d), list())
+  expect_identical(parse_rd_files(d), list())
 })
 
 test_that("parse_rd_files parses Rd files correctly", {
@@ -292,7 +292,7 @@ test_that("parse_rd_files handles Rd elements with no Rd_tag attribute", {
   writeLines("placeholder", file.path(d, "myfun.Rd"))
   result <- parse_rd_files(d)
   expect_length(result, 1)
-  expect_equal(result[[1]]$aliases, "myfun")
+  expect_identical(result[[1]]$aliases, "myfun")
 })
 
 # -- PREPS$rd -----------------------------------------------------------------

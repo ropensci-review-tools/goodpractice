@@ -155,7 +155,10 @@ test_that("all checks return NA on try-error state", {
   for (nm in check_names) {
     result <- CHECKS[[nm]]$check(state)
     expect_identical(result$status, NA, label = paste(nm, "on try-error"))
-    expect_identical(result$positions, list(), label = paste(nm, "positions on try-error"))
+    expect_identical(
+      result$positions, list(),
+      label = paste(nm, "positions on try-error")
+    )
   }
 })
 

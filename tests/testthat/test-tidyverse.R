@@ -11,14 +11,14 @@ gp_good <- gp("good_tidyverse", checks = tv_checks)
 res_good <- results(gp_good)
 
 test_that("tidyverse_checks() returns only tidyverse_ prefixed checks", {
-  expect_true(length(tv_checks) > 0)
+  expect_gt(length(tv_checks), 0)
   expect_true(all(grepl("^tidyverse_", tv_checks)))
 })
 
 test_that("default_checks() excludes tidyverse checks", {
   dc <- default_checks()
   expect_false(any(grepl("^tidyverse_", dc)))
-  expect_equal(sort(c(dc, tv_checks)), sort(all_checks()))
+  expect_identical(sort(c(dc, tv_checks)), sort(all_checks()))
 })
 
 test_that("tidyverse lintr checks pass on good fixture", {
@@ -47,7 +47,9 @@ test_that("tidyverse equals_na_linter fails on bad fixture", {
 })
 
 test_that("tidyverse function_left_parentheses_linter fails on bad fixture", {
-  expect_false(get_result(res_bad, "tidyverse_function_left_parentheses_linter"))
+  expect_false(
+    get_result(res_bad, "tidyverse_function_left_parentheses_linter")
+  )
 })
 
 test_that("tidyverse indentation_linter fails on bad fixture", {
@@ -188,7 +190,7 @@ test_that("get_tidyverse_lintr_state returns NA on try-error", {
   state <- list(tidyverse_lintr = structure("error", class = "try-error"))
   result <- get_tidyverse_lintr_state(state, "brace_linter")
   expect_true(is.na(result$status))
-  expect_equal(result$positions, list())
+  expect_identical(result$positions, list())
 })
 
 test_that("tidyverse_no_missing ignores missing() inside nested functions", {
@@ -301,7 +303,7 @@ test_that("tidyverse prep passes exclude_path as exclusions", {
   expect_true(res$passed[res$check == "tidyverse_assignment_linter"])
 })
 
-test_that("tidyverse prep returns try-error with warning on lint_package failure", {
+test_that("tidyverse prep returns try-error with warning on lint failure", {
   state <- list(path = withr::local_tempdir(), exclude_path = character())
   local_mocked_bindings(lint_package = function(...) stop("lint failure"))
   expect_warning(

@@ -42,6 +42,11 @@ test_that("failed_positions returns positions when check has them", {
   expect_gt(length(fp$r_file_extension), 0)
 })
 
+test_that("get_position returns NULL when check has no positions", {
+  chk <- list(passed = FALSE)
+  expect_null(goodpractice:::get_position(chk))
+})
+
 test_that("export_json writes valid JSON", {
   tmp <- withr::local_tempfile(fileext = ".json")
   export_json(x, file = tmp)

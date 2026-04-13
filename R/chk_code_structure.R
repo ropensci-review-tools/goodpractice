@@ -200,11 +200,15 @@ ts_rhs_identifiers <- function(language, entry) {
 
 ts_body_identifiers <- function(language, entry) {
   id_q <- treesitter::query(language, "(identifier) @id")
-  fns <- ts_file_functions(entry$root, "")
-  unlist(lapply(fns, function(fn) {
-    body <- treesitter::node_child_by_field_name(
-      fn$fn_node, "body"
-    )
+  fn_q <- treesitter::query(language, "(function_definition) @fn")
+  infix_q <- treesitter::query(language, "(binary_operator operator: _ @op)")
+
+  fn_caps <- treesitter::query_captures(fn_q, entry$root)
+  fn_nodes <- fn_caps$node[fn_caps$name == "fn"]
+  if (length(fn_nodes) == 0) return(character())
+
+  ids <- unlist(lapply(fn_nodes, function(fn_node) {
+    body <- treesitter::node_child_by_field_name(fn_node, "body")
     if (is.null(body)) return(NULL)
     caps <- treesitter::query_captures(id_q, body)
     vapply(
@@ -212,6 +216,13 @@ ts_body_identifiers <- function(language, entry) {
       treesitter::node_text, character(1)
     )
   }))
+
+  infix_caps <- treesitter::query_captures(infix_q, entry$root)
+  op_nodes <- infix_caps$node[infix_caps$name == "op"]
+  is_special <- vapply(op_nodes, treesitter::node_type, character(1)) == "special"
+  infix_names <- vapply(op_nodes[is_special], treesitter::node_text, character(1))
+
+  c(ids, infix_names)
 }
 
 CHECKS$complexity_unused_internal <- make_check(

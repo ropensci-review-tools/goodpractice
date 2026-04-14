@@ -1,5 +1,11 @@
 # goodpractice 1.0.5.9000 (dev version)
 
+* Tree-sitter function detection now only considers assignment operators
+  (`<-`, `=`, `<<-`), avoiding false matches on arithmetic expressions
+  such as `x + function() 1`.
+* `ts_parse()` now honours the package's declared `Encoding` when reading
+  source files, preventing mojibake for packages using non-UTF-8 encodings.
+  Unreadable files emit a warning instead of being silently skipped.
 * Added `makefile` (#203)
 * Lowered default cyclomatic complexity limit from 50 to 15, aligning
   with lintr and pkgcheck defaults. Configurable via

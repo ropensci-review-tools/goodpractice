@@ -64,6 +64,12 @@ filter_excluded_paths <- function(files, pkg_path, exclude_path) {
   files[!abs_files %in% abs_excluded]
 }
 
+read_source_file <- function(path, encoding = "UTF-8") {
+  con <- file(path, encoding = encoding)
+  on.exit(close(con))
+  paste(readLines(con, warn = FALSE), collapse = "\n")
+}
+
 trim_ws <- function(x) {
   sub("\\s+$", "", sub("^\\s+", "", x))
 }

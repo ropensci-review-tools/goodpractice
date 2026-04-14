@@ -49,6 +49,33 @@ test_that("ts_file_functions skips non-function assignments", {
   expect_length(fns, 0)
 })
 
+test_that("ts_file_functions skips non-assignment operators", {
+  code <- "x + function() 5\nreal_fn <- function(y) y"
+  lang <- treesitter.r::language()
+  p <- treesitter::parser(lang)
+  tree <- treesitter::parser_parse(p, code)
+  root <- treesitter::tree_root_node(tree)
+
+  fns <- ts_file_functions(root, "test.R")
+  expect_length(fns, 1)
+  expect_identical(fns[[1]]$name, "real_fn")
+})
+
+test_that("ts_file_functions accepts <-, =, and <<- assignments", {
+  code <- "a <- function() 1\nb = function() 2\nc <<- function() 3"
+  lang <- treesitter.r::language()
+  p <- treesitter::parser(lang)
+  tree <- treesitter::parser_parse(p, code)
+  root <- treesitter::tree_root_node(tree)
+
+  fns <- ts_file_functions(root, "test.R")
+  expect_length(fns, 3)
+  expect_identical(
+    vapply(fns, `[[`, "", "name"),
+    c("a", "b", "c")
+  )
+})
+
 test_that("ts_file_functions skips non-identifier LHS", {
   code <- "env$helper <- function() 1\nreal_fn <- function(x) x"
   lang <- treesitter.r::language()
@@ -69,6 +96,20 @@ test_that("ts_parse finds functions in .S files", {
   ts <- ts_parse(pkg)
   names <- vapply(ts$functions, `[[`, "", "name")
   expect_true("myfun" %in% names)
+})
+
+test_that("ts_parse honours encoding argument", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  f <- file.path(pkg, "R", "latin1.R")
+  writeBin(as.raw(c(
+    charToRaw("naive <- function() 'r"), 0xe9,
+    charToRaw("sum"), 0xe9, charToRaw("'\n")
+  )), f)
+
+  ts <- ts_parse(pkg, encoding = "latin1")
+  names <- vapply(ts$functions, `[[`, "", "name")
+  expect_true("naive" %in% names)
 })
 
 test_that("ts_parse skips unreadable files", {

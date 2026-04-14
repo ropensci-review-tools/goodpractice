@@ -184,6 +184,37 @@ test_that("ts_get caches treesitter parse result", {
   expect_identical(ts1, ts2)
 })
 
+test_that("ts_get reads Encoding from description", {
+  fake_desc <- list(get_field = function(field, default = NULL) "latin1")
+  state <- list(
+    path = "good", description = fake_desc, .cache = list()
+  )
+  ts <- ts_get(state)
+  expect_gt(length(ts$functions), 0)
+})
+
+test_that("ts_get falls back to UTF-8 when Encoding is NA or empty", {
+  for (val in list(NA_character_, "")) {
+    fake_desc <- list(get_field = function(field, default = NULL) val)
+    state <- list(
+      path = "good", description = fake_desc, .cache = list()
+    )
+    ts <- ts_get(state)
+    expect_gt(length(ts$functions), 0)
+  }
+})
+
+test_that("ts_get falls back to UTF-8 when description errors", {
+  fake_desc <- list(get_field = function(field, default = NULL) {
+    stop("no description")
+  })
+  state <- list(
+    path = "good", description = fake_desc, .cache = list()
+  )
+  ts <- ts_get(state)
+  expect_gt(length(ts$functions), 0)
+})
+
 # -- ts_s4_call_ranges -------------------------------------------------------
 
 test_that("ts_s4_call_ranges finds setMethod call ranges", {

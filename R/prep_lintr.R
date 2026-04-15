@@ -18,6 +18,9 @@ linters_to_lint <- function() {
     library_require_linter = lintr::undesirable_function_linter(
       fun = lintr::default_undesirable_functions[c("library", "require")]
     ),
+    installed_packages_linter = lintr::undesirable_function_linter(
+      fun = lintr::default_undesirable_functions["installed.packages"]
+    ),
     seq_linter = lintr::seq_linter(),
 
     # -- correctness / performance --

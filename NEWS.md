@@ -2,12 +2,12 @@
 
 * Tree-sitter function detection now only considers assignment operators
   (`<-`, `=`, `<<-`), avoiding false matches on arithmetic expressions
-  such as `x + function() 1`.
+  such as `x + function() 1` (#277).
 * `ts_parse()` now honours the package's declared `Encoding` when reading
   source files, preventing mojibake for packages using non-UTF-8 encodings.
   `prep_description` defaults `Encoding` to `UTF-8` when absent, so
   downstream checks always have a concrete value. Unreadable files emit a
-  warning instead of being silently skipped.
+  warning instead of being silently skipped (#277).
 * Added `makefile` (#203)
 * Lowered default cyclomatic complexity limit from 50 to 15, aligning
   with lintr and pkgcheck defaults. Configurable via

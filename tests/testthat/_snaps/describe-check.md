@@ -90,6 +90,9 @@
       $lintr_library_require_linter
       [1] "Avoid library and require in packages"
       
+      $installed_packages_linter
+      [1] "Avoid calling installed.packages"
+      
       $lintr_seq_linter
       [1] "Avoid 1:length(...) and similar expressions"
       

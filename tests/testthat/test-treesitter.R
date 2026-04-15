@@ -174,8 +174,12 @@ test_that("ts_body_has_call ignores calls inside nested functions", {
 
 # -- ts_get (lazy cache) -----------------------------------------------------
 
+make_fake_desc <- function(encoding = "UTF-8") {
+  list(get_field = function(field, default = NULL) encoding)
+}
+
 test_that("ts_get caches treesitter parse result", {
-  state <- list(path = "good", .cache = list())
+  state <- list(path = "good", description = make_fake_desc(), .cache = list())
   ts1 <- ts_get(state)
   expect_gt(length(ts1$functions), 0)
 
@@ -185,34 +189,44 @@ test_that("ts_get caches treesitter parse result", {
 })
 
 test_that("ts_get reads Encoding from description", {
-  fake_desc <- list(get_field = function(field, default = NULL) "latin1")
   state <- list(
-    path = "good", description = fake_desc, .cache = list()
+    path = "good", description = make_fake_desc("latin1"), .cache = list()
   )
   ts <- ts_get(state)
   expect_gt(length(ts$functions), 0)
 })
 
-test_that("ts_get falls back to UTF-8 when Encoding is NA or empty", {
-  for (val in list(NA_character_, "")) {
-    fake_desc <- list(get_field = function(field, default = NULL) val)
-    state <- list(
-      path = "good", description = fake_desc, .cache = list()
-    )
-    ts <- ts_get(state)
-    expect_gt(length(ts$functions), 0)
-  }
+test_that("prep_description sets Encoding default when missing", {
+  pkg <- withr::local_tempdir()
+  writeLines(c(
+    "Package: fakepkg",
+    "Title: Fake",
+    "Version: 0.0.1",
+    "Description: fake.",
+    "License: MIT + file LICENSE",
+    "Authors@R: person('A', 'B', email = 'a@b.c', role = c('aut','cre'))"
+  ), file.path(pkg, "DESCRIPTION"))
+
+  state <- list(path = pkg, .cache = list())
+  state <- PREPS$description(state, path = pkg, quiet = TRUE)
+  expect_identical(state$description$get_field("Encoding"), "UTF-8")
 })
 
-test_that("ts_get falls back to UTF-8 when description errors", {
-  fake_desc <- list(get_field = function(field, default = NULL) {
-    stop("no description")
-  })
-  state <- list(
-    path = "good", description = fake_desc, .cache = list()
-  )
-  ts <- ts_get(state)
-  expect_gt(length(ts$functions), 0)
+test_that("prep_description preserves existing Encoding", {
+  pkg <- withr::local_tempdir()
+  writeLines(c(
+    "Package: fakepkg",
+    "Title: Fake",
+    "Version: 0.0.1",
+    "Description: fake.",
+    "License: MIT + file LICENSE",
+    "Encoding: latin1",
+    "Authors@R: person('A', 'B', email = 'a@b.c', role = c('aut','cre'))"
+  ), file.path(pkg, "DESCRIPTION"))
+
+  state <- list(path = pkg, .cache = list())
+  state <- PREPS$description(state, path = pkg, quiet = TRUE)
+  expect_identical(state$description$get_field("Encoding"), "latin1")
 })
 
 # -- ts_s4_call_ranges -------------------------------------------------------

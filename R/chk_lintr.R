@@ -153,7 +153,7 @@ CHECKS$lintr_library_require_linter <- make_check(
   }
 )
 
-CHECKS$installed_packages_linter <- make_check(
+CHECKS$lintr_installed_packages_linter <- make_check(
 
   description = "Avoid calling installed.packages",
   tags = c("warning", "lintr"),

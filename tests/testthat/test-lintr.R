@@ -3,6 +3,7 @@
 # "lintr_setwd_linter"  fails in bad2
 # "lintr_sapply_linter"  fails in bad2
 # "lintr_library_require_linter" fails in bad2
+# "lintr_installed_packages_linter" fails in bad2
 # "lintr_seq_linter" fails in bad3
 # not failing yet:
 # "lintr_assignment_linter"
@@ -16,7 +17,7 @@ gp_lintrs <- c(
   "lintr_setwd_linter",
   "lintr_sapply_linter",
   "lintr_library_require_linter",
-  "installed_packages_linter",
+  "lintr_installed_packages_linter",
   "lintr_seq_linter"
 )
 
@@ -63,9 +64,9 @@ test_that("lintr_library_require_linter", {
   # but not in the R/ folder
   expect_false(get_result(res_bad2, "lintr_library_require_linter"))
 })
-test_that("installed_packages_linter", {
-  expect_true(get_result(res_bad1, "installed_packages_linter"))
-  expect_false(get_result(res_bad2, "installed_packages_linter"))
+test_that("lintr_installed_packages_linter", {
+  expect_true(get_result(res_bad1, "lintr_installed_packages_linter"))
+  expect_false(get_result(res_bad2, "lintr_installed_packages_linter"))
 })
 test_that("lintr_seq_linter", {
   expect_true(get_result(res_bad1, "lintr_seq_linter"))

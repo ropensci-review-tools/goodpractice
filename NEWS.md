@@ -1,6 +1,6 @@
 # goodpractice 1.0.5.9000 (dev version)
 
-* New `installed_packages_linter` check: flags calls to `installed.packages()`,
+* New `lintr_installed_packages_linter` check: flags calls to `installed.packages()`,
   which can be very slow and is rejected by CRAN. Use `find.package()` or
   `system.file()` instead (#278).
 * Added `makefile` (#203)

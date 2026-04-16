@@ -1,8 +1,16 @@
 # goodpractice 1.0.5.9000 (dev version)
 
-* New `installed_packages_linter` check: flags calls to `installed.packages()`,
+* New `lintr_installed_packages_linter` check: flags calls to `installed.packages()`,
   which can be very slow and is rejected by CRAN. Use `find.package()` or
   `system.file()` instead (#278).
+* Tree-sitter function detection now only considers assignment operators
+  (`<-`, `=`, `<<-`), avoiding false matches on arithmetic expressions
+  such as `x + function() 1` (#277).
+* `ts_parse()` now honours the package's declared `Encoding` when reading
+  source files, preventing mojibake for packages using non-UTF-8 encodings.
+  `prep_description` defaults `Encoding` to `UTF-8` when absent, so
+  downstream checks always have a concrete value. Unreadable files emit a
+  warning instead of being silently skipped (#277).
 * Added `makefile` (#203)
 * Lowered default cyclomatic complexity limit from 50 to 15, aligning
   with lintr and pkgcheck defaults. Configurable via

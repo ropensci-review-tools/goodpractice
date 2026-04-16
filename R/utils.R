@@ -64,6 +64,12 @@ filter_excluded_paths <- function(files, pkg_path, exclude_path) {
   files[!abs_files %in% abs_excluded]
 }
 
+read_source_file <- function(path, encoding = "UTF-8") {
+  con <- file(path, encoding = encoding)
+  on.exit(close(con))
+  paste(readLines(con, warn = FALSE), collapse = "\n")
+}
+
 trim_ws <- function(x) {
   sub("\\s+$", "", sub("^\\s+", "", x))
 }
@@ -74,6 +80,14 @@ loaded_pkg_version <- function(pkg) {
 
 drop_nulls <- function(l) {
   l[ ! vapply(l, is.null, TRUE) ]
+}
+
+get_desc_encoding <- function(state) {
+  if (inherits(state$description, "description")) {
+    state$description$get_field("Encoding")
+  } else {
+    "UTF-8"
+  }
 }
 
 has_internet <- function() {

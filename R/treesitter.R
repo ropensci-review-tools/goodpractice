@@ -26,6 +26,8 @@ ts_body_has_call <- function(fn_node, call_query) {
   FALSE
 }
 
+ASSIGNMENT_OPERATORS <- c("<-", "=", "<<-")
+
 ts_file_functions <- function(root, file) {
   n_children <- treesitter::node_child_count(root)
   fns <- vector("list", n_children)
@@ -33,6 +35,8 @@ ts_file_functions <- function(root, file) {
   for (i in seq_len(n_children)) {
     child <- treesitter::node_child(root, i)
     if (treesitter::node_type(child) != "binary_operator") next
+    op <- treesitter::node_child_by_field_name(child, "operator")
+    if (is.null(op) || !treesitter::node_text(op) %in% ASSIGNMENT_OPERATORS) next
     lhs <- treesitter::node_child_by_field_name(child, "lhs")
     rhs <- treesitter::node_child_by_field_name(child, "rhs")
     if (is.null(rhs)) next
@@ -49,7 +53,7 @@ ts_file_functions <- function(root, file) {
   fns[seq_len(k)]
 }
 
-ts_parse <- function(path, exclude_path = character()) {
+ts_parse <- function(path, exclude_path = character(), encoding = "UTF-8") {
   rdir <- file.path(path, "R")
   if (!dir.exists(rdir)) {
     return(list(trees = list(), functions = list()))
@@ -68,11 +72,13 @@ ts_parse <- function(path, exclude_path = character()) {
   for (i in seq_along(rfiles)) {
     f <- rfiles[[i]]
     code <- tryCatch(
-      paste(readLines(f, warn = FALSE), collapse = "\n"),
-      error = function(e) NULL
+      read_source_file(f, encoding),
+      error = function(e) {
+        warning("Could not read ", f, ": ", conditionMessage(e), call. = FALSE)
+        NULL
+      }
     )
     if (is.null(code)) next
-
     tree <- treesitter::parser_parse(p, code)
     root <- treesitter::tree_root_node(tree)
     trees[[i]] <- list(tree = tree, root = root)
@@ -119,8 +125,9 @@ ts_s4_call_ranges <- function(ts) {
 
 ts_get <- function(state) {
   if (is.null(state$.cache$treesitter)) {
+    encoding <- get_desc_encoding(state)
     state$.cache$treesitter <- ts_parse(
-      state$path, state$exclude_path %||% character()
+      state$path, state$exclude_path %||% character(), encoding = encoding
     )
   }
   state$.cache$treesitter

@@ -125,9 +125,7 @@ ts_s4_call_ranges <- function(ts) {
 
 ts_get <- function(state) {
   if (is.null(state$.cache$treesitter)) {
-    encoding <- if (inherits(state$description, "description")) {
-      state$description$get_field("Encoding")
-    } else "UTF-8"
+    encoding <- get_desc_encoding(state)
     state$.cache$treesitter <- ts_parse(
       state$path, state$exclude_path %||% character(), encoding = encoding
     )

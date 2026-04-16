@@ -72,6 +72,19 @@ test_that("lintr_seq_linter", {
   expect_false(get_result(res_bad3, "lintr_seq_linter"))
 })
 
+test_that("lintr_implicit_assignment_linter ignores test files", {
+  gp_ia <- gp("bad2", checks = "lintr_implicit_assignment_linter")
+  res_ia <- results(gp_ia)
+  # bad2 has implicit assignment in R/ (should fail)
+  expect_false(get_result(res_ia, "lintr_implicit_assignment_linter"))
+
+  # Verify only R/ positions are reported, not tests/
+  state <- gp_ia$checks$lintr_implicit_assignment_linter
+  expect_true(all(vapply(
+    state$positions, function(x) grepl("^R[/\\\\]", x$filename), logical(1)
+  )))
+})
+
 test_that("get_lintr_state returns NA on try-error", {
   state <- list(lintr = structure("error", class = "try-error"))
   result <- get_lintr_state(state, "assignment_linter")
@@ -95,6 +108,12 @@ test_that("lintr check fns return positions (not position) on try-error", {
   expect_identical(res_library$positions, list())
   expect_true("positions" %in% names(res_library))
   expect_false("position" %in% names(res_library))
+
+  res_implicit <- CHECKS$lintr_implicit_assignment_linter$check(state)
+  expect_true(is.na(res_implicit$status))
+  expect_identical(res_implicit$positions, list())
+  expect_true("positions" %in% names(res_implicit))
+  expect_false("position" %in% names(res_implicit))
 })
 
 test_that("all new lintr checks run and return results", {

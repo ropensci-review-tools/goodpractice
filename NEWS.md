@@ -1,5 +1,8 @@
 # goodpractice 1.0.5.9000 (dev version)
 
+* New `lintr_installed_packages_linter` check: flags calls to `installed.packages()`,
+  which can be very slow and is rejected by CRAN. Use `find.package()` or
+  `system.file()` instead (#278).
 * Tree-sitter function detection now only considers assignment operators
   (`<-`, `=`, `<<-`), avoiding false matches on arithmetic expressions
   such as `x + function() 1` (#277).

@@ -153,6 +153,21 @@ CHECKS$lintr_library_require_linter <- make_check(
   }
 )
 
+CHECKS$installed_packages_linter <- make_check(
+
+  description = "Avoid calling installed.packages",
+  tags = c("warning", "lintr"),
+  preps = "lintr",
+
+  gp = "avoid {.fn installed.packages}, it can be very slow to
+        run on some machines, and will be rejected by CRAN.
+        Use {.fn find.package} or {.fn system.file} instead.",
+
+  check = function(state) {
+    get_lintr_state(state, "installed_packages_linter")
+  }
+)
+
 CHECKS$lintr_seq_linter <- make_check(
 
   description = "Avoid 1:length(...) and similar expressions",

@@ -26,6 +26,7 @@ rd_check_field <- function(state, field, skip_internal = FALSE) {
   for (alias in exports) {
     topic <- rd_find_topic(rd_data, alias)
     if (is.null(topic)) next
+    if (isTRUE(topic$is_reexport)) next
     if (skip_internal && isTRUE(topic$has_keyword_internal)) next
 
     if (!isTRUE(topic[[field]])) {

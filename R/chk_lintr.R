@@ -375,12 +375,33 @@ CHECKS$lintr_ifelse_censor_linter <- make_lintr_check(
         The dedicated functions are faster and clearer for clamping values."
 )
 
-CHECKS$lintr_implicit_assignment_linter <- make_lintr_check(
-  "implicit_assignment_linter",
-  "Avoid implicit assignments in function calls",
-  "avoid assignments inside function calls like {.code f(x <- value)}.
+CHECKS$lintr_implicit_assignment_linter <- make_check(
+
+  description = "Avoid implicit assignments in function calls",
+  tags = c("warning", "lintr"),
+  preps = "lintr",
+
+  gp = "avoid assignments inside function calls like {.code f(x <- value)}.
         Assign first, then call the function. Implicit assignments are
-        easy to miss when reading code."
+        easy to miss when reading code.",
+
+  check = function(state) {
+    if (inherits(state$lintr, "try-error")) {
+      return(na_result())
+    }
+
+    res <- get_lintr_state(state, "implicit_assignment_linter")
+
+    ## Implicit assignment is a valid testthat pattern, e.g.
+    ## expect_warning(tmp <- f()) to capture output and check for warnings.
+    ## Only flag files under R/.
+    res$positions <- Filter(
+      f = function(x) grepl("^R[/(\\\\)]", x$filename),
+      res$positions
+    )
+    res$status <- length(res$positions) == 0
+    res
+  }
 )
 
 CHECKS$lintr_inner_combine_linter <- make_lintr_check(

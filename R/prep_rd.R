@@ -34,12 +34,19 @@ parse_rd_files <- function(mandir) {
       ""
     )
 
+    doctypes <- vapply(
+      parsed[tags == "\\docType"],
+      function(x) trimws(paste(unlist(x), collapse = "")),
+      ""
+    )
+
     list(
       file = basename(rd_file),
       aliases = aliases,
       has_examples = any(tags == "\\examples"),
       has_value = any(tags == "\\value"),
-      has_keyword_internal = "internal" %in% keywords
+      has_keyword_internal = "internal" %in% keywords,
+      is_reexport = "import" %in% doctypes
     )
   })
 }

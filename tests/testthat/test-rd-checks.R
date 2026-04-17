@@ -221,6 +221,78 @@ test_that("rd_has_return does not flag keyword internal in bad_rd fixture", {
   expect_false("internal_func" %in% lines)
 })
 
+# -- reexports are skipped -----------------------------------------------------
+
+test_that("rd_has_examples skips reexported functions", {
+  state <- list(
+    rd = list(
+      list(
+        aliases = c("reexports", "reexported_fn"),
+        file = "reexports.Rd",
+        has_examples = FALSE, has_value = FALSE,
+        has_keyword_internal = TRUE, is_reexport = TRUE
+      ),
+      list(
+        aliases = "public_fn", file = "public_fn.Rd",
+        has_examples = TRUE, has_value = TRUE,
+        has_keyword_internal = FALSE, is_reexport = FALSE
+      )
+    ),
+    namespace = list(
+      exports = c("reexported_fn", "public_fn"),
+      S3methods = matrix(character(0), ncol = 3)
+    )
+  )
+  result <- CHECKS$rd_has_examples$check(state)
+  expect_true(result$status)
+  expect_length(result$positions, 0)
+})
+
+test_that("rd_has_return skips reexported functions", {
+  state <- list(
+    rd = list(
+      list(
+        aliases = c("reexports", "reexported_fn"),
+        file = "reexports.Rd",
+        has_examples = FALSE, has_value = FALSE,
+        has_keyword_internal = TRUE, is_reexport = TRUE
+      ),
+      list(
+        aliases = "public_fn", file = "public_fn.Rd",
+        has_examples = TRUE, has_value = TRUE,
+        has_keyword_internal = FALSE, is_reexport = FALSE
+      )
+    ),
+    namespace = list(
+      exports = c("reexported_fn", "public_fn"),
+      S3methods = matrix(character(0), ncol = 3)
+    )
+  )
+  result <- CHECKS$rd_has_return$check(state)
+  expect_true(result$status)
+  expect_length(result$positions, 0)
+})
+
+test_that("rd_has_examples does not flag reexports in bad_rd fixture", {
+  gp_res <- gp("bad_rd", checks = "rd_has_examples")
+  pos <- failed_positions(gp_res)$rd_has_examples
+  lines <- vapply(pos, `[[`, "", "line")
+  expect_false("reexported_fn" %in% lines)
+})
+
+test_that("parse_rd_files detects docType import as reexport", {
+  result <- parse_rd_files("bad_rd/man")
+  reex <- result[[which(vapply(result, function(x) {
+    "reexported_fn" %in% x$aliases
+  }, logical(1)))]]
+  expect_true(reex$is_reexport)
+
+  good <- result[[which(vapply(result, function(x) {
+    "good_func" %in% x$aliases
+  }, logical(1)))]]
+  expect_false(good$is_reexport)
+})
+
 # -- prep returns NA on missing man/ ------------------------------------------
 
 test_that("rd checks return NA when man/ directory is missing", {

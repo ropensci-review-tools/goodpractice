@@ -87,6 +87,8 @@
     must be single-quoted
 * Removed `stringsAsFactors = FALSE` arguments throughout, relying on the
   R 4.0 default. Package now requires R >= 4.0.0.
+* Use of the pipe operator (`|>`) in `gp()` (introduced in #250) requires
+  R >= 4.1.0 (#285).
 
 # goodpractice 1.0.5
 

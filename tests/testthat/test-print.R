@@ -57,6 +57,46 @@ test_that("gp_positions includes column when available", {
   )
 })
 
+test_that("gp_print_groups returns all checks when groups is NULL", {
+  checks <- c("description_bugreports", "no_description_date", "r_file_extension")
+  expect_identical(gp_print_groups(checks, groups = NULL), checks)
+})
+
+test_that("gp_print_groups filters checks to a single group", {
+  all_desc <- checks_by_group("description")
+  other <- "r_file_extension"
+  input <- c(all_desc, other)
+  result <- gp_print_groups(input, groups = "description")
+  expect_true(all(result %in% all_desc))
+  expect_false(other %in% result)
+})
+
+test_that("gp_print_groups filters checks to multiple groups", {
+  desc <- checks_by_group("description")
+  ns <- checks_by_group("namespace")
+  other <- "r_file_extension"
+  input <- c(desc, ns, other)
+  result <- gp_print_groups(input, groups = c("description", "namespace"))
+  expect_true(all(result %in% c(desc, ns)))
+  expect_false(other %in% result)
+})
+
+test_that("gp_print_groups errors on invalid group", {
+  expect_error(gp_print_groups(character(0), groups = "not_a_real_group"))
+})
+
+test_that("print with groups filters output to that group", {
+  bad1 <- system.file("bad1", package = "goodpractice")
+  x <- gp(bad1, checks = c("r_file_extension", "description_bugreports"))
+  expect_snapshot(print(x, groups = "description"))
+})
+
+test_that("print with invalid groups errors", {
+  bad1 <- system.file("bad1", package = "goodpractice")
+  x <- gp(bad1, checks = "r_file_extension")
+  expect_error(print(x, groups = "not_a_real_group"))
+})
+
 test_that("check_type extracts type from result", {
   expect_identical(check_type(TRUE), "error")
   expect_identical(check_type(list(status = TRUE)), "error")

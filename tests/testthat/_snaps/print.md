@@ -26,6 +26,14 @@
     Code
       withr::with_dir(tmp, gp_positions(pos, limit = 5))
 
+# print with groups filters output to that group
+
+    Code
+      print(x, groups = "description")
+    Output
+      -- It is good practice to ------------------------------------------------------
+      --------------------------------------------------------------------------------
+
 # print shows info messages with praise
 
     Code

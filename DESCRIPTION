@@ -92,7 +92,6 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 Config/ropensci/maintainer: staff
 Collate: 
@@ -136,3 +135,4 @@ Collate:
     'print.R'
     'rstudio_markers.R'
     'utils.R'
+Config/roxygen2/version: 8.0.0

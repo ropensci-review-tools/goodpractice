@@ -4,10 +4,13 @@
 \alias{print.goodPractice}
 \title{Print goodpractice results}
 \usage{
-\method{print}{goodPractice}(x, positions_limit = 5, ...)
+\method{print}{goodPractice}(x, groups = NULL, positions_limit = 5, ...)
 }
 \arguments{
 \item{x}{Object of class \code{goodPractice}, as returned by \code{\link[=gp]{gp()}}.}
+
+\item{groups}{Name of check groups for which to print results, as vector of
+one or more of \code{\link[=all_check_groups]{all_check_groups()}}.}
 
 \item{positions_limit}{How many positions to print at most.}
 

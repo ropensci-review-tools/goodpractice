@@ -1,6 +1,8 @@
 #' Print goodpractice results
 #'
 #' @param x Object of class `goodPractice`, as returned by [gp()].
+#' @param groups Name of check groups for which to print results, as vector of
+#' one or more of [all_check_groups()].
 #' @param positions_limit How many positions to print at most.
 #' @param ... Unused, for compatibility with [base::print()] generic method.
 #'
@@ -10,12 +12,14 @@
 #'
 #' @export
 
-print.goodPractice <- function(x, positions_limit = 5, ...) {
+print.goodPractice <- function(x, groups = NULL, positions_limit = 5, ...) {
 
   failure <- FALSE
   has_info <- FALSE
 
-  for (check in names(x$checks)) {
+  checks <- gp_print_groups(names(x$checks), groups = groups)
+
+  for (check in checks) {
     type <- check_type(x$checks[[check]])
     if (!check_passed(x$checks[[check]], na_as_passed = TRUE)) {
       if (!failure) {
@@ -95,4 +99,13 @@ gp_positions <- function(pos, limit) {
   }
 
   cli::cli_end(id)
+}
+
+gp_print_groups <- function (checks, groups = NULL) {
+    if (is.null (groups)) {
+        return (checks)
+    }
+    stopifnot (all (groups %in% all_check_groups ()))
+    group_checks <- unlist (lapply (groups, checks_by_group))
+    checks [which (checks %in% group_checks)]
 }

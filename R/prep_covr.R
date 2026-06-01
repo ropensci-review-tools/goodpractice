@@ -4,19 +4,24 @@
 #' @importFrom withr with_options
 
 PREPS$covr <- function(state, path = state$path, quiet) {
-  state <- run_prep_step(state, "covr", function(path, quiet) {
-    list(coverage = package_coverage(path, quiet = quiet))
-  }, path = path, quiet = quiet, silent = quiet)
+  if (is.null(state)) {
+    # Return prep description only
+    state <- "Coverage report from 'covr' package."
+  } else {
+    state <- run_prep_step(state, "covr", function(path, quiet) {
+      list(coverage = package_coverage(path, quiet = quiet))
+    }, path = path, quiet = quiet, silent = quiet)
 
-  if (!inherits(state$covr, "try-error")) {
-    state$covr$zero <- with_options(
-      list(covr.rstudio_source_markers = FALSE),
-      zero_coverage(state$covr$coverage)
-    )
-    state$covr$pct_by_line <- percent_coverage(state$covr$coverage, by = "line")
-    state$covr$pct_by_expr <- percent_coverage(
-      state$covr$coverage, by = "expression"
-    )
+    if (!inherits(state$covr, "try-error")) {
+      state$covr$zero <- with_options(
+        list(covr.rstudio_source_markers = FALSE),
+        zero_coverage(state$covr$coverage)
+      )
+      state$covr$pct_by_line <- percent_coverage(state$covr$coverage, by = "line")
+      state$covr$pct_by_expr <- percent_coverage(
+        state$covr$coverage, by = "expression"
+      )
+    }
   }
 
   state

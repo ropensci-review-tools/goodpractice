@@ -32,23 +32,23 @@ You can also add [custom checks](custom_checks.html) for your team's own convent
 The main function is `gp()` (short for `goodpractice()`).
 Point it at a package directory and it runs the default set of checks:
 
-```{r}
+```{r library}
 library(goodpractice)
 
 # goodpractice ships with an example package that has some issues
 pkg_path <- system.file("bad1", package = "goodpractice")
 ```
 
-```{r, echo = TRUE, eval = FALSE}
+```{r initial-gp-call-dummy, echo = TRUE, eval = FALSE}
 g <- gp(pkg_path)
 ```
-```{r, echo = FALSE, eval = TRUE}
+```{r initial-gp-call, echo = FALSE, eval = TRUE}
 g <- suppressWarnings(gp(pkg_path))
 ```
 
 Printing the result shows only the checks that failed:
 
-```{r}
+```{r gp-print}
 g
 ```
 
@@ -77,21 +77,21 @@ It also means you can skip an entire category of checks by excluding its group �
 
 By default, `gp()` runs everything in `default_checks()` — about 250 checks covering documentation, code style, test coverage, namespace hygiene, and CRAN compliance:
 
-```{r}
+```{r default-checks-length}
 length(default_checks())
 ```
 
 If you only need a specific check, pass its name to the `checks` argument.
 You can find check names with `all_checks()` and filter with `grep()`:
 
-```{r}
+```{r find-url-checks}
 # find checks related to URLs
 grep("url", all_checks(), value = TRUE)
 ```
 
 Then run just the ones you care about:
 
-```{r}
+```{r gp-desc-url-only}
 g_url <- gp(pkg_path, checks = "description_url")
 g_url
 ```
@@ -99,7 +99,7 @@ g_url
 To go the other direction and run _more_ than the defaults, combine check sets.
 For example, to add the optional tidyverse style checks on top of the defaults:
 
-```{r, eval = FALSE}
+```{r gp-tidyverse-extra-dummy, eval = FALSE}
 g <- gp(".", checks = c(default_checks(), tidyverse_checks()))
 ```
 
@@ -109,7 +109,7 @@ Three helper functions give you the available check names:
 - `tidyverse_checks()` — opt-in style checks following [tidyverse conventions](https://style.tidyverse.org/)
 - `all_checks()` — both combined
 
-```{r}
+```{r check-lengths}
 length(tidyverse_checks())
 length(all_checks())
 ```
@@ -119,43 +119,41 @@ length(all_checks())
 Every check belongs to at least one _check group_.
 Groups let you work with categories of checks instead of individual names:
 
-```{r}
+```{r all-check-groups}
 all_check_groups()
 ```
 
 To see which checks belong to a group, use `checks_by_group()`:
 
-```{r}
+```{r desc-check-group}
 checks_by_group("description")
 ```
 
 You can select multiple groups at once:
 
-```{r, eval = FALSE}
+```{r desc-namespace-only-dummy, eval = FALSE}
 # run only DESCRIPTION and namespace checks
 gp(".", checks = checks_by_group("description", "namespace"))
 ```
 
-The table below lists every group and what it covers:
+There is also a `describe_check_groups()` function to return full descriptions
+of all checks (modified here from default screen output to look nice):
 
-| Group | What it checks |
-|-------|----------------|
-| `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
-| `covr` | Whether all code is covered by tests |
-| `cyclocomp` | Whether functions are too complex (default limit: 50) |
-| `description` | Package metadata: URL, BugReports, dependency fields, author roles |
-| `lintr` | ~50 linters covering correctness (`anyDuplicated`, `class_equals`), performance (`matrix_apply`, `fixed_regex`), readability (`redundant_ifelse`, `nested_pipe`), and testthat expectations |
-| `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
-| `rd` | Whether exported functions have `\examples` and `\value` sections |
-| `roxygen2` | Roxygen2 tag validation: export/noRd tagging, unknown tags, inheritParams |
-| `expressions` | Source expression parsing checks |
-| `code_structure` | Code analysis: `print()` returns invisibly, `on.exit(add = TRUE)`, function length, duplicate bodies |
-| `package_structure` | README exists, NEWS exists, `.R` file extension |
-| `spelling` | Misspelled words in documentation |
-| `urlchecker` | Broken or redirecting URLs in documentation |
-| `revdep` | Whether CRAN reverse dependencies exist (informational) |
-| `vignette` | Vignette-related checks |
-| `tidyverse` | Tidyverse style checks (opt-in via `tidyverse_checks()`) |
+```{r describe-check-groups-dummy, eval = FALSE}
+describe_check_groups()
+```
+
+
+```{r kable, results="asis", echo = FALSE}
+descs <- describe_check_groups()
+df <- data.frame(Group = names(descs), Description = unlist(descs), row.names = NULL)
+tbl <- knitr::kable(df)
+if (knitr::is_html_output()) {
+  tbl <- kableExtra::column_spec(tbl, 1L, extra_css = "white-space: nowrap")
+  tbl <- kableExtra::column_spec(tbl, 2L, width = "100%")
+}
+tbl
+```
 
 ## Excluding check groups
 
@@ -167,7 +165,7 @@ On a large package, these two steps alone can take several minutes.
 If you only care about code style or DESCRIPTION metadata right now, you can skip the slow groups entirely.
 Set the `goodpractice.exclude_check_groups` option to a character vector of group names:
 
-```{r, eval = FALSE}
+```{r gp-skip-dummy, eval = FALSE}
 # skip coverage and R CMD check — just run the fast checks
 options(goodpractice.exclude_check_groups = c("covr", "rcmdcheck"))
 gp(".")
@@ -184,7 +182,7 @@ GP_EXCLUDE_CHECK_GROUPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
 When both the R option and the environment variable are set, the R option wins.
 Exclusion only applies when you use the default check set — if you explicitly pass check names to the `checks` argument, exclusion settings are ignored and those checks always run.
 
-```{r, eval = FALSE}
+```{r options-dummy, eval = FALSE}
 options(goodpractice.exclude_check_groups = "covr")
 
 # covr checks are excluded here (using defaults)
@@ -199,7 +197,7 @@ gp(".", checks = "covr")
 If your package contains generated code or vendored files that should not be checked, you can exclude specific files.
 Set the `goodpractice.exclude_path` option to a character vector of paths relative to the package root:
 
-```{r, eval = FALSE}
+```{r options-files-dummy, eval = FALSE}
 options(goodpractice.exclude_path = c("R/RcppExports.R", "R/generated_bindings.R"))
 gp(".")
 ```
@@ -217,7 +215,7 @@ Excluded files are skipped by lintr, treesitter, expression, and roxygen2 checks
 Preparation steps run sequentially by default.
 If you have the [future.apply](https://cran.r-project.org/package=future.apply) package installed, you can run them in parallel by setting a `future::plan()`:
 
-```{r, eval = FALSE}
+```{r future-dummy, eval = FALSE}
 future::plan("multisession")
 gp(".")
 ```
@@ -231,7 +229,7 @@ The default checks deliberately stay away from style preferences — they focus 
 
 If you or your team follows the [tidyverse style guide](https://style.tidyverse.org/), you can opt into an additional set of style checks:
 
-```{r, eval = FALSE}
+```{r tidyverse-only-dummy, eval = FALSE}
 # add tidyverse checks to the defaults
 gp(".", checks = c(default_checks(), tidyverse_checks()))
 
@@ -247,7 +245,7 @@ A few tidyverse checks go beyond linting and look at package structure directly 
 
 All tidyverse checks belong to the `tidyverse` group:
 
-```{r}
+```{r checks-by-group-tidyverse}
 checks_by_group("tidyverse")
 ```
 
@@ -257,33 +255,33 @@ Beyond printing, the object returned by `gp()` gives you programmatic access to 
 
 `checks()` returns the names of all checks that were run:
 
-```{r}
+```{r check-names}
 checks(g_url)
 ```
 
 `failed_checks()` returns only the names of the checks that failed:
 
-```{r}
+```{r failed-checks}
 failed_checks(g)
 ```
 
 `results()` gives you a data frame with one row per check and a `passed` column that is `TRUE`, `FALSE`, or `NA` (skipped):
 
-```{r}
-results(g)[1:5, ]
+```{r results}
+results(g)[1L:5L, ]
 ```
 
 A check shows `NA` when its preparation step failed or was excluded — it was not evaluated, so it neither passed nor failed.
 
 To see all file positions for failed checks (not just the first five that `print()` shows), use `print()` with a higher limit:
 
-```{r, eval = FALSE}
+```{r print-inf-dummy, eval = FALSE}
 print(g, positions_limit = Inf)
 ```
 
 You can also export the full results to JSON for use in other tools:
 
-```{r, eval = FALSE}
+```{r export-json-dummy, eval = FALSE}
 export_json(g, "gp_results.json")
 ```
 

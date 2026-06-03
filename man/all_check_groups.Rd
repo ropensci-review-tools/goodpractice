@@ -7,17 +7,22 @@
 all_check_groups()
 }
 \value{
-Character vector of check group names
+A character vector of check group names.
 }
 \description{
 Returns the names of all registered check groups.
 Use these names with \code{\link[=checks_by_group]{checks_by_group()}} to select checks by group,
 or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
 groups.
+Full descriptions of each check group are return by
+\code{\link[=describe_check_groups]{describe_check_groups()}}.
 }
 \examples{
+# Names of all check groups:
 all_check_groups()
 
-# See all checks by group
-lapply(all_check_groups(), checks_by_group)
+# List individual checks by group:
+chks <- lapply(all_check_groups(), checks_by_group)
+names(chks) <- all_check_groups()
+chks
 }

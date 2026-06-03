@@ -135,7 +135,8 @@ CHECKS$complexity_function_length <- make_check(
 
   gp = paste(
     "keep functions short and focused. Long functions are harder to",
-    "understand, test, and maintain. Consider splitting into smaller helpers."
+    "understand, test, and maintain. Consider splitting into smaller helpers.",
+    "(Default limit of 50 set with option 'goodpractice.function_length_limit')."
   ),
 
   check = function(state) {

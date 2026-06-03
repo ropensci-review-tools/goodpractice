@@ -1,13 +1,37 @@
 test_that("all_check_groups returns registered group names", {
   groups <- all_check_groups()
   expect_true(is.character(groups))
-  expect_true("covr" %in% groups)
-  expect_true("rcmdcheck" %in% groups)
-  expect_true("lintr" %in% groups)
-  expect_true("description" %in% groups)
-  expect_true("code_structure" %in% groups)
-  expect_true("package_structure" %in% groups)
-  expect_true("tidyverse" %in% groups)
+  expect_length(groups, 15L)
+  current_groups <- c(
+        "covr",
+        "cyclocomp",
+        "description",
+        "lintr",
+        "namespace",
+        "rcmdcheck",
+        "rd",
+        "revdep",
+        "roxygen2",
+        "code_structure",
+        "package_structure",
+        "spelling",
+        "tidyverse",
+        "urlchecker",
+        "vignette"
+  )
+  expect_true(all(current_groups %in% groups))
+})
+
+test_that("describe_check_groups", {
+  groups <- all_check_groups()
+  descs <- describe_check_groups()
+  expect_true(is.list(descs))
+  expect_equal(length(groups), length(descs))
+  expect_identical(groups, names(descs))
+  desc_lens <- vapply(descs, length, integer(1L))
+  expect_true(all(desc_lens == 1L))
+  desc_chars <- vapply(descs, nchar, integer(1L))
+  expect_true(all(desc_chars > 40))
 })
 
 test_that("checks_by_group returns checks for a single group", {

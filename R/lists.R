@@ -73,13 +73,20 @@ describe_check <- function(check_name = NULL) {
 #'
 #' @param describe If `TRUE`, print descriptions of all check groups to screen,
 #' otherwise (default) just return the names of groups.
-#' @return Character vector of check group names
+#' @return For default 'describe = FALSE', a character vector of check group
+#' names; for 'describe = TRUE', a named list with descriptions of all checks.
 #' @export
 #' @examples
+#' # Default shows names of groups only:
 #' all_check_groups()
 #'
-#' # See all checks by group
-#' lapply(all_check_groups(), checks_by_group)
+#' # Show full group descriptions:
+#' all_check_groups(describe = TRUE)
+#'
+#' # List individual checks by group:
+#' chks <- lapply(all_check_groups(), checks_by_group)
+#' names(chks) <- all_check_groups()
+#' chks
 
 all_check_groups <- function(describe = FALSE) {
   ret <- nms <- names(PREPS)

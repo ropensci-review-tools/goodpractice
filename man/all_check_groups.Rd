@@ -11,7 +11,8 @@ all_check_groups(describe = FALSE)
 otherwise (default) just return the names of groups.}
 }
 \value{
-Character vector of check group names
+For default 'describe = FALSE', a character vector of check group
+names; for 'describe = TRUE', a named list with descriptions of all checks.
 }
 \description{
 Returns the names, and optionally descriptions, of all registered check
@@ -21,8 +22,14 @@ or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
 groups.
 }
 \examples{
+# Default shows names of groups only:
 all_check_groups()
 
-# See all checks by group
-lapply(all_check_groups(), checks_by_group)
+# Show full group descriptions:
+all_check_groups(describe = TRUE)
+
+# List individual checks by group:
+chks <- lapply(all_check_groups(), checks_by_group)
+names(chks) <- all_check_groups()
+chks
 }

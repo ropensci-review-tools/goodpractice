@@ -96,9 +96,10 @@ gp <- function(
   checks <- resolve_checks(checks, MYCHECKS)
   preps <- required_preps(checks, MYCHECKS)
 
-  state <- init_state(path, pkgname, extra_preps, extra_checks) |>
-    run_preps(preps, MYPREPS, quiet) |>
-    run_checks(checks, MYCHECKS)
+  # No pipe here:
+  state <- init_state(path, pkgname, extra_preps, extra_checks)
+  state <- run_preps(state, preps, MYPREPS, quiet)
+  state <- run_checks(state, checks, MYCHECKS)
 
   state$.cache <- NULL
   class(state) <- "goodPractice"

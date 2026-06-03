@@ -136,26 +136,26 @@ You can select multiple groups at once:
 gp(".", checks = checks_by_group("description", "namespace"))
 ```
 
-The table below lists every group and what it covers:
+The `all_check_groups()` function has an additional `describe` parameter.
+Calling with non-default `describe = TRUE` returns full descriptions of all
+checks (modified here from default screen output to look nice):
 
-| Group | What it checks |
-|-------|----------------|
-| `rcmdcheck` | ~200 checks from `R CMD check`: documentation, namespace, compilation, tests, vignettes, CRAN compliance |
-| `covr` | Whether all code is covered by tests |
-| `cyclocomp` | Whether functions are too complex (default limit: 50) |
-| `description` | Package metadata: URL, BugReports, dependency fields, author roles |
-| `lintr` | ~50 linters covering correctness (`anyDuplicated`, `class_equals`), performance (`matrix_apply`, `fixed_regex`), readability (`redundant_ifelse`, `nested_pipe`), and testthat expectations |
-| `namespace` | Whether `importFrom()` is used instead of whole-package imports, no `exportPattern()` |
-| `rd` | Whether exported functions have `\examples` and `\value` sections |
-| `roxygen2` | Roxygen2 tag validation: export/noRd tagging, unknown tags, inheritParams |
-| `expressions` | Source expression parsing checks |
-| `code_structure` | Code analysis: `print()` returns invisibly, `on.exit(add = TRUE)`, function length, duplicate bodies |
-| `package_structure` | README exists, NEWS exists, `.R` file extension |
-| `spelling` | Misspelled words in documentation |
-| `urlchecker` | Broken or redirecting URLs in documentation |
-| `revdep` | Whether CRAN reverse dependencies exist (informational) |
-| `vignette` | Vignette-related checks |
-| `tidyverse` | Tidyverse style checks (opt-in via `tidyverse_checks()`) |
+```{r check_group-descs, eval = FALSE}
+all_check_groups(describe = TRUE)
+```
+
+
+```{r results="asis", echo = FALSE}
+descs <- all_check_groups(describe = TRUE)
+df <- data.frame(Group = names(descs), Description = unlist(descs), row.names = NULL)
+tbl <- knitr::kable(df)
+if (knitr::is_html_output()) {
+  tbl <- tbl |>
+    kableExtra::column_spec(1, extra_css = "white-space: nowrap") |>
+    kableExtra::column_spec(2, width = "100%")
+}
+tbl
+```
 
 ## Excluding check groups
 

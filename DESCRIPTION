@@ -85,6 +85,7 @@ Imports:
 Suggests:
     future,
     future.apply,
+    kableExtra,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

@@ -1,5 +1,7 @@
 # goodpractice 1.0.5.9000 (dev version)
 
+- Added new `describe_check_groups()` function, to produce group descriptions
+  in console (#290).
 - Added 'groups' param to `print()` method, to enable printing only specified
   groups (#288).
 * New `lintr_installed_packages_linter` check: flags calls to `installed.packages()`,

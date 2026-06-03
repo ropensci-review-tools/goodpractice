@@ -4,29 +4,22 @@
 \alias{all_check_groups}
 \title{List available check group names}
 \usage{
-all_check_groups(describe = FALSE)
-}
-\arguments{
-\item{describe}{If \code{TRUE}, print descriptions of all check groups to screen,
-otherwise (default) just return the names of groups.}
+all_check_groups()
 }
 \value{
-For default 'describe = FALSE', a character vector of check group
-names; for 'describe = TRUE', a named list with descriptions of all checks.
+A character vector of check group names.
 }
 \description{
-Returns the names, and optionally descriptions, of all registered check
-groups.
+Returns the names of all registered check groups.
 Use these names with \code{\link[=checks_by_group]{checks_by_group()}} to select checks by group,
 or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
 groups.
+Full descriptions of each check group are return by
+\code{\link[=describe_check_groups]{describe_check_groups()}}.
 }
 \examples{
-# Default shows names of groups only:
+# Names of all check groups:
 all_check_groups()
-
-# Show full group descriptions:
-all_check_groups(describe = TRUE)
 
 # List individual checks by group:
 chks <- lapply(all_check_groups(), checks_by_group)

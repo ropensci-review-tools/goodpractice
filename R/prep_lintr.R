@@ -89,21 +89,11 @@ linters_to_lint <- function() {
 #' @importFrom lintr lint_package
 
 PREPS$lintr <- function(state, path = state$path, quiet) {
-  if (is.null(state)) {
-    num_linters <- length(grep("linter", all_checks()))
-    state <- paste0(
-      "Check package linting with the 'lintr' package (",
-      num_linters,
-      " linters in total)."
-    )
-  } else {
-    path <- normalizePath(path)
-    excl <- as.list(state$exclude_path %||% character())
-    state <- run_prep_step(state, "lintr", function(path) {
-      suppressMessages(lint_package(
-        path, linters = linters_to_lint(), exclusions = excl
-      ))
-    }, path = path, silent = quiet)
-  }
-  state
+  path <- normalizePath(path)
+  excl <- as.list(state$exclude_path %||% character())
+  run_prep_step(state, "lintr", function(path) {
+    suppressMessages(lint_package(
+      path, linters = linters_to_lint(), exclusions = excl
+    ))
+  }, path = path, silent = quiet)
 }

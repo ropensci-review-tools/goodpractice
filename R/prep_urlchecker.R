@@ -7,21 +7,13 @@ run_url_check <- function(path, quiet) {
 }
 
 PREPS$urlchecker <- function(state, path = state$path, quiet) {
-  if (is.null(state)) {
-    state <- paste(
-      "Check whether all URLs are valid, including",
-      "identifying any redirects."
-    )
-  } else {
-    if (!has_internet()) {
-      cli::cli_warn("Skipping URL checks: no internet connection.")
-      state$urlchecker <- try(stop("offline"), silent = TRUE)
-      return(state)
-    }
-
-    state <- run_prep_step(state, "urlchecker", function(path, quiet) {
-      run_url_check(path, quiet)
-    }, path = path, quiet = quiet, silent = quiet)
+  if (!has_internet()) {
+    cli::cli_warn("Skipping URL checks: no internet connection.")
+    state$urlchecker <- try(stop("offline"), silent = TRUE)
+    return(state)
   }
-  state
+
+  run_prep_step(state, "urlchecker", function(path, quiet) {
+    run_url_check(path, quiet)
+  }, path = path, quiet = quiet, silent = quiet)
 }

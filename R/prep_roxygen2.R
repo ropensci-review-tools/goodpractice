@@ -65,16 +65,7 @@ parse_roxygen2 <- function(path, exclude_path = character()) {
 }
 
 PREPS$roxygen2 <- function(state, path = state$path, quiet) {
-  if (is.null(state)) {
-    state <- paste(
-      "Only for packages within use 'Roxygen2' to generate documentation.",
-      "Checks for best practices in Roxygen2 tag usage, flags any",
-      "unknown tags, and ensures 'inheritParams' is used correctly."
-    )
-  } else {
-    state <- run_prep_step(state, "roxygen2", function(path) {
-      parse_roxygen2(path, state$exclude_path %||% character())
-    }, path = path, silent = quiet)
-  }
-  state
+  run_prep_step(state, "roxygen2", function(path) {
+    parse_roxygen2(path, state$exclude_path %||% character())
+  }, path = path, silent = quiet)
 }

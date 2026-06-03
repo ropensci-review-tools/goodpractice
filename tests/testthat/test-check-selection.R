@@ -22,14 +22,15 @@ test_that("all_check_groups returns registered group names", {
   expect_true(all(current_groups %in% groups))
 })
 
-test_that("all_check_groups descriptions", {
-  groups <- all_check_groups(describe = TRUE)
-  expect_true(is.list(groups))
-  expect_length(groups, 15L)
-  expect_identical(names(groups), all_check_groups())
-  desc_lens <- vapply(groups, length, integer(1L))
+test_that("describe_check_groups", {
+  groups <- all_check_groups()
+  descs <- describe_check_groups()
+  expect_true(is.list(descs))
+  expect_equal(length(groups), length(descs))
+  expect_identical(groups, names(descs))
+  desc_lens <- vapply(descs, length, integer(1L))
   expect_true(all(desc_lens == 1L))
-  desc_chars <- vapply(groups, nchar, integer(1L))
+  desc_chars <- vapply(descs, nchar, integer(1L))
   expect_true(all(desc_chars > 40))
 })
 

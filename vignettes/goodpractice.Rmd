@@ -136,17 +136,16 @@ You can select multiple groups at once:
 gp(".", checks = checks_by_group("description", "namespace"))
 ```
 
-The `all_check_groups()` function has an additional `describe` parameter.
-Calling with non-default `describe = TRUE` returns full descriptions of all
-checks (modified here from default screen output to look nice):
+There is also a `describe_check_groups()` function to return full descriptions
+of all checks (modified here from default screen output to look nice):
 
-```{r check_group-descs, eval = FALSE}
-all_check_groups(describe = TRUE)
+```{r describe-check-groups-dummy, eval = FALSE}
+describe_check_groups()
 ```
 
 
 ```{r kable, results="asis", echo = FALSE}
-descs <- all_check_groups(describe = TRUE)
+descs <- describe_check_groups()
 df <- data.frame(Group = names(descs), Description = unlist(descs), row.names = NULL)
 tbl <- knitr::kable(df)
 if (knitr::is_html_output()) {

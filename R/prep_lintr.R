@@ -90,7 +90,12 @@ linters_to_lint <- function() {
 
 PREPS$lintr <- function(state, path = state$path, quiet) {
   if (is.null(state)) {
-    state <- "Check package linting with the 'lintr' package"
+    num_linters <- length(grep("linter", all_checks()))
+    state <- paste0(
+      "Check package linting with the 'lintr' package (",
+      num_linters,
+      " linters in total)."
+    )
   } else {
     path <- normalizePath(path)
     excl <- as.list(state$exclude_path %||% character())

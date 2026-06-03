@@ -3,8 +3,8 @@
 
 PREPS$revdep <- function(state, path = state$path, quiet) {
   if (is.null(state)) {
-    state <- paste0(
-      "Check whether package has reverse dependencies, and ",
+    state <- paste(
+      "Check whether package has reverse dependencies, and",
       "recommending running 'reddev' package if so."
     )
   } else {

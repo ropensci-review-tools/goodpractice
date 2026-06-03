@@ -8,7 +8,10 @@ run_url_check <- function(path, quiet) {
 
 PREPS$urlchecker <- function(state, path = state$path, quiet) {
   if (is.null(state)) {
-    state <- "Check whether all URLs are valid."
+    state <- paste(
+      "Check whether all URLs are valid, including",
+      "identifying any redirects."
+    )
   } else {
     if (!has_internet()) {
       cli::cli_warn("Skipping URL checks: no internet connection.")

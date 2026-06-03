@@ -3,7 +3,11 @@
 
 PREPS$tidyverse <- function(state, path = state$path, quiet) {
   if (is.null(state)) {
-    state <- "Check compliance with the Tidyverse style guide; mostly via 'lintr' package."
+    state <- paste(
+      "Check compliance with the Tidyverse style guide; mostly via 'lintr' package.",
+      "(These checks are not run by default; and only if 'tidyverse_checks()' are",
+      "added to 'checks_by_group()'."
+    )
   } else {
     path <- normalizePath(path)
     excl <- as.list(state$exclude_path %||% character())

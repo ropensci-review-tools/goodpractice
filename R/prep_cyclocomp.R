@@ -4,7 +4,10 @@
 
 PREPS$cyclocomp <- function(state, path = state$path, quiet) {
   if (is.null(state)) {
-    state <- "Function cyclocomplexity with the 'cyclocomp' package."
+    state <- paste(
+      "Function cyclocomplexity with the 'cyclocomp'",
+      "package; default limit of 50."
+    )
   } else {
     state <- run_prep_step(state, "cyclocomp", function(path) {
       cyclocomp_package_dir(path)

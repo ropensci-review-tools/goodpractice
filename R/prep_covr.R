@@ -6,7 +6,7 @@
 PREPS$covr <- function(state, path = state$path, quiet) {
   if (is.null(state)) {
     # Return prep description only
-    state <- "Coverage report from 'covr' package."
+    state <- "Test coverage report from 'covr' package."
   } else {
     state <- run_prep_step(state, "covr", function(path, quiet) {
       list(coverage = package_coverage(path, quiet = quiet))

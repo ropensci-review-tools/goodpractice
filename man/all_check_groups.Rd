@@ -4,13 +4,18 @@
 \alias{all_check_groups}
 \title{List available check group names}
 \usage{
-all_check_groups()
+all_check_groups(describe = FALSE)
+}
+\arguments{
+\item{describe}{If \code{TRUE}, print descriptions of all check groups to screen,
+otherwise (default) just return the names of groups.}
 }
 \value{
 Character vector of check group names
 }
 \description{
-Returns the names of all registered check groups.
+Returns the names, and optionally descriptions, of all registered check
+groups.
 Use these names with \code{\link[=checks_by_group]{checks_by_group()}} to select checks by group,
 or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
 groups.

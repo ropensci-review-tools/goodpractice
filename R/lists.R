@@ -65,11 +65,14 @@ describe_check <- function(check_name = NULL) {
 
 #' List available check group names
 #'
-#' Returns the names of all registered check groups.
+#' Returns the names, and optionally descriptions, of all registered check
+#' groups.
 #' Use these names with [checks_by_group()] to select checks by group,
 #' or with \code{options(goodpractice.exclude_check_groups = ...)} to skip
 #' groups.
 #'
+#' @param describe If `TRUE`, print descriptions of all check groups to screen,
+#' otherwise (default) just return the names of groups.
 #' @return Character vector of check group names
 #' @export
 #' @examples
@@ -78,8 +81,13 @@ describe_check <- function(check_name = NULL) {
 #' # See all checks by group
 #' lapply(all_check_groups(), checks_by_group)
 
-all_check_groups <- function() {
-  names(PREPS)
+all_check_groups <- function(describe = FALSE) {
+  ret <- nms <- names(PREPS)
+  if (describe) {
+    ret <- lapply(PREPS, function(f) f(NULL))
+    names(ret) <- nms
+  }
+  ret
 }
 
 #' Select checks by check group

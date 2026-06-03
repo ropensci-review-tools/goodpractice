@@ -150,9 +150,8 @@ descs <- all_check_groups(describe = TRUE)
 df <- data.frame(Group = names(descs), Description = unlist(descs), row.names = NULL)
 tbl <- knitr::kable(df)
 if (knitr::is_html_output()) {
-  tbl <- tbl |>
-    kableExtra::column_spec(1, extra_css = "white-space: nowrap") |>
-    kableExtra::column_spec(2, width = "100%")
+  tbl <- kableExtra::column_spec(tbl, 1, extra_css = "white-space: nowrap")
+  tbl <- kableExtra::column_spec(tbl, 2, width = "100%")
 }
 tbl
 ```

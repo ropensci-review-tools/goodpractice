@@ -1,12 +1,16 @@
 #' @include lists.R prep_utils.R treesitter.R
 #' @importFrom roxygen2 parse_package
 
+#' See #295 for updates to Roxygen2 DESC configs, thanks to @wkmor1
 #' @noRd
 uses_roxygen2 <- function(path) {
   desc_path <- file.path(path, "DESCRIPTION")
   if (!file.exists(desc_path)) return(FALSE)
   fields <- names(read.dcf(desc_path)[1, ])
-  any(grepl("^(\\s*?)Roxygen", fields))
+  roxygen_ptn_to_v7 <- "^(\\s*?)Roxygen"
+  roxygen_ptn_v8 <- "^(\\s*?)Config\\/roxygen"
+  ptn <- paste0 (roxygen_ptn_to_v7, "|", roxygen_ptn_v8)
+  any(grepl(ptn, fields))
 }
 
 find_function_defs <- function(path, exclude_path = character()) {

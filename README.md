@@ -27,7 +27,7 @@ install.packages("goodpractice")
 
 The development version can be installed from R-universe by enabling the
 [ropensci-review-tools
-`r-universe`](https://ropensci-review-tools.r-universe.dev/ui#builds)
+`r-universe`](https://ropensci-review-tools.r-universe.dev/)
 and installing the usual way:
 
 ``` r

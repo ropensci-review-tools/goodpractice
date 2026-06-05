@@ -1,14 +1,12 @@
-## New Maintainer
-
-This submission is from a new maintainer for this package. An email was sent to "cran-submission@r-project.org" on 28th May 2024 by the previous maintainer approving and notifying you of this maintainer transfer.
+## goodpractice version 1.1.0
 
 ## R CMD check results
 
-This submission generates no ERRORs or WARNINGs on the platforms listed below, and only one note because previous version was archived.
+This submission generates no ERRORs or WARNINGs on the platforms listed below.
 
-## Downstream dependencies
+## Reverse dependencies
 
-This is a small update to get the package back on CRAN; I did not run `revdepcheck`.
+This package has one reverse dependency for which `revdep` checks indicate no issues.
 
 ## Test environments
 

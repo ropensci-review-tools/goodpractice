@@ -18,7 +18,10 @@ Names of the failed checks
 \examples{
 path <- system.file("bad1", package = "goodpractice")
 # run a subset of all checks available
-g <- gp(path, checks = all_checks()[3:16])
+g <- gp(path, checks = all_checks()[9:16])
+failed_checks(g)
+# Or run with named check groups
+g <- gp(path, checks = checks_by_group("description", "namespace"))
 failed_checks(g)
 }
 \seealso{

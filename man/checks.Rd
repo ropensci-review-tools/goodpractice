@@ -17,8 +17,11 @@ List all checks performed
 }
 \examples{
 path <- system.file("bad1", package = "goodpractice")
-# run a subset of all checks available
-g <- gp(path, checks = all_checks()[3:16])
+# Run a subset of all checks available
+g <- gp(path, checks = all_checks()[9:16])
+checks(g)
+# Or run with named check groups
+g <- gp(path, checks = checks_by_group("description", "namespace"))
 checks(g)
 }
 \seealso{

@@ -1,3 +1,11 @@
+# goodpractice 1.1.00X (dev version)
+
+## Minor changes
+
+- Fix bug in check group exclusions through env vars, and update vignette.
+
+---
+
 # goodpractice 1.1
 
 ## 1. Check control and output

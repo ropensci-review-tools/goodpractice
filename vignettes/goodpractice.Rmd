@@ -173,10 +173,10 @@ gp(".")
 
 Every check that depends on a skipped group is automatically excluded too.
 
-For CI/CD pipelines, you can set this via the `GP_EXCLUDE_CHECK_GROUPS` environment variable instead of modifying R code:
+For CI/CD pipelines, you can exclude check groups by specifying them in comma-separate format via the `GP_EXCLUDE_CHECK_GROUPS` environment variable:
 
 ```bash
-GP_EXCLUDE_CHECK_GROUPS=covr,rcmdcheck Rscript -e 'goodpractice::gp(".")'
+GP_EXCLUDE_CHECK_GROUPS='covr,lintr,rcmdcheck'
 ```
 
 When both the R option and the environment variable are set, the R option wins.

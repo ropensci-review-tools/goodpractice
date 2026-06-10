@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.1.0
+Version: 1.1.0.001
 Authors@R:
     c(
       person(given = "Mark",

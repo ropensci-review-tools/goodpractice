@@ -11,7 +11,7 @@
   "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
   "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.5.9001",
+  "version": "1.1.0.001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",

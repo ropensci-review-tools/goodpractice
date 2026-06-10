@@ -559,7 +559,7 @@ CHECKS$tidyverse_export_order <- make_check(
 
   description = "Exported functions are defined before internal helpers",
   tags = c("style", "tidyverse"),
-  preps = c("namespace", "tidyverse"),
+  preps = "tidyverse",
 
   gp = "define exported (user-facing) functions before internal
         helper functions within each R source file.",

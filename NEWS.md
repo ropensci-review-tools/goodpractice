@@ -3,6 +3,7 @@
 ## Minor changes
 
 - Fix bug in check group exclusions through env vars, and update vignette.
+- Fix prep assignment to check groups for two checks (revdep + 1 tidyverse)
 
 ---
 

@@ -3,7 +3,7 @@
 ## Minor changes
 
 - Fix bug in check group exclusions through env vars, and update vignette.
-- Fix prep assignment to check groups for two checks (revdep + 1 tidyverse)
+- Fix prep assignment to check groups for two checks (revdep + 1 tidyverse), including attaching "namespace" prep only internally to one of those so full tidyverse prep stage is only run for that group.
 
 ---
 

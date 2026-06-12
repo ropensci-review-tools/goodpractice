@@ -559,17 +559,18 @@ CHECKS$tidyverse_export_order <- make_check(
 
   description = "Exported functions are defined before internal helpers",
   tags = c("style", "tidyverse"),
-  preps = c("namespace", "tidyverse"),
+  preps = "tidyverse",
 
   gp = "define exported (user-facing) functions before internal
         helper functions within each R source file.",
 
   check = function(state) {
-    if (inherits(state$namespace, "try-error")) {
+    path <- normalizePath(state$path)
+    ns <- try(parseNamespaceFile(basename(path), dirname(path)), silent = TRUE)
+    if (inherits(ns, "try-error")) {
       return(na_result())
     }
 
-    ns <- state$namespace
     exported <- c(ns$exports, ns_s3_method_names(ns))
 
     patterns <- ns$exportPatterns

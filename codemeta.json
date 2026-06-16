@@ -4,20 +4,17 @@
   "identifier": "goodpractice",
   "description": "Give advice about good practices when building R packages. Advice includes functions and syntax to avoid, package structure, code complexity, code formatting, etc.",
   "name": "goodpractice: Advice on R Package Building",
-  "relatedLink": [
-    "https://docs.ropensci.org/goodpractice/",
-    "https://CRAN.R-project.org/package=goodpractice"
-  ],
+  "relatedLink": ["https://docs.ropensci.org/goodpractice/", "https://CRAN.R-project.org/package=goodpractice"],
   "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
   "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.1.0.001",
+  "version": "1.1.0.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.1 (2024-06-14)",
+  "runtimePlatform": "R version 4.6.0 (2026-04-24)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -66,6 +63,13 @@
       "givenName": "Hannah",
       "familyName": "Alexander",
       "email": "halexander@mango-solutions.com"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Athanasia Mo",
+      "familyName": "Mowinckel",
+      "email": "a.m.mowinckel@psykologi.uio.no",
+      "@id": "https://orcid.org/0000-0002-5756-0223"
     }
   ],
   "contributor": [
@@ -97,6 +101,42 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "future",
+      "name": "future",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=future"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "future.apply",
+      "name": "future.apply",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=future.apply"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "kableExtra",
+      "name": "kableExtra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=kableExtra"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "knitr",
@@ -138,6 +178,12 @@
   "softwareRequirements": {
     "1": {
       "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 4.3.0"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
       "identifier": "cli",
       "name": "cli",
       "provider": {
@@ -148,7 +194,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    "2": {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "covr",
       "name": "covr",
@@ -160,7 +206,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=covr"
     },
-    "3": {
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "curl",
+      "name": "curl",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=curl"
+    },
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "cyclocomp",
       "name": "cyclocomp",
@@ -173,7 +231,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cyclocomp"
     },
-    "4": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "desc",
       "name": "desc",
@@ -185,7 +243,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=desc"
     },
-    "5": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "jsonlite",
       "name": "jsonlite",
@@ -197,7 +255,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=jsonlite"
     },
-    "6": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "lintr",
       "name": "lintr",
@@ -210,7 +268,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=lintr"
     },
-    "7": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "praise",
       "name": "praise",
@@ -222,7 +280,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=praise"
     },
-    "8": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "rcmdcheck",
       "name": "rcmdcheck",
@@ -234,7 +292,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rcmdcheck"
     },
-    "9": {
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "roxygen2",
+      "name": "roxygen2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=roxygen2"
+    },
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "rstudioapi",
       "name": "rstudioapi",
@@ -246,17 +316,65 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rstudioapi"
     },
-    "10": {
+    "13": {
+      "@type": "SoftwareApplication",
+      "identifier": "spelling",
+      "name": "spelling",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spelling"
+    },
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "tools",
       "name": "tools"
     },
-    "11": {
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "treesitter",
+      "name": "treesitter",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=treesitter"
+    },
+    "16": {
+      "@type": "SoftwareApplication",
+      "identifier": "treesitter.r",
+      "name": "treesitter.r",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=treesitter.r"
+    },
+    "17": {
+      "@type": "SoftwareApplication",
+      "identifier": "urlchecker",
+      "name": "urlchecker",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=urlchecker"
+    },
+    "18": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "12": {
+    "19": {
       "@type": "SoftwareApplication",
       "identifier": "whoami",
       "name": "whoami",
@@ -268,7 +386,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=whoami"
     },
-    "13": {
+    "20": {
       "@type": "SoftwareApplication",
       "identifier": "withr",
       "name": "withr",
@@ -280,13 +398,10 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=withr"
     },
-    "SystemRequirements": {}
+    "SystemRequirements": null
   },
-  "fileSize": "151.202KB",
-  "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/master/NEWS.md",
+  "fileSize": "463.491KB",
+  "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
-  "contIntegration": [
-    "https://github.com/ropensci-review-tools/goodpractice/actions",
-    "https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main"
-  ]
+  "contIntegration": ["https://github.com/ropensci-review-tools/goodpractice/actions", "https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main"]
 }

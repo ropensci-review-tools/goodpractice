@@ -44,7 +44,7 @@ make_rd_check <- function(description, gp, field, tags = NULL,
                           skip_internal = FALSE) {
   make_check(
     description = description,
-    tags = c("documentation", tags),
+    tags = c("style", "documentation", tags),
     preps = c("rd", "namespace"),
     gp = gp,
     check = function(state) rd_check_field(state, field, skip_internal)

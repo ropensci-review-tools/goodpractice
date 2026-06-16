@@ -1,96 +1,97 @@
-# goodpractice 1.0.5.9000 (dev version)
+# goodpractice 1.1.00X (dev version)
 
-- Added new `describe_check_groups()` function, to produce group descriptions
-  in console (#290).
-- Added 'groups' param to `print()` method, to enable printing only specified
-  groups (#288).
-* New `lintr_installed_packages_linter` check: flags calls to `installed.packages()`,
-  which can be very slow and is rejected by CRAN. Use `find.package()` or
-  `system.file()` instead (#278).
-* Tree-sitter function detection now only considers assignment operators
-  (`<-`, `=`, `<<-`), avoiding false matches on arithmetic expressions
-  such as `x + function() 1` (#277).
-* `ts_parse()` now honours the package's declared `Encoding` when reading
-  source files, preventing mojibake for packages using non-UTF-8 encodings.
-  `prep_description` defaults `Encoding` to `UTF-8` when absent, so
-  downstream checks always have a concrete value. Unreadable files emit a
-  warning instead of being silently skipped (#277).
-* Added `makefile` (#203)
-* Lowered default cyclomatic complexity limit from 50 to 15, aligning
-  with lintr and pkgcheck defaults. Configurable via
-  `goodpractice.cyclocomp_limit` option (#150).
-* Expanded default lintr checks from 9 to ~53, covering correctness
-  (e.g. `anyDuplicated()` vs `any(duplicated())`), performance
-  (e.g. `colSums()` vs `apply()`), readability (e.g. `switch()` vs
-  long if/else chains), and testthat best practices (e.g.
-  `expect_identical()` vs `expect_equal()`). All respect `.lintr`
-  configuration files (#189).
-* Exclude specific files from checks via `goodpractice.exclude_path` option
-  or `GP_EXCLUDE_PATH` environment variable. Useful for generated code like
-  `R/RcppExports.R`.
-* Preparation steps can now run in parallel via the `future.apply` package.
-  Set `future::plan("multisession")` before calling `gp()` to enable
-  parallel data gathering (#47).
-* New `all_check_groups()` and `checks_by_group()` functions for discovering
-  and selecting checks by category instead of individual names (#239).
-* Every check now belongs to a named group. Use `all_check_groups()` to see
-  the 16 available groups and `checks_by_group("description")` to list checks
-  in a group.
-* Exclude entire check groups via `goodpractice.exclude_check_groups` option
-  or `GP_EXCLUDE_CHECK_GROUPS` environment variable.
-* New roxygen2 checks: export/noRd tagging, unknown tags, and
-  `@inheritParams`/`@inheritDotParams` validation (#197).
-* New `duplicate_function_bodies` check: flags functions with identical bodies
-  across files that should be consolidated into a shared helper (#232).
-* Check advice now uses cli inline markup throughout. All `gp` strings support
-  `{.code}`, `{.fn}`, `{.pkg}`, `{.file}`, `{.field}`, and `{.url}` for
-  consistent styling. Custom checks can use the same markup in their `gp`
-  strings.
-* New optional tidyverse style guide checks: 21 lintr-based checks plus 2
-  structural checks (R file naming, test file mirroring).
-  Opt in via `checks = c(default_checks(), tidyverse_checks())`.
+## Major changes
+
+- Require R version >= 4.3, because of treesitter dependency (#302; thanks to @christian-million)
+
+## Minor changes
+
+- Fix bug in check group exclusions through env vars, and update vignette.
+- Fix prep assignment to check groups for two checks (revdep + 1 tidyverse), including attaching "namespace" prep only internally to one of those so full tidyverse prep stage is only run for that group.
+
+---
+
+# goodpractice 1.1
+
+## 1. Check control and output
+
+### 1.1 Check groups
+
+* New `all_check_groups()` and `checks_by_group()` functions for discovering and selecting checks by category instead of individual names (#239).
+* Every check now belongs to a named group. Use `all_check_groups()` to see the 16 available groups and `checks_by_group("description")` to list checks in a group.
+* Added new `describe_check_groups()` function, to produce group descriptions in console (#290).
+* Added 'groups' param to `print()` method, to enable printing only specified groups (#288).
+* Exclude entire check groups via `goodpractice.exclude_check_groups` option or `GP_EXCLUDE_CHECK_GROUPS` environment variable.
+
+### 1.2 Default checks and check control
+
 * New `default_checks()` and `tidyverse_checks()` helper functions.
-  `gp()` now defaults to `default_checks()` instead of `all_checks()`,
-  keeping optional check sets out of the default run.
-* New `has_readme` and `has_news` checks for package documentation
-  completeness (#45).
-* `gp()` now fails if the path provided to it is not a package (does not contain a
-  DESCRIPTION file) (#190, @maelle)
-* goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
-* If your editor supports it, goodpractice now prints clickable hyperlinks to console.
+* `gp()` now defaults to `default_checks()` instead of `all_checks()`, keeping optional check sets out of the default run.
 * New `describe_check()` function to print descriptions of all implemented checks (@152)
+* Exclude specific files from checks via `goodpractice.exclude_path` option or `GP_EXCLUDE_PATH` environment variable. Useful for generated code like `R/RcppExports.R`.
+
+### 1.3 Screen output
+
+* goodpractice now uses cli, and no longer depends on crayon and clisymbols (@olivroy, #167).
+* Check advice now uses cli inline markup throughout. All `gp` strings support `{.code}`, `{.fn}`, `{.pkg}`, `{.file}`, `{.field}`, and `{.url}` for consistent styling. Custom checks can use the same markup in their `gp` strings.
+* If your editor supports it, goodpractice now prints clickable hyperlinks to console.
+* `gp_advice()` gains a `type` parameter (`"error"`, `"info"`, `"warning"`) to control the output symbol and colour. Checks can return `list(status = TRUE, type = "info")` to display informational messages without a failure cross.
+
+---
+
+## 2. treesitter
+
+* R code inspection now uses treesitter for AST-based parsing instead of regex or `getParseData()`. Checks like `print_return_invisible`, `tidyverse_no_missing`, and `tidyverse_export_order` benefit from more robust and faster code analysis.
+* Tree-sitter function detection now only considers assignment operators (`<-`, `=`, `<<-`), avoiding false matches on arithmetic expressions such as `x + function() 1` (#277).
+* `ts_parse()` now honours the package's declared `Encoding` when reading source files, preventing mojibake for packages using non-UTF-8 encodings.
+* New `duplicate_function_bodies` check: flags functions with identical bodies across files that should be consolidated into a shared helper (#232).
+
+---
+
+## 3. New checks
+
+### 3.1 New linters
+
+* Expanded default lintr checks from 9 to ~53, covering correctness (e.g. `anyDuplicated()` vs `any(duplicated())`), performance (e.g. `colSums()` vs `apply()`), readability (e.g. `switch()` vs long if/else chains), and testthat best practices (e.g. `expect_identical()` vs `expect_equal()`). All respect `.lintr` configuration files (#189).
+* New `lintr_installed_packages_linter` check: flags calls to `installed.packages()`,
+  which can be very slow and is rejected by CRAN. Use `find.package()` or `system.file()` instead (#278).
+* New optional tidyverse style guide checks: 21 lintr-based checks plus 2 structural checks (R file naming, test file mirroring). Opt in via `checks = c(default_checks(), tidyverse_checks())`.
+
+### 3.2 New DESCRIPTION checks
+
+* `prep_description` defaults `Encoding` to `UTF-8` when absent, so downstream checks always have a concrete value. Unreadable files emit a warning instead of being silently skipped (#277).
+* New DESCRIPTION checks (#122, #85):
+  - `description_not_start_with_package`: Description should not start with "This package"
+  - `description_urls_in_angle_brackets`: URLs in Description must be wrapped in angle brackets
+  - `description_doi_format`: DOIs should use `<doi:...>` not full URLs
+  - `description_urls_not_http`: URLs should use https not http
+  - `no_description_duplicate_deps`: No duplicate packages across dependency fields
+  - `description_valid_roles`: Authors@R roles must be valid MARC relator codes
+  - `description_pkgname_single_quoted`: Package names in Title/Description must be single-quoted
+
+### 3.3 Other new checks
+
 * New `r_file_extension` check: flags R scripts using `.r` or `.q` instead of `.R` (#121).
 * New `print_return_invisible` check: flags print methods that don't return `invisible(x)` (#49).
 * New `vignette_no_rm_list` check: flags `rm(list = ls())` in vignettes (#20).
 * New `vignette_no_setwd` check: flags `setwd()` in vignettes (#21).
-* R code inspection now uses treesitter for AST-based parsing instead of
-  regex or `getParseData()`. Checks like `print_return_invisible`,
-  `tidyverse_no_missing`, and `tidyverse_export_order` benefit from more
-  robust and faster code analysis.
-* New `reverse_dependencies` check: queries CRAN for reverse dependencies and advises
-  running `revdepcheck::revdep_check()` before submission.
-* `gp_advice()` gains a `type` parameter (`"error"`, `"info"`, `"warning"`) to
-  control the output symbol and colour. Checks can return
-  `list(status = TRUE, type = "info")` to display informational messages
-  without a failure cross.
-* Prep step error handling refactored into `run_prep_step()` helper. New prep
-  functions can use `run_prep_step(state, "name", function() { ... }, quiet)`
-  instead of manually wrapping work in `try()` and emitting warnings on failure.
+* New `reverse_dependencies` check: queries CRAN for reverse dependencies and advises running `revdepcheck::revdep_check()` before submission.
 * New `spelling` check: flags misspelled words in documentation via `spelling::spell_check_package()` (#84).
-* New DESCRIPTION checks (#122, #85):
-  - `description_not_start_with_package`: Description should not start with
-    "This package"
-  - `description_urls_in_angle_brackets`: URLs in Description must be wrapped
-    in angle brackets
-  - `description_doi_format`: DOIs should use `<doi:...>` not full URLs
-  - `description_urls_not_http`: URLs should use https not http
-  - `no_description_duplicate_deps`: No duplicate packages across dependency
-    fields
-  - `description_valid_roles`: Authors@R roles must be valid MARC relator codes
-  - `description_pkgname_single_quoted`: Package names in Title/Description
-    must be single-quoted
-* Removed `stringsAsFactors = FALSE` arguments throughout, relying on the
-  R 4.0 default. Package now requires R >= 4.0.0.
+* New `has_readme` and `has_news` checks for package documentation completeness (#45).
+* New roxygen2 checks: export/noRd tagging, unknown tags, and `@inheritParams`/`@inheritDotParams` validation (#197).
+
+---
+
+## 4. Other updates
+
+* Added `makefile` (#203)
+* Lowered default cyclomatic complexity limit from 50 to 15, aligning with lintr and pkgcheck defaults. Configurable via `goodpractice.cyclocomp_limit` option (#150).
+* Preparation steps can now run in parallel via the `future.apply` package. Set `future::plan("multisession")` before calling `gp()` to enable parallel data gathering (#47).
+* `gp()` now fails if the path provided to it is not a package (does not contain a DESCRIPTION file) (#190, @maelle)
+* Prep step error handling refactored into `run_prep_step()` helper. New prep functions can use `run_prep_step(state, "name", function() { ... }, quiet)` instead of manually wrapping work in `try()` and emitting warnings on failure.
+* Removed `stringsAsFactors = FALSE` arguments throughout, relying on the R 4.0 default. Package now requires R >= 4.0.0.
+
+----
 
 # goodpractice 1.0.5
 

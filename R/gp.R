@@ -119,11 +119,10 @@ validate_pkg_path <- function(path) {
 }
 
 resolve_checks <- function(checks, mychecks) {
-  if (is.null(checks)) {
-    exclude_checks_by_group(names(mychecks), mychecks)
-  } else {
-    checks
+  if (identical(checks, default_checks())) {
+    checks <- exclude_checks_by_group(checks, mychecks)
   }
+  checks
 }
 
 required_preps <- function(checks, mychecks) {
@@ -219,7 +218,7 @@ exclude_checks_by_group <- function(checks, mychecks) {
   }, logical(1))
 
   if (any(dominated)) {
-    cli::cli_warn("Excluding checks that depend on: {.val {exclude}}")
+    cli::cli_alert_info("Excluding checks that depend on: {.val {exclude}}")
   }
   checks[!dominated]
 }

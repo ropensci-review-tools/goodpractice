@@ -76,11 +76,9 @@ test_that("all check groups map to registered preps", {
 test_that("checks with multiple groups are known", {
   lens <- vapply(CHECKS, function(ch) length(ch$preps), integer(1L))
   multi <- names(lens[lens >= 2])
-  expect_gte(length(multi), 3)
+  expect_gte(length(multi), 2)
   expect_true("rd_has_examples" %in% multi)
   expect_true("rd_has_return" %in% multi)
-  expect_true("reverse_dependencies" %in% multi)
-  expect_true("tidyverse_export_order" %in% multi)
 })
 
 test_that("all tidyverse checks belong to the tidyverse group", {

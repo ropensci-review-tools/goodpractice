@@ -1,5 +1,9 @@
 # goodpractice 1.1.00X (dev version)
 
+## Major changes
+
+- Require R version >= 4.3, because of treesitter dependency (#302; thanks to @christian-million)
+
 ## Minor changes
 
 - Fix bug in check group exclusions through env vars, and update vignette.

@@ -1,6 +1,6 @@
 Package: goodpractice
 Title: Advice on R Package Building
-Version: 1.1.0
+Version: 1.1.0.001
 Authors@R:
     c(
       person(given = "Mark",
@@ -61,7 +61,7 @@ License: MIT + file LICENSE
 URL: https://docs.ropensci.org/goodpractice/, https://github.com/ropensci-review-tools/goodpractice
 BugReports: https://github.com/ropensci-review-tools/goodpractice/issues
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.3.0)
 Imports:
     cli,
     covr,

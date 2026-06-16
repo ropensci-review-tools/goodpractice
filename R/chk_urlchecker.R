@@ -13,7 +13,7 @@ urlchecker_make_positions <- function(db) {
 make_urlchecker_check <- function(description, gp, filter, tags = NULL) {
   make_check(
     description = description,
-    tags = c("documentation", "url", tags),
+    tags = c("style", "documentation", "url", tags),
     preps = "urlchecker",
     gp = gp,
 

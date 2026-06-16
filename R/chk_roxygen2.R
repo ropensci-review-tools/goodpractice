@@ -27,7 +27,7 @@ make_block_position <- function(block) {
 CHECKS$roxygen2_has_export_or_nord <- make_check(
 
   description = "Documented functions have @export, @noRd, or @rdname",
-  tags = c("documentation", "roxygen2"),
+  tags = c("style", "documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
     "Tag every documented function with either {.code @export},",
@@ -66,7 +66,7 @@ CHECKS$roxygen2_has_export_or_nord <- make_check(
 CHECKS$roxygen2_unknown_tags <- make_check(
 
   description = "All roxygen2 tags are recognized",
-  tags = c("documentation", "roxygen2"),
+  tags = c("style", "documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
     "Fix or remove unknown {.pkg roxygen2} tags.",
@@ -107,7 +107,7 @@ CHECKS$roxygen2_unknown_tags <- make_check(
 CHECKS$roxygen2_valid_inherit <- make_check(
 
   description = "@inheritParams/@inheritDotParams reference known functions",
-  tags = c("documentation", "roxygen2"),
+  tags = c("style", "documentation", "roxygen2"),
   preps = "roxygen2",
   gp = paste(
     "Ensure functions referenced by",
@@ -163,7 +163,7 @@ extract_block_params <- function(block) {
 CHECKS$roxygen2_duplicate_params <- make_check(
 
   description = "Avoid duplicated @param documentation across functions",
-  tags = c("documentation", "roxygen2"),
+  tags = c("style", "documentation", "roxygen2"),
   preps = "roxygen2",
 
   gp = paste(

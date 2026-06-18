@@ -113,9 +113,9 @@ get_position <- function(chk) {
 #' @importFrom whoami username fullname
 
 export_json <- function(gp, file, pretty = FALSE) {
-
+  pkg <- if (!is.null(gp$description)) gp$description$get("Package") else gp$package
   obj <- list(
-    package = gp$description$get("Package"),
+    package = pkg,
     path = gp$path,
     failures = Filter(check_failed, gp$checks),
     gp_version = loaded_pkg_version("goodpractice"),
@@ -123,7 +123,6 @@ export_json <- function(gp, file, pretty = FALSE) {
     user = username(fallback = "<unknown>"),
     name = fullname(fallback = "<unknown>")
   )
-
   cat(toJSON(obj, pretty = pretty), file = file)
   invisible(file)
 }

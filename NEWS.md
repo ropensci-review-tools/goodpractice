@@ -6,6 +6,7 @@
 
 ## Minor changes
 
+- `tidyverse_r_file_names`: allow file names containing hyphens (`-`) but require file extension `.R` (#307; thanks to @JesseAlderliesten).
 - Fix bug in check group exclusions through env vars, and update vignette.
 - Fix prep assignment to check groups for two checks (revdep + 1 tidyverse), including attaching "namespace" prep only internally to one of those so full tidyverse prep stage is only run for that group.
 - Fix bug in printing some check results that would produce an error caused by invalid marker types (#304; thanks to @JesseAlderliesten).

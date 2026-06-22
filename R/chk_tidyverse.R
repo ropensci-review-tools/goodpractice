@@ -459,14 +459,14 @@ CHECKS$tidyverse_r_file_names <- make_check(
     r_dir <- file.path(state$path, "R")
     if (!dir.exists(r_dir)) return(check_result(TRUE))
 
-    all_files <- basename(list.files(r_dir))
-    file_name_wo_ext <- tools::file_path_sans_ext(all_files)
+    all_files <- list.files(r_dir, full.names = TRUE)
+    file_name_wo_ext <- basename(tools::file_path_sans_ext(all_files))
     bad_file_name <- grepl(pattern = "[A-Z[:space:]]", file_name_wo_ext)
     bad_file_ext <- tools::file_ext(all_files) != "R"
     bad_files <- all_files[bad_file_name | bad_file_ext]
 
     check_result(length(bad_files) == 0, lapply(bad_files, function(f) {
-        check_position(file.path("R", f), line = f)
+        check_position(f, line = f)
       }))
   }
 )

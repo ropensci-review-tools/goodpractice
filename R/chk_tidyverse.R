@@ -451,19 +451,22 @@ CHECKS$tidyverse_r_file_names <- make_check(
   tags = c("style", "tidyverse"),
   preps = "tidyverse",
 
-  gp = 'name R files using snake_case with a {.file .R} extension, e.g.
-        {.file my_function.R}. Avoid capital letters, hyphens, and spaces.',
+  gp = "name R files using {.code -} or {.code _} to delimit
+        words and use a {.file .R} extension, e.g. {.file
+        prefix-my_function.R}. Avoid capital letters and spaces.",
 
   check = function(state) {
     r_dir <- file.path(state$path, "R")
     if (!dir.exists(r_dir)) return(check_result(TRUE))
 
-    r_files <- basename(list.files(r_dir, pattern = "\\.[Rr]$"))
-    bad_pattern <- "[A-Z]|[- ]"
-    bad_files <- r_files[grepl(bad_pattern, tools::file_path_sans_ext(r_files))]
+    all_files <- list.files(r_dir, full.names = TRUE)
+    file_name_wo_ext <- basename(tools::file_path_sans_ext(all_files))
+    bad_file_name <- grepl(pattern = "[A-Z[:space:]]", file_name_wo_ext)
+    bad_file_ext <- tools::file_ext(all_files) != "R"
+    bad_files <- all_files[bad_file_name | bad_file_ext]
 
     check_result(length(bad_files) == 0, lapply(bad_files, function(f) {
-        check_position(file.path("R", f), line = f)
+        check_position(f, line = f)
       }))
   }
 )

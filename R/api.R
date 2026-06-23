@@ -132,12 +132,12 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' use this package.
 #'
 #' The 'goodpractice4agents.md' file contains sufficient instructions for most
-#' agents to edit package code so that it passes most 'goodpractice' checks.
-#' The file can be directly edited and tweaked for personal use cases. An agent
-#' can be instructed to simply "run the file goodpractice4agents.md". The file
-#' can also be moved to any local agent's \code{skills/} directory to call with
-#' a "skills" command. Alternatively, the file can be directly downloaded from
-#' GitHub at
+#' AI %agents to edit package code so that it passes most 'goodpractice'
+#' checks. The file can be directly edited and tweaked for personal use cases.
+#' An agent can be instructed to simply "run the file goodpractice4agents.md".
+#' The file can also be moved to any local agent's \code{skills/} directory to
+#' call with a "skills" command. Alternatively, the file can be directly
+#' downloaded from GitHub at
 #' \url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/agents/goodpractice4agents.md}.
 #'
 #' @param path Local path where file should be extracted.

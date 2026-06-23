@@ -16,14 +16,12 @@ write_gp4agents(path = ".")
 }
 \description{
 The 'goodpractice4agents.md' file contains sufficient instructions for most
-agents to edit package code so that it passes most \strong{goodpractice} checks.
+agents to edit package code so that it passes most 'goodpractice' checks.
 The file can be directly edited and tweaked for personal use cases. An agent
-can be instructed to simply "run the file goodpractice4agents.md".
-Alternatively, it can be moved to any local agent's \code{skills/} directory
-to call with a "skills" command.
-}
-\details{
-Alternatively, the file can be directly downloaded from GitHub at
+can be instructed to simply "run the file goodpractice4agents.md". The file
+can also be moved to any local agent's \code{skills/} directory to call with
+a "skills" command. Alternatively, the file can be directly downloaded from
+GitHub at
 \url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/agents/goodpractice4agents.md}.
 }
 \examples{

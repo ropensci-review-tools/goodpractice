@@ -16,3 +16,5 @@
 ^\.Rprofile$
 ^\.claude$
 ^makefile$
+tests/testthat/bad_tidyverse/\.lintr$
+tests/testthat/good_tidyverse/\.lintr$

@@ -145,9 +145,9 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' @param path Local path where the file should be written. If \code{path} is
 #' an existing directory, the file is written as \code{goodpractice4agents.md}
 #' within it; otherwise \code{path} is treated as the full target file name.
-#' @param use_skill_subdir If \code{TRUE}, the \code{path} will be edited to
+#' @param use_skills_subdir If \code{TRUE}, the \code{path} will be edited to
 #' write the file in to a \code{skills/} sub-directory.
-#' @overwrite If \code{FALSE} (default) and file specified by \code{path}
+#' @param overwrite If \code{FALSE} (default) and file specified by \code{path}
 #' already exists, function will error and not overwrite the existing file.
 #'
 #' @return (Invisibly) the full path to the written file.

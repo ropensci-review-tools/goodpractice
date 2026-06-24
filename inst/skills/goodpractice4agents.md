@@ -1,3 +1,9 @@
+---
+name: goodpractice4agents
+description: Use the goodpractice R package to identify package issues, then repair them. Trigger whenever an agent is asked to fix, clean up, reduce, or pass goodpractice, lintr, or R CMD check failures in an R package, or to bring a package up to good-practice standards.
+compatibility: Requires the goodpractice R package installed, with read and write access within an R package repository.
+---
+
 # Fix issues identified by 'goodpractice' package
 
 **AGENT** These are instructions for you to modify the R package code in the
@@ -6,8 +12,10 @@ several categories (`groups`) of common issues in R package development. Each
 "issue" is called a failure, and your job is to modify the code to ensure as
 few failures as possible.
 
-The package you are checking should only ever be loaded with
-`devtools::load_all()`. Do not ever use `R CMD install`.
+Only ever load the package you are checking with `devtools::load_all()`, never
+`R CMD install`. `load_all()` reflects your in-progress edits immediately
+without a build step, so each re-check sees your latest changes; an installed
+copy would mask them until rebuilt.
 
 ## Important Note
 
@@ -21,8 +29,10 @@ need to be left as is, and consequently fail. Similar kinds of subtleties will
 apply to many other linters.
 
 If a linter appears to be giving a false failure, you may append a terminal `#
-nolint` to the end of the line. You may not embed multiple lines between `#
-nolint start` and `# nolint end`.
+nolint` to the end of the line. Avoid wrapping blocks between `# nolint start`
+and `# nolint end`: a terminal `# nolint` suppresses exactly one line you have
+judged, whereas a start/end block silently mutes every linter across a region,
+which is how genuine issues get hidden.
 
 ## Questions for user
 
@@ -63,10 +73,10 @@ with all changes (n)?_
 **The following checks are to be run for each `group` in `groups`:**
 
 4. Run `g <- gp(checks = checks_by_group(group))`
-5: Export checks to temp JSON file: `file <- tempfile(fileext = ".json"); export_json(g, file)`.
-6: Read all failures as `failures <- jsonlite::read_json(f)$failures` (AGENT:
-   Use your own tools to read this JSON file): The name of each item in
-   `failure` is called `nm` from here on. As you progress through the groups,
+5. Export checks to a temp JSON file: `file <- tempfile(fileext = ".json"); export_json(g, file)`.
+6. Read all failures as `failures <- jsonlite::read_json(file)$failures` (AGENT:
+   use your own tools to read this JSON file). The name of each item in
+   `failures` is called `nm` from here on. As you progress through the groups,
    keep tallies of numbers of failures in each group, and the total across all
    groups.
 
@@ -75,7 +85,7 @@ with all changes (n)?_
 7. Get description of failure and recommended fix with `describe_check(nm)`
 8. For each `instance` of that failure type, extract `filename` and `line`.
     8a. If `filename` is in a location ignored by `.Rbuildignore`, ignore that
-        failure and proceed to next `instace`.
+        failure and proceed to next `instance`.
     8b. If `filename` is in `man/` directory and package uses `roxygen2`
         (indicated in `DESCRIPTION` file), then do not edit `man/` files
         directly, but edit at source in `R/`, and run `roxygen2::roxygenise()`
@@ -108,7 +118,9 @@ excluded groups:
 
 14. Repeat steps 4 - 13 for `gp(checks=checks_by_group(g))` for each of the
     three remaining groups, `g = c("covr", "cyclocomp", "rcmdcheck")`. Execute
-    all steps for each single group.
+    all steps for each single group. (`revdep` was excluded in step 1 and is
+    deliberately not re-run here: it checks reverse dependencies, which is slow,
+    network-dependent, and outside the scope of fixing this package's own code.)
 
 ### Final steps
 

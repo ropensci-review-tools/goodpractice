@@ -22,10 +22,10 @@ An agent can be instructed to simply "run the file goodpractice4agents.md".
 The file can also be moved to any local agent's \code{skills/} directory to
 call with a "skills" command. Alternatively, the file can be directly
 downloaded from GitHub at
-\url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/agents/goodpractice4agents.md}.
+\url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/skills/goodpractice4agents.md}.
 }
 \examples{
-path <- file.path(tempdir(), "agents.md")
+path <- file.path(tempdir(), "skill.md")
 f <- write_gp4agents(path)
 file.exists(f)
 }

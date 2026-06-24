@@ -10,6 +10,7 @@
 - Fix bug in check group exclusions through env vars, and update vignette.
 - Fix prep assignment to check groups for two checks (revdep + 1 tidyverse), including attaching "namespace" prep only internally to one of those so full tidyverse prep stage is only run for that group.
 - Fix bug in printing some check results that would produce an error caused by invalid marker types (#304; thanks to @JesseAlderliesten).
+- Convert the remaining base `warning()` in `ts_parse()` to `cli::cli_warn()`, completing the package-wide move to cli messaging.
 
 ---
 

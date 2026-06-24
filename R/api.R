@@ -156,26 +156,21 @@ write_gp4agents <- function(path = ".") {
     if (dir.exists(path)) {
         path <- file.path(path, "goodpractice4agents.md")
     } else if (!dir.exists(dirname(path))) {
-        stop(
-            "Directory ",
-            dirname(path),
-            " does not exist.",
-            call. = FALSE
-        )
+        cli::cli_abort("Directory {.path {dirname(path)}} does not exist.")
     }
 
     if (file.exists(path)) {
-        stop("File ", path, " already exists.", call. = FALSE)
+        cli::cli_abort("File {.file {path}} already exists.")
     }
 
     src <- system.file(
         "skills", "goodpractice4agents.md", package = "goodpractice"
     )
     if (!file.exists(src)) {
-        stop("File ", src, " not found.", call. = FALSE)
+        cli::cli_abort("File {.file {src}} not found.")
     }
     if (!file.copy(src, path)) {
-        stop("Failed to copy file to ", path, ".", call. = FALSE)
+        cli::cli_abort("Failed to copy file to {.file {path}}.")
     }
 
     invisible(path)

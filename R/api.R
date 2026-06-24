@@ -136,36 +136,46 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' AI agents to edit package code so that it passes most 'goodpractice'
 #' checks. The file can be directly edited and tweaked for personal use cases.
 #' An agent can be instructed to simply "run the file goodpractice4agents.md".
-#' The file can also be moved to any local agent's \code{skills/} directory to
-#' call with a "skills" command. Alternatively, the file can be directly
-#' downloaded from GitHub at
+#' Alternatively, the file can be directly downloaded from GitHub at
 #' \url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/skills/goodpractice4agents.md}.
+#'
+#' You can also instruct agents to call the companion function,
+#' \link{learn_skill_gp}, directly in order to learn and use the skill itself.
 #'
 #' @param path Local path where the file should be written. If \code{path} is
 #' an existing directory, the file is written as \code{goodpractice4agents.md}
 #' within it; otherwise \code{path} is treated as the full target file name.
+#' @param use_skill_subdir If \code{TRUE}, the \code{path} will be edited to
+#' write the file in to a \code{skills/} sub-directory.
+#' @overwrite If \code{FALSE} (default) and file specified by \code{path}
+#' already exists, function will error and not overwrite the existing file.
+#'
 #' @return (Invisibly) the full path to the written file.
+#'
+#' @seeAlso \link{learn_skill_gp()}
 #'
 #' @export
 #' @examples
 #' path <- file.path(tempdir(), "skill.md")
-#' f <- write_gp4agents(path)
+#' f <- use_skill_gp(path)
 #' file.exists(f)
 #' unlink(f)
 
 use_skill_gp <- function(
-  target_dir= ".", 
-  use_skills_subdir = TRUE,
-  overwrite = FALSE,
-  open = rlang::is_interactive() {
+  path = "goodpractice4agents.md",
+  use_skills_subdir = FALSE,
+  overwrite = FALSE) {
     if (dir.exists(path)) {
         path <- file.path(path, "goodpractice4agents.md")
     } else if (!dir.exists(dirname(path))) {
         cli::cli_abort("Directory {.path {dirname(path)}} does not exist.")
     }
 
-    if (file.exists(path)) {
+    if (file.exists(path) && !overwrite) {
         cli::cli_abort("File {.file {path}} already exists.")
+    }
+    if (use_skills_subdir) {
+        path <- file.path(dirname(path), "skills", basename(path))
     }
 
     src <- system.file(
@@ -174,7 +184,7 @@ use_skill_gp <- function(
     if (!file.exists(src)) {
         cli::cli_abort("File {.file {src}} not found.")
     }
-    if (!file.copy(src, path)) {
+    if (!file.copy(src, path, overwrite = overwrite)) {
         cli::cli_abort("Failed to copy file to {.file {path}}.")
     }
 
@@ -184,15 +194,21 @@ use_skill_gp <- function(
 #' Function for AI agents to run and learn how to use the 'goodpractice'
 #' package.
 #'
+#' You tell agents to directly use this function in order for them to learn the
+#' skill. If you want to use the skill yourself to guide an agent, then use the
+#' \link{use_skill_gp} function.
+#'
 #' @return The content of the file \code{system.file("skills",
 #' "goodpractice4agents.md", package = "goodpractice"))}
+#'
+#' @seeAlso \link{use_skill_gp}
 #'
 #' @export
 #' @examples
 #' \dontrun{
 #' learn_gp_skill()
 #' }
-learn_gp_skill <- function() {
+learn_skill_gp <- function() {
 
     src <- system.file(
         "skills", "goodpractice4agents.md", package = "goodpractice"

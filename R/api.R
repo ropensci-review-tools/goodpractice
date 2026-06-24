@@ -114,8 +114,9 @@ get_position <- function(chk) {
 
 export_json <- function(gp, file, pretty = FALSE) {
 
+  pkg <- if (!is.null(gp$description)) gp$description$get("Package") else gp$package
   obj <- list(
-    package = gp$package,
+    package = pkg,
     path = gp$path,
     failures = Filter(check_failed, gp$checks),
     gp_version = loaded_pkg_version("goodpractice"),

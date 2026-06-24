@@ -3,7 +3,7 @@
 ## Major changes
 
 - Require R version >= 4.3, because of treesitter dependency (#302; thanks to @christian-million)
-- New `write_gp4agents()` and `learn_gp_skill()` functions, plus a bundled `goodpractice4agents.md` skill in `inst/skills/`, giving AI agents instructions to fix issues flagged by `goodpractice` (#308, #312; thanks to @mpadge and @jonthegeek).
+- New `write_gp4agents()` and `learn_gp_skill()` functions, plus a bundled `goodpractice4agents.md` skill in `inst/skills/`, giving AI agents instructions to fix issues flagged by `goodpractice` (#308, #312, #313; thanks to @mpadge, @drmowinckels, and @jonthegeek).
 
 ## Minor changes
 

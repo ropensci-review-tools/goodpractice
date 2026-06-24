@@ -153,7 +153,11 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' file.exists(f)
 #' unlink(f)
 
-write_gp4agents <- function(path = ".") {
+use_skill_gp <- function(
+  target_dir= ".", 
+  use_skills_subdir = TRUE,
+  overwrite = FALSE,
+  open = rlang::is_interactive() {
     if (dir.exists(path)) {
         path <- file.path(path, "goodpractice4agents.md")
     } else if (!dir.exists(dirname(path))) {

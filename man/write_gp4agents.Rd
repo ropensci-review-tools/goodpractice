@@ -8,15 +8,16 @@ use this package.}
 write_gp4agents(path = ".")
 }
 \arguments{
-\item{path}{Local path where file should be extracted.}
+\item{path}{Local path where the file should be written. If \code{path} is
+an existing directory, the file is written as \code{goodpractice4agents.md}
+within it; otherwise \code{path} is treated as the full target file name.}
 }
 \value{
-(Invisibly) Full path to file.
-\code{FALSE}.
+(Invisibly) the full path to the written file.
 }
 \description{
 The 'goodpractice4agents.md' file contains sufficient instructions for most
-AI \%agents to edit package code so that it passes most 'goodpractice'
+AI agents to edit package code so that it passes most 'goodpractice'
 checks. The file can be directly edited and tweaked for personal use cases.
 An agent can be instructed to simply "run the file goodpractice4agents.md".
 The file can also be moved to any local agent's \code{skills/} directory to
@@ -28,4 +29,5 @@ downloaded from GitHub at
 path <- file.path(tempdir(), "skill.md")
 f <- write_gp4agents(path)
 file.exists(f)
+unlink(f)
 }

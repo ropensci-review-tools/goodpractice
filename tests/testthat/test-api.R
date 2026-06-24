@@ -66,3 +66,11 @@ test_that("export_json pretty-prints when requested", {
   )
   expect_gt(length(content), 1)
 })
+
+test_that("export_json works for a single non-description check group", {
+  y <- gp(bad1, checks = checks_by_group("lintr"))
+  tmp <- withr::local_tempfile(fileext = ".json")
+  export_json(y, file = tmp)
+  obj <- jsonlite::fromJSON(tmp)
+  expect_identical(obj$package, "badpackage")
+})

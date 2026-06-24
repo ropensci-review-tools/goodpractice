@@ -115,7 +115,7 @@ get_position <- function(chk) {
 export_json <- function(gp, file, pretty = FALSE) {
 
   obj <- list(
-    package = gp$description$get("Package"),
+    package = gp$package,
     path = gp$path,
     failures = Filter(check_failed, gp$checks),
     gp_version = loaded_pkg_version("goodpractice"),
@@ -132,7 +132,7 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' use this package.
 #'
 #' The 'goodpractice4agents.md' file contains sufficient instructions for most
-#' AI %agents to edit package code so that it passes most 'goodpractice'
+#' AI agents to edit package code so that it passes most 'goodpractice'
 #' checks. The file can be directly edited and tweaked for personal use cases.
 #' An agent can be instructed to simply "run the file goodpractice4agents.md".
 #' The file can also be moved to any local agent's \code{skills/} directory to
@@ -140,42 +140,45 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' downloaded from GitHub at
 #' \url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/skills/goodpractice4agents.md}.
 #'
-#' @param path Local path where file should be extracted.
-#' @return (Invisibly) Full path to file.
-#' \code{FALSE}.
+#' @param path Local path where the file should be written. If \code{path} is
+#' an existing directory, the file is written as \code{goodpractice4agents.md}
+#' within it; otherwise \code{path} is treated as the full target file name.
+#' @return (Invisibly) the full path to the written file.
 #'
 #' @export
 #' @examples
 #' path <- file.path(tempdir(), "skill.md")
 #' f <- write_gp4agents(path)
 #' file.exists(f)
+#' unlink(f)
 
 write_gp4agents <- function(path = ".") {
-    if (file.exists(path)) {
-        stop("File ", path, " already exists.", call. = FALSE)
-    }
     if (dir.exists(path)) {
         path <- file.path(path, "goodpractice4agents.md")
-    } else {
-        if (!dir.exists(dirname(path))) {
-            stop(
-                "Directory ",
-                basename(path),
-                " does not exist.",
-                call. = FALSE
-            )
-        }
+    } else if (!dir.exists(dirname(path))) {
+        stop(
+            "Directory ",
+            dirname(path),
+            " does not exist.",
+            call. = FALSE
+        )
+    }
+
+    if (file.exists(path)) {
+        stop("File ", path, " already exists.", call. = FALSE)
     }
 
     src <- system.file(
         "skills", "goodpractice4agents.md", package = "goodpractice"
     )
     if (!file.exists(src)) {
-        stop("Expected error: File ", src, " not found.", .call = FALSE)
+        stop("File ", src, " not found.", call. = FALSE)
     }
-    file.copy(src, path)
+    if (!file.copy(src, path)) {
+        stop("Failed to copy file to ", path, ".", call. = FALSE)
+    }
 
-    return(path)
+    invisible(path)
 }
 
 #' Function for AI agents to run and learn how to use the 'goodpractice'

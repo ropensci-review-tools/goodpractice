@@ -177,3 +177,22 @@ write_gp4agents <- function(path = ".") {
 
     return(path)
 }
+
+#' Function for AI agents to run and learn how to use the 'goodpractice'
+#' package.
+#'
+#' @return The content of the file \code{system.file("skills",
+#' "goodpractice4agents.md", package = "goodpractice"))}
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' learn_gp_skill()
+#' }
+learn_gp_skill <- function() {
+
+    src <- system.file(
+        "skills", "goodpractice4agents.md", package = "goodpractice"
+    )
+    writeLines(readLines(src))
+}

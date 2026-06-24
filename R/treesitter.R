@@ -74,7 +74,7 @@ ts_parse <- function(path, exclude_path = character(), encoding = "UTF-8") {
     code <- tryCatch(
       read_source_file(f, encoding),
       error = function(e) {
-        warning("Could not read ", f, ": ", conditionMessage(e), call. = FALSE)
+        cli::cli_warn("Could not read {.file {f}}: {conditionMessage(e)}")
         NULL
       }
     )

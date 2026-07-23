@@ -20,6 +20,12 @@ u <- "https://github.com/<org>/<repo>"
 path <- gert::git_clone(u, file.path(tempdir(), basename(u)))
 g <- goodpractice::gp(path)
 
+# Please avoid using default full printed output. If the bug
+# is only about one aspect of the checks, please use the
+# extra "groups" argument of print. For example,
+print(g, "namespace")
+print(g, "rd")
+
 packageVersion("goodpractice")
 R.Version()$version.string
 #sessionInfo()

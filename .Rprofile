@@ -1,3 +1,7 @@
+if (file.exists("~/.Rprofile")) {
+  sys.source("~/.Rprofile", envir = environment())
+}
+
 options(goodpractice.exclude_path = c(
   "inst/bad1",
   "tests/testthat/bad2",

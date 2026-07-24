@@ -7,6 +7,11 @@
 
 ## Minor changes
 
+- New GitHub issue templates for bug reports and feature requests
+- `complexity_unused_internal` check no longer flags standard R package hook functions (`.onLoad`, `.onAttach`, `.onUnload`, `.onDetach`, `.Last.lib`) as unused (#319; thanks @TanguyBarthelemy).
+- Fix `urlchecker` prep step to pass `fail = FALSE` to `urlchecker::url_check()`, restoring previous default behaviour after an upstream change (r-lib/urlchecker#42).
+- `.Rprofile` now sources the system-level `~/.Rprofile` if it exists, rather than entirely replacing it.
+- Fix `test-integrity.R` to only read `.R` source files (avoiding installed `.rdb` binaries) and skip informatively when none are found.
 - `tidyverse_r_file_names`: allow file names containing hyphens (`-`) but require file extension `.R` (#307; thanks to @JesseAlderliesten).
 - Fix bug in check group exclusions through env vars, and update vignette.
 - Fix prep assignment to check groups for two checks (revdep + 1 tidyverse), including attaching "namespace" prep only internally to one of those so full tidyverse prep stage is only run for that group.

@@ -3,7 +3,7 @@
 
 #' @noRd
 run_url_check <- function(path, quiet) {
-  urlchecker::url_check(path, progress = !quiet)
+  urlchecker::url_check(path, progress = !quiet, fail = FALSE)
 }
 
 PREPS$urlchecker <- function(state, path = state$path, quiet) {

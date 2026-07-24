@@ -164,6 +164,10 @@ CHECKS$complexity_function_length <- make_check(
 
 ## -- unused internal functions ----------------------------------------------
 
+# Standard R package hooks: called automatically by R itself, never
+# referenced directly from package code.
+R_PACKAGE_HOOKS <- c(".onLoad", ".onAttach", ".onUnload", ".onDetach", ".Last.lib")
+
 ts_all_referenced_functions <- function(ts) {
   if (length(ts$trees) == 0) return(character())
 
@@ -252,7 +256,7 @@ CHECKS$complexity_unused_internal <- make_check(
     exported <- c(exports, ns_s3_method_names(ns))
 
     all_defined <- vapply(ts$functions, `[[`, "", "name")
-    internal <- setdiff(all_defined, exported)
+    internal <- setdiff(all_defined, c(exported, R_PACKAGE_HOOKS))
     if (length(internal) == 0) {
       return(check_result(TRUE))
     }

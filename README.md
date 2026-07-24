@@ -149,6 +149,7 @@ MIT © 2022 Ascent Digital Services UK Limited
 ## Contributors
 
 
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -161,16 +162,16 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 
 <tr>
 <td align="center">
-<a href="https://github.com/drmowinckels">
-<img src="https://avatars.githubusercontent.com/u/14014329?v=4" width="100px;" alt=""/>
-</a><br>
-<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=drmowinckels">drmowinckels</a>
-</td>
-<td align="center">
 <a href="https://github.com/mpadge">
 <img src="https://avatars.githubusercontent.com/u/6697851?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=mpadge">mpadge</a>
+</td>
+<td align="center">
+<a href="https://github.com/drmowinckels">
+<img src="https://avatars.githubusercontent.com/u/14014329?v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=drmowinckels">drmowinckels</a>
 </td>
 <td align="center">
 <a href="https://github.com/gaborcsardi">
@@ -213,6 +214,12 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=olivroy">olivroy</a>
 </td>
 <td align="center">
+<a href="https://github.com/JesseAlderliesten">
+<img src="https://avatars.githubusercontent.com/u/59017087?v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=JesseAlderliesten">JesseAlderliesten</a>
+</td>
+<td align="center">
 <a href="https://github.com/dougmet">
 <img src="https://avatars.githubusercontent.com/u/5878305?v=4" width="100px;" alt=""/>
 </a><br>
@@ -231,27 +238,27 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=fabian-s">fabian-s</a>
 </td>
 <td align="center">
-<a href="https://github.com/noamross">
-<img src="https://avatars.githubusercontent.com/u/571752?v=4" width="100px;" alt=""/>
-</a><br>
-<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=noamross">noamross</a>
-</td>
-<td align="center">
 <a href="https://github.com/MichaelChirico">
 <img src="https://avatars.githubusercontent.com/u/7606389?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=MichaelChirico">MichaelChirico</a>
 </td>
 <td align="center">
-<a href="https://github.com/fkohrt">
-<img src="https://avatars.githubusercontent.com/u/12914806?v=4" width="100px;" alt=""/>
+<a href="https://github.com/noamross">
+<img src="https://avatars.githubusercontent.com/u/571752?v=4" width="100px;" alt=""/>
 </a><br>
-<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=fkohrt">fkohrt</a>
+<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=noamross">noamross</a>
 </td>
 </tr>
 
 
 <tr>
+<td align="center">
+<a href="https://github.com/fkohrt">
+<img src="https://avatars.githubusercontent.com/u/12914806?v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=fkohrt">fkohrt</a>
+</td>
 <td align="center">
 <a href="https://github.com/anasimmons">
 <img src="https://avatars.githubusercontent.com/u/95026699?v=4" width="100px;" alt=""/>
@@ -288,16 +295,16 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=nfultz">nfultz</a>
 </td>
+</tr>
+
+
+<tr>
 <td align="center">
 <a href="https://github.com/russHyde">
 <img src="https://avatars.githubusercontent.com/u/7734886?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/commits?author=russHyde">russHyde</a>
 </td>
-</tr>
-
-
-<tr>
 <td align="center">
 <a href="https://github.com/marberts">
 <img src="https://avatars.githubusercontent.com/u/62676717?v=4" width="100px;" alt=""/>
@@ -505,16 +512,22 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3Adamianooldoni">damianooldoni</a>
 </td>
 <td align="center">
-<a href="https://github.com/JesseAlderliesten">
-<img src="https://avatars.githubusercontent.com/u/59017087?u=4a82cd707aadbfb30225ef9641a6649b21feb5a7&v=4" width="100px;" alt=""/>
-</a><br>
-<a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3AJesseAlderliesten">JesseAlderliesten</a>
-</td>
-<td align="center">
 <a href="https://github.com/wkmor1">
 <img src="https://avatars.githubusercontent.com/u/1680870?u=1171ebc0a6b1af5eb5f19f62247cb93bc0db8622&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3Awkmor1">wkmor1</a>
+</td>
+<td align="center">
+<a href="https://github.com/christian-million">
+<img src="https://avatars.githubusercontent.com/u/34721595?u=0868ba5b181f86dee3a53e93602efb5f76307e84&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3Achristian-million">christian-million</a>
+</td>
+<td align="center">
+<a href="https://github.com/TanguyBarthelemy">
+<img src="https://avatars.githubusercontent.com/u/112711017?u=7317b68f88a56107649c09bb8e2eefdc94c2d70e&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3ATanguyBarthelemy">TanguyBarthelemy</a>
 </td>
 </tr>
 
@@ -556,6 +569,18 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+commenter%3Aetiennebacher">etiennebacher</a>
 </td>
+<td align="center">
+<a href="https://github.com/jonthegeek">
+<img src="https://avatars.githubusercontent.com/u/33983824?u=ac41aa539f5825f35c157ae3d9098a80fd0a9fec&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+commenter%3Ajonthegeek">jonthegeek</a>
+</td>
+<td align="center">
+<a href="https://github.com/atsyplenkov">
+<img src="https://avatars.githubusercontent.com/u/34775595?u=40fe99a840fe2fb6cf1c3540b84a0619618e6f4b&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+commenter%3Aatsyplenkov">atsyplenkov</a>
+</td>
 </tr>
 
 </table>
@@ -563,4 +588,5 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 

@@ -2,8 +2,6 @@
 name: Feature Request
 about: Request a new or modified feature
 title: "[FEATURE] <feature request>"
-labels: ''
-assignees: ''
 
 ---
 

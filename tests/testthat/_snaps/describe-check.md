@@ -198,9 +198,6 @@
       $lintr_scalar_in_linter
       [1] "Use == instead of %in% for scalar comparison"
       
-      $lintr_strings_as_factors_linter
-      [1] "Do not use stringsAsFactors argument"
-      
       $lintr_undesirable_operator_linter
       [1] "Avoid undesirable operators"
       

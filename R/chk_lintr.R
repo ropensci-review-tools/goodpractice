@@ -473,13 +473,6 @@ CHECKS$lintr_scalar_in_linter <- make_lintr_check(
         against a single scalar. {.code ==} is clearer for single values."
 )
 
-CHECKS$lintr_strings_as_factors_linter <- make_lintr_check(
-  "strings_as_factors_linter",
-  "Do not use stringsAsFactors argument",
-  "remove {.code stringsAsFactors} arguments. Since R 4.0, the default is
-        {.code FALSE}. Specifying it is no longer needed."
-)
-
 CHECKS$lintr_undesirable_operator_linter <- make_lintr_check(
   "undesirable_operator_linter",
   "Avoid undesirable operators",

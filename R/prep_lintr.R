@@ -64,7 +64,6 @@ linters_to_lint <- function() {
     outer_negation_linter = lintr::outer_negation_linter(),
     paste_linter = lintr::paste_linter(),
     scalar_in_linter = lintr::scalar_in_linter(),
-    strings_as_factors_linter = lintr::strings_as_factors_linter(),
     undesirable_operator_linter = lintr::undesirable_operator_linter(),
     unnecessary_concatenation_linter = lintr::unnecessary_concatenation_linter(),
     unnecessary_lambda_linter = lintr::unnecessary_lambda_linter(),

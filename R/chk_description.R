@@ -195,21 +195,29 @@ CHECKS$description_valid_roles <- make_check(
   check = function(state) {
     if(inherits(state$description, "try-error")) return(na_result())
 
-    warned <- FALSE
-    authors <- tryCatch(
-      withCallingHandlers(
-        state$description$get_authors(),
-        warning = function(w) {
-          if (grepl("Invalid role", conditionMessage(w))) {
-            warned <<- TRUE
-          }
-          invokeRestart("muffleWarning")
-        }
-      ),
-      error = function(e) NULL
-    )
-    if (is.null(authors)) return(na_result())
-    check_result(!warned)
+    authors_r <- state$description$get_field("Authors@R", default = NA)
+    if (is.na(authors_r)) return(na_result())
+
+    valid_roles <- tryCatch(utils:::MARC_relator_db$code, error = function(e) NULL)
+    if (is.null(valid_roles)) return(na_result())
+
+    roles_env <- new.env(parent = emptyenv())
+    roles_env$roles <- character()
+    capture_person <- function(..., role = NULL) {
+      roles_env$roles <- c(roles_env$roles, role)
+      NULL
+    }
+    env <- new.env(parent = baseenv())
+    env$person <- capture_person
+    env$c <- c
+
+    ok <- tryCatch({
+      eval(parse(text = authors_r), envir = env)
+      TRUE
+    }, error = function(e) FALSE)
+    if (!ok) return(na_result())
+
+    check_result(all(roles_env$roles %in% valid_roles))
   }
 )
 

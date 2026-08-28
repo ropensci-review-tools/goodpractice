@@ -19,25 +19,35 @@ export(make_prep)
 export(results)
 export(tidyverse_checks)
 export(use_skill_gp)
-importFrom(covr,package_coverage)
-importFrom(covr,percent_coverage)
-importFrom(covr,zero_coverage)
+importFrom(covr,
+  package_coverage,
+  percent_coverage,
+  zero_coverage
+)
 importFrom(cyclocomp,cyclocomp_package_dir)
-importFrom(desc,desc_get)
-importFrom(desc,desc_get_collate)
-importFrom(desc,description)
+importFrom(desc,
+  desc_get,
+  desc_get_collate,
+  description
+)
 importFrom(jsonlite,toJSON)
 importFrom(lintr,lint_package)
 importFrom(praise,praise)
 importFrom(rcmdcheck,rcmdcheck)
 importFrom(roxygen2,parse_package)
-importFrom(rstudioapi,callFun)
-importFrom(rstudioapi,hasFun)
+importFrom(rstudioapi,
+  callFun,
+  hasFun
+)
 importFrom(spelling,spell_check_package)
 importFrom(stats,setNames)
 importFrom(urlchecker,url_check)
-importFrom(utils,getParseData)
-importFrom(utils,head)
-importFrom(whoami,fullname)
-importFrom(whoami,username)
+importFrom(utils,
+  getParseData,
+  head
+)
+importFrom(whoami,
+  fullname,
+  username
+)
 importFrom(withr,with_options)

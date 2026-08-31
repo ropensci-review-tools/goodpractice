@@ -70,7 +70,7 @@ ls ../R
 
 An example is the `cyclocomp` check, which is largely a wrapper around the external [`cyclocomp` package](https://github.com/gaborcsardi/cyclocomp).
 The `prep_cyclocomp.R` file looks like this:
-```{bash, echo = FALSE, output = TRUE}
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
 cat ../R/prep_cyclocomp.R
 ```
 
@@ -78,7 +78,7 @@ That preparation steps runs the `cyclocomp::cyclocomp_package_dir()` function in
 The corresponding `check_cyclocomp.R` file then uses a variable called `state` that is accessible to all functions within the package.
 The line above `PREPS$cyclocomp <-` creates an entry of `state$cyclocomp` containing the results of the preparation step that can then be accessed to defined the check output in `R/chk_cyclocomp.R`:
 
-```{bash, echo = FALSE, output = TRUE}
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
 cat ../R/chk_cyclocomp.R
 ```
 

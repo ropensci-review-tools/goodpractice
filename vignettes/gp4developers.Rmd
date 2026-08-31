@@ -16,6 +16,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r windowns-flag, echo = FALSE}
+# The bash commands are likely to fail on winddows:
+on_windows <- identical(.Platform$OS.type, "windows")
+```
+
+
 ## The 'Makefile'
 
 The 'goodpractice' repository includes a ['Makefile'](https://www.gnu.org/software/make/manual/make.html#Introduction).
@@ -27,7 +33,7 @@ make
 ```
 
 
-```{bash, echo = FALSE, output = TRUE, eval = !identical(.Platform$OS.type, "windows")}
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
 cd ..
 make help | sed -E 's/\x1b\[[0-9;]*m//g'
 ```
@@ -58,7 +64,7 @@ Each group is generally defined within two files:
 2. A `chk_<group>.R` file defining the output structure of the check.
 
 The `R/` directory here consistns almost entirely of paired files defining each check group:
-```{bash, echo = FALSE, output = TRUE}
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
 ls ../R
 ```
 

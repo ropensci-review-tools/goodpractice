@@ -20,3 +20,13 @@ all_check_groups()
 # And corresponding descriptions:
 describe_check_groups()
 }
+\seealso{
+Other check_groups:
+\code{\link[=all_check_groups]{all_check_groups()}},
+\code{\link[=all_checks]{all_checks()}},
+\code{\link[=checks_by_group]{checks_by_group()}},
+\code{\link[=default_checks]{default_checks()}},
+\code{\link[=describe_check]{describe_check()}},
+\code{\link[=tidyverse_checks]{tidyverse_checks()}}
+}
+\concept{check_groups}

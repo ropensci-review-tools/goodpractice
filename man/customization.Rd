@@ -65,3 +65,10 @@ res <- gp(bad1, checks = c("url", "no_description_depends"),
           extra_preps = list("desc" = url_prep),
           extra_checks = list("url" = url_chk))
 }
+\seealso{
+Other API:
+\code{\link[=checks]{checks()}},
+\code{\link[=failed_checks]{failed_checks()}},
+\code{\link[=failed_positions]{failed_positions()}}
+}
+\concept{API}

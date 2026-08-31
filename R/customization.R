@@ -1,4 +1,5 @@
 #' @title Defining custom preparations and checks
+#' @family API
 #' @name customization
 #' @rdname customization
 NULL

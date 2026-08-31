@@ -19,3 +19,13 @@ Add them via \code{checks = c(default_checks(), tidyverse_checks())}.
 \examples{
 tidyverse_checks()
 }
+\seealso{
+Other check_groups:
+\code{\link[=all_check_groups]{all_check_groups()}},
+\code{\link[=all_checks]{all_checks()}},
+\code{\link[=checks_by_group]{checks_by_group()}},
+\code{\link[=default_checks]{default_checks()}},
+\code{\link[=describe_check]{describe_check()}},
+\code{\link[=describe_check_groups]{describe_check_groups()}}
+}
+\concept{check_groups}

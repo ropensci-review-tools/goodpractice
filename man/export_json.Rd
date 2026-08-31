@@ -26,3 +26,9 @@ tmp <- tempfile(fileext = ".json")
 export_json(g, tmp)
 unlink(tmp)
 }
+\seealso{
+Other output:
+\code{\link[=print.goodPractice]{print.goodPractice()}},
+\code{\link[=results]{results()}}
+}
+\concept{output}

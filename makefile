@@ -12,6 +12,9 @@ init: ## Initialize pkgdown site
 pkgdown: ## Build entire pkgdown site
 	echo "pkgdown::build_site()" | R --no-save -q
 
+pkgdowncheck: ## Run check_pkgdown function
+	echo "pkgdown::check_pkgdown()" | R --no-save -q
+
 vignette: ## Build pkgdown article
 	echo "pkgdown::build_article('$(VIGNETTE)',quiet=FALSE)" | R --no-save -q
 

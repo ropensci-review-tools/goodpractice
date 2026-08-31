@@ -15,3 +15,13 @@ List the names of all checks
 \examples{
 all_checks()
 }
+\seealso{
+Other check_groups:
+\code{\link[=all_check_groups]{all_check_groups()}},
+\code{\link[=checks_by_group]{checks_by_group()}},
+\code{\link[=default_checks]{default_checks()}},
+\code{\link[=describe_check]{describe_check()}},
+\code{\link[=describe_check_groups]{describe_check_groups()}},
+\code{\link[=tidyverse_checks]{tidyverse_checks()}}
+}
+\concept{check_groups}

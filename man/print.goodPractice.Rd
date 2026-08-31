@@ -19,3 +19,9 @@ one or more of \code{\link[=all_check_groups]{all_check_groups()}}.}
 \description{
 Print goodpractice results
 }
+\seealso{
+Other output:
+\code{\link[=export_json]{export_json()}},
+\code{\link[=results]{results()}}
+}
+\concept{output}

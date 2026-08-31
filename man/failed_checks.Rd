@@ -27,6 +27,7 @@ failed_checks(g)
 \seealso{
 Other API:
 \code{\link[=checks]{checks()}},
-\code{\link[=results]{results()}}
+\code{\link{customization}},
+\code{\link[=failed_positions]{failed_positions()}}
 }
 \concept{API}

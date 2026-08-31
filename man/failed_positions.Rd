@@ -29,3 +29,10 @@ path <- system.file("bad1", package = "goodpractice")
 g <- gp(path, checks = "description_url")
 failed_positions(g)
 }
+\seealso{
+Other API:
+\code{\link[=checks]{checks()}},
+\code{\link{customization}},
+\code{\link[=failed_checks]{failed_checks()}}
+}
+\concept{API}

@@ -69,6 +69,7 @@
 #' prep's output. Only new state fields are merged back; if two preps
 #' write the same field, the second is dropped with a warning.
 #'
+#' @family main
 #' @export
 #' @aliases goodpractice
 #' @importFrom desc desc_get
@@ -247,5 +248,6 @@ check_type <- function(chk) {
   if (is.list(chk) && "type" %in% names(chk)) chk$type else "error"
 }
 
+#' @family main
 #' @export goodpractice
 goodpractice <- gp

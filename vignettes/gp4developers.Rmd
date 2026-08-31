@@ -44,8 +44,8 @@ cli::cli_alert_success("No problems found")
 Note that some of the `Makefile` options depend on additional packages which may need to be installed.
 These include:
 
-- [`allcontributors`](https://docs.ropensci.org/allcontributors)
-- [`pkgcheck`](https://docs.ropensci.org/pkgcheck)
+- [`allcontributors`](https://docs.ropensci.org/allcontributors/)
+- [`pkgcheck`](https://docs.ropensci.org/pkgcheck/)
 - [`pkgdown`](https://pkgdown.r-lib.org/)
 
 ---

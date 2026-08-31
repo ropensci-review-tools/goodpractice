@@ -4,11 +4,17 @@ tv_lintr_checks <- grep("_linter$", tv_checks, value = TRUE)
 
 get_result <- function(res, check) res$passed[res$check == check]
 
+write_dot_lintr("bad_tidyverse")
+write_dot_lintr("good_tidyverse")
+
 gp_bad <- gp("bad_tidyverse", checks = tv_checks)
 res_bad <- results(gp_bad)
 
 gp_good <- gp("good_tidyverse", checks = tv_checks)
 res_good <- results(gp_good)
+
+unlink(file.path("bad_tidyverse", ".lintr"))
+unlink(file.path("good_tidyverse", ".lintr"))
 
 test_that("tidyverse_checks() returns only tidyverse_ prefixed checks", {
   expect_gt(length(tv_checks), 0)
@@ -143,6 +149,9 @@ test_that("tidyverse_test_file_names catches missing test files", {
 })
 
 test_that("tidyverse_no_missing fails when missing() is used", {
+  write_dot_lintr("bad_missing")
+  on.exit(unlink(file.path("bad_missing", ".lintr")))
+
   gp_res <- gp("bad_missing", checks = "tidyverse_no_missing")
   res <- results(gp_res)
   expect_false(get_result(res, "tidyverse_no_missing"))
@@ -157,6 +166,9 @@ test_that("tidyverse_no_missing passes when missing() is not used", {
 })
 
 test_that("tidyverse_export_order fails when internal before exported", {
+  write_dot_lintr("bad_export_order")
+  on.exit(unlink(file.path("bad_export_order", ".lintr")))
+
   gp_res <- gp("bad_export_order", checks = "tidyverse_export_order")
   res <- results(gp_res)
   expect_false(get_result(res, "tidyverse_export_order"))
@@ -213,6 +225,7 @@ test_that("tidyverse_no_missing ignores missing() inside nested functions", {
     ),
     file.path(pkg, "R", "funcs.R")
   )
+  write_dot_lintr(pkg)
 
   gp_res <- gp(pkg, checks = "tidyverse_no_missing")
   res <- results(gp_res)
@@ -229,6 +242,7 @@ test_that("treesitter checks pass when no functions are defined", {
     ),
     file.path(pkg, "DESCRIPTION")
   )
+  write_dot_lintr(pkg)
 
   gp_res <- gp(pkg, checks = "tidyverse_no_missing")
   expect_true(results(gp_res)$passed)
@@ -260,6 +274,7 @@ test_that("default lintr_assignment_linter ignores = inside setMethod()", {
     '  definition = function(x) x',
     ')'
   ), file.path(pkg, "R", "methods.R"))
+  write_dot_lintr(pkg)
 
   gp_res <- gp(pkg, checks = "lintr_assignment_linter")
   res <- results(gp_res)
@@ -280,6 +295,7 @@ test_that("tidyverse assignment_linter ignores = inside setMethod()", {
     '  definition = function(x) x',
     ')'
   ), file.path(pkg, "R", "methods.R"))
+  write_dot_lintr(pkg)
 
   gp_res <- gp(pkg, checks = "tidyverse_assignment_linter")
   res <- results(gp_res)
@@ -296,6 +312,7 @@ test_that("tidyverse prep passes exclude_path as exclusions", {
   )
   writeLines("x<-1", file.path(pkg, "R", "bad.R"))
   writeLines("x <- 1", file.path(pkg, "R", "good.R"))
+  write_dot_lintr(pkg)
 
   withr::local_options(goodpractice.exclude_path = "R/bad.R")
   gp_res <- gp(pkg, checks = "tidyverse_assignment_linter")

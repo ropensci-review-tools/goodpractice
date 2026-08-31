@@ -27,7 +27,7 @@ make
 ```
 
 
-```{bash, echo = FALSE, output = TRUE}
+```{bash, echo = FALSE, output = TRUE, eval = !identical(.Platform$OS.type, "windows")}
 cd ..
 make help | sed -E 's/\x1b\[[0-9;]*m//g'
 ```

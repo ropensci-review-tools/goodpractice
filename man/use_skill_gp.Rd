@@ -31,7 +31,7 @@ AI agents to edit package code so that it passes most 'goodpractice'
 checks. The file can be directly edited and tweaked for personal use cases.
 An agent can be instructed to simply "run the file goodpractice4agents.md".
 Alternatively, the file can be directly downloaded from GitHub at
-\url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/skills/goodpractice4agents.md}.
+\url{https://github.com/ropensci-review-tools/goodpractice/blob/main/inst/skills/goodpractice4agents.md}.
 }
 \details{
 You can also instruct agents to call the companion function,

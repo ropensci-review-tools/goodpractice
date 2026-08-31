@@ -137,7 +137,7 @@ export_json <- function(gp, file, pretty = FALSE) {
 #' checks. The file can be directly edited and tweaked for personal use cases.
 #' An agent can be instructed to simply "run the file goodpractice4agents.md".
 #' Alternatively, the file can be directly downloaded from GitHub at
-#' \url{https://github.com/ropensci-review-tools/goodpractice/tree/main/inst/skills/goodpractice4agents.md}.
+#' \url{https://github.com/ropensci-review-tools/goodpractice/blob/main/inst/skills/goodpractice4agents.md}.
 #'
 #' You can also instruct agents to call the companion function,
 #' \link{learn_skill_gp}, directly in order to learn and use the skill itself.

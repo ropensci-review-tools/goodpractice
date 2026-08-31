@@ -1,9 +1,10 @@
-# goodpractice 1.1.00X (dev version)
+# goodpractice 1.2.0
 
 ## Major changes
 
 - Require R version >= 4.3, because of treesitter dependency (#302; thanks to @christian-million)
 - New `use_skill_gp()` and `learn_skill_gp()` functions, plus a bundled `goodpractice4agents.md` skill in `inst/skills/`, giving AI agents instructions to fix issues flagged by `goodpractice` (#308, #312, #313; thanks to @mpadge, @drmowinckels, and @jonthegeek).
+- New vignette, "'goodpractice' for developers" describing `Makefile` (#305), and overall check structure.
 
 ## Minor changes
 

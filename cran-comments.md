@@ -1,4 +1,4 @@
-## goodpractice version 1.1.0
+## goodpractice version 1.2.0
 
 ## R CMD check results
 

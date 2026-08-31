@@ -152,8 +152,6 @@ export_json <- function(gp, file, pretty = FALSE) {
 #'
 #' @return (Invisibly) the full path to the written file.
 #'
-#' @seeAlso \link{learn_skill_gp()}
-#'
 #' @export
 #' @examples
 #' path <- file.path(tempdir(), "skill.md")
@@ -200,8 +198,6 @@ use_skill_gp <- function(
 #'
 #' @return The content of the file \code{system.file("skills",
 #' "goodpractice4agents.md", package = "goodpractice"))}
-#'
-#' @seeAlso \link{use_skill_gp}
 #'
 #' @export
 #' @examples

@@ -1,7 +1,6 @@
 #' @include lists.R prep_utils.R treesitter.R
 #' @importFrom roxygen2 parse_package
-
-#' See #295 for updates to Roxygen2 DESC configs, thanks to @wkmor1
+#' @details See #295 for updates to Roxygen2 DESC configs, thanks to @wkmor1
 #' @noRd
 uses_roxygen2 <- function(path) {
   desc_path <- file.path(path, "DESCRIPTION")

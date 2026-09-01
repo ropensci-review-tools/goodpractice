@@ -10,6 +10,7 @@
 #' @importFrom praise praise
 #' @importFrom stats setNames
 #'
+#' @family output
 #' @export
 
 print.goodPractice <- function(x, groups = NULL, positions_limit = 5, ...) {

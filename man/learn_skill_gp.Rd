@@ -21,3 +21,8 @@ skill. If you want to use the skill yourself to guide an agent, then use the
 learn_gp_skill()
 }
 }
+\seealso{
+Other skills:
+\code{\link[=use_skill_gp]{use_skill_gp()}}
+}
+\concept{skills}

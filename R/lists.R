@@ -5,6 +5,7 @@ CHECKS <- list()
 #' List the names of all checks
 #'
 #' @return Character vector of checks
+#' @family check_groups
 #' @export
 #' @examples
 #' all_checks()
@@ -16,6 +17,7 @@ all_checks <- function() {
 #' List the names of default checks (excludes optional check sets)
 #'
 #' @return Character vector of default check names
+#' @family check_groups
 #' @export
 #' @examples
 #' default_checks()
@@ -33,6 +35,7 @@ default_checks <- function() {
 #' Add them via \code{checks = c(default_checks(), tidyverse_checks())}.
 #'
 #' @return Character vector of tidyverse check names
+#' @family check_groups
 #' @export
 #' @examples
 #' tidyverse_checks()
@@ -45,6 +48,7 @@ tidyverse_checks <- function() {
 #'
 #' @param check_name Names of checks to be described.
 #' @return List of character descriptions for each \code{check_name}
+#' @family check_groups
 #' @export
 #' @examples 
 #' describe_check("rcmdcheck_non_portable_makevars")
@@ -73,6 +77,7 @@ describe_check <- function(check_name = NULL) {
 #' [describe_check_groups()].
 #'
 #' @return A character vector of check group names.
+#' @family check_groups
 #' @export
 #' @examples
 #' # Names of all check groups:
@@ -93,6 +98,7 @@ all_check_groups <- function() {
 #'
 #' @return A named list of each check group defined in [all_check_groups()],
 #' with text descriptions of each group.
+#' @family check_groups
 #' @export
 #' @examples
 #' # Names of all check groups:
@@ -176,6 +182,7 @@ describe_check_groups <- function() {
 #' @param ... Group names as character strings. Use [all_check_groups()] to
 #'   see available names.
 #' @return Character vector of check names
+#' @family check_groups
 #' @export
 #' @examples
 #' # run only DESCRIPTION and namespace checks

@@ -26,7 +26,7 @@ checks <- function(gp) {
 #' \item{check}{The name of the check.}
 #' \item{passed}{Logical, whether the check passed.}
 #'
-#' @family API
+#' @family output
 #' @export
 #' @examples 
 #' path <- system.file("bad1", package = "goodpractice")
@@ -80,6 +80,7 @@ failed_checks <- function(gp) {
 #' @param gp \code{\link{gp}} output.
 #' @return A list of lists of positions. See details below.
 #'
+#' @family API
 #' @export
 #' @examples
 #' path <- system.file("bad1", package = "goodpractice")
@@ -102,6 +103,7 @@ get_position <- function(chk) {
 #' @param pretty Whether to pretty-print the JSON.
 #' @return Invisibly returns the path to the output file.
 #'
+#' @family output
 #' @export
 #' @examples
 #' path <- system.file("bad1", package = "goodpractice")
@@ -152,8 +154,7 @@ export_json <- function(gp, file, pretty = FALSE) {
 #'
 #' @return (Invisibly) the full path to the written file.
 #'
-#' @seeAlso \link{learn_skill_gp()}
-#'
+#' @family skills
 #' @export
 #' @examples
 #' path <- file.path(tempdir(), "skill.md")
@@ -201,8 +202,7 @@ use_skill_gp <- function(
 #' @return The content of the file \code{system.file("skills",
 #' "goodpractice4agents.md", package = "goodpractice"))}
 #'
-#' @seeAlso \link{use_skill_gp}
-#'
+#' @family skills
 #' @export
 #' @examples
 #' \dontrun{

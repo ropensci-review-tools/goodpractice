@@ -104,3 +104,8 @@ g
 # Or run with named check groups
 g <- gp(path, checks = checks_by_group("description", "namespace"))
 }
+\seealso{
+Other main:
+\code{\link{goodpractice-package}}
+}
+\concept{main}

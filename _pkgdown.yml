@@ -1,0 +1,21 @@
+url: https://docs.ropensci.org/goodpractice
+
+figures:
+  dev: grDevices::png
+
+reference:
+- title: Main functions
+  contents:
+  - has_concept("main")
+- title: Check control
+  contents:
+  - has_concept("API")
+- title: Check groups
+  contents:
+  - has_concept("check_groups")
+- title: Agent skills
+  contents:
+  - has_concept("skills")
+- title: Output control
+  contents:
+  - has_concept("output")

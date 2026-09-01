@@ -43,3 +43,8 @@ f <- use_skill_gp(path)
 file.exists(f)
 unlink(f)
 }
+\seealso{
+Other skills:
+\code{\link[=learn_skill_gp]{learn_skill_gp()}}
+}
+\concept{skills}

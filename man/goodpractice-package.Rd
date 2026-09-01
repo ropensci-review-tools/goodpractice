@@ -17,6 +17,9 @@ Useful links:
   \item Report bugs at \url{https://github.com/ropensci-review-tools/goodpractice/issues}
 }
 
+
+Other main:
+\code{\link[=gp]{gp()}}
 }
 \author{
 \strong{Maintainer}: Mark Padgham \email{mark@ropensci.org} (\href{https://orcid.org/0000-0003-2172-5265}{ORCID})
@@ -41,3 +44,4 @@ Other contributors:
 }
 
 }
+\concept{main}

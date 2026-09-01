@@ -3,6 +3,7 @@
 ^README.Rmd$
 ^\.Rproj\.user$
 ^\.github$
+^_pkgdown\.yml$
 ^aaa
 ^codecov\.yml$
 ^codemeta\.json$

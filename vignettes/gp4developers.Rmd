@@ -1,0 +1,86 @@
+---
+title: "'goodpractice' for developers"
+author: "Mark Padgham"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{'goodpractice' for developers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r windowns-flag, echo = FALSE}
+# The bash commands are likely to fail on winddows:
+on_windows <- identical(.Platform$OS.type, "windows")
+```
+
+
+## The 'Makefile'
+
+The 'goodpractice' repository includes a ['Makefile'](https://www.gnu.org/software/make/manual/make.html#Introduction).
+This allows many commands to be run directly from a shell console (rather than within an R session).
+The default behaviour is to list all options:
+
+```{bash, eval = FALSE}
+make
+```
+
+
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
+cd ..
+make help | sed -E 's/\x1b\[[0-9;]*m//g'
+```
+
+Any of those options can then be run as `make <command>`.
+For example, this command checks for any issues with the `pkgdown` site:
+```{bash, eval = FALSE}
+make pkgdowncheck
+```
+```{r, echo = FALSE, eval = TRUE, output = TRUE}
+cli::cli_alert_success("No problems found")
+```
+
+Note that some of the `Makefile` options depend on additional packages which may need to be installed.
+These include:
+
+- [`allcontributors`](https://docs.ropensci.org/allcontributors/)
+- [`pkgcheck`](https://docs.ropensci.org/pkgcheck/)
+- [`pkgdown`](https://pkgdown.r-lib.org/)
+
+---
+
+## Adding new checks
+
+Checks are defined in groups.
+Each group is generally defined within two files:
+1. A `prep_<group>.R` file for collecting data needed for the check
+2. A `chk_<group>.R` file defining the output structure of the check.
+
+The `R/` directory here consistns almost entirely of paired files defining each check group:
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
+ls ../R
+```
+
+An example is the `cyclocomp` check, which is largely a wrapper around the external [`cyclocomp` package](https://github.com/gaborcsardi/cyclocomp).
+The `prep_cyclocomp.R` file looks like this:
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
+cat ../R/prep_cyclocomp.R
+```
+
+That preparation steps runs the `cyclocomp::cyclocomp_package_dir()` function in the source directory of the package being checked.
+The corresponding `check_cyclocomp.R` file then uses a variable called `state` that is accessible to all functions within the package.
+The line above `PREPS$cyclocomp <-` creates an entry of `state$cyclocomp` containing the results of the preparation step that can then be accessed to defined the check output in `R/chk_cyclocomp.R`:
+
+```{bash, echo = FALSE, output = TRUE, eval = !on_windows}
+cat ../R/chk_cyclocomp.R
+```
+
+All checks following this general pattern of defining `PREPS$<group> <- ` entries containing data from the check, then defining `CHECKS$<group>` entries for output format, using `state$<group>` to access the check data.
+The best way to learn about check structure is to examine some of the existing files.

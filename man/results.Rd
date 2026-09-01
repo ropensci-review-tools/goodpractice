@@ -27,8 +27,8 @@ g <- gp(path, checks = checks_by_group("description", "namespace"))
 results(g)
 }
 \seealso{
-Other API:
-\code{\link[=checks]{checks()}},
-\code{\link[=failed_checks]{failed_checks()}}
+Other output:
+\code{\link[=export_json]{export_json()}},
+\code{\link[=print.goodPractice]{print.goodPractice()}}
 }
-\concept{API}
+\concept{output}

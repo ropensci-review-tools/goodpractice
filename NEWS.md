@@ -1,3 +1,7 @@
+# goodpractice 1.2.0.001 (current dev version)
+
+---
+
 # goodpractice 1.2.0
 
 ## Major changes

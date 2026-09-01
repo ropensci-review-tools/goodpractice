@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci-review-tools/goodpractice",
   "issueTracker": "https://github.com/ropensci-review-tools/goodpractice/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.1.0.1",
+  "version": "1.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.6.0 (2026-04-24)",
+  "runtimePlatform": "R version 4.6.1 (2026-06-24)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -400,7 +400,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "463.491KB",
+  "fileSize": "492.553KB",
   "releaseNotes": "https://github.com/ropensci-review-tools/goodpractice/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci-review-tools/goodpractice/blob/main/README.md",
   "contIntegration": ["https://github.com/ropensci-review-tools/goodpractice/actions", "https://app.codecov.io/gh/ropensci-review-tools/goodpractice?branch=main"]

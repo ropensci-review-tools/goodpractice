@@ -148,6 +148,11 @@ CHECKS$roxygen2_valid_inherit <- make_check(
 
 extract_block_params <- function(block) {
   param_tags <- roxygen2::block_get_tags(block, "param")
+  # `...` params cannot be inherited, so are excluded from the check
+  param_tags <- Filter(
+    function(tag) !identical(tag$val$name, "..."),
+    param_tags
+  )
   if (length(param_tags) == 0) return(NULL)
 
   lapply(param_tags, function(tag) {

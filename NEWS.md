@@ -1,5 +1,9 @@
 # goodpractice 1.2.0.001 (current dev version)
 
+## Minor changes
+
+- Exclude `...` from Roxygen2 duplicate params check (#327; thanks to @TanguyBarthelemy)
+
 ---
 
 # goodpractice 1.2.0

@@ -44,7 +44,9 @@ ts_file_functions <- function(root, file) {
     if (treesitter::node_type(lhs) != "identifier") next
     k <- k + 1L
     fns[[k]] <- list(
-      name = treesitter::node_text(lhs),
+      # str2lang() needed to drop backticks around non-syntactic names, such as
+      # S3 method dispatch `.[<method>`
+      name = as.character(str2lang(treesitter::node_text(lhs))),
       file = file,
       line = treesitter::node_start_point(lhs)$row + 1L,
       fn_node = rhs

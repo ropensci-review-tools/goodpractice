@@ -574,8 +574,7 @@ CHECKS$tidyverse_export_order <- make_check(
       return(na_result())
     }
 
-    exported <- c(ns$exports, ns_s3_method_names(ns))
-
+    exported <- ns$exports
     patterns <- ns$exportPatterns
 
     is_exported <- function(name) {

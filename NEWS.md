@@ -4,6 +4,7 @@
 
 - Exclude `...` from Roxygen2 duplicate params check (#327; thanks to @TanguyBarthelemy)
 - Fix bug parsing fn names from treesitter (#329; thanks to @TanguyBarthelemy)
+- Exclude S3 methods from `tidyverse_export_order` (#331; thanks to @TanguyBarthelemy)
 
 ---
 

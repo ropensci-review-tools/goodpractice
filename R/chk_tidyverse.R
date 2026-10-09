@@ -575,6 +575,8 @@ CHECKS$tidyverse_export_order <- make_check(
     }
 
     exported <- ns$exports
+    s3_methods <- ns_s3_method_names(ns)
+
     patterns <- ns$exportPatterns
 
     is_exported <- function(name) {
@@ -586,6 +588,8 @@ CHECKS$tidyverse_export_order <- make_check(
     }
 
     funcs <- ts_get(state)$functions
+    # S3 methods are registered, not exported, so exclude from ordering:
+    funcs <- Filter(function(fn) !fn$name %in% s3_methods, funcs)
     if (length(funcs) == 0) {
       return(check_result(TRUE))
     }

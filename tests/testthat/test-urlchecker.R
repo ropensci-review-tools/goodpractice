@@ -453,15 +453,21 @@ test_that("urlchecker checks return NA when offline", {
   expect_true(is.na(res$passed[res$check == "urlchecker_ok"]))
 })
 
-# -- integration tests (network) ----------------------------------------------
+# -- gp() on good fixture with mocked url_check -------------------------------
 
-test_that("urlchecker prep runs on good fixture", {
-  skip_on_cran()
-  skip_if_offline()
+test_that("urlchecker_no_redirects reports redirecting URLs on good fixture", {
+  db <- make_urlchecker_db(
+    urls = "https://mangothecat.github.io/goodpractice",
+    status = "200",
+    message = "OK",
+    new = "https://ropensci-review-tools.github.io/goodpractice/"
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
   gp_res <- gp("good", checks = "urlchecker_no_redirects")
   res <- results(gp_res)
-  result <- res$passed[res$check == "urlchecker_no_redirects"]
-  expect_false(result)
+  expect_false(res$passed[res$check == "urlchecker_no_redirects"])
 
   pos <- failed_positions(gp_res)$urlchecker_no_redirects
   urls <- vapply(pos, `[[`, "", "line")
@@ -469,10 +475,16 @@ test_that("urlchecker prep runs on good fixture", {
 })
 
 test_that("urlchecker_ok passes on package with valid URLs", {
-  skip_on_cran()
-  skip_if_offline()
+  db <- make_urlchecker_db(
+    urls = "https://mangothecat.github.io/goodpractice",
+    status = "200",
+    message = "OK",
+    new = "https://ropensci-review-tools.github.io/goodpractice/"
+  )
+  db <- add_from(db, list("DESCRIPTION"))
+  local_mocked_bindings(has_internet = function() TRUE)
+  local_mocked_bindings(url_check = mock_url_check(db), .package = "urlchecker")
   gp_res <- gp("good", checks = "urlchecker_ok")
   res <- results(gp_res)
-  result <- res$passed[res$check == "urlchecker_ok"]
-  expect_true(result)
+  expect_true(res$passed[res$check == "urlchecker_ok"])
 })

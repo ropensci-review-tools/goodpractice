@@ -168,66 +168,68 @@ CHECKS$complexity_function_length <- make_check(
 # referenced directly from package code.
 R_PACKAGE_HOOKS <- c(".onLoad", ".onAttach", ".onUnload", ".onDetach", ".Last.lib")
 
+# A function is "used" if its name occurs anywhere in package code other than
+# as the name in its own definition: as a symbol (called, passed as an
+# argument, assigned, stored in a list, wrapped by `Vectorize()`, `Reduce()`,
+# `do.call()`, ...) or as a string literal (`do.call("f", ...)`,
+# `match.fun("f")`, `get("f")`). This deliberately over-approximates use, so
+# that non-standard evaluation yields missed dead code rather than false
+# alarms. Occurrences which are certainly not references to a function
+# binding - argument names, parameter names, and the right side of `$`/`@` -
+# are excluded.
 ts_all_referenced_functions <- function(ts) {
   if (length(ts$trees) == 0) return(character())
 
-  call_q <- treesitter::query(ts$language,
-    "(call function: (identifier) @fn)"
+  q <- function(src) treesitter::query(ts$language, src)
+  sym_q <- q("(identifier) @tok")
+  str_q <- q("(string content: (string_content) @tok)")
+  not_ref_q <- list(
+    q("(argument name: (identifier) @tok)"),
+    q("(parameter name: (identifier) @tok)"),
+    q("(extract_operator rhs: (identifier) @tok)")
   )
+  def_q <- q(paste(
+    "(program (binary_operator lhs: (identifier) @tok",
+    "operator: _ @op rhs: (function_definition)))"
+  ))
 
-  refs <- unlist(lapply(ts$trees, function(entry) {
+  capture_toks <- function(query, root, name = "tok") {
+    caps <- treesitter::query_captures(query, root)
+    caps$node[caps$name == name]
+  }
+  tok_key <- function(nodes) {
+    vapply(nodes, function(n) {
+      paste(unlist(treesitter::node_start_point(n)), collapse = ":")
+    }, character(1))
+  }
+
+  refs <- lapply(ts$trees, function(entry) {
     if (is.null(entry)) return(NULL)
     root <- entry$root
-    caps <- treesitter::query_captures(call_q, root)
-    called <- vapply(
-      caps$node[caps$name == "fn"],
-      treesitter::node_text, character(1)
+
+    syms <- capture_toks(sym_q, root)
+    skip <- unlist(lapply(not_ref_q, function(nq) {
+      tok_key(capture_toks(nq, root))
+    }))
+    def_caps <- treesitter::query_captures(def_q, root)
+    is_assign <- vapply(
+      def_caps$node[def_caps$name == "op"],
+      function(n) treesitter::node_text(n) %in% ASSIGNMENT_OPERATORS,
+      logical(1)
     )
-    body_refs <- ts_body_identifiers(ts$language, entry)
-    toplevel_refs <- ts_rhs_identifiers(ts$language, entry)
-    c(called, body_refs, toplevel_refs)
-  }))
+    def_lhs <- def_caps$node[def_caps$name == "tok"][is_assign]
+    skip <- c(skip, tok_key(def_lhs))
 
-  unique(refs)
-}
+    syms <- syms[!tok_key(syms) %in% skip]
+    strs <- capture_toks(str_q, root)
 
-ts_rhs_identifiers <- function(language, entry) {
-  assign_q <- treesitter::query(language,
-    "(binary_operator rhs: (identifier) @rhs)"
-  )
-  caps <- treesitter::query_captures(assign_q, entry$root)
-  if (length(caps$name) == 0) return(character())
-  vapply(
-    caps$node[caps$name == "rhs"],
-    treesitter::node_text, character(1)
-  )
-}
+    vapply(c(syms, strs), treesitter::node_text, character(1))
+  })
 
-ts_body_identifiers <- function(language, entry) {
-  id_q <- treesitter::query(language, "(identifier) @id")
-  fn_q <- treesitter::query(language, "(function_definition) @fn")
-  infix_q <- treesitter::query(language, "(binary_operator operator: _ @op)")
-
-  fn_caps <- treesitter::query_captures(fn_q, entry$root)
-  fn_nodes <- fn_caps$node[fn_caps$name == "fn"]
-  if (length(fn_nodes) == 0) return(character())
-
-  ids <- unlist(lapply(fn_nodes, function(fn_node) {
-    body <- treesitter::node_child_by_field_name(fn_node, "body")
-    if (is.null(body)) return(NULL)
-    caps <- treesitter::query_captures(id_q, body)
-    vapply(
-      caps$node[caps$name == "id"],
-      treesitter::node_text, character(1)
-    )
-  }))
-
-  infix_caps <- treesitter::query_captures(infix_q, entry$root)
-  op_nodes <- infix_caps$node[infix_caps$name == "op"]
-  is_special <- vapply(op_nodes, treesitter::node_type, character(1)) == "special"
-  infix_names <- vapply(op_nodes[is_special], treesitter::node_text, character(1))
-
-  c(ids, infix_names)
+  # str2lang() drops backticks around non-syntactic names, as in
+  # ts_file_functions()
+  refs <- unlist(refs)
+  unique(c(refs, gsub("^`|`$", "", refs)))
 }
 
 CHECKS$complexity_unused_internal <- make_check(

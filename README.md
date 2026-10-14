@@ -535,6 +535,12 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3AAariq">Aariq</a>
 </td>
+<td align="center">
+<a href="https://github.com/sjentsch">
+<img src="https://avatars.githubusercontent.com/u/37706914?u=e75071cb33e1bafdb16a60d7b713975b6722e9d9&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/goodpractice/issues?q=is%3Aissue+author%3Asjentsch">sjentsch</a>
+</td>
 </tr>
 
 </table>

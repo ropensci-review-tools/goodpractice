@@ -208,6 +208,40 @@ test_that("unused_internal detects functions passed as arguments", {
   expect_true("dead_fn" %in% names)
 })
 
+test_that("unused_internal counts references via non-standard evaluation", {
+  pkg <- withr::local_tempdir()
+  dir.create(file.path(pkg, "R"))
+  writeLines(c(
+    "Package: nsetest", "Title: Test", "Version: 1.0.0",
+    "Description: Test.", "License: MIT"
+  ), file.path(pkg, "DESCRIPTION"))
+  writeLines("export(vec_fn, dc_fn, mf_fn, red_fn)", file.path(pkg, "NAMESPACE"))
+
+  writeLines(c(
+    ".vec <- function(x) x + 1",
+    "vec_fn <- Vectorize(.vec, vectorize.args = \"x\")",
+    "by_string <- function(x) x",
+    "dc_fn <- function(...) do.call(\"by_string\", list(...))",
+    "by_matchfun <- function(x) x",
+    "mf_fn <- function(x) match.fun(\"by_matchfun\")(x)",
+    "by_reduce <- function(a, b) a + b",
+    "red_fn <- function(x) Reduce(by_reduce, x)",
+    "dead_fn <- function() 99",
+    "name_only_as_arg <- function() 1",
+    "arg_user <- function(x) lapply(x, name_only_as_arg = 2)",
+    "obj_member <- function() 1",
+    "member_user <- function(o) o$obj_member"
+  ), file.path(pkg, "R", "code.R"))
+
+  gp_res <- gp(pkg, checks = "complexity_unused_internal")
+  pos <- failed_positions(gp_res)$complexity_unused_internal
+  names <- vapply(pos, `[[`, "", "line")
+  expect_false(any(c(".vec", "by_string", "by_matchfun", "by_reduce") %in% names))
+  expect_true(all(
+    c("dead_fn", "name_only_as_arg", "obj_member") %in% names
+  ))
+})
+
 test_that("unused_internal detects functions assigned to lists", {
   pkg <- withr::local_tempdir()
   dir.create(file.path(pkg, "R"))
